@@ -16,6 +16,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Relaxation"
+            android:label="@string/title_activity_relaxation" >
+        </activity>
+        <activity
+            android:name=".STOP"
+            android:label="@string/title_activity_stop" >
+        </activity>
     </application>
 
 </manifest>

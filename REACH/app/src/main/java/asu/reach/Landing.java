@@ -1,24 +1,20 @@
 package asu.reach;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
-import android.widget.VideoView;
+import android.widget.ImageButton;
 
 
 public class Landing extends Activity implements View.OnClickListener {
 
-    private VideoView vv;
     private int stopPosition=0;
-    private RelativeLayout dd,stic,stop,vid;
+    private ImageButton dd,stic,stop,relax;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,45 +26,31 @@ public class Landing extends Activity implements View.OnClickListener {
         if(savedInstanceState != null) {
             stopPosition = savedInstanceState.getInt("position",0);
         }
-        vv = (VideoView)findViewById(R.id.videoView);
-        dd = (RelativeLayout)findViewById(R.id.ddLayout);
-        stic = (RelativeLayout)findViewById(R.id.sticLayout);
-        stop = (RelativeLayout)findViewById(R.id.stopLayout);
-        vid = (RelativeLayout)findViewById(R.id.vidLayout);
+        dd = (ImageButton)findViewById(R.id.ddBtn);
+        stic = (ImageButton)findViewById(R.id.sticBtn);
+        stop = (ImageButton)findViewById(R.id.stopBtn);
+        relax = (ImageButton)findViewById(R.id.relaxBtn);
 
-        vv.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.idle2));
-        vv.requestFocus();
-        vv.start();
-
-        vid.setOnClickListener(this);
+        relax.setOnClickListener(this);
         dd.setOnClickListener(this);
         stic.setOnClickListener(this);
         stop.setOnClickListener(this);
-
-        vv.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                mp.setLooping(true);
-            }
-        });
     }
+
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == vid.getId()){
-            Toast.makeText(this, "Hi", Toast.LENGTH_SHORT).show();
+        if(v.getId() == relax.getId()){
+            Intent intent = new Intent(this, Relaxation.class);
+            startActivity(intent);
         }
         if(v.getId() == dd.getId()){
-
-            Toast.makeText(this, "DD", Toast.LENGTH_SHORT).show();
         }
         if(v.getId() == stic.getId()){
-
-            Toast.makeText(this, "STIC", Toast.LENGTH_SHORT).show();
         }
         if(v.getId() == stop.getId()){
-
-            Toast.makeText(this, "STOP", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, STOP.class);
+            startActivity(intent);
         }
     }
 
@@ -93,16 +75,11 @@ public class Landing extends Activity implements View.OnClickListener {
 
     @Override
     protected void onResume() {
-        vv.seekTo(stopPosition);
-        vv.start();
         super.onResume();
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        stopPosition = vv.getCurrentPosition();
-        vv.pause();
-        outState.putInt("position", stopPosition);
     }
 }
