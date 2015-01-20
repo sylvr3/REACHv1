@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.MediaController;
 
@@ -20,7 +21,8 @@ import android.widget.MediaController;
  *
  */
 
-public class Relaxation extends Activity implements View.OnClickListener, MediaPlayer.OnPreparedListener, MediaController.MediaPlayerControl{
+public class Relaxation extends Activity implements View.OnClickListener,
+        MediaPlayer.OnPreparedListener, MediaController.MediaPlayerControl{
 
     private ImageButton intro,worrybox,bb,tgt,review;
     private MediaPlayer player;
@@ -32,6 +34,8 @@ public class Relaxation extends Activity implements View.OnClickListener, MediaP
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         setContentView(R.layout.activity_relaxation);
 
         intro = (ImageButton)findViewById(R.id.introBtn);
@@ -58,8 +62,8 @@ public class Relaxation extends Activity implements View.OnClickListener, MediaP
             if (v.getId() == intro.getId()) {
                 if(player.isPlaying()){
                     player.stop();
-                    player.reset();
                 }
+                player.reset();
                 player.setDataSource(this, Uri.parse("android.resource://asu.reach/raw/" + R.raw.introduction));
                 player.prepare();
                 player.start();
@@ -67,8 +71,8 @@ public class Relaxation extends Activity implements View.OnClickListener, MediaP
             if (v.getId() == worrybox.getId()) {
                 if(player.isPlaying()){
                     player.stop();
-                    player.reset();
                 }
+                player.reset();
                 player.setDataSource(this, Uri.parse("android.resource://asu.reach/raw/" + R.raw.worrybox));
                 player.prepare();
                 player.start();
@@ -76,8 +80,8 @@ public class Relaxation extends Activity implements View.OnClickListener, MediaP
             if (v.getId() == bb.getId()) {
                 if(player.isPlaying()){
                     player.stop();
-                    player.reset();
                 }
+                player.reset();
                 player.setDataSource(this, Uri.parse("android.resource://asu.reach/raw/" + R.raw.belly_breathing));
                 player.prepare();
                 player.start();
@@ -85,8 +89,8 @@ public class Relaxation extends Activity implements View.OnClickListener, MediaP
             if (v.getId() == tgt.getId()) {
                 if(player.isPlaying()){
                     player.stop();
-                    player.reset();
                 }
+                player.reset();
                 player.setDataSource(this, Uri.parse("android.resource://asu.reach/raw/" + R.raw.the_growing_tree));
                 player.prepare();
                 player.start();
@@ -94,8 +98,8 @@ public class Relaxation extends Activity implements View.OnClickListener, MediaP
             if (v.getId() == review.getId()) {
                 if(player.isPlaying()){
                     player.stop();
-                    player.reset();
                 }
+                player.reset();
                 player.setDataSource(this, Uri.parse("android.resource://asu.reach/raw/" + R.raw.review));
                 player.prepare();
                 player.start();
