@@ -1,19 +1,58 @@
 package asu.reach;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.widget.ImageButton;
 
 
-public class Landing extends Activity {
+public class Landing extends Activity implements View.OnClickListener {
+
+    private int stopPosition=0;
+    private ImageButton dd,stic,stop,relax;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_landing);
+
+        if(savedInstanceState != null) {
+            stopPosition = savedInstanceState.getInt("position",0);
+        }
+        dd = (ImageButton)findViewById(R.id.ddBtn);
+        stic = (ImageButton)findViewById(R.id.sticBtn);
+        stop = (ImageButton)findViewById(R.id.stopBtn);
+        relax = (ImageButton)findViewById(R.id.relaxBtn);
+
+        relax.setOnClickListener(this);
+        dd.setOnClickListener(this);
+        stic.setOnClickListener(this);
+        stop.setOnClickListener(this);
     }
 
+
+    @Override
+    public void onClick(View v) {
+        if(v.getId() == relax.getId()){
+            Intent intent = new Intent(this, Relaxation.class);
+            startActivity(intent);
+        }
+        if(v.getId() == dd.getId()){
+        }
+        if(v.getId() == stic.getId()){
+        }
+        if(v.getId() == stop.getId()){
+            Intent intent = new Intent(this, STOP.class);
+            startActivity(intent);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -32,5 +71,15 @@ public class Landing extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 }
