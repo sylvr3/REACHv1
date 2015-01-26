@@ -3,18 +3,21 @@ package asu.reach;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 
 public class Landing extends Activity implements View.OnClickListener {
 
     private int stopPosition=0;
     private ImageButton dd,stic,stop,relax;
+    private ImageView blob;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +33,15 @@ public class Landing extends Activity implements View.OnClickListener {
         stic = (ImageButton)findViewById(R.id.sticBtn);
         stop = (ImageButton)findViewById(R.id.stopBtn);
         relax = (ImageButton)findViewById(R.id.relaxBtn);
+        blob = (ImageView)findViewById(R.id.imageView);
 
         relax.setOnClickListener(this);
         dd.setOnClickListener(this);
         stic.setOnClickListener(this);
         stop.setOnClickListener(this);
+
+        AnimationDrawable anim = (AnimationDrawable) blob.getBackground();
+        anim.start();
     }
 
 
