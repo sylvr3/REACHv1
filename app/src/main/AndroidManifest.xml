@@ -24,6 +24,18 @@
             android:name=".STOP"
             android:label="@string/title_activity_stop" >
         </activity>
+        <activity
+            android:name=".STIC"
+            android:label="@string/title_activity_stic" >
+        </activity>
+        <activity
+            android:name=".DailyDiary"
+            android:label="@string/title_activity_daily_diary" >
+        </activity>
+        <activity
+            android:name=".Blob"
+            android:label="@string/title_activity_blob" >
+        </activity>
     </application>
 
 </manifest>
