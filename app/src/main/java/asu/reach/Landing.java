@@ -33,12 +33,13 @@ public class Landing extends Activity implements View.OnClickListener {
         stic = (ImageButton)findViewById(R.id.sticBtn);
         stop = (ImageButton)findViewById(R.id.stopBtn);
         relax = (ImageButton)findViewById(R.id.relaxBtn);
-        blob = (ImageView)findViewById(R.id.imageView);
+        blob = (ImageView)findViewById(R.id.blobView);
 
         relax.setOnClickListener(this);
         dd.setOnClickListener(this);
         stic.setOnClickListener(this);
         stop.setOnClickListener(this);
+        blob.setOnClickListener(this);
 
         AnimationDrawable anim = (AnimationDrawable) blob.getBackground();
         anim.start();
@@ -52,11 +53,19 @@ public class Landing extends Activity implements View.OnClickListener {
             startActivity(intent);
         }
         if(v.getId() == dd.getId()){
+            Intent intent = new Intent(this, DailyDiary.class);
+            startActivity(intent);
         }
         if(v.getId() == stic.getId()){
+            Intent intent = new Intent(this, STIC.class);
+            startActivity(intent);
         }
         if(v.getId() == stop.getId()){
             Intent intent = new Intent(this, STOP.class);
+            startActivity(intent);
+        }
+        if(v.getId() == blob.getId()){
+            Intent intent = new Intent(this, Blob.class);
             startActivity(intent);
         }
     }

@@ -6,5 +6,8 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_relaxation">Relaxation</string>
     <string name="title_activity_stop">STOP</string>
+    <string name="title_activity_stic">STIC</string>
+    <string name="title_activity_daily_diary">DailyDiary</string>
+    <string name="title_activity_blob">Blob</string>
 
 </resources>
