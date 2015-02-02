@@ -33,7 +33,7 @@ public class Landing extends Activity implements View.OnClickListener {
         stic = (ImageButton)findViewById(R.id.sticBtn);
         stop = (ImageButton)findViewById(R.id.stopBtn);
         relax = (ImageButton)findViewById(R.id.relaxBtn);
-        blob = (ImageView)findViewById(R.id.blobView);
+        blob = (ImageView)findViewById(R.id.whiteBGView);
 
         relax.setOnClickListener(this);
         dd.setOnClickListener(this);

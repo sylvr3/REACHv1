@@ -41,7 +41,7 @@ public class STOP extends Activity implements View.OnClickListener{
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_stop);
 
-        respond = (ImageButton)findViewById(R.id.respondBtn);
+        respond = (ImageButton)findViewById(R.id.doneBtn);
         back = (ImageButton)findViewById(R.id.backBtn);
         next = (ImageButton)findViewById(R.id.nextBtn);
         s = (ImageView)findViewById(R.id.sView);

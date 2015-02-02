@@ -131,7 +131,8 @@
             android:layout_margin="15dp"
             android:textColor="#ff000000"
             android:visibility="visible"
-            android:textAlignment="viewStart" />
+            android:textAlignment="textStart" />
+
     </RelativeLayout>
 
     <LinearLayout
@@ -140,7 +141,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:id="@+id/respBtnLayout"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_below="@+id/respLayout"
         android:layout_marginTop="5dp">
 
