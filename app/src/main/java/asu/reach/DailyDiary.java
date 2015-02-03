@@ -24,10 +24,10 @@ import java.util.Date;
 
 public class DailyDiary extends Activity implements View.OnClickListener{
 
-    private ImageButton respond,back,next,done,cancel,clear,voice;
+    private ImageButton respond,back,next,done,cancel,clear,voice,complete;
     private LinearLayout nav,respBtns;
-    private RelativeLayout blob,resp;
-    private ImageView message;
+    private RelativeLayout blob,resp,gjLayout;
+    private ImageView message,gjView,stars,title;
     private TextView today;
     private EditText response,date;
     private int state = 0;
@@ -59,6 +59,11 @@ public class DailyDiary extends Activity implements View.OnClickListener{
         respBtns = (LinearLayout)findViewById(R.id.respBtnLayout);
         resp = (RelativeLayout)findViewById(R.id.respLayout);
         blob = (RelativeLayout)findViewById(R.id.blobLayout);
+        gjView = (ImageView)findViewById(R.id.gjView);
+        gjLayout = (RelativeLayout)findViewById(R.id.gjLayout);
+        stars = (ImageView)findViewById(R.id.starsView);
+        complete = (ImageButton)findViewById(R.id.completeBtn);
+        title = (ImageView)findViewById(R.id.titleView);
 
         response.setTypeface(Typeface.createFromAsset(getAssets(), "agentorange.ttf"));
         date.setTypeface(Typeface.createFromAsset(getAssets(), "agentorange.ttf"));
@@ -70,6 +75,7 @@ public class DailyDiary extends Activity implements View.OnClickListener{
         cancel.setOnClickListener(this);
         clear.setOnClickListener(this);
         voice.setOnClickListener(this);
+        complete.setOnClickListener(this);
 
         Date now = new Date();
         SimpleDateFormat f = new SimpleDateFormat("MM/dd/yy");
@@ -167,7 +173,14 @@ public class DailyDiary extends Activity implements View.OnClickListener{
                     break;
                 }
                 case FOUR_STATE:{
-                    finish();
+                    title.setVisibility(View.GONE);
+                    blob.setVisibility(View.GONE);
+                    nav.setVisibility(View.GONE);
+                    gjLayout.setVisibility(View.VISIBLE);
+                    gjView.setVisibility(View.VISIBLE);
+                    complete.setVisibility(View.VISIBLE);
+                    //AnimationDrawable anim = (AnimationDrawable) stars.getBackground();
+                    //anim.start();
                     break;
                 }
             }
@@ -199,6 +212,9 @@ public class DailyDiary extends Activity implements View.OnClickListener{
                     break;
                 }
             }
+        }
+        if(v.getId()==complete.getId()){
+            finish();
         }
     }
 }

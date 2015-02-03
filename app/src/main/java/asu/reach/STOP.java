@@ -22,10 +22,10 @@ import java.util.List;
 
 public class STOP extends Activity implements View.OnClickListener{
 
-    private ImageButton respond,back,next,done,cancel,clear,voice;
-    private LinearLayout nav,respBtns;
-    private RelativeLayout blob,resp;
-    private ImageView s,t,o,p,message;
+    private ImageButton respond,back,next,done,cancel,clear,voice,complete;
+    private LinearLayout nav,respBtns,stopLayout;
+    private RelativeLayout blob,resp,gjLayout;
+    private ImageView s,t,o,p,message,gjView,stars;
     private EditText response;
     private int state = 0;
     private final int S_STATE = 0;
@@ -58,6 +58,11 @@ public class STOP extends Activity implements View.OnClickListener{
         respBtns = (LinearLayout)findViewById(R.id.respBtnLayout);
         resp = (RelativeLayout)findViewById(R.id.respLayout);
         blob = (RelativeLayout)findViewById(R.id.blobLayout);
+        gjView = (ImageView)findViewById(R.id.gjView);
+        gjLayout = (RelativeLayout)findViewById(R.id.gjLayout);
+        stopLayout = (LinearLayout)findViewById(R.id.stopLayout);
+        stars = (ImageView)findViewById(R.id.starsView);
+        complete = (ImageButton)findViewById(R.id.completeBtn);
 
         response.setTypeface(Typeface.createFromAsset(getAssets(), "agentorange.ttf"));
         respond.setOnClickListener(this);
@@ -67,6 +72,7 @@ public class STOP extends Activity implements View.OnClickListener{
         cancel.setOnClickListener(this);
         clear.setOnClickListener(this);
         voice.setOnClickListener(this);
+        complete.setOnClickListener(this);
     }
 
     @Override
@@ -141,7 +147,14 @@ public class STOP extends Activity implements View.OnClickListener{
                     break;
                 }
                 case P_STATE:{
-                    finish();
+                    stopLayout.setVisibility(View.GONE);
+                    blob.setVisibility(View.GONE);
+                    nav.setVisibility(View.GONE);
+                    gjLayout.setVisibility(View.VISIBLE);
+                    gjView.setVisibility(View.VISIBLE);
+                    complete.setVisibility(View.VISIBLE);
+                    //AnimationDrawable anim = (AnimationDrawable) stars.getBackground();
+                    //anim.start();
                     break;
                 }
             }
@@ -178,6 +191,9 @@ public class STOP extends Activity implements View.OnClickListener{
                 }
             }
         }
+        if(v.getId()==complete.getId()){
+            finish();
+        }
     }
 
     @Override
@@ -213,4 +229,5 @@ public class STOP extends Activity implements View.OnClickListener{
 
         return super.onOptionsItemSelected(item);
     }
+
 }

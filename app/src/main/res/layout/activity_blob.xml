@@ -51,7 +51,7 @@
                 android:layout_height="75dp"
                 android:id="@+id/trickThreeBtn"
                 android:layout_margin="10dp"
-                android:background="@drawable/lock_selector"
+                android:background="@drawable/dance_selector"
                 android:onClick="threeClick" />
 
             <ImageButton
@@ -59,7 +59,7 @@
                 android:layout_height="75dp"
                 android:id="@+id/trickFourBtn"
                 android:layout_margin="10dp"
-                android:background="@drawable/lock_selector"
+                android:background="@drawable/flip_selector"
                 android:onClick="fourClick" />
 
             <ImageButton

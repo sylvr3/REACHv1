@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginTop="20dp"
-        android:id="@+id/linearLayout">
+        android:id="@+id/stopLayout"
+        android:visibility="visible">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -186,5 +187,49 @@
         android:layout_above="@+id/respLayout"
         android:layout_alignRight="@+id/respLayout"
         android:layout_marginBottom="-35dp" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/gjView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/gj_title"
+        android:layout_marginTop="20dp"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gjLayout"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="400dp"
+            android:id="@+id/starsView"
+            android:layout_centerInParent="true"
+            android:background="@drawable/gj14" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/gjBlob"
+            android:background="@drawable/thumbs_up"
+            android:layout_centerInParent="true" />
+
+    </RelativeLayout>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/completeBtn"
+        android:background="@drawable/done_selector"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone" />
 
 </RelativeLayout>
