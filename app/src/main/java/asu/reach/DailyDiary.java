@@ -179,8 +179,6 @@ public class DailyDiary extends Activity implements View.OnClickListener{
                     gjLayout.setVisibility(View.VISIBLE);
                     gjView.setVisibility(View.VISIBLE);
                     complete.setVisibility(View.VISIBLE);
-                    //AnimationDrawable anim = (AnimationDrawable) stars.getBackground();
-                    //anim.start();
                     break;
                 }
             }
