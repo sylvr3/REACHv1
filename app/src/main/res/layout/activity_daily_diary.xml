@@ -62,6 +62,26 @@
             android:textSize="12dp"
             android:layout_marginTop="33dp"
             android:layout_marginLeft="10dp" />
+
+        <HorizontalScrollView
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/thermView"
+            android:layout_centerHorizontal="true"
+            android:requiresFadingEdge="horizontal"
+            android:scrollbars="none"
+            android:fadingEdgeLength="10dp"
+            android:scrollbarAlwaysDrawHorizontalTrack="false"
+            android:layout_alignBottom="@+id/speechView"
+            android:layout_marginBottom="30dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/thImg"
+                android:background="@drawable/thermo_horz" />
+        </HorizontalScrollView>
     </RelativeLayout>
 
     <LinearLayout
@@ -176,6 +196,20 @@
         android:layout_alignRight="@+id/respLayout"
         android:layout_marginBottom="-35dp" />
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gjLayout"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:visibility="gone" >
+
+        <VideoView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/gjVid" />
+    </RelativeLayout>
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -185,29 +219,6 @@
         android:background="@drawable/gj_title"
         android:layout_marginTop="20dp"
         android:visibility="gone" />
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/gjLayout"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:visibility="gone" >
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="400dp"
-            android:id="@+id/starsView"
-            android:background="@drawable/gj14"
-            android:layout_centerInParent="true" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/gjBlob"
-            android:background="@drawable/thumbs_up"
-            android:layout_centerInParent="true" />
-    </RelativeLayout>
 
     <ImageButton
         android:layout_width="wrap_content"

@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.view.Menu;
@@ -11,15 +13,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 
 public class DailyDiary extends Activity implements View.OnClickListener{
@@ -27,9 +32,11 @@ public class DailyDiary extends Activity implements View.OnClickListener{
     private ImageButton respond,back,next,done,cancel,clear,voice,complete;
     private LinearLayout nav,respBtns;
     private RelativeLayout blob,resp,gjLayout;
-    private ImageView message,gjView,stars,title;
+    private ImageView message,gjView,title;
     private TextView today;
     private EditText response,date;
+    private VideoView gj;
+    private HorizontalScrollView therm;
     private int state = 0;
     private final int ONE_STATE = 0;
     private final int TWO_STATE = 1;
@@ -61,9 +68,10 @@ public class DailyDiary extends Activity implements View.OnClickListener{
         blob = (RelativeLayout)findViewById(R.id.blobLayout);
         gjView = (ImageView)findViewById(R.id.gjView);
         gjLayout = (RelativeLayout)findViewById(R.id.gjLayout);
-        stars = (ImageView)findViewById(R.id.starsView);
         complete = (ImageButton)findViewById(R.id.completeBtn);
         title = (ImageView)findViewById(R.id.titleView);
+        gj = (VideoView)findViewById(R.id.gjVid);
+        therm = (HorizontalScrollView)findViewById(R.id.thermView);
 
         response.setTypeface(Typeface.createFromAsset(getAssets(), "agentorange.ttf"));
         date.setTypeface(Typeface.createFromAsset(getAssets(), "agentorange.ttf"));
@@ -145,7 +153,8 @@ public class DailyDiary extends Activity implements View.OnClickListener{
                         message.setBackgroundResource(R.drawable.dd_2_message);
                         today.setVisibility(View.GONE);
                         date.setVisibility(View.GONE);
-                        respond.setActivated(false);
+                        therm.setVisibility(View.VISIBLE);
+                        respond.setVisibility(View.GONE);
                         state = TWO_STATE;
                     }else{
                         Toast.makeText(this, "Please respond first", Toast.LENGTH_SHORT).show();
@@ -155,6 +164,8 @@ public class DailyDiary extends Activity implements View.OnClickListener{
                 case TWO_STATE:{
                     if(respond.isActivated()) {
                         message.setBackgroundResource(R.drawable.dd_3_message);
+                        therm.setVisibility(View.GONE);
+                        respond.setVisibility(View.VISIBLE);
                         respond.setActivated(false);
                         state=THREE_STATE;
                     }else{
@@ -179,6 +190,20 @@ public class DailyDiary extends Activity implements View.OnClickListener{
                     gjLayout.setVisibility(View.VISIBLE);
                     gjView.setVisibility(View.VISIBLE);
                     complete.setVisibility(View.VISIBLE);
+                    gj.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.stars));
+                    gj.start();
+                    gj.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                        @Override
+                        public void onPrepared(MediaPlayer mp) {
+                            mp.setLooping(true);
+                            title.setVisibility(View.GONE);
+                            blob.setVisibility(View.GONE);
+                            nav.setVisibility(View.GONE);
+                            gjLayout.setVisibility(View.VISIBLE);
+                            gjView.setVisibility(View.VISIBLE);
+                            complete.setVisibility(View.VISIBLE);
+                        }
+                    });
                     break;
                 }
             }
@@ -193,12 +218,16 @@ public class DailyDiary extends Activity implements View.OnClickListener{
                     message.setBackgroundResource(R.drawable.dd_1_message);
                     today.setVisibility(View.VISIBLE);
                     date.setVisibility(View.VISIBLE);
+                    therm.setVisibility(View.GONE);
+                    respond.setVisibility(View.VISIBLE);
                     respond.setActivated(true);
                     state=ONE_STATE;
                     break;
                 }
                 case THREE_STATE:{
                     message.setBackgroundResource(R.drawable.dd_2_message);
+                    therm.setVisibility(View.VISIBLE);
+                    respond.setVisibility(View.GONE);
                     respond.setActivated(true);
                     state=TWO_STATE;
                     break;
@@ -214,5 +243,16 @@ public class DailyDiary extends Activity implements View.OnClickListener{
         if(v.getId()==complete.getId()){
             finish();
         }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent data) {
+        if (requestCode == SPEECH_REQUEST_CODE && resultCode == RESULT_OK) {
+            List<String> results = data.getStringArrayListExtra(
+                    RecognizerIntent.EXTRA_RESULTS);
+            String spokenText = results.get(0);
+            response.setText(spokenText);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

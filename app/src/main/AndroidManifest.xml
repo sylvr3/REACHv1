@@ -36,6 +36,10 @@
             android:name=".Blob"
             android:label="@string/title_activity_blob" >
         </activity>
+        <activity
+            android:name=".WorryHeads"
+            android:label="@string/title_activity_worry_heads" >
+        </activity>
     </application>
 
 </manifest>

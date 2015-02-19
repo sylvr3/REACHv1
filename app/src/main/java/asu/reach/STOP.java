@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.view.Menu;
@@ -16,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import java.util.List;
 
@@ -25,8 +28,9 @@ public class STOP extends Activity implements View.OnClickListener{
     private ImageButton respond,back,next,done,cancel,clear,voice,complete;
     private LinearLayout nav,respBtns,stopLayout;
     private RelativeLayout blob,resp,gjLayout;
-    private ImageView s,t,o,p,message,gjView,stars;
+    private ImageView s,t,o,p,message,gjView;
     private EditText response;
+    private VideoView gj;
     private int state = 0;
     private final int S_STATE = 0;
     private final int T_STATE = 1;
@@ -60,8 +64,8 @@ public class STOP extends Activity implements View.OnClickListener{
         blob = (RelativeLayout)findViewById(R.id.blobLayout);
         gjView = (ImageView)findViewById(R.id.gjView);
         gjLayout = (RelativeLayout)findViewById(R.id.gjLayout);
+        gj = (VideoView)findViewById(R.id.gjVid);
         stopLayout = (LinearLayout)findViewById(R.id.stopLayout);
-        stars = (ImageView)findViewById(R.id.starsView);
         complete = (ImageButton)findViewById(R.id.completeBtn);
 
         response.setTypeface(Typeface.createFromAsset(getAssets(), "agentorange.ttf"));
@@ -153,8 +157,20 @@ public class STOP extends Activity implements View.OnClickListener{
                     gjLayout.setVisibility(View.VISIBLE);
                     gjView.setVisibility(View.VISIBLE);
                     complete.setVisibility(View.VISIBLE);
-                    //AnimationDrawable anim = (AnimationDrawable) stars.getBackground();
-                    //anim.start();
+                    gj.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.stars));
+                    gj.start();
+                    gj.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                        @Override
+                        public void onPrepared(MediaPlayer mp) {
+                            mp.setLooping(true);
+                            stopLayout.setVisibility(View.GONE);
+                            blob.setVisibility(View.GONE);
+                            nav.setVisibility(View.GONE);
+                            gjLayout.setVisibility(View.VISIBLE);
+                            gjView.setVisibility(View.VISIBLE);
+                            complete.setVisibility(View.VISIBLE);
+                        }
+                    });
                     break;
                 }
             }

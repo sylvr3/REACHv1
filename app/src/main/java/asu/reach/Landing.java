@@ -16,7 +16,7 @@ import android.widget.ImageView;
 public class Landing extends Activity implements View.OnClickListener {
 
     private int stopPosition=0;
-    private ImageButton dd,stic,stop,relax;
+    private ImageButton dd,stic,stop,relax,wh;
     private ImageView blob;
 
     @Override
@@ -32,6 +32,7 @@ public class Landing extends Activity implements View.OnClickListener {
         dd = (ImageButton)findViewById(R.id.ddBtn);
         stic = (ImageButton)findViewById(R.id.sticBtn);
         stop = (ImageButton)findViewById(R.id.stopBtn);
+        wh = (ImageButton)findViewById(R.id.whBtn);
         relax = (ImageButton)findViewById(R.id.relaxBtn);
         blob = (ImageView)findViewById(R.id.whiteBGView);
 
@@ -40,6 +41,7 @@ public class Landing extends Activity implements View.OnClickListener {
         stic.setOnClickListener(this);
         stop.setOnClickListener(this);
         blob.setOnClickListener(this);
+        wh.setOnClickListener(this);
 
         AnimationDrawable anim = (AnimationDrawable) blob.getBackground();
         anim.start();
@@ -66,6 +68,10 @@ public class Landing extends Activity implements View.OnClickListener {
         }
         if(v.getId() == blob.getId()){
             Intent intent = new Intent(this, Blob.class);
+            startActivity(intent);
+        }
+        if(v.getId() == wh.getId()){
+            Intent intent = new Intent(this, WorryHeads.class);
             startActivity(intent);
         }
     }
