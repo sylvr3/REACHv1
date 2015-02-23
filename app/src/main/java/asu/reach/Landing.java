@@ -3,6 +3,7 @@ package asu.reach;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 
 public class Landing extends Activity implements View.OnClickListener {
 
+    private SQLiteDatabase db;
     private int stopPosition=0;
     private ImageButton dd,stic,stop,relax,wh;
     private ImageView blob;
@@ -43,6 +45,10 @@ public class Landing extends Activity implements View.OnClickListener {
         blob.setOnClickListener(this);
         wh.setOnClickListener(this);
 
+        DBHelper helper = new DBHelper(this);
+        //helper.copyDataBase();
+        //helper.openDataBase();
+        db = helper.getDB();
         AnimationDrawable anim = (AnimationDrawable) blob.getBackground();
         anim.start();
     }
@@ -96,8 +102,18 @@ public class Landing extends Activity implements View.OnClickListener {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        db.close();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
+        DBHelper helper = new DBHelper(this);
+        //helper.copyDataBase();
+        //helper.openDataBase();
+        db = helper.getDB();
     }
 
     @Override

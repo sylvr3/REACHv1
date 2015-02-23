@@ -10,10 +10,10 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,21 +27,39 @@ import java.util.Date;
 import java.util.List;
 
 
-public class DailyDiary extends Activity implements View.OnClickListener{
+public class DailyDiary extends Activity implements View.OnClickListener, View.OnTouchListener,
+        ThermScrollView.OnScrollStoppedListener{
 
     private ImageButton respond,back,next,done,cancel,clear,voice,complete;
     private LinearLayout nav,respBtns;
     private RelativeLayout blob,resp,gjLayout;
-    private ImageView message,gjView,title;
+    private ImageView message,gjView,title,numView;
     private TextView today;
     private EditText response,date;
     private VideoView gj;
-    private HorizontalScrollView therm;
+    private ThermScrollView therm;
     private int state = 0;
     private final int ONE_STATE = 0;
     private final int TWO_STATE = 1;
     private final int THREE_STATE = 2;
     private final int FOUR_STATE = 3;
+    private final int ZERO_X = 16;
+    private final int ONE_X = 195;
+    private final int TWO_X = 378;
+    private final int THREE_X = 551;
+    private final int FOUR_X = 729;
+    private final int FIVE_X = 911;
+    private final int SIX_X = 1096;
+    private final int SEVEN_X = 1275;
+    private final int EIGHT_X = 1456;
+    private final int ZERO_M = 106;
+    private final int ONE_M = 287;
+    private final int TWO_M = 465;
+    private final int THREE_M = 640;
+    private final int FOUR_M = 820;
+    private final int FIVE_M = 1004;
+    private final int SIX_M = 1187;
+    private final int SEVEN_M = 1367;
     private static final int SPEECH_REQUEST_CODE = 0;
 
     @Override
@@ -71,7 +89,8 @@ public class DailyDiary extends Activity implements View.OnClickListener{
         complete = (ImageButton)findViewById(R.id.completeBtn);
         title = (ImageView)findViewById(R.id.titleView);
         gj = (VideoView)findViewById(R.id.gjVid);
-        therm = (HorizontalScrollView)findViewById(R.id.thermView);
+        therm = (ThermScrollView)findViewById(R.id.thermView);
+        numView = (ImageView)findViewById(R.id.numView);
 
         response.setTypeface(Typeface.createFromAsset(getAssets(), "agentorange.ttf"));
         date.setTypeface(Typeface.createFromAsset(getAssets(), "agentorange.ttf"));
@@ -84,6 +103,9 @@ public class DailyDiary extends Activity implements View.OnClickListener{
         clear.setOnClickListener(this);
         voice.setOnClickListener(this);
         complete.setOnClickListener(this);
+
+        therm.setOnTouchListener(this);
+        therm.setOnScrollStoppedListener(this);
 
         Date now = new Date();
         SimpleDateFormat f = new SimpleDateFormat("MM/dd/yy");
@@ -254,5 +276,82 @@ public class DailyDiary extends Activity implements View.OnClickListener{
             response.setText(spokenText);
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        if(event.getAction() == MotionEvent.ACTION_MOVE){
+            int pos = therm.getScrollX();
+            numView.setVisibility(View.VISIBLE);
+            if(pos < ZERO_M){
+                numView.setBackgroundResource(R.drawable.thermo_0);
+            } else if (pos < ONE_M) {
+                numView.setBackgroundResource(R.drawable.thermo_1);
+            } else if (pos < TWO_M) {
+                numView.setBackgroundResource(R.drawable.thermo_2);
+            } else if (pos < THREE_M) {
+                numView.setBackgroundResource(R.drawable.thermo_3);
+            } else if (pos < FOUR_M) {
+                numView.setBackgroundResource(R.drawable.thermo_4);
+            } else if (pos < FIVE_M) {
+                numView.setBackgroundResource(R.drawable.thermo_5);
+            } else if (pos < SIX_M) {
+                numView.setBackgroundResource(R.drawable.thermo_6);
+            } else if (pos < SEVEN_M) {
+                numView.setBackgroundResource(R.drawable.thermo_7);
+            } else {
+                numView.setBackgroundResource(R.drawable.thermo_8);
+            }
+        }
+        if(event.getAction() == MotionEvent.ACTION_UP) {
+            numView.setVisibility(View.GONE);
+            int pos = therm.getScrollX();
+            if (pos < ZERO_M) {
+                therm.setScrollX(ZERO_X);
+            } else if (pos < ONE_M) {
+                therm.setScrollX(ONE_X);
+            } else if (pos < TWO_M) {
+                therm.setScrollX(TWO_X);
+            } else if (pos < THREE_M) {
+                therm.setScrollX(THREE_X);
+            } else if (pos < FOUR_M) {
+                therm.setScrollX(FOUR_X);
+            } else if (pos < FIVE_M) {
+                therm.setScrollX(FIVE_X);
+            } else if (pos < SIX_M) {
+                therm.setScrollX(SIX_X);
+            } else if (pos < SEVEN_M) {
+                therm.setScrollX(SEVEN_X);
+            } else {
+                therm.setScrollX(EIGHT_X);
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void onScrollStopped() {
+        //numView.setVisibility(View.GONE);
+        int pos = therm.getScrollX();
+        if (pos < ZERO_M) {
+            therm.setScrollX(ZERO_X);
+        } else if (pos < ONE_M) {
+            therm.setScrollX(ONE_X);
+        } else if (pos < TWO_M) {
+            therm.setScrollX(TWO_X);
+        } else if (pos < THREE_M) {
+            therm.setScrollX(THREE_X);
+        } else if (pos < FOUR_M) {
+            therm.setScrollX(FOUR_X);
+        } else if (pos < FIVE_M) {
+            therm.setScrollX(FIVE_X);
+        } else if (pos < SIX_M) {
+            therm.setScrollX(SIX_X);
+        } else if (pos < SEVEN_M) {
+            therm.setScrollX(SEVEN_X);
+        } else {
+            therm.setScrollX(EIGHT_X);
+        }
+
     }
 }

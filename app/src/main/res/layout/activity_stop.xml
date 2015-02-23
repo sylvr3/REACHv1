@@ -132,7 +132,7 @@
             android:layout_margin="15dp"
             android:textColor="#ff000000"
             android:visibility="visible"
-            android:textAlignment="textStart" />
+            android:gravity="top" />
 
     </RelativeLayout>
 

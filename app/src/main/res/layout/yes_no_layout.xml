@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:id="@+id/imageView2"
+        android:background="#96e1e1e1" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="false"
+        android:layout_centerHorizontal="true"
+        android:layout_alignRight="@+id/imageView2"
+        android:layout_alignBottom="@+id/imageView2"
+        android:layout_alignLeft="@+id/imageView2"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="5dp">
+
+        <Button
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/yesBtn"
+            android:layout_alignParentStart="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginRight="15dp" />
+
+        <Button
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/noBtn"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentEnd="true"
+            android:layout_centerHorizontal="true" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/direction"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="75dp" />
+
+    <RelativeLayout
+        android:layout_width="300dp"
+        android:layout_height="3dp"
+        android:background="#c8000000"
+        android:id="@+id/relativeLayout"
+        android:layout_below="@+id/title"></RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/title"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:textStyle="bold"
+        android:textSize="25dp" />
+
+    <EditText
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/pinInput"
+        android:layout_below="@+id/direction"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone" />
+
+</RelativeLayout>

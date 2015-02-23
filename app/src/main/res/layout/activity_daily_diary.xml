@@ -63,7 +63,7 @@
             android:layout_marginTop="33dp"
             android:layout_marginLeft="10dp" />
 
-        <HorizontalScrollView
+        <asu.reach.ThermScrollView
             android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:id="@+id/thermView"
@@ -81,7 +81,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/thImg"
                 android:background="@drawable/thermo_horz" />
-        </HorizontalScrollView>
+        </asu.reach.ThermScrollView>
+
     </RelativeLayout>
 
     <LinearLayout
@@ -229,5 +230,14 @@
         android:layout_marginBottom="50dp"
         android:layout_alignParentBottom="true"
         android:visibility="gone" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/numView"
+        android:visibility="gone"
+        android:layout_below="@+id/titleView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-40dp" />
 
 </RelativeLayout>

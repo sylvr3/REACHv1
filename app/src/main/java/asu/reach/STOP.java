@@ -1,6 +1,7 @@
 package asu.reach;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
@@ -23,7 +24,7 @@ import android.widget.VideoView;
 import java.util.List;
 
 
-public class STOP extends Activity implements View.OnClickListener{
+public class STOP extends Activity implements View.OnClickListener, DialogInterface.OnClickListener{
 
     private ImageButton respond,back,next,done,cancel,clear,voice,complete;
     private LinearLayout nav,respBtns,stopLayout;
@@ -246,4 +247,8 @@ public class STOP extends Activity implements View.OnClickListener{
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+
+    }
 }
