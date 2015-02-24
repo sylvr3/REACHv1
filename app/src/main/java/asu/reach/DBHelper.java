@@ -1,6 +1,7 @@
 package asu.reach;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -45,7 +46,7 @@ public class DBHelper extends SQLiteOpenHelper{
     }
 
     // MOVE THIS SOMEWHERE ELSE
-    /*
+
     public boolean checkAdminPwd(String pwdToBeChecked){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery("select * from Administrator where Admin_pwd="+pwdToBeChecked,null);
@@ -56,7 +57,7 @@ public class DBHelper extends SQLiteOpenHelper{
         }
         return false;
     }
-    */
+
 
     /**
      * Check if the database already exist to avoid re-copying the file each time you open the application.

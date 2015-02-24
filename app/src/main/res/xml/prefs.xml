@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+   <!-- <CheckBoxPreference android:key="first"
+        android:title="First Option"
+        android:summary="This is 1st option"/>-->
+    <PreferenceScreen
+        android:key="changeProtocolMenu"
+        android:title="Change Protocol Settings">
+        <MultiSelectListPreference android:key="DD_week_setting"
+            android:entries="@array/protocols"
+            android:entryValues="@array/protocolValue"
+            android:persistent="true"
+            android:defaultValue="@array/emptyValue"
+            android:title="Daily Diary Settings"
+            android:summary="Click to change"
+            />
+        <MultiSelectListPreference android:key="STOP_week_setting"
+            android:entries="@array/protocols"
+            android:entryValues="@array/protocolValue"
+            android:persistent="true"
+            android:defaultValue="@array/emptyValue"
+            android:title="STOP Settings"
+            android:summary="Click to change"
+            />
+        <MultiSelectListPreference android:key="STIC_week_setting"
+            android:entries="@array/protocols"
+            android:entryValues="@array/protocolValue"
+            android:persistent="true"
+            android:defaultValue="@array/emptyValue"
+            android:title="STIC Settings"
+            android:summary="Click to change"
+            />
+    </PreferenceScreen>
+    <PreferenceScreen android:key="protocolFreq"
+        android:title="Frequency of Protocols">
+        <ListPreference android:key="DDFrequency"
+            android:summary="Click to change"
+            android:title="Daily Diary Frequency"
+            android:entries="@array/frequencyEntries"
+            android:entryValues="@array/frequencyEntreisValues"
+        />
+        <ListPreference android:key="DDFrequency"
+            android:summary="Click to change"
+            android:title="STOP Frequency"
+            android:entries="@array/frequencyEntries"
+            android:entryValues="@array/frequencyEntreisValues"
+        />
+        <ListPreference android:key="STICFrequency"
+            android:summary="Click to change"
+            android:title="Stic Frequency"
+            android:entries="@array/frequencyEntries"
+            android:entryValues="@array/frequencyEntreisValues"
+        />
+
+        </PreferenceScreen>
+        <ListPreference android:key="notifFreq"
+            android:title="Notification Frequency"
+            android:summary="Click to change"
+            android:entries="@array/frequencyEntries"
+            android:entryValues="@array/frequencyEntreisValues"/>
+
+        <PreferenceScreen android:key="PinAdd"
+            android:title="Add PIN"
+            android:summary="Click to add PIN for specific User-role">
+            <EditTextPreference android:key="teaherPIN"
+                android:title="Teacher PIN"
+                android:summary="Click to set"
+                android:password="true"
+                android:inputType="number"
+                />
+            <EditTextPreference android:key="AdminPIN"
+                android:title="Admin PIN"
+                android:summary="Click to set"
+                android:password="true"
+                android:inputType="number"
+                />
+        </PreferenceScreen>
+    <PreferenceScreen android:key="exportDataMenu"
+        android:title="Export/Offload Data"
+        android:summary="Export in .csv format">
+        <CheckBoxPreference android:key="underConstruction"
+            android:title="Under Construction"/>
+    </PreferenceScreen>
+</PreferenceScreen>
+
+
+
+
