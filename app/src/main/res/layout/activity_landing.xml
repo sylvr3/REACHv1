@@ -82,11 +82,39 @@
 
     </RelativeLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Admin-TEST"
-        android:id="@+id/admin_button"
-        android:layout_alignBottom="@+id/relativeLayout2"
-        android:layout_alignParentStart="true"  />
+    <RelativeLayout
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_alignParentBottom="false"
+        android:layout_marginTop="-16dp"
+        android:layout_marginLeft="-16dp"
+        android:id="@+id/topLeft"></RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_alignParentBottom="false"
+        android:layout_marginTop="-16dp"
+        android:id="@+id/topRight"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="-16dp" />
+
+    <RelativeLayout
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="-16dp"
+        android:id="@+id/bottomLeft"
+        android:layout_marginBottom="-16dp" />
+
+    <RelativeLayout
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/bottomRight"
+        android:layout_marginRight="-16dp"
+        android:layout_marginBottom="-16dp"
+        android:layout_alignParentEnd="true" />
+
+
 </RelativeLayout>

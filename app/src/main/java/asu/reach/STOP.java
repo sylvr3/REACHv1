@@ -1,6 +1,7 @@
 package asu.reach;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -38,6 +39,7 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
     private final int O_STATE = 2;
     private final int P_STATE = 3;
     private static final int SPEECH_REQUEST_CODE = 0;
+    private boolean end = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,26 +154,10 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
                     break;
                 }
                 case P_STATE:{
-                    stopLayout.setVisibility(View.GONE);
-                    blob.setVisibility(View.GONE);
-                    nav.setVisibility(View.GONE);
-                    gjLayout.setVisibility(View.VISIBLE);
-                    gjView.setVisibility(View.VISIBLE);
-                    complete.setVisibility(View.VISIBLE);
-                    gj.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.stars));
-                    gj.start();
-                    gj.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                        @Override
-                        public void onPrepared(MediaPlayer mp) {
-                            mp.setLooping(true);
-                            stopLayout.setVisibility(View.GONE);
-                            blob.setVisibility(View.GONE);
-                            nav.setVisibility(View.GONE);
-                            gjLayout.setVisibility(View.VISIBLE);
-                            gjView.setVisibility(View.VISIBLE);
-                            complete.setVisibility(View.VISIBLE);
-                        }
-                    });
+                    end = true;
+                    FragmentManager fm = getFragmentManager();
+                    DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this, end);
+                    dialog.show(fm, "frag");
                     break;
                 }
             }
@@ -179,7 +165,10 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
         if(v.getId() == back.getId()){
             switch(state){
                 case S_STATE:{
-                    finish();
+                    end = false;
+                    FragmentManager fm = getFragmentManager();
+                    DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this, end);
+                    dialog.show(fm, "frag");
                     break;
                 }
                 case T_STATE:{
@@ -249,6 +238,42 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
+        switch (which){
+            case DialogInterface.BUTTON_POSITIVE:{
+                if(end) {
+                    stopLayout.setVisibility(View.GONE);
+                    blob.setVisibility(View.GONE);
+                    nav.setVisibility(View.GONE);
+                    gjLayout.setVisibility(View.VISIBLE);
+                    gjView.setVisibility(View.VISIBLE);
+                    complete.setVisibility(View.VISIBLE);
+                    gj.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.stars));
+                    gj.start();
+                    gj.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                        @Override
+                        public void onPrepared(MediaPlayer mp) {
+                            mp.setLooping(true);
+                            stopLayout.setVisibility(View.GONE);
+                            blob.setVisibility(View.GONE);
+                            nav.setVisibility(View.GONE);
+                            gjLayout.setVisibility(View.VISIBLE);
+                            gjView.setVisibility(View.VISIBLE);
+                            complete.setVisibility(View.VISIBLE);
+                        }
+                    });
+                }else{
+                    finish();
+                }
+                break;
+            }
+            case DialogInterface.BUTTON_NEGATIVE:{
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
 
     }
 }

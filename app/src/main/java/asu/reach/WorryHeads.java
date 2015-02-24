@@ -113,6 +113,7 @@ public class WorryHeads extends Activity implements View.OnClickListener{
                 oTwo.setText(o[0]);
                 oThree.setText(o[1]);
                 oFour.setText(o[2]);
+                resize();
                 break;
             }
             case 1:{
@@ -120,6 +121,7 @@ public class WorryHeads extends Activity implements View.OnClickListener{
                 oThree.setText(o[0]);
                 oOne.setText(o[1]);
                 oFour.setText(o[2]);
+                resize();
                 break;
             }
             case 2:{
@@ -127,6 +129,7 @@ public class WorryHeads extends Activity implements View.OnClickListener{
                 oTwo.setText(o[0]);
                 oOne.setText(o[1]);
                 oFour.setText(o[2]);
+                resize();
                 break;
             }
             case 3:{
@@ -134,11 +137,26 @@ public class WorryHeads extends Activity implements View.OnClickListener{
                 oTwo.setText(o[0]);
                 oThree.setText(o[1]);
                 oOne.setText(o[2]);
+                resize();
                 break;
             }
         }
     }
 
+    private void resize(){
+        if(oOne.getText().length() > 110){
+            oOne.setTextSize(10);
+        }
+        if(oTwo.getText().length() > 110){
+            oOne.setTextSize(10);
+        }
+        if(oThree.getText().length() > 110){
+            oOne.setTextSize(10);
+        }
+        if(oFour.getText().length() > 110){
+            oOne.setTextSize(10);
+        }
+    }
     @Override
     public void onClick(View v) {
         if (v.getId() == sView.getId()){

@@ -109,6 +109,7 @@ public class STIC extends Activity implements View.OnClickListener, DialogInterf
             if(!btn.isActivated()) {
                 selected = btn;
                 pin = new EditText(this);
+                pin.setHint("Please Enter A PIN");
                 FragmentManager fm = getFragmentManager();
                 DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this, pin);
                 dialog.show(fm, "frag");

@@ -1,6 +1,8 @@
 package asu.reach;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
@@ -28,7 +30,7 @@ import java.util.List;
 
 
 public class DailyDiary extends Activity implements View.OnClickListener, View.OnTouchListener,
-        ThermScrollView.OnScrollStoppedListener{
+        ThermScrollView.OnScrollStoppedListener,DialogInterface.OnClickListener{
 
     private ImageButton respond,back,next,done,cancel,clear,voice,complete;
     private LinearLayout nav,respBtns;
@@ -61,6 +63,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
     private final int SIX_M = 1187;
     private final int SEVEN_M = 1367;
     private static final int SPEECH_REQUEST_CODE = 0;
+    private boolean end = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,26 +209,10 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                     break;
                 }
                 case FOUR_STATE:{
-                    title.setVisibility(View.GONE);
-                    blob.setVisibility(View.GONE);
-                    nav.setVisibility(View.GONE);
-                    gjLayout.setVisibility(View.VISIBLE);
-                    gjView.setVisibility(View.VISIBLE);
-                    complete.setVisibility(View.VISIBLE);
-                    gj.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.stars));
-                    gj.start();
-                    gj.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                        @Override
-                        public void onPrepared(MediaPlayer mp) {
-                            mp.setLooping(true);
-                            title.setVisibility(View.GONE);
-                            blob.setVisibility(View.GONE);
-                            nav.setVisibility(View.GONE);
-                            gjLayout.setVisibility(View.VISIBLE);
-                            gjView.setVisibility(View.VISIBLE);
-                            complete.setVisibility(View.VISIBLE);
-                        }
-                    });
+                    end = true;
+                    FragmentManager fm = getFragmentManager();
+                    DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this, end);
+                    dialog.show(fm, "frag");
                     break;
                 }
             }
@@ -233,7 +220,10 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
         if(v.getId() == back.getId()){
             switch(state){
                 case ONE_STATE:{
-                    finish();
+                    end = false;
+                    FragmentManager fm = getFragmentManager();
+                    DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this, end);
+                    dialog.show(fm, "frag");
                     break;
                 }
                 case TWO_STATE:{
@@ -352,6 +342,47 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
         } else {
             therm.setScrollX(EIGHT_X);
         }
+
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        switch (which){
+            case DialogInterface.BUTTON_POSITIVE:{
+                if(end) {
+                    title.setVisibility(View.GONE);
+                    blob.setVisibility(View.GONE);
+                    nav.setVisibility(View.GONE);
+                    gjLayout.setVisibility(View.VISIBLE);
+                    gjView.setVisibility(View.VISIBLE);
+                    complete.setVisibility(View.VISIBLE);
+                    gj.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.stars));
+                    gj.start();
+                    gj.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                        @Override
+                        public void onPrepared(MediaPlayer mp) {
+                            mp.setLooping(true);
+                            title.setVisibility(View.GONE);
+                            blob.setVisibility(View.GONE);
+                            nav.setVisibility(View.GONE);
+                            gjLayout.setVisibility(View.VISIBLE);
+                            gjView.setVisibility(View.VISIBLE);
+                            complete.setVisibility(View.VISIBLE);
+                        }
+                    });
+                }else{
+                    finish();
+                }
+                break;
+            }
+            case DialogInterface.BUTTON_NEGATIVE:{
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
 
     }
 }
