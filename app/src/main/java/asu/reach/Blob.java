@@ -43,9 +43,6 @@ public class Blob extends Activity implements MediaPlayer.OnCompletionListener, 
 
         vid.setOnCompletionListener(this);
         vid.setOnPreparedListener(this);
-
-        AnimationDrawable anim = (AnimationDrawable) blob.getBackground();
-        anim.start();
     }
 
 
@@ -127,6 +124,4 @@ public class Blob extends Activity implements MediaPlayer.OnCompletionListener, 
             super.onBackPressed();
         }
     }
-}
-
 }
