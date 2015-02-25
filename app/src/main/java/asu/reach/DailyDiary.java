@@ -65,6 +65,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
     private static final int SPEECH_REQUEST_CODE = 0;
     private boolean end = false;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

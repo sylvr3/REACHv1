@@ -75,7 +75,6 @@ public class STIC extends Activity implements View.OnClickListener, DialogInterf
         }catch(Exception e){
             e.printStackTrace();
         }
-
     }
 
 
