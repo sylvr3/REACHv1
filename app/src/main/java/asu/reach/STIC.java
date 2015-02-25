@@ -39,8 +39,6 @@ public class STIC extends Activity implements View.OnClickListener, DialogInterf
 
         try{
             DBHelper helper = new DBHelper(this);
-            helper.copyDataBase();
-            helper.openDataBase();
             db = helper.getDB();
             Cursor c = db.rawQuery("SELECT * from STIC where QUESTION_SET = 1", null);
             c.moveToFirst();
@@ -55,7 +53,8 @@ public class STIC extends Activity implements View.OnClickListener, DialogInterf
                 btn.setBackgroundResource(R.drawable.stic_btn_selector);
                 btn.setText(c.getString(c.getColumnIndex("STIC_TASK")));
                 btn.setTypeface(Typeface.createFromAsset(getAssets(), "agentorange.ttf"));
-                btn.setPadding(80, 80, 80, 80);
+                btn.setPadding(65, 65, 65, 65);
+                btn.setLineSpacing(2,1.1f);
                 r.setPadding(0, 0, 0, 25);
                 r.addView(btn);
                 pa = new RelativeLayout.LayoutParams(

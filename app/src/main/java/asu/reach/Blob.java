@@ -100,7 +100,7 @@ public class Blob extends Activity implements MediaPlayer.OnCompletionListener, 
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-        vid.setBackgroundResource(R.drawable.background);
+        vid.setBackgroundResource(R.drawable.background_space);
         title.setVisibility(View.VISIBLE);
         trickView.setVisibility(View.VISIBLE);
     }
@@ -117,7 +117,7 @@ public class Blob extends Activity implements MediaPlayer.OnCompletionListener, 
     public void backClicked(View v){
         if(vid.isPlaying()){
             vid.stopPlayback();
-            vid.setBackgroundResource(R.drawable.background);
+            vid.setBackgroundResource(R.drawable.background_space);
             title.setVisibility(View.VISIBLE);
             trickView.setVisibility(View.VISIBLE);
         }else{

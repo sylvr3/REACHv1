@@ -74,10 +74,14 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         bottomLeftLayout.setOnClickListener(this);
         bottomRightLayout.setOnClickListener(this);
 
-        DBHelper helper = new DBHelper(this);
-        //helper.copyDataBase();
-        //helper.openDataBase();
-        db = helper.getDB();
+        try {
+            DBHelper helper = new DBHelper(this);
+            //helper.copyDataBase();
+            //helper.openDataBase();
+            db = helper.getDB();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         AnimationDrawable anim = (AnimationDrawable) blob.getBackground();
         anim.start();
 

@@ -14,7 +14,7 @@ import java.sql.SQLException;
 
 public class DBHelper extends SQLiteOpenHelper{
     //The Android's default system path of your application database.
-    private static String DB_PATH = "/data/data/asu.reach/databases/";
+    private static String DB_PATH;
 
     private static String DB_NAME = "REACH_DB";
 
@@ -30,12 +30,27 @@ public class DBHelper extends SQLiteOpenHelper{
     public DBHelper(Context context) {
         super(context, DB_NAME, null, 1);
         this.myContext = context;
+        DB_PATH = context.getFilesDir().toString() + "/";
         if(!checkDataBase()){
-            System.out.println("Copying db");
             try {
-                copyDataBase();
+                String myPath = DB_PATH + DB_NAME;
+                myDataBase = SQLiteDatabase.openDatabase(myPath,
+                        null, SQLiteDatabase.OPEN_READWRITE);
+                if(myDataBase == null) {
+                    System.out.println("Copying DB");
+                    copyDataBase();
+                }
             }catch(Exception e){
                 e.printStackTrace();
+                if(myDataBase == null) {
+                    System.out.println("Copying DB");
+                    try {
+                        copyDataBase();
+                    }catch(Exception ex){
+                        e.printStackTrace();
+                    }
+
+                }
             }
         }
         try {
@@ -82,7 +97,12 @@ public class DBHelper extends SQLiteOpenHelper{
         String outFileName = DB_PATH + DB_NAME;
 
         //Open the empty db as the output stream
-        OutputStream myOutput = new FileOutputStream(outFileName);
+        File file = new File(outFileName);
+        if(!file.exists()){
+            file.getParentFile().mkdirs();
+            file.createNewFile();
+        }
+        OutputStream myOutput = new FileOutputStream(file);
 
         //transfer bytes from the inputfile to the outputfile
         byte[] buffer = new byte[1024];
