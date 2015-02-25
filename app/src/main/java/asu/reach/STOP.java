@@ -25,14 +25,15 @@ import android.widget.VideoView;
 import java.util.List;
 
 
+
 public class STOP extends Activity implements View.OnClickListener, DialogInterface.OnClickListener{
 
     private ImageButton respond,back,next,done,cancel,clear,voice,complete;
     private LinearLayout nav,respBtns,stopLayout;
     private RelativeLayout blob,resp,gjLayout;
     private ImageView s,t,o,p,message,gjView;
-    private EditText response;
     private VideoView gj;
+    private EditText response;
     private int state = 0;
     private final int S_STATE = 0;
     private final int T_STATE = 1;

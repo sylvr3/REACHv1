@@ -44,9 +44,6 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_landing);
 
-        if(savedInstanceState != null) {
-            stopPosition = savedInstanceState.getInt("position",0);
-        }
         dd = (ImageButton)findViewById(R.id.ddBtn);
         stic = (ImageButton)findViewById(R.id.sticBtn);
         stop = (ImageButton)findViewById(R.id.stopBtn);
