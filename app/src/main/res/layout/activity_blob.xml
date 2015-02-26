@@ -1,23 +1,111 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context="asu.reach.Blob"
-    android:background="@drawable/background">
+    android:layout_height="match_parent"  tools:context="asu.reach.Blob">
 
-    <RelativeLayout
+    <VideoView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:id="@+id/relativeLayout2"
-        android:layout_centerInParent="true" >
+        android:id="@+id/videoView"
+        android:visibility="visible"
+        android:background="@drawable/background_space"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignWithParentIfMissing="true" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/blobView2"
-            android:background="@drawable/landing_blob_happy"
-            android:layout_marginBottom="100dp" />
-    </RelativeLayout>
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="250dp"
+        android:id="@+id/trickView"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentBottom="false"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/backBtn">
+
+        <GridLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:columnCount="3"
+            android:rowCount="8">
+
+            <ImageButton
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:id="@+id/trickOneBtn"
+                android:background="@drawable/warble_trick_selector"
+                android:layout_margin="10dp"
+                android:onClick="oneClick"
+                android:visibility="visible" />
+
+            <ImageButton
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:id="@+id/trickTwoBtn"
+                android:layout_margin="10dp"
+                android:background="@drawable/jump_trick_selector"
+                android:onClick="twoClick" />
+
+            <ImageButton
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:id="@+id/trickThreeBtn"
+                android:layout_margin="10dp"
+                android:background="@drawable/dance_selector"
+                android:onClick="threeClick" />
+
+            <ImageButton
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:id="@+id/trickFourBtn"
+                android:layout_margin="10dp"
+                android:background="@drawable/flip_selector"
+                android:onClick="fourClick" />
+
+            <ImageButton
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:id="@+id/trickFiveBtn"
+                android:layout_margin="10dp"
+                android:background="@drawable/lock_selector"
+                android:onClick="fiveClick" />
+
+            <ImageButton
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:id="@+id/trickSixBtn"
+                android:layout_margin="10dp"
+                android:background="@drawable/lock_selector"
+                android:onClick="sixClick" />
+
+            <ImageButton
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:id="@+id/trickSevenBtn"
+                android:layout_margin="10dp"
+                android:background="@drawable/lock_selector"
+                android:onClick="sevenClick" />
+
+        </GridLayout>
+    </ScrollView>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/titleView"
+        android:background="@drawable/bob_title"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/backBtn"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/back_btn_selector"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="20dp"
+        android:onClick="backClicked" />
+
 </RelativeLayout>

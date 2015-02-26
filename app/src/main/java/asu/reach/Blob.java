@@ -2,17 +2,26 @@ package asu.reach;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
-import android.graphics.drawable.AnimationDrawable;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ScrollView;
+import android.widget.Toast;
+import android.widget.VideoView;
 
 
-public class Blob extends Activity {
+public class Blob extends Activity implements MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener{
 
-    ImageView blob;
+    ImageButton one,two,three,four,five,six,seven;
+    ScrollView trickView;
+    ImageView title;
+    VideoView vid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,10 +30,19 @@ public class Blob extends Activity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_blob);
 
-        blob = (ImageView)findViewById(R.id.blobView2);
+        one = (ImageButton)findViewById(R.id.trickOneBtn);
+        two = (ImageButton)findViewById(R.id.trickTwoBtn);
+        three = (ImageButton)findViewById(R.id.trickThreeBtn);
+        four = (ImageButton)findViewById(R.id.trickFourBtn);
+        five = (ImageButton)findViewById(R.id.trickFiveBtn);
+        six = (ImageButton)findViewById(R.id.trickSixBtn);
+        seven = (ImageButton)findViewById(R.id.trickSevenBtn);
+        trickView = (ScrollView)findViewById(R.id.trickView);
+        vid = (VideoView)findViewById(R.id.videoView);
+        title = (ImageView)findViewById(R.id.titleView);
 
-        AnimationDrawable anim = (AnimationDrawable) blob.getBackground();
-        anim.start();
+        vid.setOnCompletionListener(this);
+        vid.setOnPreparedListener(this);
     }
 
 
@@ -48,5 +66,62 @@ public class Blob extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void oneClick(View v){
+        vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.warble_n));
+        vid.start();
+    }
+    public void twoClick(View v){
+        vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.jump_n));
+        vid.start();
+    }
+    public void threeClick(View v){
+        vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.dance_n));
+        vid.start();
+    }
+    public void fourClick(View v){
+        vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.flip_n));
+        vid.start();
+    }
+    public void fiveClick(View v){
+        locked();
+    }
+    public void sixClick(View v){
+        locked();
+    }
+    public void sevenClick(View v){
+        locked();
+    }
+
+    private void locked(){
+        Toast.makeText(this, "SORRY! Not unlocked yet.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+        vid.setBackgroundResource(R.drawable.background_space);
+        title.setVisibility(View.VISIBLE);
+        trickView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onPrepared(MediaPlayer mp) {
+        vid.setBackgroundResource(0);
+        title.setVisibility(View.INVISIBLE);
+        trickView.setVisibility(View.INVISIBLE);
+    }
+
+
+
+    public void backClicked(View v){
+        if(vid.isPlaying()){
+            vid.stopPlayback();
+            vid.setBackgroundResource(R.drawable.background_space);
+            title.setVisibility(View.VISIBLE);
+            trickView.setVisibility(View.VISIBLE);
+        }else{
+            super.onBackPressed();
+        }
     }
 }

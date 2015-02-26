@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string-array name="protocols">
+        <item>Week 1</item>
+        <item>Week 2</item>
+        <item>Week 3</item>
+        <item>Week 4</item>
+        <item>Week 5</item>
+        <item>Week 6</item>
+    </string-array>
+    <string-array name="protocolValue">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+    <string-array name="emptyValue">
+    </string-array>
+    <string-array name="frequencyEntries">
+        <item>Once a day</item>
+        <item>Twice a day</item>
+        <item>Every 6 hours</item>
+        <item>Once a week</item>
+        <item>Twice a week</item>
+    </string-array>
+    <string-array name="frequencyEntreisValues">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+</resources>
