@@ -31,25 +31,25 @@ public class DBHelper extends SQLiteOpenHelper{
         super(context, DB_NAME, null, 1);
         this.myContext = context;
         DB_PATH = context.getFilesDir().toString() + "/";
-        if(!checkDataBase()){
-            try {
-                String myPath = DB_PATH + DB_NAME;
-                myDataBase = SQLiteDatabase.openDatabase(myPath,
-                        null, SQLiteDatabase.OPEN_READWRITE);
-                if(myDataBase == null) {
-                    System.out.println("Copying DB");
-                    copyDataBase();
-                }
-            }catch(Exception e){
-                e.printStackTrace();
-                if(myDataBase == null) {
-                    System.out.println("Copying DB");
-                    try {
-                        copyDataBase();
-                    }catch(Exception ex){
-                        e.printStackTrace();
-                    }
 
+        try {
+            System.out.println("checking");
+            String myPath = DB_PATH + DB_NAME;
+            myDataBase = SQLiteDatabase.openDatabase(myPath,
+                    null, SQLiteDatabase.OPEN_READWRITE);
+            Cursor c = myDataBase.rawQuery("SELECT * FROM STIC",null);
+            if(!(c.getCount() > 0)){
+                System.out.println("Copying DB");
+                copyDataBase();
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            if(myDataBase == null) {
+                System.out.println("Copying DB");
+                try {
+                    copyDataBase();
+                }catch(Exception ex){
+                    e.printStackTrace();
                 }
             }
         }
