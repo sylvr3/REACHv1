@@ -32,7 +32,7 @@ import java.util.List;
 public class DailyDiary extends Activity implements View.OnClickListener, View.OnTouchListener,
         ThermScrollView.OnScrollStoppedListener,DialogInterface.OnClickListener{
 
-    private ImageButton respond,back,next,done,cancel,clear,voice,complete;
+    private ImageButton respond,back,next,done,cancel,clear,voice,complete,arrowLeft,arrowRight;
     private LinearLayout nav,respBtns;
     private RelativeLayout blob,resp,gjLayout;
     private ImageView message,gjView,title,numView;
@@ -62,6 +62,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
     private final int FIVE_M = 502;
     private final int SIX_M = 594;
     private final int SEVEN_M = 684;
+    private int currentPos = 0;
     private static final int SPEECH_REQUEST_CODE = 0;
     private boolean end = false;
 
@@ -95,6 +96,8 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
         gj = (VideoView)findViewById(R.id.gjVid);
         therm = (ThermScrollView)findViewById(R.id.thermView);
         numView = (ImageView)findViewById(R.id.numView);
+        arrowLeft = (ImageButton)findViewById(R.id.arrowLeft);
+        arrowRight = (ImageButton)findViewById(R.id.arrowRight);
 
         response.setTypeface(Typeface.createFromAsset(getAssets(), "agentorange.ttf"));
         date.setTypeface(Typeface.createFromAsset(getAssets(), "agentorange.ttf"));
@@ -107,6 +110,8 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
         clear.setOnClickListener(this);
         voice.setOnClickListener(this);
         complete.setOnClickListener(this);
+        arrowLeft.setOnClickListener(this);
+        arrowRight.setOnClickListener(this);
 
         therm.setOnTouchListener(this);
         therm.setOnScrollStoppedListener(this);
@@ -180,6 +185,8 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                         today.setVisibility(View.GONE);
                         date.setVisibility(View.GONE);
                         therm.setVisibility(View.VISIBLE);
+                        arrowRight.setVisibility(View.VISIBLE);
+                        arrowLeft.setVisibility(View.VISIBLE);
                         respond.setVisibility(View.GONE);
                         state = TWO_STATE;
                     }else{
@@ -191,6 +198,8 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                     if(respond.isActivated()) {
                         message.setBackgroundResource(R.drawable.dd_3_message);
                         therm.setVisibility(View.GONE);
+                        arrowRight.setVisibility(View.GONE);
+                        arrowLeft.setVisibility(View.GONE);
                         respond.setVisibility(View.VISIBLE);
                         respond.setActivated(false);
                         state=THREE_STATE;
@@ -232,6 +241,8 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                     today.setVisibility(View.VISIBLE);
                     date.setVisibility(View.VISIBLE);
                     therm.setVisibility(View.GONE);
+                    arrowRight.setVisibility(View.GONE);
+                    arrowLeft.setVisibility(View.GONE);
                     respond.setVisibility(View.VISIBLE);
                     respond.setActivated(true);
                     state=ONE_STATE;
@@ -240,6 +251,8 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                 case THREE_STATE:{
                     message.setBackgroundResource(R.drawable.dd_2_message);
                     therm.setVisibility(View.VISIBLE);
+                    arrowRight.setVisibility(View.VISIBLE);
+                    arrowLeft.setVisibility(View.VISIBLE);
                     respond.setVisibility(View.GONE);
                     respond.setActivated(true);
                     state=TWO_STATE;
@@ -256,7 +269,104 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
         if(v.getId()==complete.getId()){
             finish();
         }
+        if(v.getId()==arrowLeft.getId()){
+            moveLeft();
+        }
+        if(v.getId()==arrowRight.getId()){
+            moveRight();
+        }
     }
+
+    private void moveLeft(){
+        switch (currentPos) {
+            case 1: {
+                therm.setScrollX(ZERO_X);
+                currentPos = 0;
+                break;
+            }
+            case 2: {
+                therm.setScrollX(ONE_X);
+                currentPos = 1;
+                break;
+            }
+            case 3: {
+                therm.setScrollX(TWO_X);
+                currentPos = 2;
+                break;
+            }
+            case 4: {
+                therm.setScrollX(THREE_X);
+                currentPos = 3;
+                break;
+            }
+            case 5: {
+                therm.setScrollX(FOUR_X);
+                currentPos = 4;
+                break;
+            }
+            case 6: {
+                therm.setScrollX(FIVE_X);
+                currentPos = 5;
+                break;
+            }
+            case 7: {
+                therm.setScrollX(SIX_X);
+                currentPos = 6;
+                break;
+            }
+            case 8: {
+                therm.setScrollX(SEVEN_X);
+                currentPos = 7;
+                break;
+            }
+        }
+    }
+
+    private void moveRight() {
+        switch (currentPos) {
+            case 0: {
+                therm.setScrollX(ONE_X);
+                currentPos = 1;
+                break;
+            }
+            case 1: {
+                therm.setScrollX(TWO_X);
+                currentPos = 2;
+                break;
+            }
+            case 2: {
+                therm.setScrollX(THREE_X);
+                currentPos = 3;
+                break;
+            }
+            case 3: {
+                therm.setScrollX(FOUR_X);
+                currentPos = 4;
+                break;
+            }
+            case 4: {
+                therm.setScrollX(FIVE_X);
+                currentPos = 5;
+                break;
+            }
+            case 5: {
+                therm.setScrollX(SIX_X);
+                currentPos = 6;
+                break;
+            }
+            case 6: {
+                therm.setScrollX(SEVEN_X);
+                currentPos = 7;
+                break;
+            }
+            case 7: {
+                therm.setScrollX(EIGHT_X);
+                currentPos = 8;
+                break;
+            }
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent data) {
@@ -299,22 +409,31 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
             int pos = therm.getScrollX();
             if (pos < ZERO_M) {
                 therm.setScrollX(ZERO_X);
+                currentPos = 0;
             } else if (pos < ONE_M) {
                 therm.setScrollX(ONE_X);
+                currentPos = 1;
             } else if (pos < TWO_M) {
                 therm.setScrollX(TWO_X);
+                currentPos = 2;
             } else if (pos < THREE_M) {
                 therm.setScrollX(THREE_X);
+                currentPos = 3;
             } else if (pos < FOUR_M) {
                 therm.setScrollX(FOUR_X);
+                currentPos = 4;
             } else if (pos < FIVE_M) {
                 therm.setScrollX(FIVE_X);
+                currentPos = 5;
             } else if (pos < SIX_M) {
                 therm.setScrollX(SIX_X);
+                currentPos = 6;
             } else if (pos < SEVEN_M) {
                 therm.setScrollX(SEVEN_X);
+                currentPos = 7;
             } else {
                 therm.setScrollX(EIGHT_X);
+                currentPos = 8;
             }
         }
         return false;

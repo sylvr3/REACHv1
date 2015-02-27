@@ -82,6 +82,36 @@
                 android:background="@drawable/thermo_horz" />
         </asu.reach.ThermScrollView>
 
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/arrowLeft"
+            android:layout_alignBottom="@+id/thermView"
+            android:layout_alignTop="@+id/thermView"
+            android:layout_toLeftOf="@+id/thermView"
+            android:background="@drawable/arrow_left"
+            android:layout_alignParentEnd="false"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:visibility="gone" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/arrowRight"
+            android:layout_alignTop="@+id/thermView"
+            android:layout_alignBottom="@+id/thermView"
+            android:layout_toRightOf="@+id/thermView"
+            android:layout_alignParentEnd="false"
+            android:background="@drawable/arrow_right"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="20dp"
+            android:visibility="gone" />
+
     </RelativeLayout>
 
     <LinearLayout
@@ -142,7 +172,7 @@
             android:layout_margin="15dp"
             android:textColor="#ff000000"
             android:visibility="visible"
-            android:textAlignment="textStart" />
+            android:gravity="top" />
     </RelativeLayout>
 
     <LinearLayout
