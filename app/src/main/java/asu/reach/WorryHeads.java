@@ -31,6 +31,7 @@ public class WorryHeads extends Activity implements View.OnClickListener{
     private LinearLayout complete;
 
     private int wrongO;
+    private boolean wrong = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -247,6 +248,7 @@ public class WorryHeads extends Activity implements View.OnClickListener{
         msgLayout.setVisibility(View.VISIBLE);
         back.setVisibility(View.VISIBLE);
         message.setText("Try again!");
+        wrong = true;
     }
 
     private void complete(String msg){
@@ -254,6 +256,9 @@ public class WorryHeads extends Activity implements View.OnClickListener{
         c.put("TIMESTAMP", System.currentTimeMillis());
         c.put("S", sText);
         c.put("SELECTED_O", msg);
+        if(wrong) {
+            c.put("WRONG_FLAG", 1);
+        }
         db.insert("WORRYHEADS_COMPLETION", "TIMESTAMP,S,SELECTED_O", c);
         c = new ContentValues();
         c.put("COMPLETED_FLAG", 1);

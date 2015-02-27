@@ -49,7 +49,7 @@
             android:layout_marginTop="40dp"
             android:layout_marginLeft="35dp" />
 
-        <EditText
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="date"
@@ -58,9 +58,10 @@
             android:layout_toRightOf="@+id/todayView"
             android:text="02/02/15"
             android:layout_alignEnd="@+id/blobView"
-            android:textSize="12dp"
-            android:layout_marginTop="33dp"
-            android:layout_marginLeft="10dp" />
+            android:textSize="15dp"
+            android:layout_marginLeft="-30dp"
+            android:layout_below="@+id/todayView"
+            android:layout_marginTop="10dp" />
 
         <asu.reach.ThermScrollView
             android:layout_width="110dp"
