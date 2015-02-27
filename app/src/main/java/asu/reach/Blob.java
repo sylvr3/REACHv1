@@ -18,7 +18,7 @@ import android.widget.VideoView;
 
 public class Blob extends Activity implements MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener{
 
-    ImageButton one,two,three,four,five,six,seven;
+    ImageButton one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve;
     ScrollView trickView;
     ImageView title;
     VideoView vid;
@@ -37,6 +37,11 @@ public class Blob extends Activity implements MediaPlayer.OnCompletionListener, 
         five = (ImageButton)findViewById(R.id.trickFiveBtn);
         six = (ImageButton)findViewById(R.id.trickSixBtn);
         seven = (ImageButton)findViewById(R.id.trickSevenBtn);
+        eight = (ImageButton)findViewById(R.id.trickEightBtn);
+        nine = (ImageButton)findViewById(R.id.trickNineBtn);
+        ten = (ImageButton)findViewById(R.id.trickTenBtn);
+        eleven = (ImageButton)findViewById(R.id.trickElevenBtn);
+        twelve = (ImageButton)findViewById(R.id.trickTwelveBtn);
         trickView = (ScrollView)findViewById(R.id.trickView);
         vid = (VideoView)findViewById(R.id.videoView);
         title = (ImageView)findViewById(R.id.titleView);
@@ -85,12 +90,31 @@ public class Blob extends Activity implements MediaPlayer.OnCompletionListener, 
         vid.start();
     }
     public void fiveClick(View v){
-        locked();
+        vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.bounce_n));
+        vid.start();
     }
     public void sixClick(View v){
-        locked();
+        vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.shrink_n));
+        vid.start();
     }
     public void sevenClick(View v){
+        vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.grow_n));
+        vid.start();
+    }
+    public void eightClick(View v){
+        vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.splat_n));
+        vid.start();
+    }
+    public void nineClick(View v){
+        locked();
+    }
+    public void tenClick(View v){
+        locked();
+    }
+    public void elevenClick(View v){
+        locked();
+    }
+    public void twelveClick(View v){
         locked();
     }
 
