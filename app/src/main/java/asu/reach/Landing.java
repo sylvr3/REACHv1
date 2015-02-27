@@ -73,8 +73,8 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
 
         try {
             DBHelper helper = new DBHelper(this);
-            //helper.copyDataBase();
-            //helper.openDataBase();
+            helper.copyDataBase();
+            helper.openDataBase();
             db = helper.getDB();
         }catch(Exception e){
             e.printStackTrace();

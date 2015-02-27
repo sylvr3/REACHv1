@@ -2,6 +2,7 @@ package asu.reach;
 
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
@@ -11,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import java.util.Calendar;
+
 public class DialogBuilder extends DialogFragment{
 
     private static EditText pin;
@@ -18,7 +21,7 @@ public class DialogBuilder extends DialogFragment{
     private static Landing landingActivity;
     private static STOP stopActivity;
     private static DailyDiary ddActivity;
-    private static boolean end;
+    private static boolean end,date;
 
     public static DialogBuilder newInstance(String title) {
         DialogBuilder frag = new DialogBuilder();
@@ -54,7 +57,7 @@ public class DialogBuilder extends DialogFragment{
         return frag;
     }
 
-    public static DialogBuilder newInstance(String title, DailyDiary a, boolean e) {
+    public static DialogBuilder newInstance(String title, DailyDiary a, boolean e, boolean d) {
         DialogBuilder frag = new DialogBuilder();
         Bundle args = new Bundle();
         args.putString("title", title);
@@ -64,6 +67,7 @@ public class DialogBuilder extends DialogFragment{
         stopActivity = null;
         landingActivity = null;
         end = e;
+        date = d;
         return frag;
     }
 
@@ -115,7 +119,7 @@ public class DialogBuilder extends DialogFragment{
                         .setIcon(R.drawable.ic_launcher)
                         .setTitle(title)
                         .setMessage("Are you all done?")
-                        .setPositiveButton("Ok", stopActivity)
+                        .setPositiveButton("Yes", stopActivity)
                         .setNegativeButton("Cancel", stopActivity)
                         .create();
             }else{
@@ -123,28 +127,37 @@ public class DialogBuilder extends DialogFragment{
                         .setIcon(R.drawable.ic_launcher)
                         .setTitle(title)
                         .setMessage("You have unfinished work.\nAre you sure you want to Leave?")
-                        .setPositiveButton("Ok", stopActivity)
+                        .setPositiveButton("Yes", stopActivity)
                         .setNegativeButton("Cancel", stopActivity)
                         .create();
             }
         }
         if(ddActivity != null){
-            if(end) {
-                return new AlertDialog.Builder(getActivity())
-                        .setIcon(R.drawable.ic_launcher)
-                        .setTitle(title)
-                        .setMessage("Are you all done?")
-                        .setPositiveButton("Ok", ddActivity)
-                        .setNegativeButton("Cancel", ddActivity)
-                        .create();
-            }else{
-                return new AlertDialog.Builder(getActivity())
-                        .setIcon(R.drawable.ic_launcher)
-                        .setTitle(title)
-                        .setMessage("You have unfinished work.\nAre you sure you want to Leave?")
-                        .setPositiveButton("Ok", ddActivity)
-                        .setNegativeButton("Cancel", ddActivity)
-                        .create();
+            if(!date) {
+                if (end) {
+                    return new AlertDialog.Builder(getActivity())
+                            .setIcon(R.drawable.ic_launcher)
+                            .setTitle(title)
+                            .setMessage("Are you all done?")
+                            .setPositiveButton("Yes", ddActivity)
+                            .setNegativeButton("Cancel", ddActivity)
+                            .create();
+                } else {
+                    return new AlertDialog.Builder(getActivity())
+                            .setIcon(R.drawable.ic_launcher)
+                            .setTitle(title)
+                            .setMessage("You have unfinished work.\nAre you sure you want to Leave?")
+                            .setPositiveButton("Yes", ddActivity)
+                            .setNegativeButton("Cancel", ddActivity)
+                            .create();
+                }
+            }else {
+                final Calendar c = Calendar.getInstance();
+                int year = c.get(Calendar.YEAR);
+                int month = c.get(Calendar.MONTH);
+                int day = c.get(Calendar.DAY_OF_MONTH);
+
+                return new DatePickerDialog(ddActivity, ddActivity, year, month, day);
             }
         }
         return null;

@@ -1,10 +1,13 @@
 package asu.reach;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.app.FragmentManager;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -15,6 +18,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -30,14 +34,15 @@ import java.util.List;
 
 
 public class DailyDiary extends Activity implements View.OnClickListener, View.OnTouchListener,
-        ThermScrollView.OnScrollStoppedListener,DialogInterface.OnClickListener{
+        ThermScrollView.OnScrollStoppedListener,DialogInterface.OnClickListener
+        ,DatePickerDialog.OnDateSetListener{
 
     private ImageButton respond,back,next,done,cancel,clear,voice,complete,arrowLeft,arrowRight;
     private LinearLayout nav,respBtns;
     private RelativeLayout blob,resp,gjLayout;
     private ImageView message,gjView,title,numView;
-    private TextView today;
-    private EditText response,date;
+    private TextView today, date;
+    private EditText response;
     private VideoView gj;
     private ThermScrollView therm;
     private int state = 0;
@@ -64,7 +69,10 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
     private final int SEVEN_M = 684;
     private int currentPos = 0;
     private static final int SPEECH_REQUEST_CODE = 0;
+    private String sit, act, think;
     private boolean end = false;
+    private boolean dateChoose = false;
+    private SQLiteDatabase db;
 
 
     @Override
@@ -79,8 +87,8 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
         next = (ImageButton)findViewById(R.id.nextBtn);
         message = (ImageView)findViewById(R.id.messageView);
         response = (EditText)findViewById(R.id.responseTxt);
-        date = (EditText)findViewById(R.id.dateInput);
         today = (TextView)findViewById(R.id.todayView);
+        date = (TextView)findViewById(R.id.dateInput);
         done = (ImageButton)findViewById(R.id.doneBtn);
         cancel = (ImageButton)findViewById(R.id.cancelBtn);
         clear = (ImageButton)findViewById(R.id.clearBtn);
@@ -112,12 +120,26 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
         complete.setOnClickListener(this);
         arrowLeft.setOnClickListener(this);
         arrowRight.setOnClickListener(this);
+        date.setOnClickListener(this);
+
+        sit = "";
+        act = "";
+        think = "";
 
         therm.setOnTouchListener(this);
         therm.setOnScrollStoppedListener(this);
 
+        try {
+            DBHelper helper = new DBHelper(this);
+            //helper.copyDataBase();
+            //helper.openDataBase();
+            db = helper.getDB();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
         Date now = new Date();
-        SimpleDateFormat f = new SimpleDateFormat("MM/dd/yy");
+        SimpleDateFormat f = new SimpleDateFormat("MM/dd/yyyy");
         date.setText(f.format(now));
     }
 
@@ -147,7 +169,6 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
     @Override
     public void onClick(View v) {
         if(v.getId() == respond.getId()){
-            respond.setActivated(true);
             nav.setVisibility(View.GONE);
             blob.setVisibility(View.GONE);
             resp.setVisibility(View.VISIBLE);
@@ -155,11 +176,16 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
             cancel.setVisibility(View.VISIBLE);
         }
         if(v.getId() == done.getId()){
-            nav.setVisibility(View.VISIBLE);
-            blob.setVisibility(View.VISIBLE);
-            resp.setVisibility(View.GONE);
-            respBtns.setVisibility(View.GONE);
-            cancel.setVisibility(View.GONE);
+            if(response.getText().length()>0) {
+                nav.setVisibility(View.VISIBLE);
+                blob.setVisibility(View.VISIBLE);
+                resp.setVisibility(View.GONE);
+                respBtns.setVisibility(View.GONE);
+                cancel.setVisibility(View.GONE);
+                respond.setActivated(true);
+            }else{
+                Toast.makeText(this, "Please enter a\nresponse first.", Toast.LENGTH_SHORT).show();
+            }
         }
         if(v.getId() == cancel.getId()){
             nav.setVisibility(View.VISIBLE);
@@ -188,6 +214,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                         arrowRight.setVisibility(View.VISIBLE);
                         arrowLeft.setVisibility(View.VISIBLE);
                         respond.setVisibility(View.GONE);
+                        sit = response.getText().toString();
                         state = TWO_STATE;
                     }else{
                         Toast.makeText(this, "Please respond first", Toast.LENGTH_SHORT).show();
@@ -201,7 +228,10 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                         arrowRight.setVisibility(View.GONE);
                         arrowLeft.setVisibility(View.GONE);
                         respond.setVisibility(View.VISIBLE);
-                        respond.setActivated(false);
+                        if (!(act.length() > 0)){
+                            respond.setActivated(false);
+                        }
+                        response.setText(act);
                         state=THREE_STATE;
                     }else{
                         Toast.makeText(this, "Please respond first", Toast.LENGTH_SHORT).show();
@@ -211,7 +241,11 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                 case THREE_STATE:{
                     if(respond.isActivated()) {
                         message.setBackgroundResource(R.drawable.dd_4_message);
-                        respond.setActivated(false);
+                        if (!(think.length() > 0)){
+                            respond.setActivated(false);
+                        }
+                        act = response.getText().toString();
+                        response.setText(think);
                         state=FOUR_STATE;
                     }else{
                         Toast.makeText(this, "Please respond first", Toast.LENGTH_SHORT).show();
@@ -221,7 +255,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                 case FOUR_STATE:{
                     end = true;
                     FragmentManager fm = getFragmentManager();
-                    DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this, end);
+                    DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this, end,false);
                     dialog.show(fm, "frag");
                     break;
                 }
@@ -232,7 +266,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                 case ONE_STATE:{
                     end = false;
                     FragmentManager fm = getFragmentManager();
-                    DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this, end);
+                    DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this, end,false);
                     dialog.show(fm, "frag");
                     break;
                 }
@@ -246,6 +280,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                     respond.setVisibility(View.VISIBLE);
                     respond.setActivated(true);
                     state=ONE_STATE;
+                    response.setText(sit);
                     break;
                 }
                 case THREE_STATE:{
@@ -255,6 +290,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                     arrowLeft.setVisibility(View.VISIBLE);
                     respond.setVisibility(View.GONE);
                     respond.setActivated(true);
+                    act = response.getText().toString();
                     state=TWO_STATE;
                     break;
                 }
@@ -262,6 +298,8 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                     message.setBackgroundResource(R.drawable.dd_3_message);
                     respond.setActivated(true);
                     state=THREE_STATE;
+                    think = response.getText().toString();
+                    response.setText(act);
                     break;
                 }
             }
@@ -274,6 +312,12 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
         }
         if(v.getId()==arrowRight.getId()){
             moveRight();
+        }
+        if(v.getId()==date.getId()){
+            dateChoose = true;
+            FragmentManager fm = getFragmentManager();
+            DialogBuilder dialog = DialogBuilder.newInstance("What day?",this,false,dateChoose);
+            dialog.show(fm, "frag");
         }
     }
 
@@ -470,6 +514,29 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
         switch (which){
             case DialogInterface.BUTTON_POSITIVE:{
                 if(end) {
+                    think = response.getText().toString();
+                    response.setText("");
+                    ContentValues c = new ContentValues();
+                    c.put("TIMESTAMP", System.currentTimeMillis());
+                    c.put("WHAT_HAPPENED", sit);
+                    c.put("SCARED", currentPos);
+                    c.put("ACTION", act);
+                    c.put("THINK", think);
+                    c.put("DATE", date.getText().toString());
+                    db.insert("DAILY_DIARY_COMPLETION", "TIMESTAMP,WHAT_HAPPENED,SCARED,ACTION,THINK,DATE", c);
+                    c = new ContentValues();
+                    c.put("COMPLETED_FLAG", 1);
+
+
+                    /* TODO : Track user activity
+
+
+                    int foo = db.update("STOP_WORRYHEADS",c,"S = \""+sText+"\"",null);
+                    if(foo > 0){
+                        System.out.println("Successful update");
+                    }
+                    */
+
                     title.setVisibility(View.GONE);
                     blob.setVisibility(View.GONE);
                     nav.setVisibility(View.GONE);
@@ -504,5 +571,10 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
     @Override
     public void onBackPressed() {
 
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        date.setText((monthOfYear+1)+"/"+dayOfMonth+"/"+ year);
     }
 }

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="asu.reach.STOP"
-    android:background="@drawable/background">
+    android:background="@drawable/stop_bg">
 
     <LinearLayout
         android:orientation="horizontal"
