@@ -106,13 +106,16 @@ public class Blob extends Activity implements MediaPlayer.OnCompletionListener, 
         vid.start();
     }
     public void nineClick(View v){
-        locked();
+        vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.fly_n));
+        vid.start();
     }
     public void tenClick(View v){
-        locked();
+        vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.double_bounce_n));
+        vid.start();
     }
     public void elevenClick(View v){
-        locked();
+        vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.crater_jump_n));
+        vid.start();
     }
     public void twelveClick(View v){
         locked();

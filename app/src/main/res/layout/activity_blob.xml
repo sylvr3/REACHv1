@@ -96,21 +96,21 @@
                 android:layout_height="75dp"
                 android:id="@+id/trickNineBtn"
                 android:layout_margin="10dp"
-                android:background="@drawable/lock_selector"
+                android:background="@drawable/fly_selector"
                 android:onClick="nineClick" />
             <ImageButton
                 android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:id="@+id/trickTenBtn"
                 android:layout_margin="10dp"
-                android:background="@drawable/lock_selector"
+                android:background="@drawable/split_selector"
                 android:onClick="tenClick" />
             <ImageButton
                 android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:id="@+id/trickElevenBtn"
                 android:layout_margin="10dp"
-                android:background="@drawable/lock_selector"
+                android:background="@drawable/crater_selector"
                 android:onClick="elevenClick" />
             <ImageButton
                 android:layout_width="75dp"
