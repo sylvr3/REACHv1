@@ -524,13 +524,13 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                     c.put("THINK", think);
                     c.put("DATE", date.getText().toString());
                     db.insert("DAILY_DIARY_COMPLETION", "TIMESTAMP,WHAT_HAPPENED,SCARED,ACTION,THINK,DATE", c);
-                    c = new ContentValues();
-                    c.put("COMPLETED_FLAG", 1);
+
 
 
                     /* TODO : Track user activity
 
-
+                    c = new ContentValues();
+                    c.put("COMPLETED_FLAG", 1);
                     int foo = db.update("STOP_WORRYHEADS",c,"S = \""+sText+"\"",null);
                     if(foo > 0){
                         System.out.println("Successful update");

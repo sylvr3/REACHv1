@@ -2,9 +2,11 @@ package asu.reach;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -41,6 +43,9 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
     private final int P_STATE = 3;
     private static final int SPEECH_REQUEST_CODE = 0;
     private boolean end = false;
+    private SQLiteDatabase db;
+
+    private String sr,tr,or,pr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,12 +86,25 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
         clear.setOnClickListener(this);
         voice.setOnClickListener(this);
         complete.setOnClickListener(this);
+
+        sr = "";
+        tr = "";
+        or = "";
+        pr = "";
+
+        try {
+            DBHelper helper = new DBHelper(this);
+            //helper.copyDataBase();
+            //helper.openDataBase();
+            db = helper.getDB();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void onClick(View v) {
         if(v.getId() == respond.getId()){
-            respond.setActivated(true);
             nav.setVisibility(View.GONE);
             blob.setVisibility(View.GONE);
             resp.setVisibility(View.VISIBLE);
@@ -94,11 +112,16 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
             cancel.setVisibility(View.VISIBLE);
         }
         if(v.getId() == done.getId()){
-            nav.setVisibility(View.VISIBLE);
-            blob.setVisibility(View.VISIBLE);
-            resp.setVisibility(View.GONE);
-            respBtns.setVisibility(View.GONE);
-            cancel.setVisibility(View.GONE);
+            if(response.getText().length()>0) {
+                nav.setVisibility(View.VISIBLE);
+                blob.setVisibility(View.VISIBLE);
+                resp.setVisibility(View.GONE);
+                respBtns.setVisibility(View.GONE);
+                cancel.setVisibility(View.GONE);
+                respond.setActivated(true);
+            }else{
+                Toast.makeText(this, "Please enter a\nresponse first.", Toast.LENGTH_SHORT).show();
+            }
         }
         if(v.getId() == cancel.getId()){
             nav.setVisibility(View.VISIBLE);
@@ -123,7 +146,11 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
                         s.setBackgroundResource(R.drawable.s_white);
                         t.setBackgroundResource(R.drawable.t_yellow);
                         message.setBackgroundResource(R.drawable.t_message);
-                        respond.setActivated(false);
+                        sr = response.getText().toString();
+                        if(!(tr.length() > 0)){
+                            respond.setActivated(false);
+                        }
+                        response.setText(tr);
                         state = T_STATE;
                     }else{
                         Toast.makeText(this, "Please respond first", Toast.LENGTH_SHORT).show();
@@ -135,7 +162,11 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
                         t.setBackgroundResource(R.drawable.t_white);
                         o.setBackgroundResource(R.drawable.o_yellow);
                         message.setBackgroundResource(R.drawable.o_message);
-                        respond.setActivated(false);
+                        tr = response.getText().toString();
+                        if(!(or.length() > 0)){
+                            respond.setActivated(false);
+                        }
+                        response.setText(or);
                         state=O_STATE;
                     }else{
                         Toast.makeText(this, "Please respond first", Toast.LENGTH_SHORT).show();
@@ -147,7 +178,11 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
                         o.setBackgroundResource(R.drawable.o_white);
                         p.setBackgroundResource(R.drawable.p_yellow);
                         message.setBackgroundResource(R.drawable.p_message);
-                        respond.setActivated(false);
+                        or = response.getText().toString();
+                        if(!(pr.length() > 0)){
+                            respond.setActivated(false);
+                        }
+                        response.setText(pr);
                         state=P_STATE;
                     }else{
                         Toast.makeText(this, "Please respond first", Toast.LENGTH_SHORT).show();
@@ -176,7 +211,11 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
                     t.setBackgroundResource(R.drawable.t_white);
                     s.setBackgroundResource(R.drawable.s_yellow);
                     message.setBackgroundResource(R.drawable.s_message);
-                    respond.setActivated(true);
+                    tr = response.getText().toString();
+                    if(sr.length() > 0){
+                        respond.setActivated(true);
+                    }
+                    response.setText(sr);
                     state=S_STATE;
                     break;
                 }
@@ -184,7 +223,11 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
                     o.setBackgroundResource(R.drawable.o_white);
                     t.setBackgroundResource(R.drawable.t_yellow);
                     message.setBackgroundResource(R.drawable.t_message);
-                    respond.setActivated(true);
+                    or = response.getText().toString();
+                    if(tr.length() > 0){
+                        respond.setActivated(true);
+                    }
+                    response.setText(tr);
                     state=T_STATE;
                     break;
                 }
@@ -193,6 +236,11 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
                     o.setBackgroundResource(R.drawable.o_yellow);
                     message.setBackgroundResource(R.drawable.o_message);
                     respond.setActivated(true);
+                    pr = response.getText().toString();
+                    if(or.length() > 0){
+                        respond.setActivated(true);
+                    }
+                    response.setText(or);
                     state=O_STATE;
                     break;
                 }
@@ -242,6 +290,28 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
         switch (which){
             case DialogInterface.BUTTON_POSITIVE:{
                 if(end) {
+                    pr = response.getText().toString();
+                    response.setText("");
+                    ContentValues c = new ContentValues();
+                    c.put("TIMESTAMP", System.currentTimeMillis());
+                    c.put("S_RESPONSE", sr);
+                    c.put("T_RESPONSE", tr);
+                    c.put("O_RESPONSE", or);
+                    c.put("P_RESPONSE", pr);
+                    db.insert("STOP",
+                            "TIMESTAMP,S_RESPONSE,T_RESPONSE,O_RESPONSE,P_RESPONSE", c);
+
+
+                    /* TODO : Track user activity
+
+                    c = new ContentValues();
+                    c.put("COMPLETED_FLAG", 1);
+                    int foo = db.update("ADMIN",c,"S = \""+sText+"\"",null);
+                    if(foo > 0){
+                        System.out.println("Successful update");
+                    }
+                    */
+
                     stopLayout.setVisibility(View.GONE);
                     blob.setVisibility(View.GONE);
                     nav.setVisibility(View.GONE);

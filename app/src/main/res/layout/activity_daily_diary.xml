@@ -43,7 +43,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Today:"
+            android:text="Date:"
             android:id="@+id/todayView"
             android:textSize="15dp"
             android:layout_marginTop="40dp"
@@ -59,7 +59,7 @@
             android:text="02/02/15"
             android:layout_alignEnd="@+id/blobView"
             android:textSize="15dp"
-            android:layout_marginLeft="-30dp"
+            android:layout_marginLeft="-15dp"
             android:layout_below="@+id/todayView"
             android:layout_marginTop="10dp" />
 
