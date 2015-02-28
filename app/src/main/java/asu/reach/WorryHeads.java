@@ -26,12 +26,13 @@ public class WorryHeads extends Activity implements View.OnClickListener{
     private RelativeLayout oLayout,msgLayout;
     private ImageView sView, tView,o1,o2,o3,o4;
     private TextView oOne, oTwo, oThree, oFour, message;
-    private ImageButton back, again, done;
+    private ImageButton back, again, done, next;
     private String sText, tText, pText;
     private LinearLayout complete;
 
     private int wrongO;
     private boolean wrong = false;
+    private boolean s = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,7 @@ public class WorryHeads extends Activity implements View.OnClickListener{
         back = (ImageButton)findViewById(R.id.whBackBtn);
         again = (ImageButton)findViewById(R.id.againBtn);
         done = (ImageButton)findViewById(R.id.whDoneBtn);
+        next = (ImageButton)findViewById(R.id.whNextBtn);
         complete = (LinearLayout)findViewById(R.id.completeLayout);
 
         sView.setOnClickListener(this);
@@ -67,6 +69,7 @@ public class WorryHeads extends Activity implements View.OnClickListener{
         back.setOnClickListener(this);
         again.setOnClickListener(this);
         done.setOnClickListener(this);
+        next.setOnClickListener(this);
 
         Typeface t = Typeface.createFromAsset(getAssets(), "agentorange.ttf");
         oOne.setTypeface(t);
@@ -97,9 +100,11 @@ public class WorryHeads extends Activity implements View.OnClickListener{
                 o[2] = c.getString(c.getColumnIndex("O3"));
                 o[3] = c.getString(c.getColumnIndex("O_WRONG"));
                 populateO(o);
+                message.setText("Situation:\n\n"+sText);
 
             }else{
-
+                message.setText("You've completed all of them!");
+                next.setVisibility(View.GONE);
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -240,6 +245,16 @@ public class WorryHeads extends Activity implements View.OnClickListener{
         }
         if(v.getId() == done.getId()){
             finish();
+        }
+        if(v.getId() == next.getId()){
+            if(s){
+                message.setText("Thoughts:\n\n"+tText);
+                s = false;
+            }else{
+                msgLayout.setVisibility(View.GONE);
+                oLayout.setVisibility(View.VISIBLE);
+                next.setVisibility(View.GONE);
+            }
         }
     }
 
