@@ -9,7 +9,8 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/oLayout">
+        android:id="@+id/oLayout"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="150dp"
@@ -168,7 +169,7 @@
         android:layout_height="fill_parent"
         android:layout_below="@+id/direction"
         android:id="@+id/msgLayout"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <ImageView
             android:layout_width="150dp"
@@ -198,6 +199,7 @@
             android:lineSpacingExtra="2dp"
             android:gravity="center"
             android:textSize="15dp" />
+
     </RelativeLayout>
 
     <ImageButton
@@ -209,6 +211,18 @@
         android:visibility="gone"
         android:background="@drawable/back_btn_selector"
         android:layout_marginBottom="25dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/whNextBtn"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="visible"
+        android:layout_marginBottom="-12dp"
+        android:background="@drawable/next_selector"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="15dp" />
 
     <LinearLayout
         android:orientation="horizontal"
