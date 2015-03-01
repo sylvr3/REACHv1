@@ -1,86 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-   <!-- <CheckBoxPreference android:key="first"
-        android:title="First Option"
-        android:summary="This is 1st option"/>-->
+    <!-- <CheckBoxPreference android:key="first"
+         android:title="First Option"
+         android:summary="This is 1st option"/>-->
     <PreferenceScreen
         android:key="changeProtocolMenu"
         android:title="Change Protocol Settings">
-        <MultiSelectListPreference android:key="DD_week_setting"
+        <MultiSelectListPreference
+            android:defaultValue="@array/emptyValue"
             android:entries="@array/protocols"
             android:entryValues="@array/protocolValue"
+            android:key="DD_week_setting"
             android:persistent="true"
-            android:defaultValue="@array/emptyValue"
-            android:title="Daily Diary Settings"
             android:summary="Click to change"
-            />
-        <MultiSelectListPreference android:key="STOP_week_setting"
+            android:title="Daily Diary Settings" />
+        <MultiSelectListPreference
+            android:defaultValue="@array/emptyValue"
             android:entries="@array/protocols"
             android:entryValues="@array/protocolValue"
+            android:key="STOP_week_setting"
             android:persistent="true"
-            android:defaultValue="@array/emptyValue"
-            android:title="STOP Settings"
             android:summary="Click to change"
-            />
-        <MultiSelectListPreference android:key="STIC_week_setting"
+            android:title="STOP Settings" />
+        <MultiSelectListPreference
+            android:defaultValue="@array/emptyValue"
             android:entries="@array/protocols"
             android:entryValues="@array/protocolValue"
+            android:key="STIC_week_setting"
             android:persistent="true"
-            android:defaultValue="@array/emptyValue"
-            android:title="STIC Settings"
             android:summary="Click to change"
-            />
+            android:title="STIC Settings" />
     </PreferenceScreen>
-    <PreferenceScreen android:key="protocolFreq"
+    <asu.reach.DatePreference
+        android:defaultValue="2015-01-01"
+        android:key="initialStartDate"
+        android:summary="Date when protocol commences"
+        android:title="Select Start Date" />
+    <PreferenceScreen
+        android:key="protocolFreq"
         android:title="Frequency of Protocols">
-        <ListPreference android:key="DDFrequency"
-            android:summary="Click to change"
-            android:title="Daily Diary Frequency"
+        <ListPreference
             android:entries="@array/frequencyEntries"
             android:entryValues="@array/frequencyEntreisValues"
-        />
-        <ListPreference android:key="DDFrequency"
+            android:key="DDFrequency"
             android:summary="Click to change"
-            android:title="STOP Frequency"
+            android:title="Daily Diary Frequency" />
+        <ListPreference
             android:entries="@array/frequencyEntries"
             android:entryValues="@array/frequencyEntreisValues"
-        />
-        <ListPreference android:key="STICFrequency"
+            android:key="DDFrequency"
             android:summary="Click to change"
-            android:title="Stic Frequency"
+            android:title="STOP Frequency" />
+        <ListPreference
             android:entries="@array/frequencyEntries"
             android:entryValues="@array/frequencyEntreisValues"
-        />
+            android:key="STICFrequency"
+            android:summary="Click to change"
+            android:title="Stic Frequency" />
 
-        </PreferenceScreen>
-        <ListPreference android:key="notifFreq"
-            android:title="Notification Frequency"
-            android:summary="Click to change"
-            android:entries="@array/frequencyEntries"
-            android:entryValues="@array/frequencyEntreisValues"/>
+    </PreferenceScreen>
+    <ListPreference
+        android:entries="@array/frequencyEntries"
+        android:entryValues="@array/frequencyEntreisValues"
+        android:key="notifFreq"
+        android:summary="Click to change"
+        android:title="Notification Frequency" />
 
-        <PreferenceScreen android:key="PinAdd"
-            android:title="Add PIN"
-            android:summary="Click to add PIN for specific User-role">
-            <EditTextPreference android:key="teaherPIN"
-                android:title="Teacher PIN"
-                android:summary="Click to set"
-                android:password="true"
-                android:inputType="number"
-                />
-            <EditTextPreference android:key="AdminPIN"
-                android:title="Admin PIN"
-                android:summary="Click to set"
-                android:password="true"
-                android:inputType="number"
-                />
-        </PreferenceScreen>
-    <PreferenceScreen android:key="exportDataMenu"
-        android:title="Export/Offload Data"
-        android:summary="Export in .csv format">
-        <CheckBoxPreference android:key="underConstruction"
-            android:title="Under Construction"/>
+    <PreferenceScreen
+        android:key="PinAdd"
+        android:summary="Click to add PIN for specific User-role"
+        android:title="Add PIN">
+        <EditTextPreference
+            android:inputType="number"
+            android:key="teaherPIN"
+            android:password="true"
+            android:summary="Click to set"
+            android:title="Teacher PIN" />
+        <EditTextPreference
+            android:inputType="number"
+            android:key="AdminPIN"
+            android:password="true"
+            android:summary="Click to set"
+            android:title="Admin PIN" />
+    </PreferenceScreen>
+    <PreferenceScreen
+        android:key="exportDataMenu"
+        android:summary="Export in .csv format"
+        android:title="Export/Offload Data">
+        <CheckBoxPreference
+            android:key="underConstruction"
+            android:title="Under Construction" />
     </PreferenceScreen>
 </PreferenceScreen>
 
