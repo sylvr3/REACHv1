@@ -1,10 +1,5 @@
 package asu.reach;
 
-import java.util.Calendar;
-
-import asu.reach.DatePreference;
-
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
