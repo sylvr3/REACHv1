@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import java.io.File;
 
 
 public class STIC extends Activity implements View.OnClickListener, DialogInterface.OnClickListener{
@@ -107,6 +110,13 @@ public class STIC extends Activity implements View.OnClickListener, DialogInterf
             if(!btn.isActivated()) {
                 selected = btn;
                 pin = new EditText(this);
+                try {
+                    DBHelper helper = new DBHelper(this);
+                    helper.trackEvent(helper,"STIC_TEACHER_PIN","INSIDE_STIC_ACTIVITY");
+                    helper.close();
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
                 pin.setHint("Please Enter A PIN");
                 FragmentManager fm = getFragmentManager();
                 DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this, pin);
@@ -129,7 +139,6 @@ public class STIC extends Activity implements View.OnClickListener, DialogInterf
                     v.put("ACTIVITY", selected.getText().toString());
                     v.put("OWNER", owner);
                     db.insert("STIC_COMPLETION", "TIMESTAMP,ACTIVITY,OWNER", v);
-
                     v = new ContentValues();
                     v.put("STIC_COMPLETED_FLAG", 1);
                     db.update("STIC", v, "STIC_TASK = '"
@@ -138,9 +147,23 @@ public class STIC extends Activity implements View.OnClickListener, DialogInterf
                     RelativeLayout l = (RelativeLayout) selected.getParent();
                     ImageView i = (ImageView) l.getChildAt(1);
                     i.setBackgroundResource(R.drawable.thumbs_up);
+                    try {
+                        DBHelper helper = new DBHelper(this);
+                        helper.trackEvent(helper,"STIC_COMPLETED","INSIDE_STIC_ACTIVITY");
+                        helper.close();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                 }
                 catch(Exception e){
                     Toast.makeText(this, "Invalid PIN", Toast.LENGTH_SHORT).show();
+                    try {
+                        DBHelper helper = new DBHelper(this);
+                        helper.trackEvent(helper,"INVALID_PIN","INSIDE_STIC_ACTIVITY");
+                        helper.close();
+                    }catch(Exception e1){
+                        e.printStackTrace();
+                    }
                     pin = new EditText(this);
                     FragmentManager fm = getFragmentManager();
                     DialogBuilder d = DialogBuilder.newInstance("Confirm", this, pin);

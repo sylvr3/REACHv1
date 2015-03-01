@@ -63,6 +63,13 @@ public class Relaxation extends Activity implements View.OnClickListener,
                 if(player.isPlaying()){
                     player.stop();
                 }
+                try {
+                    DBHelper helper = new DBHelper(this);
+                    helper.trackEvent(helper,"RELAXATION_INTRO","INSIDE_WORRY_HEADS_ACTIVITY");
+                    helper.close();
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
                 player.reset();
                 player.setDataSource(this, Uri.parse("android.resource://asu.reach/raw/" + R.raw.introduction));
                 player.prepare();

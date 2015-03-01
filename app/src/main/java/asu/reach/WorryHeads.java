@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.Random;
 
 
@@ -166,12 +168,26 @@ public class WorryHeads extends Activity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         if (v.getId() == sView.getId()){
+            try {
+                DBHelper helper = new DBHelper(this);
+                helper.trackEvent(helper,"WORRY_HEADS_S_SHOWED","INSIDE_WORRY_HEADS_ACTIVITY");
+                helper.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
             oLayout.setVisibility(View.GONE);
             msgLayout.setVisibility(View.VISIBLE);
             back.setVisibility(View.VISIBLE);
             message.setText("Situation:\n\n"+sText);
         }
         if (v.getId() == tView.getId()){
+            try {
+                DBHelper helper = new DBHelper(this);
+                helper.trackEvent(helper,"WORRY_HEADS_T_SHOWED","INSIDE_WORRY_HEADS_ACTIVITY");
+                helper.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
             oLayout.setVisibility(View.GONE);
             msgLayout.setVisibility(View.VISIBLE);
             back.setVisibility(View.VISIBLE);
@@ -180,10 +196,24 @@ public class WorryHeads extends Activity implements View.OnClickListener{
         if (v.getId() == oOne.getId()){
             if(!oOne.isActivated()) {
                 if (wrongO == 0) {
+                    try {
+                        DBHelper helper = new DBHelper(this);
+                        helper.trackEvent(helper,"WORRY_HEADS_O_WRONG","INSIDE_WORRY_HEADS_ACTIVITY");
+                        helper.close();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                     wrongSelection();
                     oOne.setActivated(true);
                     o1.setActivated(true);
                 }else{
+                    try {
+                        DBHelper helper = new DBHelper(this);
+                        helper.trackEvent(helper,"WORRY_HEADS_O_RIGHT","INSIDE_WORRY_HEADS_ACTIVITY");
+                        helper.close();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                     oLayout.setVisibility(View.GONE);
                     msgLayout.setVisibility(View.VISIBLE);
                     message.setText("Praise Yourself:\n\n" + pText);
@@ -198,6 +228,13 @@ public class WorryHeads extends Activity implements View.OnClickListener{
                     oTwo.setActivated(true);
                     o2.setActivated(true);
                 }else{
+                    try {
+                        DBHelper helper = new DBHelper(this);
+                        helper.trackEvent(helper,"WORRY_HEADS_O_RIGHT","INSIDE_WORRY_HEADS_ACTIVITY");
+                        helper.close();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                     oLayout.setVisibility(View.GONE);
                     msgLayout.setVisibility(View.VISIBLE);
                     message.setText("Praise Yourself:\n\n" + pText);
@@ -212,6 +249,13 @@ public class WorryHeads extends Activity implements View.OnClickListener{
                     oThree.setActivated(true);
                     o3.setActivated(true);
                 }else{
+                    try {
+                        DBHelper helper = new DBHelper(this);
+                        helper.trackEvent(helper,"WORRY_HEADS_O_RIGHT","INSIDE_WORRY_HEADS_ACTIVITY");
+                        helper.close();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                     oLayout.setVisibility(View.GONE);
                     msgLayout.setVisibility(View.VISIBLE);
                     message.setText("Praise Yourself:\n\n" + pText);
@@ -226,6 +270,13 @@ public class WorryHeads extends Activity implements View.OnClickListener{
                     oFour.setActivated(true);
                     o4.setActivated(true);
                 }else{
+                    try {
+                        DBHelper helper = new DBHelper(this);
+                        helper.trackEvent(helper,"WORRY_HEADS_O_RIGHT","INSIDE_WORRY_HEADS_ACTIVITY");
+                        helper.close();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                     oLayout.setVisibility(View.GONE);
                     msgLayout.setVisibility(View.VISIBLE);
                     message.setText("Praise Yourself:\n\n" + pText);
@@ -239,14 +290,35 @@ public class WorryHeads extends Activity implements View.OnClickListener{
             back.setVisibility(View.GONE);
         }
         if(v.getId() == again.getId()){
+            try {
+                DBHelper helper = new DBHelper(this);
+                helper.trackEvent(helper,"WORRY_HEADS_AGAIN","INSIDE_WORRY_HEADS_ACTIVITY");
+                helper.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
             Intent intent = new Intent(this, this.getClass());
             startActivity(intent);
             finish();
         }
         if(v.getId() == done.getId()){
+            try {
+                DBHelper helper = new DBHelper(this);
+                helper.trackEvent(helper,"WORRY_HEADS_P_SELECTED","INSIDE_WORRY_HEADS_ACTIVITY");
+                helper.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
             finish();
         }
         if(v.getId() == next.getId()){
+            try {
+                DBHelper helper = new DBHelper(this);
+                helper.trackEvent(helper,"WORRY_HEADS_NEXT_CLICKED","INSIDE_WORRY_HEADS_ACTIVITY");
+                helper.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
             if(s){
                 message.setText("Thoughts:\n\n"+tText);
                 s = false;
@@ -259,6 +331,13 @@ public class WorryHeads extends Activity implements View.OnClickListener{
     }
 
     private void wrongSelection(){
+        try {
+            DBHelper helper = new DBHelper(this);
+            helper.trackEvent(helper,"WORRY_HEADS_O_WRONG","INSIDE_WORRY_HEADS_ACTIVITY");
+            helper.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         oLayout.setVisibility(View.GONE);
         msgLayout.setVisibility(View.VISIBLE);
         back.setVisibility(View.VISIBLE);
@@ -280,6 +359,15 @@ public class WorryHeads extends Activity implements View.OnClickListener{
         int foo = db.update("STOP_WORRYHEADS",c,"S = \""+sText+"\"",null);
         if(foo > 0){
             System.out.println("Successful update");
+        }
+        try {
+            DBHelper helper = new DBHelper(this);
+            helper.trackEvent(helper,"WORRY_HEADS_COMPLETED","INSIDE_WORRY_HEADS_ACTIVITY");
+            File file=helper.getFile();
+            Log.i("File Path",file.getAbsolutePath());
+            helper.close();
+        }catch(Exception e){
+            e.printStackTrace();
         }
         complete.setVisibility(View.VISIBLE);
         sView.setClickable(false);

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.FragmentManager;
 import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -11,6 +12,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +23,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import java.io.File;
 
 public class Landing extends Activity implements View.OnClickListener,DialogInterface.OnClickListener {
 
@@ -73,9 +77,8 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
 
         try {
             DBHelper helper = new DBHelper(this);
-            helper.copyDataBase();
-            helper.openDataBase();
-            db = helper.getDB();
+            helper.trackEvent(helper,"APP_STARTED","LANDING_PAGE");
+            helper.close();
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -107,26 +110,73 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         }
         if(v.getId() == relax.getId()){
             Intent intent = new Intent(this, Relaxation.class);
+            try {
+                DBHelper helper = new DBHelper(this);
+                helper.trackEvent(helper,"RELAXATION","LANDING_PAGE");
+                SQLiteDatabase db= helper.getDB();
+                Cursor c = db.rawQuery("select * from EVENT_TRACKER;", null);
+                helper.exportToCSV(c, "test.csv");
+                db.close();
+                helper.close();
+            }catch(Exception e){
+                Log.i("Exception occured","Exception occured");
+                e.printStackTrace();
+            }
             startActivity(intent);
         }
         if(v.getId() == dd.getId()){
             Intent intent = new Intent(this, DailyDiary.class);
+            try {
+                DBHelper helper = new DBHelper(this);
+                helper.trackEvent(helper,"DAILY_DIARY","LANDING_PAGE");
+                helper.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
             startActivity(intent);
         }
         if(v.getId() == stic.getId()){
             Intent intent = new Intent(this, STIC.class);
+            try {
+                DBHelper helper = new DBHelper(this);
+                helper.trackEvent(helper,"STIC_STARTED","LANDING_PAGE");
+                helper.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
             startActivity(intent);
         }
         if(v.getId() == stop.getId()){
             Intent intent = new Intent(this, STOP.class);
+            try {
+                DBHelper helper = new DBHelper(this);
+                helper.trackEvent(helper,"STOP_STARTED","LANDING_PAGE");
+                helper.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
             startActivity(intent);
         }
         if(v.getId() == blob.getId()){
             Intent intent = new Intent(this, Blob.class);
+            try {
+                DBHelper helper = new DBHelper(this);
+                helper.trackEvent(helper,"BLOB_TRICKS","LANDING_PAGE");
+                helper.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
             startActivity(intent);
         }
         if(v.getId() == wh.getId()) {
             Intent intent = new Intent(this, WorryHeads.class);
+            try {
+                DBHelper helper = new DBHelper(this);
+                helper.trackEvent(helper,"WORRY_HEADS","LANDING_PAGE");
+                helper.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
             startActivity(intent);
         }
         if(v.getId() == topLeftLayout.getId()){
@@ -147,6 +197,13 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
                 && (System.currentTimeMillis() - time) < TWO_SECONDS){
             pin = new EditText(this);
             pin.setHint("Please Enter Your PIN");
+            try {
+                DBHelper helper = new DBHelper(this);
+                helper.trackEvent(helper,"ADMIN_SETTINGS","LANDING_PAGE");
+                helper.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
             FragmentManager fm = getFragmentManager();
             DialogBuilder dialog = DialogBuilder.newInstance("ADMIN", this, pin);
             dialog.show(fm, "frag");

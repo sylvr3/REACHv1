@@ -1,17 +1,24 @@
 package asu.reach;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Environment;
+import android.util.Log;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class DBHelper extends SQLiteOpenHelper{
     //The Android's default system path of your application database.
@@ -28,6 +35,7 @@ public class DBHelper extends SQLiteOpenHelper{
      * Takes and keeps a reference of the passed context in order to access to the application assets and resources.
      *
      */
+
     public DBHelper(Context context) {
         super(context, DB_NAME, null, 1);
         this.myContext = context;
@@ -61,7 +69,25 @@ public class DBHelper extends SQLiteOpenHelper{
         }
     }
 
-    // MOVE THIS SOMEWHERE ELSE
+
+    public void trackEvent(DBHelper helper,String EVENT_TYPE,String EVENT_PLACE){
+        try {
+            //Log.i("inserted","inserted");
+            //helper.copyDataBase();
+            //helper.openDataBase();
+            SQLiteDatabase db =  helper.getDB();
+            ContentValues v1 = new ContentValues();
+            v1.put("EVENT_TIMESTAMP",System.currentTimeMillis());
+            v1.put("EVENT_TYPE",EVENT_TYPE);
+            v1.put("EVENT_PLACE",EVENT_PLACE);
+            db.insert("EVENT_TRACKER","EVENT_TIMESTAMP,EVENT_TYPE,EVENT_PLACE", v1);
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
 
     public boolean checkAdminPwd(String pwdToBeChecked){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -169,6 +195,84 @@ public class DBHelper extends SQLiteOpenHelper{
             return null;
         }
     }
+
+    /**
+     * Return date in specified format.
+     * @param milliSeconds Date in milliseconds
+     * @param dateFormat Date format
+     * @return String representing date in specified format
+     */
+    public static String getDate(long milliSeconds, String dateFormat)
+    {
+        // Create a DateFormatter object for displaying date in specified format.
+        SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
+
+        // Create a calendar object that will convert the date and time value in milliseconds to date.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(milliSeconds);
+        return formatter.format(calendar.getTime());
+    }
+
+    public void exportToCSV(Cursor c, String fileName) {
+        Log.i("path", "path");
+        int rowCount = 0;
+        int colCount = 0;
+        FileWriter fw;
+        BufferedWriter bfw;
+        File sdCardDir = Environment.getExternalStorageDirectory();
+        File saveFile = new File(sdCardDir, fileName);
+        try {
+
+            rowCount = c.getCount();
+            colCount = c.getColumnCount();
+            fw = new FileWriter(saveFile);
+            bfw = new BufferedWriter(fw);
+            if (rowCount > 0) {
+                c.moveToFirst();
+                //
+                for (int i = 0; i < colCount; i++) {
+                    if (i != colCount - 1)
+                        bfw.write(c.getColumnName(i) + ',');
+                    else
+                        bfw.write(c.getColumnName(i));
+                }
+                //
+                bfw.newLine();
+                //
+                for (int i = 0; i < rowCount; i++) {
+                    c.moveToPosition(i);
+                    // Toast.makeText(mContext, ""+(i+1)+"",
+                    // Toast.LENGTH_SHORT).show();
+                    //Log.v("", "" + (i + 1) + "");
+                    for (int j = 0; j < colCount; j++) {
+                        if (j != colCount - 1)
+                            if(j==1){
+                                bfw.write(DBHelper.getDate(Long.parseLong(c.getString(j)),"dd/MM/yyyy hh:mm:ss.SSS") + ',');
+                            }else {
+                                bfw.write(c.getString(j) + ',');
+                            }
+                        else
+                            bfw.write(c.getString(j));
+                    }
+                    //
+                    bfw.newLine();
+                }
+            }
+            //
+            Log.i("path", saveFile.getAbsolutePath());
+            bfw.flush();
+            //
+            bfw.close();
+            // Toast.makeText(mContext, "?", Toast.LENGTH_SHORT).show();
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            c.close();
+        }
+    }
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
