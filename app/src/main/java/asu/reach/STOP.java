@@ -105,6 +105,13 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
     @Override
     public void onClick(View v) {
         if(v.getId() == respond.getId()){
+            try {
+                DBHelper helper = new DBHelper(this);
+                helper.trackEvent(helper,"STOP_RESPOND_BUTTON_CLICKED","INSIDE_STOP_ACTIVITY");
+                helper.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
             nav.setVisibility(View.GONE);
             blob.setVisibility(View.GONE);
             resp.setVisibility(View.VISIBLE);
@@ -112,6 +119,13 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
             cancel.setVisibility(View.VISIBLE);
         }
         if(v.getId() == done.getId()){
+            try {
+                DBHelper helper = new DBHelper(this);
+                helper.trackEvent(helper,"STOP_DONE_BUTTON_CLICKED","INSIDE_STOP_ACTIVITY");
+                helper.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
             if(response.getText().length()>0) {
                 nav.setVisibility(View.VISIBLE);
                 blob.setVisibility(View.VISIBLE);
@@ -124,6 +138,13 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
             }
         }
         if(v.getId() == cancel.getId()){
+            try {
+                DBHelper helper = new DBHelper(this);
+                helper.trackEvent(helper,"STOP_CANCEL_CLICKED","INSIDE_STOP_ACTIVITY");
+                helper.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
             nav.setVisibility(View.VISIBLE);
             blob.setVisibility(View.VISIBLE);
             resp.setVisibility(View.GONE);
@@ -131,9 +152,23 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
             cancel.setVisibility(View.GONE);
         }
         if(v.getId() == clear.getId()){
+            try {
+                DBHelper helper = new DBHelper(this);
+                helper.trackEvent(helper,"STOP_CLEAR_CLICKED","INSIDE_STOP_ACTIVITY");
+                helper.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
             response.setText("");
         }
         if(v.getId() == voice.getId()){
+            try {
+                DBHelper helper = new DBHelper(this);
+                helper.trackEvent(helper,"STOP_VOICE_CLICKED","INSIDE_STOP_ACTIVITY");
+                helper.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
             Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                     RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
@@ -142,6 +177,13 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
         if(v.getId() == next.getId()){
             switch(state){
                 case S_STATE:{
+                    try {
+                        DBHelper helper = new DBHelper(this);
+                        helper.trackEvent(helper,"STOP_S_NEXT_CLICKED","INSIDE_STOP_ACTIVITY");
+                        helper.close();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                     if(respond.isActivated()) {
                         s.setBackgroundResource(R.drawable.s_white);
                         t.setBackgroundResource(R.drawable.t_yellow);
@@ -158,6 +200,13 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
                     break;
                 }
                 case T_STATE:{
+                    try {
+                        DBHelper helper = new DBHelper(this);
+                        helper.trackEvent(helper,"STOP_T_NEXT_CLICKED","INSIDE_STOP_ACTIVITY");
+                        helper.close();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                     if(respond.isActivated()) {
                         t.setBackgroundResource(R.drawable.t_white);
                         o.setBackgroundResource(R.drawable.o_yellow);
@@ -174,6 +223,13 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
                     break;
                 }
                 case O_STATE:{
+                    try {
+                        DBHelper helper = new DBHelper(this);
+                        helper.trackEvent(helper,"STOP_O_NEXT_CLICKED","INSIDE_STOP_ACTIVITY");
+                        helper.close();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                     if(respond.isActivated()) {
                         o.setBackgroundResource(R.drawable.o_white);
                         p.setBackgroundResource(R.drawable.p_yellow);
@@ -190,6 +246,13 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
                     break;
                 }
                 case P_STATE:{
+                    try {
+                        DBHelper helper = new DBHelper(this);
+                        helper.trackEvent(helper,"STOP_P_NEXT_CLICKED","INSIDE_STOP_ACTIVITY");
+                        helper.close();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                     end = true;
                     FragmentManager fm = getFragmentManager();
                     DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this, end);
@@ -201,6 +264,13 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
         if(v.getId() == back.getId()){
             switch(state){
                 case S_STATE:{
+                    try {
+                        DBHelper helper = new DBHelper(this);
+                        helper.trackEvent(helper,"STOP_S_BACK_CLICKED","INSIDE_STOP_ACTIVITY");
+                        helper.close();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                     end = false;
                     FragmentManager fm = getFragmentManager();
                     DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this, end);
@@ -208,6 +278,13 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
                     break;
                 }
                 case T_STATE:{
+                    try {
+                        DBHelper helper = new DBHelper(this);
+                        helper.trackEvent(helper,"STOP_T_BACK_CLICKED","INSIDE_STOP_ACTIVITY");
+                        helper.close();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                     t.setBackgroundResource(R.drawable.t_white);
                     s.setBackgroundResource(R.drawable.s_yellow);
                     message.setBackgroundResource(R.drawable.s_message);
@@ -220,6 +297,13 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
                     break;
                 }
                 case O_STATE:{
+                    try {
+                        DBHelper helper = new DBHelper(this);
+                        helper.trackEvent(helper,"STOP_O_BACK_CLICKED","INSIDE_STOP_ACTIVITY");
+                        helper.close();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                     o.setBackgroundResource(R.drawable.o_white);
                     t.setBackgroundResource(R.drawable.t_yellow);
                     message.setBackgroundResource(R.drawable.t_message);
@@ -232,6 +316,13 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
                     break;
                 }
                 case P_STATE:{
+                    try {
+                        DBHelper helper = new DBHelper(this);
+                        helper.trackEvent(helper,"STOP_P_BACK_CLICKED","INSIDE_STOP_ACTIVITY");
+                        helper.close();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                     p.setBackgroundResource(R.drawable.p_white);
                     o.setBackgroundResource(R.drawable.o_yellow);
                     message.setBackgroundResource(R.drawable.o_message);

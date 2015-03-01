@@ -74,46 +74,123 @@ public class Blob extends Activity implements MediaPlayer.OnCompletionListener, 
     }
 
     public void oneClick(View v){
+        try {
+            DBHelper helper = new DBHelper(this);
+            helper.trackEvent(helper,"BLOB_TRICK_ONE","INSIDE_BLOB_TRICKS");
+            helper.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.warble_n));
         vid.start();
     }
     public void twoClick(View v){
+        try {
+            DBHelper helper = new DBHelper(this);
+            helper.trackEvent(helper,"BLOB_TRICK_TWO","INSIDE_BLOB_TRICKS");
+            helper.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.jump_n));
         vid.start();
     }
     public void threeClick(View v){
+        try {
+            DBHelper helper = new DBHelper(this);
+            helper.trackEvent(helper,"BLOB_TRICK_THREE","INSIDE_BLOB_TRICKS");
+            helper.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.dance_n));
         vid.start();
     }
     public void fourClick(View v){
+        try {
+            DBHelper helper = new DBHelper(this);
+            helper.trackEvent(helper,"BLOB_TRICK_FOUR","INSIDE_BLOB_TRICKS");
+            helper.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.flip_n));
         vid.start();
     }
     public void fiveClick(View v){
+        try {
+            DBHelper helper = new DBHelper(this);
+            helper.trackEvent(helper,"BLOB_TRICK_FIVE","INSIDE_BLOB_TRICKS");
+            helper.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.bounce_n));
         vid.start();
     }
     public void sixClick(View v){
+        try {
+            DBHelper helper = new DBHelper(this);
+            helper.trackEvent(helper,"BLOB_TRICK_SIX","INSIDE_BLOB_TRICKS");
+            helper.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.shrink_n));
         vid.start();
     }
     public void sevenClick(View v){
+        try {
+            DBHelper helper = new DBHelper(this);
+            helper.trackEvent(helper,"BLOB_TRICK_SEVEN","INSIDE_BLOB_TRICKS");
+            helper.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.grow_n));
         vid.start();
     }
     public void eightClick(View v){
+        try {
+            DBHelper helper = new DBHelper(this);
+            helper.trackEvent(helper,"BLOB_TRICK_EIGHT","INSIDE_BLOB_TRICKS");
+            helper.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.splat_n));
         vid.start();
     }
     public void nineClick(View v){
+        try {
+            DBHelper helper = new DBHelper(this);
+            helper.trackEvent(helper,"BLOB_TRICK_NINE","INSIDE_BLOB_TRICKS");
+            helper.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.fly_n));
         vid.start();
     }
     public void tenClick(View v){
+        try {
+            DBHelper helper = new DBHelper(this);
+            helper.trackEvent(helper,"BLOB_TRICK_TEN","INSIDE_BLOB_TRICKS");
+            helper.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.double_bounce_n));
         vid.start();
     }
     public void elevenClick(View v){
+        try {
+            DBHelper helper = new DBHelper(this);
+            helper.trackEvent(helper,"BLOB_TRICK_ELEVEN","INSIDE_BLOB_TRICKS");
+            helper.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.crater_jump_n));
         vid.start();
     }
@@ -122,11 +199,25 @@ public class Blob extends Activity implements MediaPlayer.OnCompletionListener, 
     }
 
     private void locked(){
+        try {
+            DBHelper helper = new DBHelper(this);
+            helper.trackEvent(helper,"BLOB_TRICK_LOCKED","INSIDE_BLOB_TRICKS");
+            helper.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         Toast.makeText(this, "SORRY! Not unlocked yet.", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onCompletion(MediaPlayer mp) {
+        try {
+            DBHelper helper = new DBHelper(this);
+            helper.trackEvent(helper,"BLOB_TRICK_COMPLETE","INSIDE_BLOB_TRICKS");
+            helper.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         vid.setBackgroundResource(R.drawable.background_space);
         title.setVisibility(View.VISIBLE);
         trickView.setVisibility(View.VISIBLE);
@@ -139,14 +230,20 @@ public class Blob extends Activity implements MediaPlayer.OnCompletionListener, 
         trickView.setVisibility(View.INVISIBLE);
     }
 
-
-
     public void backClicked(View v){
         if(vid.isPlaying()){
+            try {
+                DBHelper helper = new DBHelper(this);
+                helper.trackEvent(helper,"BLOB_TRICK_BACK_PRESSED","INSIDE_BLOB_TRICKS");
+                helper.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
             vid.stopPlayback();
             vid.setBackgroundResource(R.drawable.background_space);
             title.setVisibility(View.VISIBLE);
             trickView.setVisibility(View.VISIBLE);
+
         }else{
             super.onBackPressed();
         }

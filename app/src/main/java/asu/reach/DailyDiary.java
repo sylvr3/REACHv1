@@ -169,6 +169,13 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
     @Override
     public void onClick(View v) {
         if(v.getId() == respond.getId()){
+            try {
+                DBHelper helper = new DBHelper(this);
+                helper.trackEvent(helper,"DAILY_DIARY_RESPOND_CLICKED","INSIDE_DAILY_DIARY");
+                helper.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
             nav.setVisibility(View.GONE);
             blob.setVisibility(View.GONE);
             resp.setVisibility(View.VISIBLE);
@@ -176,7 +183,15 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
             cancel.setVisibility(View.VISIBLE);
         }
         if(v.getId() == done.getId()){
+
             if(response.getText().length()>0) {
+                try {
+                    DBHelper helper = new DBHelper(this);
+                    helper.trackEvent(helper,"DAILY_DIARY_DONE_CHECKED","INSIDE_DAILY_DIARY");
+                    helper.close();
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
                 nav.setVisibility(View.VISIBLE);
                 blob.setVisibility(View.VISIBLE);
                 resp.setVisibility(View.GONE);
@@ -188,6 +203,13 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
             }
         }
         if(v.getId() == cancel.getId()){
+            try {
+                DBHelper helper = new DBHelper(this);
+                helper.trackEvent(helper,"DAILY_DIARY_CANCEL_CLICKED","INSIDE_DAILY_DIARY");
+                helper.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
             nav.setVisibility(View.VISIBLE);
             blob.setVisibility(View.VISIBLE);
             resp.setVisibility(View.GONE);
@@ -195,9 +217,23 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
             cancel.setVisibility(View.GONE);
         }
         if(v.getId() == clear.getId()){
+            try {
+                DBHelper helper = new DBHelper(this);
+                helper.trackEvent(helper,"DAILY_DIARY_CLEAR_CLICKED","INSIDE_DAILY_DIARY");
+                helper.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
             response.setText("");
         }
         if(v.getId() == voice.getId()){
+            try {
+                DBHelper helper = new DBHelper(this);
+                helper.trackEvent(helper,"DAILY_DIARY_VOICE_INPUT","INSIDE_DAILY_DIARY");
+                helper.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
             Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                     RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
@@ -206,6 +242,13 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
         if(v.getId() == next.getId()){
             switch(state){
                 case ONE_STATE:{
+                    try {
+                        DBHelper helper = new DBHelper(this);
+                        helper.trackEvent(helper,"DAILY_DIARY_STATE_ONE_NEXT_CLICKED","INSIDE_DAILY_DIARY");
+                        helper.close();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                     if(respond.isActivated()) {
                         message.setBackgroundResource(R.drawable.dd_2_message);
                         today.setVisibility(View.GONE);
@@ -222,6 +265,13 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                     break;
                 }
                 case TWO_STATE:{
+                    try {
+                        DBHelper helper = new DBHelper(this);
+                        helper.trackEvent(helper,"DAILY_DIARY_STATE_TWO_NEXT_CLICKED","INSIDE_DAILY_DIARY");
+                        helper.close();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                     if(respond.isActivated()) {
                         message.setBackgroundResource(R.drawable.dd_3_message);
                         therm.setVisibility(View.GONE);
@@ -239,6 +289,13 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                     break;
                 }
                 case THREE_STATE:{
+                    try {
+                        DBHelper helper = new DBHelper(this);
+                        helper.trackEvent(helper,"DAILY_DIARY_STATE_THREE_NEXT_CLICKED","INSIDE_DAILY_DIARY");
+                        helper.close();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                     if(respond.isActivated()) {
                         message.setBackgroundResource(R.drawable.dd_4_message);
                         if (!(think.length() > 0)){
@@ -253,6 +310,13 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                     break;
                 }
                 case FOUR_STATE:{
+                    try {
+                        DBHelper helper = new DBHelper(this);
+                        helper.trackEvent(helper,"DAILY_DIARY_STATE_FOUR_NEXT_CLICKED","INSIDE_DAILY_DIARY");
+                        helper.close();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                     end = true;
                     FragmentManager fm = getFragmentManager();
                     DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this, end,false);
@@ -264,6 +328,13 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
         if(v.getId() == back.getId()){
             switch(state){
                 case ONE_STATE:{
+                    try {
+                        DBHelper helper = new DBHelper(this);
+                        helper.trackEvent(helper,"DAILY_DIARY_STATE_ONE_BACK_CLICKED","INSIDE_DAILY_DIARY");
+                        helper.close();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                     end = false;
                     FragmentManager fm = getFragmentManager();
                     DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this, end,false);
@@ -271,6 +342,13 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                     break;
                 }
                 case TWO_STATE:{
+                    try {
+                        DBHelper helper = new DBHelper(this);
+                        helper.trackEvent(helper,"DAILY_DIARY_STATE_TWO_BACK_CLICKED","INSIDE_DAILY_DIARY");
+                        helper.close();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                     message.setBackgroundResource(R.drawable.dd_1_message);
                     today.setVisibility(View.VISIBLE);
                     date.setVisibility(View.VISIBLE);
@@ -284,6 +362,13 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                     break;
                 }
                 case THREE_STATE:{
+                    try {
+                        DBHelper helper = new DBHelper(this);
+                        helper.trackEvent(helper,"DAILY_DIARY_STATE_THREE_BACK_CLICKED","INSIDE_DAILY_DIARY");
+                        helper.close();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                     message.setBackgroundResource(R.drawable.dd_2_message);
                     therm.setVisibility(View.VISIBLE);
                     arrowRight.setVisibility(View.VISIBLE);
@@ -295,6 +380,13 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                     break;
                 }
                 case FOUR_STATE:{
+                    try {
+                        DBHelper helper = new DBHelper(this);
+                        helper.trackEvent(helper,"DAILY_DIARY_STATE_FOUR_BACK_CLICKED","INSIDE_DAILY_DIARY");
+                        helper.close();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                     message.setBackgroundResource(R.drawable.dd_3_message);
                     respond.setActivated(true);
                     state=THREE_STATE;
@@ -305,6 +397,13 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
             }
         }
         if(v.getId()==complete.getId()){
+            try {
+                DBHelper helper = new DBHelper(this);
+                helper.trackEvent(helper,"DAILY_DIARY_COMPLETED","INSIDE_DAILY_DIARY");
+                helper.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
             finish();
         }
         if(v.getId()==arrowLeft.getId()){
