@@ -14,7 +14,7 @@
             android:key="DD_week_setting"
             android:persistent="true"
             android:summary="Click to change"
-            android:title="Daily Diary Settings" />
+            android:title="Daily Diary Settings"/>
         <MultiSelectListPreference
             android:defaultValue="@array/emptyValue"
             android:entries="@array/protocols"
