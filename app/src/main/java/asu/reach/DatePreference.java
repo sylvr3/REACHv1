@@ -1,10 +1,17 @@
 package asu.reach;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -13,12 +20,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import android.widget.Toast;
 
 public class DatePreference extends DialogPreference implements
         DatePicker.OnDateChangedListener {
@@ -188,7 +190,7 @@ public class DatePreference extends DialogPreference implements
      * @return the Calendar set to the default date
      */
     public static Calendar defaultCalendar() {
-        return Calendar.getInstance();
+        return new GregorianCalendar(1970, 0, 1);
     }
 
     /**
