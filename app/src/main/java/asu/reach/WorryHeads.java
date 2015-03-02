@@ -20,6 +20,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 
@@ -86,7 +89,26 @@ public class WorryHeads extends Activity implements View.OnClickListener{
         db = helper.getDB();
 
         try {
-            Cursor c = db.rawQuery("SELECT * from STOP_WORRYHEADS where COMPLETED_FLAG = 0", null);
+            Calendar ca = Calendar.getInstance();
+            ca.set(ca.get(Calendar.YEAR), ca.get(Calendar.MONTH),ca.get(Calendar.DAY_OF_MONTH),0,0,0);
+            Date date = new Date(ca.getTimeInMillis());
+            SimpleDateFormat df = new SimpleDateFormat("MM:dd:yyyy HH:mm:ss");
+            System.out.println(df.format(date));
+            Cursor c = db.rawQuery("SELECT S FROM WORRYHEADS_COMPLETION where TIMESTAMP < "
+                    + ca.getTimeInMillis()
+                    + " AND S not in (SELECT S FROM WORRYHEADS_COMPLETION where TIMESTAMP > "
+                    + ca.getTimeInMillis() + ")", null);
+            System.out.println(c.getCount());
+            c.moveToFirst();
+            ContentValues v;
+            for(int x = 0; x < c.getCount(); x++){
+                v = new ContentValues();
+                v.put("COMPLETED_FLAG", 0);
+                db.update("STOP_WORRYHEADS",v,"S = " + c.getInt(c.getColumnIndex("S")),null);
+                c.moveToNext();
+            }
+            c.close();
+            c = db.rawQuery("SELECT * from STOP_WORRYHEADS where COMPLETED_FLAG = 0", null);
             // Random seed
             if(c.getCount() > 0) {
                 Random num = new Random(System.currentTimeMillis());

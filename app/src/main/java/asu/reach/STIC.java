@@ -9,7 +9,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,7 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import java.io.File;
+import java.util.Calendar;
 
 
 public class STIC extends Activity implements View.OnClickListener, DialogInterface.OnClickListener{
@@ -43,7 +42,28 @@ public class STIC extends Activity implements View.OnClickListener, DialogInterf
         try{
             DBHelper helper = new DBHelper(this);
             db = helper.getDB();
-            Cursor c = db.rawQuery("SELECT * from STIC where QUESTION_SET = 1", null);
+            Calendar ca = Calendar.getInstance();
+            ca.set(ca.get(Calendar.YEAR), ca.get(Calendar.MONTH),ca.get(Calendar.DAY_OF_MONTH),0,0,0);
+            /* Testing code
+            Date date = new Date(ca.getTimeInMillis());
+            SimpleDateFormat df = new SimpleDateFormat("MM:dd:yyyy HH:mm:ss");
+            System.out.println(df.format(date));
+            */
+            Cursor c = db.rawQuery("SELECT ACTIVITY FROM STIC_COMPLETION where TIMESTAMP < "
+                    + ca.getTimeInMillis()
+                    + " AND ACTIVITY not in (SELECT ACTIVITY FROM "
+                    + "STIC_COMPLETION where TIMESTAMP > "
+                    + ca.getTimeInMillis() + ")", null);
+            c.moveToFirst();
+            ContentValues v;
+            for(int x = 0; x < c.getCount(); x++){
+                v = new ContentValues();
+                v.put("STIC_COMPLETED_FLAG", 0);
+                db.update("STIC",v,"STIC_TASK = " + c.getInt(c.getColumnIndex("ACTIVITY")),null);
+                c.moveToNext();
+            }
+            c.close();
+            c = db.rawQuery("SELECT * from STIC where QUESTION_SET = 1", null);
             c.moveToFirst();
             Button btn;
             RelativeLayout.LayoutParams pa;
