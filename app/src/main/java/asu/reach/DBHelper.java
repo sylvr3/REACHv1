@@ -40,7 +40,6 @@ public class DBHelper extends SQLiteOpenHelper{
         super(context, DB_NAME, null, 1);
         this.myContext = context;
         DB_PATH = context.getFilesDir().toString() + "/";
-        System.out.println(context.getFilesDir().getAbsolutePath());
         try {
             System.out.println("checking");
             String myPath = DB_PATH + DB_NAME;

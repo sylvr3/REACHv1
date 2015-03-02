@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.FragmentManager;
 import android.app.PendingIntent;
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -17,26 +16,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import java.io.File;
-
 public class Landing extends Activity implements View.OnClickListener,DialogInterface.OnClickListener {
 
     private SQLiteDatabase db;
     private RelativeLayout topLeftLayout, topRightLayout, bottomLeftLayout, bottomRightLayout;
-    private int stopPosition=0;
     private ImageButton dd,stic,stop,relax,wh;
-    private Button admin;
     private ImageView blob;
-    private Button okDialogButton,cancelDialogButton;
     private EditText pin;
-    private boolean topLeft,topRight,bottomLeft,bottomRight;
+    private boolean topLeft,topRight,bottomRight;
     private long time;
     private final long TWO_SECONDS = 2000;
     public AlarmManager aManager;
@@ -60,7 +53,6 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         bottomRightLayout = (RelativeLayout)findViewById(R.id.bottomRight);
         topLeft = false;
         topRight = false;
-        bottomLeft = false;
         bottomRight = false;
         time = System.currentTimeMillis();
 
@@ -106,7 +98,6 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
             topLeft = false;
             topRight = false;
             bottomRight = false;
-            bottomLeft = false;
         }
         if(v.getId() == relax.getId()){
             Intent intent = new Intent(this, Relaxation.class);
