@@ -103,7 +103,7 @@ public class WorryHeads extends Activity implements View.OnClickListener{
             for(int x = 0; x < c.getCount(); x++){
                 v = new ContentValues();
                 v.put("COMPLETED_FLAG", 0);
-                db.update("STOP_WORRYHEADS",v,"S = " + c.getInt(c.getColumnIndex("S")),null);
+                db.update("STOP_WORRYHEADS",v,"S = \"" + c.getString(c.getColumnIndex("S")) + "\"",null);
                 c.moveToNext();
             }
             c.close();

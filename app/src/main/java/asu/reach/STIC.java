@@ -57,12 +57,15 @@ public class STIC extends Activity implements View.OnClickListener, DialogInterf
             c.moveToFirst();
             ContentValues v;
             for(int x = 0; x < c.getCount(); x++){
+                System.out.println();
                 v = new ContentValues();
                 v.put("STIC_COMPLETED_FLAG", 0);
-                db.update("STIC",v,"STIC_TASK = " + c.getInt(c.getColumnIndex("ACTIVITY")),null);
+                db.update("STIC",v,"STIC_TASK = \"" + c.getString(c.getColumnIndex("ACTIVITY"))+ "\"",null);
                 c.moveToNext();
             }
             c.close();
+
+            // TODO : CHECK WEEK FOR QUESTION SETS
             c = db.rawQuery("SELECT * from STIC where QUESTION_SET = 1", null);
             c.moveToFirst();
             Button btn;
