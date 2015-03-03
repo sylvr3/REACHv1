@@ -104,7 +104,7 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
 //            helper.trackEvent(helper,"RELAXATION","LANDING_PAGE");
             db = helper.getDB();
             Cursor c = db.rawQuery("select * from EVENT_TRACKER;", null);
-            helper.exportToCSV(c, "REACH_DATA.csv");
+            helper.exportToCSV(c, "REACH_DATA.csv"/*, getApplicationContext()*/);
             db.close();
             helper.close();
 

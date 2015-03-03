@@ -2,9 +2,11 @@ package asu.reach;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
@@ -213,7 +215,7 @@ public class DBHelper extends SQLiteOpenHelper{
         return formatter.format(calendar.getTime());
     }
 
-    public void exportToCSV(Cursor c, String fileName) {
+    public void exportToCSV(Cursor c, String fileName/*, Landing parent*/) {
         Log.i("path", "path");
         int rowCount = 0;
         int colCount = 0;
@@ -263,7 +265,16 @@ public class DBHelper extends SQLiteOpenHelper{
             bfw.flush();
             //
             bfw.close();
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"heal@asu.edu"});
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Here's the Data ! <<TESTING>>>");
+
+            // ENTER THE FILE YOU WANT TO SEND BELOW
             Toast.makeText(myContext,"Exported "+saveFile.getName()+" to "+saveFile.getAbsolutePath().toString(),Toast.LENGTH_LONG).show();
+            intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(saveFile));
+            myContext.startActivity(Intent.createChooser(intent, "Share using"));
+
             // Toast.makeText(mContext, "?", Toast.LENGTH_SHORT).show();
 
         } catch (IOException e) {
