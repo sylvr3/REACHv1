@@ -23,14 +23,66 @@
             android:persistent="true"
             android:summary="Click to change"
             android:title="STOP Settings" />
-        <MultiSelectListPreference
+        <PreferenceScreen
+            android:key="weekSelector"
+            android:title="STIC Settings">
+            <ListPreference
+                android:defaultValue="@array/emptyValue"
+                android:entries="@array/week_STIC_list"
+                android:entryValues="@array/week_STIC_list_value"
+                android:key="Week1_STIC_protool_setting"
+                android:persistent="true"
+                android:summary="Click to change"
+                android:title="Week 1" />
+            <ListPreference
+                android:defaultValue="@array/emptyValue"
+                android:entries="@array/week_STIC_list"
+                android:entryValues="@array/week_STIC_list_value"
+                android:key="Week2_STIC_protool_setting"
+                android:persistent="true"
+                android:summary="Click to change"
+                android:title="Week 2" />
+            <ListPreference
+                android:defaultValue="@array/emptyValue"
+                android:entries="@array/week_STIC_list"
+                android:entryValues="@array/week_STIC_list_value"
+                android:key="Week3_STIC_protool_setting"
+                android:persistent="true"
+                android:summary="Click to change"
+                android:title="Week 3" />
+            <ListPreference
+                android:defaultValue="@array/emptyValue"
+                android:entries="@array/week_STIC_list"
+                android:entryValues="@array/week_STIC_list_value"
+                android:key="Week4_STIC_protool_setting"
+                android:persistent="true"
+                android:summary="Click to change"
+                android:title="Week 4" />
+            <ListPreference
+                android:defaultValue="@array/emptyValue"
+                android:entries="@array/week_STIC_list"
+                android:entryValues="@array/week_STIC_list_value"
+                android:key="Week5_STIC_protool_setting"
+                android:persistent="true"
+                android:summary="Click to change"
+                android:title="Week 5" />
+            <ListPreference
+                android:defaultValue="@array/emptyValue"
+                android:entries="@array/week_STIC_list"
+                android:entryValues="@array/week_STIC_list_value"
+                android:key="Week6_STIC_protool_setting"
+                android:persistent="true"
+                android:summary="Click to change"
+                android:title="Week 6" />
+        </PreferenceScreen>
+       <!-- <MultiSelectListPreference
             android:defaultValue="@array/emptyValue"
             android:entries="@array/protocols"
             android:entryValues="@array/protocolValue"
             android:key="STIC_week_setting"
             android:persistent="true"
             android:summary="Click to change"
-            android:title="STIC Settings" />
+            android:title="STIC Settings" />-->
     </PreferenceScreen>
     <asu.reach.DatePreference
         android:defaultValue="2015-01-01"
@@ -88,9 +140,9 @@
         android:key="exportDataMenu"
         android:summary="Export in .csv format"
         android:title="Export/Offload Data">
-        <CheckBoxPreference
+        <!--<CheckBoxPreference
             android:key="underConstruction"
-            android:title="Under Construction" />
+            android:title="Under Construction" />-->
     </PreferenceScreen>
 </PreferenceScreen>
 

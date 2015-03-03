@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -262,6 +263,7 @@ public class DBHelper extends SQLiteOpenHelper{
             bfw.flush();
             //
             bfw.close();
+            Toast.makeText(myContext,"Exported "+saveFile.getName()+" to "+saveFile.getAbsolutePath().toString(),Toast.LENGTH_LONG).show();
             // Toast.makeText(mContext, "?", Toast.LENGTH_SHORT).show();
 
         } catch (IOException e) {

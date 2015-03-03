@@ -17,8 +17,19 @@
         <item>5</item>
         <item>6</item>
     </string-array>
-    <string-array name="emptyValue">
+    <string-array name="week_STIC_list">
+        <item>None</item>
+        <item>List 1</item>
+        <item>List 2</item>
+        <item>Both</item>
     </string-array>
+    <string-array name="week_STIC_list_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="emptyValue"></string-array>
     <string-array name="frequencyEntries">
         <item>Once a day</item>
         <item>Twice a day</item>
