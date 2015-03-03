@@ -112,12 +112,16 @@
             android:title="Stic Frequency" />
 
     </PreferenceScreen>
-    <ListPreference
+    <!--<ListPreference
         android:entries="@array/frequencyEntries"
         android:entryValues="@array/frequencyEntreisValues"
         android:key="notifFreq"
         android:summary="Click to change"
-        android:title="Notification Frequency" />
+        android:title="Notification Frequency" />-->
+    <asu.reach.TimePreference
+        android:key="notif_at" android:title="Notfication Time"
+        android:defaultValue="14:01"
+        android:summary="Set Time of Day for Notifications"/>
 
     <PreferenceScreen
         android:key="PinAdd"

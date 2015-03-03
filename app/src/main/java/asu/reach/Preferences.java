@@ -32,6 +32,20 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         addPreferencesFromResource(R.xml.prefs);
+
+        try{
+
+            ContentValues v = new ContentValues();
+            v.put("start_date","default");
+            v.put("start_time","default");
+            DBHelper helper = new DBHelper(this);
+            db = helper.getDB();
+            db.insert("DATE_TIME_SET",null,v);
+            db.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
         PreferenceManager.setDefaultValues(this, R.xml.prefs, true);
         DDProtocolChange = (MultiSelectListPreference) findPreference("DD_week_setting");
         STOPProtocolChange = (MultiSelectListPreference) findPreference("STOP_week_setting");
