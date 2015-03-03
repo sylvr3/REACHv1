@@ -89,7 +89,7 @@
         android:key="initialStartDate"
         android:summary="Date when protocol commences"
         android:title="Select Start Date" />
-    <PreferenceScreen
+    <!--<PreferenceScreen
         android:key="protocolFreq"
         android:title="Frequency of Protocols">
         <ListPreference
@@ -111,7 +111,7 @@
             android:summary="Click to change"
             android:title="Stic Frequency" />
 
-    </PreferenceScreen>
+    </PreferenceScreen>-->
     <!--<ListPreference
         android:entries="@array/frequencyEntries"
         android:entryValues="@array/frequencyEntreisValues"
