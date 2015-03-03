@@ -74,6 +74,9 @@ public class WorryHeads extends Activity implements View.OnClickListener{
         done.setOnClickListener(this);
         next.setOnClickListener(this);
 
+        sView.setActivated(true);
+        tView.setActivated(true);
+
         Typeface t = Typeface.createFromAsset(getAssets(), "agentorange.ttf");
         oOne.setTypeface(t);
         oTwo.setTypeface(t);
@@ -189,30 +192,34 @@ public class WorryHeads extends Activity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         if (v.getId() == sView.getId()){
-            try {
-                DBHelper helper = new DBHelper(this);
-                helper.trackEvent(helper,"WORRY_HEADS_S_SHOWED","INSIDE_WORRY_HEADS_ACTIVITY");
-                helper.close();
-            }catch(Exception e){
-                e.printStackTrace();
+            if(!sView.isActivated()) {
+                try {
+                    DBHelper helper = new DBHelper(this);
+                    helper.trackEvent(helper, "WORRY_HEADS_S_SHOWED", "INSIDE_WORRY_HEADS_ACTIVITY");
+                    helper.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                oLayout.setVisibility(View.GONE);
+                msgLayout.setVisibility(View.VISIBLE);
+                back.setVisibility(View.VISIBLE);
+                message.setText("Situation:\n\n" + sText);
             }
-            oLayout.setVisibility(View.GONE);
-            msgLayout.setVisibility(View.VISIBLE);
-            back.setVisibility(View.VISIBLE);
-            message.setText("Situation:\n\n"+sText);
         }
         if (v.getId() == tView.getId()){
-            try {
-                DBHelper helper = new DBHelper(this);
-                helper.trackEvent(helper,"WORRY_HEADS_T_SHOWED","INSIDE_WORRY_HEADS_ACTIVITY");
-                helper.close();
-            }catch(Exception e){
-                e.printStackTrace();
+            if(!tView.isActivated()) {
+                try {
+                    DBHelper helper = new DBHelper(this);
+                    helper.trackEvent(helper, "WORRY_HEADS_T_SHOWED", "INSIDE_WORRY_HEADS_ACTIVITY");
+                    helper.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                oLayout.setVisibility(View.GONE);
+                msgLayout.setVisibility(View.VISIBLE);
+                back.setVisibility(View.VISIBLE);
+                message.setText("Thoughts:\n\n" + tText);
             }
-            oLayout.setVisibility(View.GONE);
-            msgLayout.setVisibility(View.VISIBLE);
-            back.setVisibility(View.VISIBLE);
-            message.setText("Thoughts:\n\n"+tText);
         }
         if (v.getId() == oOne.getId()){
             if(!oOne.isActivated()) {
@@ -344,6 +351,8 @@ public class WorryHeads extends Activity implements View.OnClickListener{
                 message.setText("Thoughts:\n\n"+tText);
                 s = false;
             }else{
+                sView.setActivated(false);
+                tView.setActivated(false);
                 msgLayout.setVisibility(View.GONE);
                 oLayout.setVisibility(View.VISIBLE);
                 next.setVisibility(View.GONE);
