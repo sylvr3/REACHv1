@@ -40,9 +40,10 @@ public class DatePreference extends DialogPreference implements
     @Override
     protected View onCreateDialogView() {
         this.datePicker = new DatePicker(getContext());
-        Calendar calendar = getDate();
-        datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH), this);
+        Calendar calendar = Calendar.getInstance();
+        /*datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH), this);*/
+        datePicker.updateDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
         return datePicker;
     }
 
@@ -187,7 +188,7 @@ public class DatePreference extends DialogPreference implements
      * @return the Calendar set to the default date
      */
     public static Calendar defaultCalendar() {
-        return new GregorianCalendar(1970, 0, 1);
+        return new GregorianCalendar(2015, 0, 1);
     }
 
     /**

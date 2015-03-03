@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.MultiSelectListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -25,6 +26,7 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
     private int i = 0;
     private int j = 0;
     private PreferenceScreen exportToCSV;
+    private EditTextPreference teacherPin;
 
 
     @Override
@@ -35,9 +37,10 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
         PreferenceManager.setDefaultValues(this, R.xml.prefs, true);
         DDProtocolChange = (MultiSelectListPreference) findPreference("DD_week_setting");
         STOPProtocolChange = (MultiSelectListPreference) findPreference("STOP_week_setting");
+        teacherPin = (EditTextPreference) findPreference("teacherPIN");
 //        STICProtocol_Week1Change = (ListPreference) findPreference("Week1_STIC_protool_setting");
 //        DDProtocolChange.setva
-        exportToCSV = (PreferenceScreen)findPreference("exportDataMenu");
+        exportToCSV = (PreferenceScreen) findPreference("exportDataMenu");
         exportToCSV.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
@@ -65,37 +68,48 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
                     SticProtocolChange(sharedPreferences, s, 5);
                 } else if (s.equals("Week6_STIC_protool_setting")) {
                     SticProtocolChange(sharedPreferences, s, 6);
+                } else if (s.equals("teacherPIN")) {
+                    updateTeacherPIN(sharedPreferences,s);
                 }
-               /* else if (s.equals("exportDataMenu")) {
-                    callExportCSVFunction(*//*sharedPreferences, s*//*);
-                }*/
             }
         });
-
-/*
-        STOPProtocolChange = (MultiSelectListPreference)findPreference("STOP_week_setting");
-        STOPProtocolChange.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object o) {
-                StopProtocolChange();
-                return true;
-            }
-        });
-*/
     }
 
-    public void callExportCSVFunction(/*SharedPreferences preferences, String s*/){
+    public void updateTeacherPIN(SharedPreferences pref,String s){
+        String newTeacherPIN = pref.getString("teacherPIN", null);
+        int compareNewPin = Integer.parseInt(newTeacherPIN);
+        if(compareNewPin>4000 && compareNewPin < 4100) {
+            try {
+                DBHelper helper = new DBHelper(getApplicationContext());
+//            helper.trackEvent(helper,"RELAXATION","LANDING_PAGE");
+                db = helper.getDB();
+                ContentValues v = new ContentValues();
+                v.put("PIN", newTeacherPIN);
+                int rowUpdateCount = db.update("PINS", v, "OWNER='teacher'", null);
+                db.close();
+                helper.close();
+
+            } catch (Exception e) {
+                Log.i("Exception occured", "Exception occured");
+                e.printStackTrace();
+            }
+        }
+        else
+            Toast.makeText(getApplicationContext(),"Try again with 40XX Series",Toast.LENGTH_LONG).show();
+    }
+
+    public void callExportCSVFunction(/*SharedPreferences preferences, String s*/) {
         try {
             DBHelper helper = new DBHelper(this);
 //            helper.trackEvent(helper,"RELAXATION","LANDING_PAGE");
-            db= helper.getDB();
+            db = helper.getDB();
             Cursor c = db.rawQuery("select * from EVENT_TRACKER;", null);
             helper.exportToCSV(c, "REACH_DATA.csv");
             db.close();
             helper.close();
 
-        }catch(Exception e){
-            Log.i("Exception occured","Exception occured");
+        } catch (Exception e) {
+            Log.i("Exception occured", "Exception occured");
             e.printStackTrace();
         }
     }
@@ -109,7 +123,7 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
             v = new ContentValues();
             v.put("STIC", listToPopulate);
             int noOfRowsUpdated = db.update("ADMIN_ACTIVITY_SCHEDULER", v, "WEEK_NO=" + week_no, null);
-            Log.d("Rows Updated for STIC_WEEK"+week_no+"", noOfRowsUpdated + "");
+            Log.d("Rows Updated for STIC_WEEK" + week_no + "", noOfRowsUpdated + "");
             db.close();
         } catch (Exception e) {
             e.printStackTrace();

@@ -123,23 +123,25 @@
         android:defaultValue="14:01"
         android:summary="Set Time of Day for Notifications"/>
 
-    <PreferenceScreen
-        android:key="PinAdd"
-        android:summary="Click to add PIN for specific User-role"
-        android:title="Add PIN">
-        <EditTextPreference
+    <EditTextPreference
+        android:key="teacherPIN"
+        android:summary="Click to update Teacher PIN"
+        android:password="true"
+        android:inputType="number"
+        android:title="Change Teacher PIN">
+        <!--<EditTextPreference
             android:inputType="number"
-            android:key="teaherPIN"
+            android:key="teacherPIN"
             android:password="true"
             android:summary="Click to set"
-            android:title="Teacher PIN" />
-        <EditTextPreference
+            android:title="Teacher PIN" />-->
+<!--        <EditTextPreference
             android:inputType="number"
             android:key="AdminPIN"
             android:password="true"
             android:summary="Click to set"
-            android:title="Admin PIN" />
-    </PreferenceScreen>
+            android:title="Admin PIN" />-->
+    </EditTextPreference>
     <PreferenceScreen
         android:key="exportDataMenu"
         android:summary="Export in .csv format"
