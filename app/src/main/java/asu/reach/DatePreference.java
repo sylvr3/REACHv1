@@ -157,13 +157,10 @@ public class DatePreference extends DialogPreference implements
 
                 ContentValues v = new ContentValues();
                 v.put("start_date",this.changedValueCanBeNull);
-//                v.put("start_time",)
                 DBHelper helper = new DBHelper(getContext());
                 db = helper.getDB();
-                db.insert("DATE_TIME_SET","START_DATE",v);
+                db.update("DATE_TIME_SET",v,"id=1",null);
                 db.close();
-                String str = helper.getFile().getAbsolutePath();
-                Log.i("File path",str);
             }catch(Exception e){
                 e.printStackTrace();
             }
