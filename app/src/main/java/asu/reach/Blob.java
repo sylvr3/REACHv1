@@ -195,7 +195,15 @@ public class Blob extends Activity implements MediaPlayer.OnCompletionListener, 
         vid.start();
     }
     public void twelveClick(View v){
-        locked();
+        try {
+            DBHelper helper = new DBHelper(this);
+            helper.trackEvent(helper,"BLOB_TRICK_TWELVE","INSIDE_BLOB_TRICKS");
+            helper.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.glow_n));
+        vid.start();
     }
 
     private void locked(){

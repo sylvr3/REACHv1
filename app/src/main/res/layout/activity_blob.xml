@@ -117,7 +117,7 @@
                 android:layout_height="75dp"
                 android:id="@+id/trickTwelveBtn"
                 android:layout_margin="10dp"
-                android:background="@drawable/lock_selector"
+                android:background="@drawable/glow_selector"
                 android:onClick="twelveClick" />
 
         </GridLayout>
