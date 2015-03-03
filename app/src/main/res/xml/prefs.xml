@@ -6,26 +6,28 @@
          android:summary="This is 1st option"/>-->
     <PreferenceScreen
         android:key="changeProtocolMenu"
-        android:title="Change Protocol Settings">
+        android:title="Enable/Disable Protocols"
+        android:summary="Click to enable/disable protocols per week">
         <MultiSelectListPreference
             android:defaultValue="@array/emptyValue"
             android:entries="@array/protocols"
             android:entryValues="@array/protocolValue"
             android:key="DD_week_setting"
             android:persistent="true"
-            android:summary="Click to change"
-            android:title="Daily Diary Settings"/>
+            android:summary="Click to Enable/Disable per week"
+            android:title="Daily Diary Protocol"/>
         <MultiSelectListPreference
             android:defaultValue="@array/emptyValue"
             android:entries="@array/protocols"
             android:entryValues="@array/protocolValue"
             android:key="STOP_week_setting"
             android:persistent="true"
-            android:summary="Click to change"
-            android:title="STOP Settings" />
+            android:summary="Click to Enable/Disable per week"
+            android:title="STOP Protocol" />
         <PreferenceScreen
             android:key="weekSelector"
-            android:title="STIC Settings">
+            android:title="STIC Protocol"
+            android:summary="Click to Enable/Disable per week">
             <ListPreference
                 android:defaultValue="@array/emptyValue"
                 android:entries="@array/week_STIC_list"
