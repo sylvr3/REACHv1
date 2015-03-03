@@ -12,4 +12,5 @@
     <string name="title_activity_worry_heads">WorryHeads</string>
     <string name="prefs">Chinmay;Akshay</string>
     <string name="title_activity_date_preference">DatePreferenceActivity</string>
+    <string name="title_activity_Notification">NotificationActivity</string>
 </resources>

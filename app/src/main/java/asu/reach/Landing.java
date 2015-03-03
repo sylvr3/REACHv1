@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.FragmentManager;
 import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -11,7 +12,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,7 +40,20 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_landing);
+        try{
+            ContentValues v = new ContentValues();
+            v.put("start_date","default");
+            v.put("start_time","01:00");
+            DBHelper helper = new DBHelper(this);
+            db = helper.getDB();
+            db.insert("DATE_TIME_SET",null,v);
+            db.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
+        Intent intent = new Intent(this,NotifyService.class);
+        startService(intent);
         dd = (ImageButton)findViewById(R.id.ddBtn);
         stic = (ImageButton)findViewById(R.id.sticBtn);
         stop = (ImageButton)findViewById(R.id.stopBtn);
