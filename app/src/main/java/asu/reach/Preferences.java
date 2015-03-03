@@ -1,19 +1,18 @@
 package asu.reach;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.preference.ListPreference;
 import android.preference.MultiSelectListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.util.AttributeSet;
+import android.preference.PreferenceScreen;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.Arrays;
 import java.util.Set;
@@ -25,6 +24,7 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
     private SQLiteDatabase db;
     private int i = 0;
     private int j = 0;
+    private PreferenceScreen exportToCSV;
 
 
     @Override
@@ -37,6 +37,14 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
         STOPProtocolChange = (MultiSelectListPreference) findPreference("STOP_week_setting");
 //        STICProtocol_Week1Change = (ListPreference) findPreference("Week1_STIC_protool_setting");
 //        DDProtocolChange.setva
+        exportToCSV = (PreferenceScreen)findPreference("exportDataMenu");
+        exportToCSV.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                callExportCSVFunction();
+                return true;
+            }
+        });
         SharedPreferences spf = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         spf.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
@@ -58,6 +66,9 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
                 } else if (s.equals("Week6_STIC_protool_setting")) {
                     SticProtocolChange(sharedPreferences, s, 6);
                 }
+               /* else if (s.equals("exportDataMenu")) {
+                    callExportCSVFunction(*//*sharedPreferences, s*//*);
+                }*/
             }
         });
 
@@ -71,6 +82,22 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
             }
         });
 */
+    }
+
+    public void callExportCSVFunction(/*SharedPreferences preferences, String s*/){
+        try {
+            DBHelper helper = new DBHelper(this);
+//            helper.trackEvent(helper,"RELAXATION","LANDING_PAGE");
+            db= helper.getDB();
+            Cursor c = db.rawQuery("select * from EVENT_TRACKER;", null);
+            helper.exportToCSV(c, "REACH_DATA.csv");
+            db.close();
+            helper.close();
+
+        }catch(Exception e){
+            Log.i("Exception occured","Exception occured");
+            e.printStackTrace();
+        }
     }
 
     public void SticProtocolChange(SharedPreferences pref, String s, int week_no) {

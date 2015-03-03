@@ -140,9 +140,9 @@
         android:key="exportDataMenu"
         android:summary="Export in .csv format"
         android:title="Export/Offload Data">
-        <CheckBoxPreference
+        <!--<CheckBoxPreference
             android:key="underConstruction"
-            android:title="Under Construction" />
+            android:title="Under Construction" />-->
     </PreferenceScreen>
 </PreferenceScreen>
 

@@ -101,18 +101,6 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         }
         if(v.getId() == relax.getId()){
             Intent intent = new Intent(this, Relaxation.class);
-            try {
-                DBHelper helper = new DBHelper(this);
-                helper.trackEvent(helper,"RELAXATION","LANDING_PAGE");
-                SQLiteDatabase db= helper.getDB();
-                Cursor c = db.rawQuery("select * from EVENT_TRACKER;", null);
-                helper.exportToCSV(c, "test.csv");
-                db.close();
-                helper.close();
-            }catch(Exception e){
-                Log.i("Exception occured","Exception occured");
-                e.printStackTrace();
-            }
             startActivity(intent);
         }
         if(v.getId() == dd.getId()){
