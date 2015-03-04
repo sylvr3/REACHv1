@@ -6,23 +6,32 @@
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context="asu.reach.WorryHeads"
     android:background="@drawable/background_space">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/whMessage"
+        android:background="@drawable/wh_title"
+        android:visibility="gone"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
+
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/oLayout"
-        android:visibility="gone">
+        android:visibility="visible"
+        android:layout_marginTop="100dp">
 
         <ImageView
             android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_height="190dp"
             android:id="@+id/oOne"
-            android:layout_alignParentTop="false"
+            android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:background="@drawable/wh_card_selector"
             android:layout_marginLeft="10dp"
             android:layout_alignParentBottom="false"
-            android:layout_above="@+id/oThree"
             android:clickable="true" />
 
         <TextView
@@ -39,11 +48,11 @@
             android:layout_marginBottom="10dp"
             android:gravity="center"
             android:lineSpacingExtra="2dp"
-            android:textSize="11dp" />
+            android:textSize="13dp" />
 
         <ImageView
             android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_height="190dp"
             android:id="@+id/oTwo"
             android:layout_alignParentTop="false"
             android:layout_alignParentStart="false"
@@ -51,7 +60,6 @@
             android:background="@drawable/wh_card_selector"
             android:layout_alignParentBottom="false"
             android:layout_alignParentRight="true"
-            android:layout_above="@+id/oFour"
             android:layout_marginRight="10dp"
             android:clickable="true" />
 
@@ -69,20 +77,21 @@
             android:layout_alignBottom="@+id/oTwo"
             android:layout_alignRight="@+id/oTwo"
             android:lineSpacingExtra="2dp"
-            android:textSize="11dp" />
+            android:textSize="13dp" />
 
         <ImageView
             android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_height="190dp"
             android:id="@+id/oThree"
             android:layout_alignParentTop="false"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:background="@drawable/wh_card_selector"
             android:layout_marginLeft="10dp"
-            android:layout_alignParentBottom="true"
+            android:layout_alignParentBottom="false"
             android:layout_marginTop="5dp"
-            android:clickable="true" />
+            android:clickable="true"
+            android:layout_below="@+id/oOne" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -98,20 +107,21 @@
             android:layout_marginBottom="10dp"
             android:lineSpacingExtra="2dp"
             android:gravity="center"
-            android:textSize="11dp" />
+            android:textSize="13dp" />
 
         <ImageView
             android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_height="190dp"
             android:id="@+id/oFour"
             android:layout_alignParentTop="false"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:background="@drawable/wh_card_selector"
             android:layout_marginRight="10dp"
-            android:layout_alignParentBottom="true"
+            android:layout_alignParentBottom="false"
             android:layout_marginTop="5dp"
-            android:clickable="true" />
+            android:clickable="true"
+            android:layout_below="@+id/oTwo" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -127,49 +137,50 @@
             android:layout_marginRight="10dp"
             android:lineSpacingExtra="2dp"
             android:layout_marginBottom="10dp"
-            android:textSize="11dp" />
+            android:textSize="13dp" />
 
     </RelativeLayout>
 
-    <ImageView
-        android:layout_width="120dp"
-        android:layout_height="100dp"
-        android:id="@+id/sView"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:background="@drawable/s_selector"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="20dp"
-        android:clickable="true" />
-
-    <ImageView
-        android:layout_width="120dp"
-        android:layout_height="100dp"
-        android:id="@+id/tView"
-        android:background="@drawable/t_selector"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="40dp"
-        android:layout_marginTop="20dp"
-        android:clickable="true" />
-
-    <ImageView
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/direction"
-        android:layout_below="@+id/sView"
+        android:id="@+id/stLayout"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/wh_message"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:layout_width="75dp"
+            android:layout_height="60dp"
+            android:id="@+id/sView"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentStart="false"
+            android:background="@drawable/s_selector"
+            android:layout_marginLeft="40dp"
+            android:clickable="true"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+
+        <ImageView
+            android:layout_width="75dp"
+            android:layout_height="60dp"
+            android:id="@+id/tView"
+            android:background="@drawable/t_selector"
+            android:layout_alignParentEnd="false"
+            android:layout_marginRight="40dp"
+            android:clickable="true"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true" />
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/direction"
         android:id="@+id/msgLayout"
-        android:visibility="visible">
+        android:visibility="gone"
+        android:layout_above="@+id/stLayout"
+        android:layout_marginTop="100dp">
 
         <ImageView
             android:layout_width="150dp"
@@ -185,7 +196,7 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="New Text"
             android:id="@+id/message"
             android:layout_alignParentTop="true"
@@ -198,7 +209,7 @@
             android:layout_marginBottom="20dp"
             android:lineSpacingExtra="2dp"
             android:gravity="center"
-            android:textSize="15dp" />
+            android:textSize="17dp" />
 
     </RelativeLayout>
 
@@ -208,9 +219,11 @@
         android:id="@+id/whBackBtn"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:visibility="gone"
-        android:background="@drawable/back_btn_selector"
-        android:layout_marginBottom="25dp" />
+        android:visibility="visible"
+        android:background="@drawable/back_selector"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="-12dp"
+        android:layout_marginLeft="15dp" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -230,7 +243,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="25dp"
         android:id="@+id/completeLayout"
         android:visibility="gone">
 
