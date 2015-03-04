@@ -35,10 +35,11 @@ public class WorryHeads extends Activity implements View.OnClickListener, Dialog
     private String sText, tText, pText;
     private LinearLayout complete;
 
-    private int wrongO;
-    private boolean wrong = false;
-    private boolean s = true;
-    private boolean intro = true;
+    private int wrongO;  // which 0 is incorrect
+    private boolean choice = false; // to remove "TRY AGAIN"
+    private boolean wrong = false; // to save wrong O in DB
+    private boolean s = true;    //  S is currently showing
+    private boolean intro = true;  // intro is showing
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -335,7 +336,7 @@ public class WorryHeads extends Activity implements View.OnClickListener, Dialog
             }
         }
         if (v.getId() == back.getId()){
-            if(!wrong) {
+            if(!choice) {
                 if (s) {
                     FragmentManager fm = getFragmentManager();
                     DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this);
@@ -361,6 +362,7 @@ public class WorryHeads extends Activity implements View.OnClickListener, Dialog
             }else{
                 oLayout.setVisibility(View.VISIBLE);
                 msgLayout.setVisibility(View.GONE);
+                choice = false;
             }
         }
         if(v.getId() == again.getId()){
@@ -424,6 +426,7 @@ public class WorryHeads extends Activity implements View.OnClickListener, Dialog
         back.setVisibility(View.VISIBLE);
         message.setText("Try again!");
         wrong = true;
+        choice = true;
     }
 
     private void complete(String msg){
