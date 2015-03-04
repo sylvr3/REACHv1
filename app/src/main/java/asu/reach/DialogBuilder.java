@@ -21,6 +21,7 @@ public class DialogBuilder extends DialogFragment{
     private static Landing landingActivity;
     private static STOP stopActivity;
     private static DailyDiary ddActivity;
+    private static WorryHeads whActivity;
     private static boolean end,date;
 
     public static DialogBuilder newInstance(String title) {
@@ -40,6 +41,7 @@ public class DialogBuilder extends DialogFragment{
         sticActivity = null;
         stopActivity = null;
         ddActivity = null;
+        whActivity = null;
         pin = p;
         return frag;
     }
@@ -53,6 +55,7 @@ public class DialogBuilder extends DialogFragment{
         sticActivity = null;
         landingActivity = null;
         ddActivity = null;
+        whActivity = null;
         end = e;
         return frag;
     }
@@ -66,6 +69,7 @@ public class DialogBuilder extends DialogFragment{
         sticActivity = null;
         stopActivity = null;
         landingActivity = null;
+        whActivity = null;
         end = e;
         date = d;
         return frag;
@@ -80,7 +84,20 @@ public class DialogBuilder extends DialogFragment{
         landingActivity = null;
         stopActivity = null;
         ddActivity = null;
+        whActivity = null;
         pin = p;
+        return frag;
+    }
+    public static DialogBuilder newInstance(String title, WorryHeads a) {
+        DialogBuilder frag = new DialogBuilder();
+        Bundle args = new Bundle();
+        args.putString("title", title);
+        frag.setArguments(args);
+        whActivity = a;
+        sticActivity = null;
+        landingActivity = null;
+        stopActivity = null;
+        ddActivity = null;
         return frag;
     }
 
@@ -159,6 +176,15 @@ public class DialogBuilder extends DialogFragment{
 
                 return new DatePickerDialog(ddActivity, ddActivity, year, month, day);
             }
+        }
+        if(whActivity != null){
+            return new AlertDialog.Builder(getActivity())
+                    .setIcon(R.drawable.ic_launcher)
+                    .setTitle(title)
+                    .setMessage("Are you sure you want to Leave?")
+                    .setPositiveButton("Yes", whActivity)
+                    .setNegativeButton("Cancel", whActivity)
+                    .create();
         }
         return null;
     }

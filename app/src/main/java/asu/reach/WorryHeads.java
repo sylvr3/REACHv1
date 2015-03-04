@@ -1,7 +1,9 @@
 package asu.reach;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
@@ -24,10 +26,10 @@ import java.util.Calendar;
 import java.util.Random;
 
 
-public class WorryHeads extends Activity implements View.OnClickListener{
+public class WorryHeads extends Activity implements View.OnClickListener, DialogInterface.OnClickListener{
     private SQLiteDatabase db;
     private RelativeLayout oLayout,msgLayout;
-    private ImageView sView, tView,o1,o2,o3,o4;
+    private ImageView sView, tView,o1,o2,o3,o4,title;
     private TextView oOne, oTwo, oThree, oFour, message;
     private ImageButton back, again, done, next;
     private String sText, tText, pText;
@@ -36,6 +38,7 @@ public class WorryHeads extends Activity implements View.OnClickListener{
     private int wrongO;
     private boolean wrong = false;
     private boolean s = true;
+    private boolean intro = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +65,7 @@ public class WorryHeads extends Activity implements View.OnClickListener{
         done = (ImageButton)findViewById(R.id.whDoneBtn);
         next = (ImageButton)findViewById(R.id.whNextBtn);
         complete = (LinearLayout)findViewById(R.id.completeLayout);
+        title = (ImageView)findViewById(R.id.whMessage);
 
         sView.setOnClickListener(this);
         tView.setOnClickListener(this);
@@ -88,6 +92,12 @@ public class WorryHeads extends Activity implements View.OnClickListener{
         //helper.copyDataBase();
         //helper.openDataBase();
         db = helper.getDB();
+
+        oLayout.setVisibility(View.GONE);
+        msgLayout.setVisibility(View.VISIBLE);
+        title.setVisibility(View.GONE);
+        sView.setBackgroundResource(R.drawable.s_yellow);
+        tView.setBackgroundResource(R.drawable.t_white);
 
         try {
             Calendar ca = Calendar.getInstance();
@@ -176,17 +186,17 @@ public class WorryHeads extends Activity implements View.OnClickListener{
     }
 
     private void resize(){
-        if(oOne.getText().length() > 110){
-            oOne.setTextSize(10);
+        if(oOne.getText().length() > 80){
+            oOne.setTextSize(11);
         }
-        if(oTwo.getText().length() > 110){
-            oOne.setTextSize(10);
+        if(oTwo.getText().length() > 80){
+            oTwo.setTextSize(11);
         }
-        if(oThree.getText().length() > 110){
-            oOne.setTextSize(10);
+        if(oThree.getText().length() > 80){
+            oThree.setTextSize(11);
         }
-        if(oFour.getText().length() > 110){
-            oOne.setTextSize(10);
+        if(oFour.getText().length() > 80){
+            oFour.setTextSize(11);
         }
     }
     @Override
@@ -200,6 +210,12 @@ public class WorryHeads extends Activity implements View.OnClickListener{
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                s = true;
+                intro = true;
+                sView.setBackgroundResource(R.drawable.s_yellow);
+                tView.setBackgroundResource(R.drawable.t_white);
+                title.setVisibility(View.GONE);
+                next.setVisibility(View.VISIBLE);
                 oLayout.setVisibility(View.GONE);
                 msgLayout.setVisibility(View.VISIBLE);
                 back.setVisibility(View.VISIBLE);
@@ -215,6 +231,12 @@ public class WorryHeads extends Activity implements View.OnClickListener{
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                s = false;
+                intro = true;
+                sView.setBackgroundResource(R.drawable.s_white);
+                tView.setBackgroundResource(R.drawable.t_yellow);
+                title.setVisibility(View.GONE);
+                next.setVisibility(View.VISIBLE);
                 oLayout.setVisibility(View.GONE);
                 msgLayout.setVisibility(View.VISIBLE);
                 back.setVisibility(View.VISIBLE);
@@ -313,9 +335,33 @@ public class WorryHeads extends Activity implements View.OnClickListener{
             }
         }
         if (v.getId() == back.getId()){
-            oLayout.setVisibility(View.VISIBLE);
-            msgLayout.setVisibility(View.GONE);
-            back.setVisibility(View.GONE);
+            if(!wrong) {
+                if (s) {
+                    FragmentManager fm = getFragmentManager();
+                    DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this);
+                    dialog.show(fm, "frag");
+                } else {
+                    if (intro) {
+                        s = true;
+                        message.setText("Situation:\n\n" + sText);
+                        sView.setBackgroundResource(R.drawable.s_yellow);
+                        tView.setBackgroundResource(R.drawable.t_white);
+                    } else {
+                        intro = true;
+                        message.setText("Thoughts:\n\n" + tText);
+                        oLayout.setVisibility(View.GONE);
+                        msgLayout.setVisibility(View.VISIBLE);
+                        next.setVisibility(View.VISIBLE);
+                        title.setVisibility(View.GONE);
+                        sView.setBackgroundResource(R.drawable.s_white);
+                        tView.setBackgroundResource(R.drawable.t_yellow);
+                    }
+
+                }
+            }else{
+                oLayout.setVisibility(View.VISIBLE);
+                msgLayout.setVisibility(View.GONE);
+            }
         }
         if(v.getId() == again.getId()){
             try {
@@ -350,12 +396,17 @@ public class WorryHeads extends Activity implements View.OnClickListener{
             if(s){
                 message.setText("Thoughts:\n\n"+tText);
                 s = false;
+                sView.setBackgroundResource(R.drawable.s_white);
+                tView.setBackgroundResource(R.drawable.t_yellow);
             }else{
+                tView.setBackgroundResource(R.drawable.t_white);
+                intro = false;
                 sView.setActivated(false);
                 tView.setActivated(false);
                 msgLayout.setVisibility(View.GONE);
                 oLayout.setVisibility(View.VISIBLE);
                 next.setVisibility(View.GONE);
+                title.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -400,6 +451,11 @@ public class WorryHeads extends Activity implements View.OnClickListener{
             e.printStackTrace();
         }
         complete.setVisibility(View.VISIBLE);
+        title.setVisibility(View.GONE);
+        back.setVisibility(View.GONE);
+        next.setVisibility(View.GONE);
+        sView.setVisibility(View.GONE);
+        tView.setVisibility(View.GONE);
         sView.setClickable(false);
         tView.setClickable(false);
     }
@@ -430,5 +486,23 @@ public class WorryHeads extends Activity implements View.OnClickListener{
     protected void onDestroy() {
         super.onDestroy();
         db.close();
+    }
+
+    @Override
+    public void onBackPressed() {
+
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        switch (which) {
+            case DialogInterface.BUTTON_POSITIVE: {
+                finish();
+                break;
+            }
+            case DialogInterface.BUTTON_NEGATIVE: {
+                break;
+            }
+        }
     }
 }
