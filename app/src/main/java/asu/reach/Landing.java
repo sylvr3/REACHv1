@@ -84,6 +84,8 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
             DBHelper helper = new DBHelper(this);
             helper.trackEvent(helper,"APP_STARTED","LANDING_PAGE");
             helper.close();
+            Intent nInt = new Intent(this, HelperService.class);
+            startService(nInt);
         }catch(Exception e){
             e.printStackTrace();
         }
