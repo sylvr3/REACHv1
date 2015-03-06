@@ -80,7 +80,7 @@ public class NotifyService extends Service {
 
 
         }
-        return (START_NOT_STICKY);
+        return (START_STICKY);
     }
 
 
@@ -100,11 +100,12 @@ public class NotifyService extends Service {
 
         @Override
         public void onReceive(Context arg0, Intent arg1) {
-            // TODO Auto-generated method stub
+            /*// TODO Auto-generated method stub
+
             int rqs = arg1.getIntExtra("RQS", 0);
-            if (rqs == RQS_STOP_SERVICE) {
-                stopSelf();
-            }
+            if (rqs == Intent.ACTION_BOOT_COMPLETED) {*/
+                Intent intent = new Intent(arg0,NotifyService.class);
+                startService(intent);
         }
     }
 }
