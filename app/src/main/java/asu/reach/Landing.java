@@ -22,8 +22,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import java.util.Calendar;
-
 public class Landing extends Activity implements View.OnClickListener,DialogInterface.OnClickListener {
 
     private SQLiteDatabase db;
@@ -34,6 +32,7 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
     private boolean topLeft,topRight,bottomRight;
     private long time;
     private final long TWO_SECONDS = 2000;
+    private int currentDay;
     public AlarmManager aManager;
 
     @Override
@@ -93,6 +92,13 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
 
         try {
             DBHelper helper = new DBHelper(this);
+            currentDay = helper.getCurrentDay();
+            if(currentDay < 0){
+                Toast.makeText(this, "Please enter a start date.", Toast.LENGTH_SHORT).show();
+            }else{
+                // TODO : day specific visualization (i.e. glowy buttons)
+            }
+
             helper.trackEvent(helper,"APP_STARTED","LANDING_PAGE");
             helper.close();
             /*Intent nInt = new Intent(this, HelperService.class);

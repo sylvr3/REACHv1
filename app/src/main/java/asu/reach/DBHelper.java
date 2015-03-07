@@ -89,7 +89,28 @@ public class DBHelper extends SQLiteOpenHelper{
         }
     }
 
-
+    public int getCurrentDay(){
+        Cursor dayFind = myDataBase.rawQuery("SELECT start_date FROM DATE_TIME_SET WHERE ID = 1",null);
+        dayFind.moveToFirst();
+        String start = dayFind.getString(dayFind.getColumnIndex("start_date"));
+        int currentDay;
+        if(start.equals("default")){
+            currentDay = -1;
+        }else{
+            String[] split = start.split(".");
+            Calendar startDay = Calendar.getInstance();
+            Calendar today = Calendar.getInstance();
+            today.setTimeInMillis(System.currentTimeMillis());
+            startDay.set(Integer.parseInt(split[0]),
+                    Integer.parseInt(split[1]),
+                    Integer.parseInt(split[2]),0,0,0);
+            currentDay = today.get(Calendar.DAY_OF_YEAR) - startDay.get(Calendar.DAY_OF_YEAR);
+            if (currentDay < 0){
+                currentDay = -currentDay;
+            }
+        }
+        return currentDay;
+    }
 
     public boolean checkAdminPwd(String pwdToBeChecked){
         SQLiteDatabase db = this.getReadableDatabase();
