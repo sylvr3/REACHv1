@@ -21,24 +21,27 @@
         android:visibility="visible" >
 
         <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:id="@+id/blobView"
-            android:background="@drawable/blob_open"
-            android:layout_marginTop="150dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/speechView"
+            android:background="@drawable/speech_bubble"
             android:layout_centerHorizontal="true" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/speechView"
-            android:background="@drawable/speech_bubble" />
+            android:id="@+id/messageView"
+            android:background="@drawable/dd_1_message"
+            android:layout_centerHorizontal="true" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/messageView"
-            android:background="@drawable/dd_1_message" />
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:id="@+id/blobView"
+            android:background="@drawable/blob_open"
+            android:layout_marginTop="150dp"
+            android:visibility="visible"
+            android:layout_centerHorizontal="true" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -64,17 +67,19 @@
             android:layout_marginTop="10dp" />
 
         <asu.reach.ThermScrollView
-            android:layout_width="110dp"
+            android:layout_width="181dp"
             android:layout_height="wrap_content"
             android:id="@+id/thermView"
             android:layout_centerHorizontal="true"
             android:requiresFadingEdge="horizontal"
             android:scrollbars="none"
-            android:fadingEdgeLength="10dp"
+            android:fadingEdgeLength="15dp"
             android:scrollbarAlwaysDrawHorizontalTrack="false"
-            android:layout_alignBottom="@+id/speechView"
-            android:layout_marginBottom="30dp"
-            android:visibility="gone">
+            android:visibility="gone"
+            android:layout_alignParentBottom="false"
+            android:layout_below="@+id/blobView"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp">
 
             <ImageView
                 android:layout_width="wrap_content"
