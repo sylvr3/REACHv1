@@ -29,6 +29,7 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -674,6 +675,15 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
 
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-        date.setText((monthOfYear+1)+"/"+dayOfMonth+"/"+ year);
+        Calendar current = Calendar.getInstance();
+        current.setTimeInMillis(System.currentTimeMillis());
+        int y = current.get(Calendar.YEAR);
+        int m = current.get(Calendar.MONTH);
+        int d = current.get(Calendar.DAY_OF_MONTH);
+        if(year <= y && monthOfYear <= m && dayOfMonth <= d) {
+            date.setText((monthOfYear + 1) + "/" + dayOfMonth + "/" + year);
+        }else{
+            Toast.makeText(this, "The Entry cannot be \nfor a future date.",Toast.LENGTH_SHORT).show();
+        }
     }
 }
