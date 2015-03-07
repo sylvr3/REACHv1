@@ -1,5 +1,6 @@
 package asu.reach;
 
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -100,12 +101,20 @@ public class NotifyService extends Service {
 
         @Override
         public void onReceive(Context arg0, Intent arg1) {
-            /*// TODO Auto-generated method stub
 
-            int rqs = arg1.getIntExtra("RQS", 0);
-            if (rqs == Intent.ACTION_BOOT_COMPLETED) {*/
-                Intent intent = new Intent(arg0,NotifyService.class);
-                startService(intent);
+            /*
+            * As application is mounted on external storage, it doesn't receive the BOOT_COMPLETED Flag.
+            * */
+
+
+           /* Intent ii = new Intent(arg0, NotifyService.class);
+            PendingIntent pii = PendingIntent.getService(arg0, 2222, ii,PendingIntent.FLAG_CANCEL_CURRENT);
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.SECOND, 5);
+//registering our pending intent with alarmmanager
+            AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+            am.setRepeating(AlarmManager.RTC_WAKEUP,cal.getTimeInMillis(),60000, pii);*/
+//                startService(intent);
         }
     }
 }

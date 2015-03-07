@@ -22,6 +22,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import java.util.Calendar;
+
 public class Landing extends Activity implements View.OnClickListener,DialogInterface.OnClickListener {
 
     private SQLiteDatabase db;
@@ -54,6 +56,15 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
 
         /*Intent intent = new Intent(this,NotifyService.class);
         startService(intent);*/
+       /* Intent ii = new Intent(this, NotifyService.class);
+        PendingIntent pii = PendingIntent.getService(this, 2222, ii,PendingIntent.FLAG_CANCEL_CURRENT);
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.SECOND, 5);
+//registering our pending intent with alarmmanager
+        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+        am.setRepeating(AlarmManager.RTC_WAKEUP,cal.getTimeInMillis(),30000, pii);*/
+
+
         dd = (ImageButton)findViewById(R.id.ddBtn);
         stic = (ImageButton)findViewById(R.id.sticBtn);
         stop = (ImageButton)findViewById(R.id.stopBtn);
