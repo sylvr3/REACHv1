@@ -29,6 +29,15 @@
         <item>2</item>
         <item>3</item>
     </string-array>
+    <string-array name="days_of_week_release">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </string-array>
     <string-array name="emptyValue"></string-array>
     <string-array name="frequencyEntries">
         <item>Once a day</item>

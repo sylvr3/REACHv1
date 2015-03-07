@@ -124,6 +124,16 @@
         android:key="notif_at" android:title="Notfication Time"
         android:defaultValue="14:01"
         android:summary="Set Time of Day for Notifications"/>
+    <MultiSelectListPreference
+        android:key="scheduled_release_tricks"
+        android:defaultValue="@array/emptyValue"
+        android:entries="@array/days_of_week_release"
+        android:entryValues="@array/days_of_week_release"
+        android:persistent="true"
+        android:summary="Set when tricks will be released"
+        android:title="Schedule for Trick Release"
+
+        />
 
     <EditTextPreference
         android:key="teacherPIN"

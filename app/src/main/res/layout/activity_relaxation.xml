@@ -73,6 +73,16 @@
             android:layout_toRightOf="@+id/worryboxBtn"
             android:layout_marginLeft="30dp" />
 
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageButton"
+            android:layout_below="@+id/tgtBtn"
+            android:background="@drawable/back_btn_selector"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:onClick="onBackClick" />
+
     </RelativeLayout>
 
 </RelativeLayout>

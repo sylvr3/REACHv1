@@ -20,7 +20,7 @@ import java.util.Set;
 
 public class Preferences extends PreferenceActivity /*implements SharedPreferences.OnSharedPreferenceChangeListener */ {
 
-    private MultiSelectListPreference DDProtocolChange, STOPProtocolChange, STICProtocolChange;
+    private MultiSelectListPreference DDProtocolChange, STOPProtocolChange, STICProtocolChange, scheduleTricks;
     private SharedPreferences sharedPrefs;
     private SQLiteDatabase db;
     private int i = 0;
@@ -38,9 +38,8 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
         DDProtocolChange = (MultiSelectListPreference) findPreference("DD_week_setting");
         STOPProtocolChange = (MultiSelectListPreference) findPreference("STOP_week_setting");
         teacherPin = (EditTextPreference) findPreference("teacherPIN");
-//        STICProtocol_Week1Change = (ListPreference) findPreference("Week1_STIC_protool_setting");
-//        DDProtocolChange.setva
         exportToCSV = (PreferenceScreen) findPreference("exportDataMenu");
+        scheduleTricks = (MultiSelectListPreference) findPreference("scheduled_release_tricks");
         exportToCSV.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
@@ -71,8 +70,31 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
                 } else if (s.equals("teacherPIN")) {
                     updateTeacherPIN(sharedPreferences,s);
                 }
+                else if(s.equals("scheduled_release_tricks")){
+                    setScheduleForTricks(sharedPreferences,s);
+                }
             }
         });
+    }
+
+    public void setScheduleForTricks(SharedPreferences pref, String s){
+        Set<String> stringSet = pref.getStringSet("scheduled_release_tricks", null);
+        String[] stringArr = stringSet.toArray(new String[stringSet.size()]);
+        try {
+            DBHelper helper = new DBHelper(getApplicationContext());
+            db = helper.getDB();
+            ContentValues v = new ContentValues();
+            v.put("trick_day1", stringArr[0]);
+            v.put("trick_day2", stringArr[1]);
+            int rowUpdateCount = db.update("DATE_TIME_SET", v, "id=1", null);
+            Log.i("Trick Days row Updation count",rowUpdateCount+"");
+            db.close();
+            helper.close();
+
+        } catch (Exception e) {
+            Log.i("Exception occured", "Exception occured");
+            e.printStackTrace();
+        }
     }
 
     public void updateTeacherPIN(SharedPreferences pref,String s){

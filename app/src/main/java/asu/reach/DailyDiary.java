@@ -13,6 +13,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -29,6 +30,7 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -39,8 +41,8 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
 
     private ImageButton respond,back,next,done,cancel,clear,voice,complete,arrowLeft,arrowRight;
     private LinearLayout nav,respBtns;
-    private RelativeLayout blob,resp,gjLayout;
-    private ImageView message,gjView,title,numView;
+    private RelativeLayout blobLayout,resp,gjLayout;
+    private ImageView message,gjView,title,numView,blob;
     private TextView today, date;
     private EditText response;
     private VideoView gj;
@@ -51,28 +53,29 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
     private final int THREE_STATE = 2;
     private final int FOUR_STATE = 3;
     private final int ZERO_X = 8;
-    private final int ONE_X = 96;
-    private final int TWO_X = 189;
-    private final int THREE_X = 276;
-    private final int FOUR_X = 365;
-    private final int FIVE_X = 456;
-    private final int SIX_X = 548;
-    private final int SEVEN_X = 638;
-    private final int EIGHT_X = 728;
-    private final int ZERO_M = 53;
-    private final int ONE_M = 144;
-    private final int TWO_M = 233;
-    private final int THREE_M = 320;
-    private final int FOUR_M = 410;
-    private final int FIVE_M = 502;
-    private final int SIX_M = 594;
-    private final int SEVEN_M = 684;
+    private final int ONE_X = 177;
+    private final int TWO_X = 315;
+    private final int THREE_X = 474;
+    private final int FOUR_X = 622;
+    private final int FIVE_X = 768;
+    private final int SIX_X = 923;
+    private final int SEVEN_X = 1063;
+    private final int EIGHT_X = 1210;
+    private final int ZERO_M = 88;
+    private final int ONE_M = 240;
+    private final int TWO_M = 388;
+    private final int THREE_M = 533;
+    private final int FOUR_M = 683;
+    private final int FIVE_M = 836;
+    private final int SIX_M = 990;
+    private final int SEVEN_M = 1140;
     private int currentPos = 0;
     private static final int SPEECH_REQUEST_CODE = 0;
     private String sit, act, think;
     private boolean end = false;
     private boolean dateChoose = false;
     private SQLiteDatabase db;
+    private RelativeLayout.LayoutParams thermParams, normParams;
 
 
     @Override
@@ -86,6 +89,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
         back = (ImageButton)findViewById(R.id.backBtn);
         next = (ImageButton)findViewById(R.id.nextBtn);
         message = (ImageView)findViewById(R.id.messageView);
+        blob = (ImageView)findViewById(R.id.blobView);
         response = (EditText)findViewById(R.id.responseTxt);
         today = (TextView)findViewById(R.id.todayView);
         date = (TextView)findViewById(R.id.dateInput);
@@ -96,7 +100,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
         nav = (LinearLayout)findViewById(R.id.navLayout);
         respBtns = (LinearLayout)findViewById(R.id.respBtnLayout);
         resp = (RelativeLayout)findViewById(R.id.respLayout);
-        blob = (RelativeLayout)findViewById(R.id.blobLayout);
+        blobLayout = (RelativeLayout)findViewById(R.id.blobLayout);
         gjView = (ImageView)findViewById(R.id.gjView);
         gjLayout = (RelativeLayout)findViewById(R.id.gjLayout);
         complete = (ImageButton)findViewById(R.id.completeBtn);
@@ -122,6 +126,12 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
         arrowRight.setOnClickListener(this);
         date.setOnClickListener(this);
 
+        thermParams = new RelativeLayout.LayoutParams(convertToPixels(35),convertToPixels(35));
+        normParams = new RelativeLayout.LayoutParams(convertToPixels(200),convertToPixels(200));
+        thermParams.setMargins(convertToPixels(75),convertToPixels(180),0,0);
+        normParams.setMargins(0,convertToPixels(150),0,0);
+        normParams.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+
         sit = "";
         act = "";
         think = "";
@@ -141,6 +151,11 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
         Date now = new Date();
         SimpleDateFormat f = new SimpleDateFormat("MM/dd/yyyy");
         date.setText(f.format(now));
+    }
+
+    private int convertToPixels(int dp){
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                dp, getResources().getDisplayMetrics());
     }
 
 
@@ -177,7 +192,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                 e.printStackTrace();
             }
             nav.setVisibility(View.GONE);
-            blob.setVisibility(View.GONE);
+            blobLayout.setVisibility(View.GONE);
             resp.setVisibility(View.VISIBLE);
             respBtns.setVisibility(View.VISIBLE);
             cancel.setVisibility(View.VISIBLE);
@@ -193,7 +208,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                     e.printStackTrace();
                 }
                 nav.setVisibility(View.VISIBLE);
-                blob.setVisibility(View.VISIBLE);
+                blobLayout.setVisibility(View.VISIBLE);
                 resp.setVisibility(View.GONE);
                 respBtns.setVisibility(View.GONE);
                 cancel.setVisibility(View.GONE);
@@ -211,7 +226,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                 e.printStackTrace();
             }
             nav.setVisibility(View.VISIBLE);
-            blob.setVisibility(View.VISIBLE);
+            blobLayout.setVisibility(View.VISIBLE);
             resp.setVisibility(View.GONE);
             respBtns.setVisibility(View.GONE);
             cancel.setVisibility(View.GONE);
@@ -257,6 +272,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                         arrowRight.setVisibility(View.VISIBLE);
                         arrowLeft.setVisibility(View.VISIBLE);
                         respond.setVisibility(View.GONE);
+                        blob.setLayoutParams(thermParams);
                         sit = response.getText().toString();
                         state = TWO_STATE;
                     }else{
@@ -278,6 +294,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                         arrowRight.setVisibility(View.GONE);
                         arrowLeft.setVisibility(View.GONE);
                         respond.setVisibility(View.VISIBLE);
+                        blob.setLayoutParams(normParams);
                         if (!(act.length() > 0)){
                             respond.setActivated(false);
                         }
@@ -356,6 +373,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                     arrowRight.setVisibility(View.GONE);
                     arrowLeft.setVisibility(View.GONE);
                     respond.setVisibility(View.VISIBLE);
+                    blob.setLayoutParams(normParams);
                     respond.setActivated(true);
                     state=ONE_STATE;
                     response.setText(sit);
@@ -371,6 +389,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                     }
                     message.setBackgroundResource(R.drawable.dd_2_message);
                     therm.setVisibility(View.VISIBLE);
+                    blob.setLayoutParams(thermParams);
                     arrowRight.setVisibility(View.VISIBLE);
                     arrowLeft.setVisibility(View.VISIBLE);
                     respond.setVisibility(View.GONE);
@@ -637,7 +656,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                     */
 
                     title.setVisibility(View.GONE);
-                    blob.setVisibility(View.GONE);
+                    blobLayout.setVisibility(View.GONE);
                     nav.setVisibility(View.GONE);
                     gjLayout.setVisibility(View.VISIBLE);
                     gjView.setVisibility(View.VISIBLE);
@@ -649,7 +668,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                         public void onPrepared(MediaPlayer mp) {
                             mp.setLooping(true);
                             title.setVisibility(View.GONE);
-                            blob.setVisibility(View.GONE);
+                            blobLayout.setVisibility(View.GONE);
                             nav.setVisibility(View.GONE);
                             gjLayout.setVisibility(View.VISIBLE);
                             gjView.setVisibility(View.VISIBLE);
@@ -674,6 +693,15 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
 
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-        date.setText((monthOfYear+1)+"/"+dayOfMonth+"/"+ year);
+        Calendar current = Calendar.getInstance();
+        current.setTimeInMillis(System.currentTimeMillis());
+        int y = current.get(Calendar.YEAR);
+        int m = current.get(Calendar.MONTH);
+        int d = current.get(Calendar.DAY_OF_MONTH);
+        if(year <= y && monthOfYear <= m && dayOfMonth <= d) {
+            date.setText((monthOfYear + 1) + "/" + dayOfMonth + "/" + year);
+        }else{
+            Toast.makeText(this, "The Entry cannot be \nfor a future date.",Toast.LENGTH_SHORT).show();
+        }
     }
 }
