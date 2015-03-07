@@ -45,6 +45,8 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
             ContentValues v = new ContentValues();
             v.put("start_date","default");
             v.put("start_time","01:00");
+            v.put("trick_day1","default");
+            v.put("trick_day2","default");
             DBHelper helper = new DBHelper(this);
             db = helper.getDB();
             db.insert("DATE_TIME_SET",null,v);
