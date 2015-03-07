@@ -208,4 +208,11 @@ public class STIC extends Activity implements View.OnClickListener, DialogInterf
         super.onDestroy();
         db.close();
     }
+
+    @Override
+    public void onBackPressed() {}
+
+    public void onBackClick(View v){
+        finish();
+    }
 }

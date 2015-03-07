@@ -213,4 +213,11 @@ public class Relaxation extends Activity implements View.OnClickListener,
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onBackPressed() {}
+
+    public void onBackClick(View v){
+        finish();
+    }
 }
