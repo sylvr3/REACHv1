@@ -1,7 +1,9 @@
 package asu.reach;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.pm.ActivityInfo;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,10 +20,12 @@ import android.widget.VideoView;
 
 public class Blob extends Activity implements MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener{
 
-    ImageButton one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve;
-    ScrollView trickView;
-    ImageView title;
-    VideoView vid;
+    private ImageButton one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve;
+    private ScrollView trickView;
+    private ImageView title;
+    private VideoView vid;
+    private SQLiteDatabase db;
+    private int currentDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,22 @@ public class Blob extends Activity implements MediaPlayer.OnCompletionListener, 
 
         vid.setOnCompletionListener(this);
         vid.setOnPreparedListener(this);
+
+        try {
+            DBHelper helper = new DBHelper(this);
+            db = helper.getDB();
+            currentDay = helper.getCurrentDay();
+            if (currentDay < 43 && currentDay > 0) {
+                ContentValues v = new ContentValues();
+                v.put("BLOB", 1);
+                db.update("USER_ACTIVITY_TRACK", v, "DAY = " + currentDay, null);
+            } else {
+                Toast.makeText(this, "Invalid day,\nplease change\nstart date",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 
