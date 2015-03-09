@@ -32,7 +32,7 @@
                 android:defaultValue="@array/emptyValue"
                 android:entries="@array/week_STIC_list"
                 android:entryValues="@array/week_STIC_list_value"
-                android:key="Week1_STIC_protool_setting"
+                android:key="Week1_STIC_protocol_setting"
                 android:persistent="true"
                 android:summary="Click to change"
                 android:title="Week 1" />
@@ -40,7 +40,7 @@
                 android:defaultValue="@array/emptyValue"
                 android:entries="@array/week_STIC_list"
                 android:entryValues="@array/week_STIC_list_value"
-                android:key="Week2_STIC_protool_setting"
+                android:key="Week2_STIC_protocol_setting"
                 android:persistent="true"
                 android:summary="Click to change"
                 android:title="Week 2" />
@@ -48,7 +48,7 @@
                 android:defaultValue="@array/emptyValue"
                 android:entries="@array/week_STIC_list"
                 android:entryValues="@array/week_STIC_list_value"
-                android:key="Week3_STIC_protool_setting"
+                android:key="Week3_STIC_protocol_setting"
                 android:persistent="true"
                 android:summary="Click to change"
                 android:title="Week 3" />
@@ -56,7 +56,7 @@
                 android:defaultValue="@array/emptyValue"
                 android:entries="@array/week_STIC_list"
                 android:entryValues="@array/week_STIC_list_value"
-                android:key="Week4_STIC_protool_setting"
+                android:key="Week4_STIC_protocol_setting"
                 android:persistent="true"
                 android:summary="Click to change"
                 android:title="Week 4" />
@@ -64,7 +64,7 @@
                 android:defaultValue="@array/emptyValue"
                 android:entries="@array/week_STIC_list"
                 android:entryValues="@array/week_STIC_list_value"
-                android:key="Week5_STIC_protool_setting"
+                android:key="Week5_STIC_protocol_setting"
                 android:persistent="true"
                 android:summary="Click to change"
                 android:title="Week 5" />
@@ -72,7 +72,7 @@
                 android:defaultValue="@array/emptyValue"
                 android:entries="@array/week_STIC_list"
                 android:entryValues="@array/week_STIC_list_value"
-                android:key="Week6_STIC_protool_setting"
+                android:key="Week6_STIC_protocol_setting"
                 android:persistent="true"
                 android:summary="Click to change"
                 android:title="Week 6" />
