@@ -26,6 +26,8 @@ public class Blob extends Activity implements MediaPlayer.OnCompletionListener, 
     private VideoView vid;
     private SQLiteDatabase db;
     private int currentDay;
+    private boolean twoOpen,threeOpen,fourOpen,fiveOpen,sixOpen,sevenOpen,
+            eightOpen,nineOpen,tenOpen,elevenOpen,twelveOpen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,57 +35,66 @@ public class Blob extends Activity implements MediaPlayer.OnCompletionListener, 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_blob);
-
+        init(); //initialize boolean values
         one = (ImageButton)findViewById(R.id.trickOneBtn);
-
-
-
         try {
             DBHelper helper = new DBHelper(this);
             helper.releaseTrick();
-            two = (ImageButton)findViewById(R.id.trickTwoBtn);
-            if(helper.checkIfLocked(2))
+            two = (ImageButton) findViewById(R.id.trickTwoBtn);
+            if (helper.checkIfLocked(2)) {
                 two.setBackgroundResource(R.drawable.lock_selector);
-
-            three = (ImageButton)findViewById(R.id.trickThreeBtn);
-            if(helper.checkIfLocked(3))
+                twoOpen = false;
+            }
+            three = (ImageButton) findViewById(R.id.trickThreeBtn);
+            if (helper.checkIfLocked(3)) {
                 three.setBackgroundResource(R.drawable.lock_selector);
-
-            four = (ImageButton)findViewById(R.id.trickFourBtn);
-            if(helper.checkIfLocked(4))
+                threeOpen = false;
+            }
+            four = (ImageButton) findViewById(R.id.trickFourBtn);
+            if (helper.checkIfLocked(4)) {
                 four.setBackgroundResource(R.drawable.lock_selector);
-
-            five = (ImageButton)findViewById(R.id.trickFiveBtn);
-            if(helper.checkIfLocked(5))
+                fourOpen = false;
+            }
+            five = (ImageButton) findViewById(R.id.trickFiveBtn);
+            if (helper.checkIfLocked(5)) {
                 five.setBackgroundResource(R.drawable.lock_selector);
-
-            six = (ImageButton)findViewById(R.id.trickSixBtn);
-            if(helper.checkIfLocked(6))
+                fiveOpen = false;
+            }
+            six = (ImageButton) findViewById(R.id.trickSixBtn);
+            if (helper.checkIfLocked(6)) {
                 six.setBackgroundResource(R.drawable.lock_selector);
-
-            seven = (ImageButton)findViewById(R.id.trickSevenBtn);
-            if(helper.checkIfLocked(7))
+                sixOpen = false;
+            }
+            seven = (ImageButton) findViewById(R.id.trickSevenBtn);
+            if (helper.checkIfLocked(7)){
                 seven.setBackgroundResource(R.drawable.lock_selector);
-
+                sevenOpen = false;
+            }
             eight = (ImageButton)findViewById(R.id.trickEightBtn);
-            if(helper.checkIfLocked(8))
+            if(helper.checkIfLocked(8)) {
                 eight.setBackgroundResource(R.drawable.lock_selector);
-
+                eightOpen = false;
+            }
             nine = (ImageButton)findViewById(R.id.trickNineBtn);
-            if(helper.checkIfLocked(9))
+            if(helper.checkIfLocked(9)) {
                 nine.setBackgroundResource(R.drawable.lock_selector);
-
+                nineOpen = false;
+            }
             ten = (ImageButton)findViewById(R.id.trickTenBtn);
-            if(helper.checkIfLocked(10))
+            if(helper.checkIfLocked(10)) {
                 ten.setBackgroundResource(R.drawable.lock_selector);
-
+                tenOpen = false;
+            }
             eleven = (ImageButton)findViewById(R.id.trickElevenBtn);
-            if(helper.checkIfLocked(11))
+            if(helper.checkIfLocked(11)) {
                 eleven.setBackgroundResource(R.drawable.lock_selector);
-
+                elevenOpen = false;
+            }
             twelve = (ImageButton)findViewById(R.id.trickTwelveBtn);
-            if(helper.checkIfLocked(12))
+            if(helper.checkIfLocked(12)) {
                 twelve.setBackgroundResource(R.drawable.lock_selector);
+                twelveOpen = false;
+            }
             helper.close();
         }catch(Exception e){
             e.printStackTrace();
@@ -157,8 +168,10 @@ public class Blob extends Activity implements MediaPlayer.OnCompletionListener, 
         }catch(Exception e){
             e.printStackTrace();
         }
-        vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.jump_n));
-        vid.start();
+        if(twoOpen) {
+            vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.jump_n));
+            vid.start();
+        }else{locked();}
     }
     public void threeClick(View v){
         try {
@@ -168,8 +181,10 @@ public class Blob extends Activity implements MediaPlayer.OnCompletionListener, 
         }catch(Exception e){
             e.printStackTrace();
         }
-        vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.dance_n));
-        vid.start();
+        if(threeOpen) {
+            vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.dance_n));
+            vid.start();
+        }else{locked();}
     }
     public void fourClick(View v){
         try {
@@ -179,8 +194,10 @@ public class Blob extends Activity implements MediaPlayer.OnCompletionListener, 
         }catch(Exception e){
             e.printStackTrace();
         }
-        vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.flip_n));
-        vid.start();
+        if(fourOpen) {
+            vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.flip_n));
+            vid.start();
+        }else{locked();}
     }
     public void fiveClick(View v){
         try {
@@ -190,8 +207,10 @@ public class Blob extends Activity implements MediaPlayer.OnCompletionListener, 
         }catch(Exception e){
             e.printStackTrace();
         }
-        vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.bounce_n));
-        vid.start();
+        if(fiveOpen){
+            vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.bounce_n));
+            vid.start();
+        }else{locked();}
     }
     public void sixClick(View v){
         try {
@@ -201,8 +220,10 @@ public class Blob extends Activity implements MediaPlayer.OnCompletionListener, 
         }catch(Exception e){
             e.printStackTrace();
         }
-        vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.shrink_n));
-        vid.start();
+        if(sixOpen){
+            vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.shrink_n));
+            vid.start();
+        }else{locked();}
     }
     public void sevenClick(View v){
         try {
@@ -212,8 +233,10 @@ public class Blob extends Activity implements MediaPlayer.OnCompletionListener, 
         }catch(Exception e){
             e.printStackTrace();
         }
-        vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.grow_n));
-        vid.start();
+        if(sevenOpen){
+            vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.grow_n));
+            vid.start();
+        }else{locked();}
     }
     public void eightClick(View v){
         try {
@@ -223,8 +246,10 @@ public class Blob extends Activity implements MediaPlayer.OnCompletionListener, 
         }catch(Exception e){
             e.printStackTrace();
         }
-        vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.splat_n));
-        vid.start();
+        if(eightOpen){
+            vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.splat_n));
+            vid.start();
+        }else{locked();}
     }
     public void nineClick(View v){
         try {
@@ -234,8 +259,10 @@ public class Blob extends Activity implements MediaPlayer.OnCompletionListener, 
         }catch(Exception e){
             e.printStackTrace();
         }
-        vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.fly_n));
-        vid.start();
+        if(nineOpen){
+            vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.fly_n));
+            vid.start();
+        }else{locked();}
     }
     public void tenClick(View v){
         try {
@@ -245,8 +272,10 @@ public class Blob extends Activity implements MediaPlayer.OnCompletionListener, 
         }catch(Exception e){
             e.printStackTrace();
         }
-        vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.double_bounce_n));
-        vid.start();
+        if(tenOpen) {
+            vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.double_bounce_n));
+            vid.start();
+        }else{locked();}
     }
     public void elevenClick(View v){
         try {
@@ -256,8 +285,10 @@ public class Blob extends Activity implements MediaPlayer.OnCompletionListener, 
         }catch(Exception e){
             e.printStackTrace();
         }
-        vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.crater_jump_n));
-        vid.start();
+        if(elevenOpen) {
+            vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.crater_jump_n));
+            vid.start();
+        }else{locked();}
     }
     public void twelveClick(View v){
         try {
@@ -267,8 +298,10 @@ public class Blob extends Activity implements MediaPlayer.OnCompletionListener, 
         }catch(Exception e){
             e.printStackTrace();
         }
-        vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.glow_n));
-        vid.start();
+        if(twelveOpen) {
+            vid.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.glow_n));
+            vid.start();
+        }else{locked();}
     }
 
     private void locked(){
@@ -320,5 +353,18 @@ public class Blob extends Activity implements MediaPlayer.OnCompletionListener, 
         }else{
             super.onBackPressed();
         }
+    }
+    private void init(){
+        twoOpen = true;
+        threeOpen = true;
+        fourOpen = true;
+        fiveOpen = true;
+        sixOpen = true;
+        sevenOpen = true;
+        eightOpen = true;
+        nineOpen = true;
+        tenOpen = true;
+        elevenOpen = true;
+        twelveOpen = true;
     }
 }
