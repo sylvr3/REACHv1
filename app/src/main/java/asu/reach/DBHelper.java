@@ -50,13 +50,11 @@ public class DBHelper extends SQLiteOpenHelper{
                     null, SQLiteDatabase.OPEN_READWRITE);
             Cursor c = myDataBase.rawQuery("SELECT * FROM STIC",null);
             if(!(c.getCount() > 0)){
-                System.out.println("Copying DB");
                 copyDataBase();
             }
         }catch(Exception e){
             e.printStackTrace();
             if(myDataBase == null) {
-                System.out.println("Copying DB");
                 try {
                     copyDataBase();
                 }catch(Exception ex){
@@ -97,16 +95,20 @@ public class DBHelper extends SQLiteOpenHelper{
         if(start.equals("default")){
             currentDay = -1;
         }else{
-            String[] split = start.split(".");
-            Calendar startDay = Calendar.getInstance();
-            Calendar today = Calendar.getInstance();
-            today.setTimeInMillis(System.currentTimeMillis());
-            startDay.set(Integer.parseInt(split[0]),
-                    Integer.parseInt(split[1]),
-                    Integer.parseInt(split[2]),0,0,0);
-            currentDay = today.get(Calendar.DAY_OF_YEAR) - startDay.get(Calendar.DAY_OF_YEAR);
-            if (currentDay < 0){
-                currentDay = -currentDay;
+            String[] split = start.split("[.]");
+            if(split.length == 3) {
+                Calendar startDay = Calendar.getInstance();
+                Calendar today = Calendar.getInstance();
+                today.setTimeInMillis(System.currentTimeMillis());
+                startDay.set(Integer.parseInt(split[0]),
+                        Integer.parseInt(split[1])-1,
+                        Integer.parseInt(split[2]), 0, 0, 0);
+                currentDay = today.get(Calendar.DAY_OF_YEAR) - startDay.get(Calendar.DAY_OF_YEAR);
+                if (currentDay < 0) {
+                    currentDay = -currentDay;
+                }
+            }else{
+                currentDay = -1;
             }
         }
         return currentDay;
@@ -139,7 +141,7 @@ public class DBHelper extends SQLiteOpenHelper{
      * This is done by transfering bytestream.
      * */
     public void copyDataBase() throws IOException{
-
+        System.out.println("Copying DB");
         //Open your local db as the input stream
         InputStream myInput = myContext.getAssets().open(DB_NAME);
 

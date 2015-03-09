@@ -84,10 +84,11 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
             DBHelper helper = new DBHelper(getApplicationContext());
             db = helper.getDB();
             ContentValues v = new ContentValues();
-            v.put("trick_day1", stringArr[0]);
-            v.put("trick_day2", stringArr[1]);
-            int rowUpdateCount = db.update("DATE_TIME_SET", v, "id=1", null);
-            Log.i("Trick Days row Updation count",rowUpdateCount+"");
+            v.put("start_date", stringArr[0]);
+            db.update("DATE_TIME_SET", v, "id=2", null);
+            v = new ContentValues();
+            v.put("start_date", stringArr[1]);
+            db.update("DATE_TIME_SET", v, "id=3", null);
             db.close();
             helper.close();
 
