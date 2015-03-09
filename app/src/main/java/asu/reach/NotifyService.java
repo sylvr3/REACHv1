@@ -107,13 +107,13 @@ public class NotifyService extends Service {
             * */
 
 
-           /* Intent ii = new Intent(arg0, NotifyService.class);
+            Intent ii = new Intent(arg0, NotifyService.class);
             PendingIntent pii = PendingIntent.getService(arg0, 2222, ii,PendingIntent.FLAG_CANCEL_CURRENT);
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.SECOND, 5);
 //registering our pending intent with alarmmanager
             AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-            am.setRepeating(AlarmManager.RTC_WAKEUP,cal.getTimeInMillis(),60000, pii);*/
+            am.setRepeating(AlarmManager.RTC_WAKEUP,cal.getTimeInMillis(),60000, pii);
 //                startService(intent);
         }
     }
