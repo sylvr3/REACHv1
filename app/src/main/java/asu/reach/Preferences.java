@@ -55,6 +55,8 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
                     dailyDiaryProtocolChange(sharedPreferences, s);
                 } else if (s.equals("STOP_week_setting")) {
                     StopProtocolChange(sharedPreferences, s);
+                } else if (s.equals("STOP_worryhead_week_setting")) {
+                    StopWorryHeadProtocolChange(sharedPreferences, s);
                 } else if (s.equals("Week1_STIC_protocol_setting")) {
                     SticProtocolChange(sharedPreferences, s, 1);
                 } else if (s.equals("Week2_STIC_protocol_setting")) {
@@ -199,6 +201,43 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
             e.printStackTrace();
         }
 
+    }
+
+    public void StopWorryHeadProtocolChange(SharedPreferences pref,String s){
+        Set<String> stringSet = pref.getStringSet("STOP_worryhead_week_setting", null);
+        String[] stringArr = stringSet.toArray(new String[stringSet.size()]);
+        String[] stringArrNotContains = new String[6 - stringArr.length];
+        int chk = 0;
+        int chk1 = 0;
+        while (chk < 6) {
+            if (!Arrays.asList(stringArr).contains((chk + 1) + "")) {
+                stringArrNotContains[chk1++] = (chk + 1) + "";
+            }
+            chk++;
+        }
+        try {
+            DBHelper helper = new DBHelper(getApplicationContext());
+            db = helper.getDB();
+            i = 0;
+            ContentValues v = new ContentValues();
+            v.put("STOP_WORRYHEADS", 1);
+            while (i < stringArr.length) {
+                db.update("ADMIN_ACTIVITY_SCHEDULER", v,"WEEK_NO = \"" + Integer.parseInt(stringArr[i++].toString())+ "\"", null);
+            }
+            db.close();
+            helper = new DBHelper(getApplicationContext());
+            db = helper.getDB();
+            i = 0;
+            ContentValues v1 = new ContentValues();
+            v1.put("STOP_WORRYHEADS", 0);
+            while (i < stringArrNotContains.length) {
+                db.update("ADMIN_ACTIVITY_SCHEDULER", v1, "WEEK_NO = \"" + Integer.parseInt(stringArrNotContains[i++].toString()) + "\"", null);
+            }
+
+            db.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void StopProtocolChange(SharedPreferences pref, String s) {
