@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.FragmentManager;
 import android.app.PendingIntent;
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -41,19 +40,6 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_landing);
-        try{
-            ContentValues v = new ContentValues();
-            v.put("start_date","default");
-            v.put("start_time","01:00");
-            v.put("trick_day1","default");
-            v.put("trick_day2","default");
-            DBHelper helper = new DBHelper(this);
-            db = helper.getDB();
-            db.insert("DATE_TIME_SET",null,v);
-            db.close();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
 
         /*Intent intent = new Intent(this,NotifyService.class);
         startService(intent);*/
@@ -100,7 +86,6 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
             }else{
                 // TODO : day specific visualization (i.e. glowy buttons)
             }
-
             helper.trackEvent(helper,"APP_STARTED","LANDING_PAGE");
             helper.close();
             /*Intent nInt = new Intent(this, HelperService.class);

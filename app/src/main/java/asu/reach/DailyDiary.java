@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
@@ -70,10 +71,13 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
     private final int SIX_M = 990;
     private final int SEVEN_M = 1140;
     private int currentPos = 0;
+    private int currentDay;
     private static final int SPEECH_REQUEST_CODE = 0;
     private String sit, act, think;
     private boolean end = false;
     private boolean dateChoose = false;
+    private boolean sud_event = false;
+    private boolean dd_1 = false;
     private SQLiteDatabase db;
     private RelativeLayout.LayoutParams thermParams, normParams;
 
@@ -141,9 +145,37 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
 
         try {
             DBHelper helper = new DBHelper(this);
-            //helper.copyDataBase();
-            //helper.openDataBase();
             db = helper.getDB();
+            currentDay = helper.getCurrentDay();
+            if(currentDay < 43 && currentDay > 0) {
+                Cursor c = db.rawQuery("SELECT * from ADMIN_ACTIVITY_SCHEDULER WHERE DAY = "
+                        + currentDay, null);
+                c.moveToFirst();
+                Cursor d = db.rawQuery("SELECT * from USER_ACTIVITY_TRACK WHERE DAY = "
+                        + currentDay, null);
+                d.moveToFirst();
+                if (c.getInt(c.getColumnIndex("DIARY_EVENT1")) > 0
+                        && d.getInt(d.getColumnIndex("DIARY_EVENT1")) != 1) {
+                    dd_1 = true;
+                }
+                if (c.getInt(c.getColumnIndex("SUD_SCALE_EVENT")) > 0
+                        && d.getInt(d.getColumnIndex("SUD_SCALE_EVENT")) != 1) {
+                    sud_event = true;
+                    message.setBackgroundResource(R.drawable.dd_2_message);
+                    today.setVisibility(View.GONE);
+                    date.setVisibility(View.GONE);
+                    therm.setVisibility(View.VISIBLE);
+                    arrowRight.setVisibility(View.VISIBLE);
+                    arrowLeft.setVisibility(View.VISIBLE);
+                    respond.setVisibility(View.GONE);
+                    blob.setLayoutParams(thermParams);
+                    sit = response.getText().toString();
+                    state = TWO_STATE;
+                }
+            }else{
+                Toast.makeText(this, "Invalid day,\nplease change\nstart date",
+                        Toast.LENGTH_SHORT).show();
+            }
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -288,7 +320,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                     }catch(Exception e){
                         e.printStackTrace();
                     }
-                    if(respond.isActivated()) {
+                    if(!sud_event) {
                         message.setBackgroundResource(R.drawable.dd_3_message);
                         therm.setVisibility(View.GONE);
                         arrowRight.setVisibility(View.GONE);
@@ -301,7 +333,10 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                         response.setText(act);
                         state=THREE_STATE;
                     }else{
-                        Toast.makeText(this, "Please respond first", Toast.LENGTH_SHORT).show();
+                        end = true;
+                        FragmentManager fm = getFragmentManager();
+                        DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this, end,false);
+                        dialog.show(fm, "frag");
                     }
                     break;
                 }
@@ -314,13 +349,20 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                         e.printStackTrace();
                     }
                     if(respond.isActivated()) {
-                        message.setBackgroundResource(R.drawable.dd_4_message);
-                        if (!(think.length() > 0)){
-                            respond.setActivated(false);
+                        if(dd_1){
+                            end = true;
+                            FragmentManager fm = getFragmentManager();
+                            DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this, end,false);
+                            dialog.show(fm, "frag");
+                        }else {
+                            message.setBackgroundResource(R.drawable.dd_4_message);
+                            if (!(think.length() > 0)) {
+                                respond.setActivated(false);
+                            }
+                            act = response.getText().toString();
+                            response.setText(think);
+                            state = FOUR_STATE;
                         }
-                        act = response.getText().toString();
-                        response.setText(think);
-                        state=FOUR_STATE;
                     }else{
                         Toast.makeText(this, "Please respond first", Toast.LENGTH_SHORT).show();
                     }
@@ -366,17 +408,24 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                     }catch(Exception e){
                         e.printStackTrace();
                     }
-                    message.setBackgroundResource(R.drawable.dd_1_message);
-                    today.setVisibility(View.VISIBLE);
-                    date.setVisibility(View.VISIBLE);
-                    therm.setVisibility(View.GONE);
-                    arrowRight.setVisibility(View.GONE);
-                    arrowLeft.setVisibility(View.GONE);
-                    respond.setVisibility(View.VISIBLE);
-                    blob.setLayoutParams(normParams);
-                    respond.setActivated(true);
-                    state=ONE_STATE;
-                    response.setText(sit);
+                    if(sud_event){
+                        end = false;
+                        FragmentManager fm = getFragmentManager();
+                        DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this, end,false);
+                        dialog.show(fm, "frag");
+                    }else {
+                        message.setBackgroundResource(R.drawable.dd_1_message);
+                        today.setVisibility(View.VISIBLE);
+                        date.setVisibility(View.VISIBLE);
+                        therm.setVisibility(View.GONE);
+                        arrowRight.setVisibility(View.GONE);
+                        arrowLeft.setVisibility(View.GONE);
+                        respond.setVisibility(View.VISIBLE);
+                        blob.setLayoutParams(normParams);
+                        respond.setActivated(true);
+                        state = ONE_STATE;
+                        response.setText(sit);
+                    }
                     break;
                 }
                 case THREE_STATE:{
@@ -631,7 +680,31 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
     public void onClick(DialogInterface dialog, int which) {
         switch (which){
             case DialogInterface.BUTTON_POSITIVE:{
-                if(end) {
+                if(sud_event && end){
+                    ContentValues c = new ContentValues();
+                    c.put("TIMESTAMP", System.currentTimeMillis());
+                    c.put("WHAT_HAPPENED", "SUD_EVENT");
+                    c.put("SCARED", currentPos);
+                    db.insert("DAILY_DIARY_COMPLETION", "TIMESTAMP,WHAT_HAPPENED,SCARED,", c);
+
+                    c = new ContentValues();
+                    c.put("SUD_SCALE_EVENT", 1);
+                    db.update("USER_ACTIVITY_TRACK", c, "DAY = " + currentDay, null);
+                    playGoodJob();
+                }else if(dd_1 && end) {
+                    ContentValues c = new ContentValues();
+                    c.put("TIMESTAMP", System.currentTimeMillis());
+                    c.put("WHAT_HAPPENED", sit);
+                    c.put("SCARED", currentPos);
+                    c.put("ACTION", act);
+                    c.put("DATE", date.getText().toString());
+                    db.insert("DAILY_DIARY_COMPLETION", "TIMESTAMP,WHAT_HAPPENED,SCARED,ACTION,DATE", c);
+
+                    c = new ContentValues();
+                    c.put("DIARY_EVENT1", 1);
+                    db.update("USER_ACTIVITY_TRACK", c, "DAY = " + currentDay, null);
+                    playGoodJob();
+                }else if(end) {
                     think = response.getText().toString();
                     response.setText("");
                     ContentValues c = new ContentValues();
@@ -643,38 +716,10 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                     c.put("DATE", date.getText().toString());
                     db.insert("DAILY_DIARY_COMPLETION", "TIMESTAMP,WHAT_HAPPENED,SCARED,ACTION,THINK,DATE", c);
 
-
-
-                    /* TODO : Track user activity
-
                     c = new ContentValues();
-                    c.put("COMPLETED_FLAG", 1);
-                    int foo = db.update("STOP_WORRYHEADS",c,"S = \""+sText+"\"",null);
-                    if(foo > 0){
-                        System.out.println("Successful update");
-                    }
-                    */
-
-                    title.setVisibility(View.GONE);
-                    blobLayout.setVisibility(View.GONE);
-                    nav.setVisibility(View.GONE);
-                    gjLayout.setVisibility(View.VISIBLE);
-                    gjView.setVisibility(View.VISIBLE);
-                    complete.setVisibility(View.VISIBLE);
-                    gj.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.stars));
-                    gj.start();
-                    gj.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                        @Override
-                        public void onPrepared(MediaPlayer mp) {
-                            mp.setLooping(true);
-                            title.setVisibility(View.GONE);
-                            blobLayout.setVisibility(View.GONE);
-                            nav.setVisibility(View.GONE);
-                            gjLayout.setVisibility(View.VISIBLE);
-                            gjView.setVisibility(View.VISIBLE);
-                            complete.setVisibility(View.VISIBLE);
-                        }
-                    });
+                    c.put("DIARY_EVENT2", 1);
+                    db.update("USER_ACTIVITY_TRACK", c, "DAY = " + currentDay, null);
+                    playGoodJob();
                 }else{
                     finish();
                 }
@@ -689,6 +734,29 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
     @Override
     public void onBackPressed() {
 
+    }
+
+    private void playGoodJob(){
+        title.setVisibility(View.GONE);
+        blobLayout.setVisibility(View.GONE);
+        nav.setVisibility(View.GONE);
+        gjLayout.setVisibility(View.VISIBLE);
+        gjView.setVisibility(View.VISIBLE);
+        complete.setVisibility(View.VISIBLE);
+        gj.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.stars));
+        gj.start();
+        gj.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.setLooping(true);
+                title.setVisibility(View.GONE);
+                blobLayout.setVisibility(View.GONE);
+                nav.setVisibility(View.GONE);
+                gjLayout.setVisibility(View.VISIBLE);
+                gjView.setVisibility(View.VISIBLE);
+                complete.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
