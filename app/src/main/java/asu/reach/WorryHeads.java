@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.Calendar;
@@ -40,6 +41,7 @@ public class WorryHeads extends Activity implements View.OnClickListener, Dialog
     private boolean wrong = false; // to save wrong O in DB
     private boolean s = true;    //  S is currently showing
     private boolean intro = true;  // intro is showing
+    private int currentDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -449,6 +451,16 @@ public class WorryHeads extends Activity implements View.OnClickListener, Dialog
             helper.trackEvent(helper,"WORRY_HEADS_COMPLETED","INSIDE_WORRY_HEADS_ACTIVITY");
             File file=helper.getFile();
             Log.i("File Path",file.getAbsolutePath());
+            db = helper.getDB();
+            currentDay = helper.getCurrentDay();
+            if (currentDay < 43 && currentDay > 0) {
+                ContentValues v = new ContentValues();
+                v.put("STOP_WORRYHEADS", 1);
+                db.update("USER_ACTIVITY_TRACK", v, "DAY = " + currentDay, null);
+            } else {
+                Toast.makeText(this, "Invalid day,\nplease change\nstart date",
+                        Toast.LENGTH_SHORT).show();
+            }
             helper.close();
         }catch(Exception e){
             e.printStackTrace();

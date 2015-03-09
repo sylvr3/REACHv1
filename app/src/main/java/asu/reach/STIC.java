@@ -29,6 +29,7 @@ public class STIC extends Activity implements View.OnClickListener, DialogInterf
     private LinearLayout list;
     private Button selected;
     private EditText pin;
+    private int currentDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,6 +174,16 @@ public class STIC extends Activity implements View.OnClickListener, DialogInterf
                     try {
                         DBHelper helper = new DBHelper(this);
                         helper.trackEvent(helper,"STIC_COMPLETED","INSIDE_STIC_ACTIVITY");
+                        db = helper.getDB();
+                        currentDay = helper.getCurrentDay();
+                        if (currentDay < 43 && currentDay > 0) {
+                            v = new ContentValues();
+                            v.put("STIC", 1);
+                            db.update("USER_ACTIVITY_TRACK", v, "DAY = " + currentDay, null);
+                        } else {
+                            Toast.makeText(this, "Invalid day,\nplease change\nstart date",
+                                    Toast.LENGTH_SHORT).show();
+                        }
                         helper.close();
                     }catch(Exception e){
                         e.printStackTrace();

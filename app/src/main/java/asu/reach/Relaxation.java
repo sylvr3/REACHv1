@@ -1,7 +1,9 @@
 package asu.reach;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.pm.ActivityInfo;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.MediaController;
+import android.widget.Toast;
 
 /**
  * Much of this was adapted from StackOverflow answer given by user229487
@@ -22,12 +25,15 @@ import android.widget.MediaController;
  */
 
 public class Relaxation extends Activity implements View.OnClickListener,
-        MediaPlayer.OnPreparedListener, MediaController.MediaPlayerControl{
+        MediaPlayer.OnPreparedListener, MediaController.MediaPlayerControl,
+        MediaPlayer.OnCompletionListener{
 
     private ImageButton intro,worrybox,bb,tgt,review;
     private MediaPlayer player;
     private MediaController control;
     private Handler handler = new Handler();
+    private SQLiteDatabase db;
+    private int currentDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +58,7 @@ public class Relaxation extends Activity implements View.OnClickListener,
 
         player = new MediaPlayer();
         player.setOnPreparedListener(this);
+        player.setOnCompletionListener(this);
 
         control = new MediaController(this);
     }
@@ -219,5 +226,24 @@ public class Relaxation extends Activity implements View.OnClickListener,
 
     public void onBackClick(View v){
         finish();
+    }
+
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+        try {
+            DBHelper helper = new DBHelper(this);
+            db = helper.getDB();
+            currentDay = helper.getCurrentDay();
+            if (currentDay < 43 && currentDay > 0) {
+                ContentValues v = new ContentValues();
+                v.put("RELAXATION", 1);
+                db.update("USER_ACTIVITY_TRACK", v, "DAY = " + currentDay, null);
+            } else {
+                Toast.makeText(this, "Invalid day,\nplease change\nstart date",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

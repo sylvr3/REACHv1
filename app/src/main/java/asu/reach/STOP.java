@@ -44,6 +44,7 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
     private static final int SPEECH_REQUEST_CODE = 0;
     private boolean end = false;
     private SQLiteDatabase db;
+    private int currentDay;
 
     private String sr,tr,or,pr;
 
@@ -381,6 +382,7 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
         switch (which){
             case DialogInterface.BUTTON_POSITIVE:{
                 if(end) {
+                    DBHelper helper = new DBHelper(this);
                     pr = response.getText().toString();
                     response.setText("");
                     ContentValues c = new ContentValues();
@@ -391,17 +393,15 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
                     c.put("P_RESPONSE", pr);
                     db.insert("STOP",
                             "TIMESTAMP,S_RESPONSE,T_RESPONSE,O_RESPONSE,P_RESPONSE", c);
-
-
-                    /* TODO : Track user activity
-
-                    c = new ContentValues();
-                    c.put("COMPLETED_FLAG", 1);
-                    int foo = db.update("ADMIN",c,"S = \""+sText+"\"",null);
-                    if(foo > 0){
-                        System.out.println("Successful update");
+                    currentDay = helper.getCurrentDay();
+                    if (currentDay < 43 && currentDay > 0) {
+                        ContentValues v = new ContentValues();
+                        v.put("STOP", 1);
+                        db.update("USER_ACTIVITY_TRACK", v, "DAY = " + currentDay, null);
+                    } else {
+                        Toast.makeText(this, "Invalid day,\nplease change\nstart date",
+                                Toast.LENGTH_SHORT).show();
                     }
-                    */
 
                     stopLayout.setVisibility(View.GONE);
                     blob.setVisibility(View.GONE);
