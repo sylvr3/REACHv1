@@ -22,6 +22,7 @@ import java.io.OutputStream;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class DBHelper extends SQLiteOpenHelper{
     //The Android's default system path of your application database.
@@ -69,6 +70,64 @@ public class DBHelper extends SQLiteOpenHelper{
         }
     }
 
+    public void releaseTrick(){
+        try{
+            Cursor dayFind = myDataBase.rawQuery("SELECT start_date FROM DATE_TIME_SET WHERE id =2;",null);
+            Cursor dayFind2 = myDataBase.rawQuery("SELECT start_date FROM DATE_TIME_SET WHERE id =3;",null);
+            dayFind.moveToFirst();
+            dayFind2.moveToFirst();
+            String startDay = dayFind.getString(dayFind.getColumnIndex("start_date"));
+            String startDay2 = dayFind2.getString(dayFind2.getColumnIndex("start_date"));
+            String weekDay;
+            SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.US);
+
+            Calendar calendar = Calendar.getInstance();
+
+            weekDay = dayFormat.format(calendar.getTime());
+            if(weekDay.equalsIgnoreCase(startDay) || weekDay.equalsIgnoreCase(startDay2)){
+                Cursor dayFromDb= myDataBase.rawQuery("SELECT TRICK_ID FROM BLOB_TRICK_LOCKED_CHECK;",null);
+                SimpleDateFormat saveTodayFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+                Calendar cal = Calendar.getInstance();
+                String today;
+                today = saveTodayFormat.format(cal.getTime());
+                Cursor dateUnlocked= myDataBase.rawQuery("SELECT DATE FROM LAST_TRICK_UNLOCK;",null);
+                if(dayFromDb.moveToFirst()) {
+                    dateUnlocked.moveToFirst();
+                    String lastUnlocked=dateUnlocked.getString(dateUnlocked.getColumnIndex("DATE"));
+                    Log.i("lastUnlocked",lastUnlocked);
+                    Log.i("today",today);
+                    if(lastUnlocked.equalsIgnoreCase(today)){
+                        Log.i("Already unlocked today","true");
+                    }else{
+                        int rowId = dayFromDb.getInt(dayFromDb.getColumnIndex("TRICK_ID"));
+                        myDataBase.delete("BLOB_TRICK_LOCKED_CHECK", "TRICK_ID" +  "=" + rowId, null);
+                        ContentValues v = new ContentValues();
+                        v.put("DATE",today);
+                        myDataBase.update("LAST_TRICK_UNLOCK", v, null, null);
+                    }
+                }
+                //Log.i("Status","Released Trick");
+                dayFromDb= myDataBase.rawQuery("SELECT TRICK_ID FROM BLOB_TRICK_LOCKED_CHECK;",null);
+                Log.i("ID",Integer.toString(dayFromDb.getCount()));
+            }else{
+                Log.i("Day1",startDay);
+                Log.i("Day2",startDay2);
+                Log.i("weekDay",weekDay);
+                Log.i("Status","Do Not Release Trick");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public boolean checkIfLocked(int id){
+        Cursor find = myDataBase.rawQuery("SELECT * FROM BLOB_TRICK_LOCKED_CHECK WHERE TRICK_ID ="+id+";",null);
+        if(find.getCount()>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     public void trackEvent(DBHelper helper,String EVENT_TYPE,String EVENT_PLACE){
         try {
