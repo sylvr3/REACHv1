@@ -43,6 +43,23 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_landing);
 
+       /* try{
+            DBHelper helper = new DBHelper(this);
+            db = helper.getDB();
+            Cursor c = db.rawQuery("select * from DATE_TIME_SET",null);
+            if(c.moveToNext()==null) {
+                ContentValues v = new ContentValues();
+                v.put("start_date", "default");
+                v.put("start_time", "01:00");
+                v.put("trick_day1", "default");
+                v.put("trick_day2", "default");
+                db.insert("DATE_TIME_SET", null, v);
+                db.close();
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }*/
+
         /*Intent intent = new Intent(this,NotifyService.class);
         startService(intent);*/
         Intent ii = new Intent(this, NotifyService.class);
