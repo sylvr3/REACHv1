@@ -77,14 +77,14 @@
                 android:summary="Click to change"
                 android:title="Week 6" />
         </PreferenceScreen>
-       <!-- <MultiSelectListPreference
+       <MultiSelectListPreference
             android:defaultValue="@array/emptyValue"
             android:entries="@array/protocols"
             android:entryValues="@array/protocolValue"
-            android:key="STIC_week_setting"
+            android:key="STOP_worryhead_week_setting"
             android:persistent="true"
             android:summary="Click to change"
-            android:title="STIC Settings" />-->
+            android:title="STOP WORRYHEAD Protocol" />
     </PreferenceScreen>
     <asu.reach.DatePreference
         android:defaultValue="2015-01-01"
