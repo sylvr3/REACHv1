@@ -147,7 +147,6 @@ public class STIC extends Activity implements View.OnClickListener, DialogInterf
                 try {
                     DBHelper helper = new DBHelper(this);
                     helper.trackEvent(helper,"STIC_TEACHER_PIN","INSIDE_STIC_ACTIVITY");
-                    helper.close();
                 }catch(Exception e){
                     e.printStackTrace();
                 }
@@ -194,7 +193,6 @@ public class STIC extends Activity implements View.OnClickListener, DialogInterf
                             Toast.makeText(this, "Invalid day,\nplease change\nstart date",
                                     Toast.LENGTH_SHORT).show();
                         }
-                        helper.close();
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -204,7 +202,6 @@ public class STIC extends Activity implements View.OnClickListener, DialogInterf
                     try {
                         DBHelper helper = new DBHelper(this);
                         helper.trackEvent(helper,"INVALID_PIN","INSIDE_STIC_ACTIVITY");
-                        helper.close();
                     }catch(Exception e1){
                         e.printStackTrace();
                     }
