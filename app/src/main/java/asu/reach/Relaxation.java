@@ -86,6 +86,13 @@ public class Relaxation extends Activity implements View.OnClickListener,
                 if(player.isPlaying()){
                     player.stop();
                 }
+                try {
+                    DBHelper helper = new DBHelper(this);
+                    helper.trackEvent(helper,"RELAXATION_WORRYBOX","INSIDE_WORRY_HEADS_ACTIVITY");
+                    helper.close();
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
                 player.reset();
                 player.setDataSource(this, Uri.parse("android.resource://asu.reach/raw/" + R.raw.worrybox));
                 player.prepare();
@@ -94,6 +101,13 @@ public class Relaxation extends Activity implements View.OnClickListener,
             if (v.getId() == bb.getId()) {
                 if(player.isPlaying()){
                     player.stop();
+                }
+                try {
+                    DBHelper helper = new DBHelper(this);
+                    helper.trackEvent(helper,"RELAXATION_BELLY_BREATHING","INSIDE_WORRY_HEADS_ACTIVITY");
+                    helper.close();
+                }catch(Exception e){
+                    e.printStackTrace();
                 }
                 player.reset();
                 player.setDataSource(this, Uri.parse("android.resource://asu.reach/raw/" + R.raw.belly_breathing));
@@ -104,6 +118,13 @@ public class Relaxation extends Activity implements View.OnClickListener,
                 if(player.isPlaying()){
                     player.stop();
                 }
+                try {
+                    DBHelper helper = new DBHelper(this);
+                    helper.trackEvent(helper,"RELAXATION_THE_GROWING_TREE","INSIDE_WORRY_HEADS_ACTIVITY");
+                    helper.close();
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
                 player.reset();
                 player.setDataSource(this, Uri.parse("android.resource://asu.reach/raw/" + R.raw.the_growing_tree));
                 player.prepare();
@@ -112,6 +133,13 @@ public class Relaxation extends Activity implements View.OnClickListener,
             if (v.getId() == review.getId()) {
                 if(player.isPlaying()){
                     player.stop();
+                }
+                try {
+                    DBHelper helper = new DBHelper(this);
+                    helper.trackEvent(helper,"RELAXATION_REVIEW","INSIDE_WORRY_HEADS_ACTIVITY");
+                    helper.close();
+                }catch(Exception e){
+                    e.printStackTrace();
                 }
                 player.reset();
                 player.setDataSource(this, Uri.parse("android.resource://asu.reach/raw/" + R.raw.review));
