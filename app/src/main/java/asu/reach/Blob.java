@@ -35,17 +35,62 @@ public class Blob extends Activity implements MediaPlayer.OnCompletionListener, 
         setContentView(R.layout.activity_blob);
 
         one = (ImageButton)findViewById(R.id.trickOneBtn);
-        two = (ImageButton)findViewById(R.id.trickTwoBtn);
-        three = (ImageButton)findViewById(R.id.trickThreeBtn);
-        four = (ImageButton)findViewById(R.id.trickFourBtn);
-        five = (ImageButton)findViewById(R.id.trickFiveBtn);
-        six = (ImageButton)findViewById(R.id.trickSixBtn);
-        seven = (ImageButton)findViewById(R.id.trickSevenBtn);
-        eight = (ImageButton)findViewById(R.id.trickEightBtn);
-        nine = (ImageButton)findViewById(R.id.trickNineBtn);
-        ten = (ImageButton)findViewById(R.id.trickTenBtn);
-        eleven = (ImageButton)findViewById(R.id.trickElevenBtn);
-        twelve = (ImageButton)findViewById(R.id.trickTwelveBtn);
+
+
+
+        try {
+            DBHelper helper = new DBHelper(this);
+            helper.releaseTrick();
+            two = (ImageButton)findViewById(R.id.trickTwoBtn);
+            if(helper.checkIfLocked(2))
+                two.setBackgroundResource(R.drawable.lock_selector);
+
+            three = (ImageButton)findViewById(R.id.trickThreeBtn);
+            if(helper.checkIfLocked(3))
+                three.setBackgroundResource(R.drawable.lock_selector);
+
+            four = (ImageButton)findViewById(R.id.trickFourBtn);
+            if(helper.checkIfLocked(4))
+                four.setBackgroundResource(R.drawable.lock_selector);
+
+            five = (ImageButton)findViewById(R.id.trickFiveBtn);
+            if(helper.checkIfLocked(5))
+                five.setBackgroundResource(R.drawable.lock_selector);
+
+            six = (ImageButton)findViewById(R.id.trickSixBtn);
+            if(helper.checkIfLocked(6))
+                six.setBackgroundResource(R.drawable.lock_selector);
+
+            seven = (ImageButton)findViewById(R.id.trickSevenBtn);
+            if(helper.checkIfLocked(7))
+                seven.setBackgroundResource(R.drawable.lock_selector);
+
+            eight = (ImageButton)findViewById(R.id.trickEightBtn);
+            if(helper.checkIfLocked(8))
+                eight.setBackgroundResource(R.drawable.lock_selector);
+
+            nine = (ImageButton)findViewById(R.id.trickNineBtn);
+            if(helper.checkIfLocked(9))
+                nine.setBackgroundResource(R.drawable.lock_selector);
+
+            ten = (ImageButton)findViewById(R.id.trickTenBtn);
+            if(helper.checkIfLocked(10))
+                ten.setBackgroundResource(R.drawable.lock_selector);
+
+            eleven = (ImageButton)findViewById(R.id.trickElevenBtn);
+            if(helper.checkIfLocked(11))
+                eleven.setBackgroundResource(R.drawable.lock_selector);
+
+            twelve = (ImageButton)findViewById(R.id.trickTwelveBtn);
+            if(helper.checkIfLocked(12))
+                twelve.setBackgroundResource(R.drawable.lock_selector);
+            helper.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+
+
         trickView = (ScrollView)findViewById(R.id.trickView);
         vid = (VideoView)findViewById(R.id.videoView);
         title = (ImageView)findViewById(R.id.titleView);
