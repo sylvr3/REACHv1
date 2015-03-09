@@ -81,16 +81,20 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
         Set<String> stringSet = pref.getStringSet("scheduled_release_tricks", null);
         String[] stringArr = stringSet.toArray(new String[stringSet.size()]);
         try {
-            DBHelper helper = new DBHelper(getApplicationContext());
-            db = helper.getDB();
-            ContentValues v = new ContentValues();
-            v.put("start_date", stringArr[0]);
-            db.update("DATE_TIME_SET", v, "id=2", null);
-            v = new ContentValues();
-            v.put("start_date", stringArr[1]);
-            db.update("DATE_TIME_SET", v, "id=3", null);
-            db.close();
-            helper.close();
+            if(stringArr.length == 2) {
+                DBHelper helper = new DBHelper(getApplicationContext());
+                db = helper.getDB();
+                ContentValues v = new ContentValues();
+                v.put("start_date", stringArr[0]);
+                db.update("DATE_TIME_SET", v, "id=2", null);
+                v = new ContentValues();
+                v.put("start_date", stringArr[1]);
+                db.update("DATE_TIME_SET", v, "id=3", null);
+                db.close();
+                helper.close();
+            }else{
+                Toast.makeText(this, "Please select\ntwo days ONLY.", Toast.LENGTH_SHORT).show();
+            }
 
         } catch (Exception e) {
             Log.i("Exception occured", "Exception occured");
