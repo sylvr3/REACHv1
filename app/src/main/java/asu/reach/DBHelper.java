@@ -428,7 +428,7 @@ public class DBHelper extends SQLiteOpenHelper{
                 break;
             }
             case STIC:{
-                if(c.getInt(c.getColumnIndex("STIC")) == 1
+                if(c.getInt(c.getColumnIndex("STIC")) > 0
                         && d.getInt(d.getColumnIndex("STIC")) != 1){
                     return true;
                 }
