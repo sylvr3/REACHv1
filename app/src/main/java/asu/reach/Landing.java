@@ -28,7 +28,7 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
     private SQLiteDatabase db;
     private RelativeLayout topLeftLayout, topRightLayout, bottomLeftLayout, bottomRightLayout;
     private ImageButton dd,stic,stop,relax,wh;
-    private ImageView blob;
+    private ImageView blob,stopGlow,sticGlow,whGlow,ddGlow,relaxGlow;
     private EditText pin;
     private boolean topLeft,topRight,bottomRight;
     private long time;
@@ -81,6 +81,11 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         topRightLayout = (RelativeLayout)findViewById(R.id.topRight);
         bottomLeftLayout = (RelativeLayout)findViewById(R.id.bottomLeft);
         bottomRightLayout = (RelativeLayout)findViewById(R.id.bottomRight);
+        stopGlow = (ImageView)findViewById(R.id.stopGlow);
+        sticGlow = (ImageView)findViewById(R.id.sticGlow);
+        whGlow = (ImageView)findViewById(R.id.whGlow);
+        ddGlow = (ImageView)findViewById(R.id.ddGlow);
+        relaxGlow = (ImageView)findViewById(R.id.relaxGlow);
         topLeft = false;
         topRight = false;
         bottomRight = false;
@@ -103,7 +108,44 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
             if(currentDay < 0){
                 Toast.makeText(this, "Please enter a start date.", Toast.LENGTH_SHORT).show();
             }else{
-                // TODO : day specific visualization (i.e. glowy buttons)
+                AnimationDrawable anim1 = (AnimationDrawable) blob.getBackground();
+                anim1.start();
+
+                if(helper.checkActivity(DBHelper.Action.STOP)){
+                    stopGlow.setVisibility(View.VISIBLE);
+                    AnimationDrawable stopAnim = (AnimationDrawable) stopGlow.getBackground();
+                    stopAnim.start();
+                }else{
+                    stopGlow.setVisibility(View.GONE);
+                }
+                if(helper.checkActivity(DBHelper.Action.STIC)) {
+                    sticGlow.setVisibility(View.VISIBLE);
+                    AnimationDrawable sticAnim = (AnimationDrawable) sticGlow.getBackground();
+                    sticAnim.start();
+                }else{
+                    sticGlow.setVisibility(View.GONE);
+                }
+                if(helper.checkActivity(DBHelper.Action.WORRYHEADS)) {
+                    whGlow.setVisibility(View.VISIBLE);
+                    AnimationDrawable whAnim = (AnimationDrawable) whGlow.getBackground();
+                    whAnim.start();
+                }else{
+                    whGlow.setVisibility(View.GONE);
+                }
+                if(helper.checkActivity(DBHelper.Action.DAILY_DIARY)) {
+                    ddGlow.setVisibility(View.VISIBLE);
+                    AnimationDrawable ddAnim = (AnimationDrawable) ddGlow.getBackground();
+                    ddAnim.start();
+                }else{
+                    ddGlow.setVisibility(View.GONE);
+                }
+                if(helper.checkActivity(DBHelper.Action.RELAXATION)) {
+                    relaxGlow.setVisibility(View.VISIBLE);
+                    AnimationDrawable relaxAnim = (AnimationDrawable) relaxGlow.getBackground();
+                    relaxAnim.start();
+                }else{
+                    relaxGlow.setVisibility(View.GONE);
+                }
             }
             helper.trackEvent(helper,"APP_STARTED","LANDING_PAGE");
             helper.close();
@@ -112,8 +154,7 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         }catch(Exception e){
             e.printStackTrace();
         }
-        AnimationDrawable anim = (AnimationDrawable) blob.getBackground();
-        anim.start();
+
 
         /*aManager= (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         setRepeatingAlarm();*/
@@ -257,9 +298,46 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
     protected void onResume() {
         super.onResume();
         DBHelper helper = new DBHelper(this);
-        //helper.copyDataBase();
-        //helper.openDataBase();
         db = helper.getDB();
+        try {
+            if (helper.checkActivity(DBHelper.Action.STOP)) {
+                stopGlow.setVisibility(View.VISIBLE);
+                AnimationDrawable stopAnim = (AnimationDrawable) stopGlow.getBackground();
+                stopAnim.start();
+            } else {
+                stopGlow.setVisibility(View.GONE);
+            }
+            if (helper.checkActivity(DBHelper.Action.STIC)) {
+                sticGlow.setVisibility(View.VISIBLE);
+                AnimationDrawable sticAnim = (AnimationDrawable) sticGlow.getBackground();
+                sticAnim.start();
+            } else {
+                sticGlow.setVisibility(View.GONE);
+            }
+            if (helper.checkActivity(DBHelper.Action.WORRYHEADS)) {
+                whGlow.setVisibility(View.VISIBLE);
+                AnimationDrawable whAnim = (AnimationDrawable) whGlow.getBackground();
+                whAnim.start();
+            } else {
+                whGlow.setVisibility(View.GONE);
+            }
+            if (helper.checkActivity(DBHelper.Action.DAILY_DIARY)) {
+                ddGlow.setVisibility(View.VISIBLE);
+                AnimationDrawable ddAnim = (AnimationDrawable) ddGlow.getBackground();
+                ddAnim.start();
+            } else {
+                ddGlow.setVisibility(View.GONE);
+            }
+            if (helper.checkActivity(DBHelper.Action.RELAXATION)) {
+                relaxGlow.setVisibility(View.VISIBLE);
+                AnimationDrawable relaxAnim = (AnimationDrawable) relaxGlow.getBackground();
+                relaxAnim.start();
+            } else {
+                relaxGlow.setVisibility(View.GONE);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
