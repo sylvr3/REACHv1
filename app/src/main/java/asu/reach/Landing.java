@@ -65,7 +65,7 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         Intent ii = new Intent(this, NotifyService.class);
         PendingIntent pii = PendingIntent.getService(this, 2222, ii,PendingIntent.FLAG_CANCEL_CURRENT);
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.SECOND, 5);
+        cal.add(Calendar.SECOND, 0);
 //registering our pending intent with alarmmanager
         AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
         am.setRepeating(AlarmManager.RTC_WAKEUP,cal.getTimeInMillis(),60000, pii);

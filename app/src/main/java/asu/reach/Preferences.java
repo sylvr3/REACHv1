@@ -71,13 +71,52 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
                     SticProtocolChange(sharedPreferences, s, 6);
                 } else if (s.equals("teacherPIN")) {
                     updateTeacherPIN(sharedPreferences,s);
-                }
-                else if(s.equals("scheduled_release_tricks")){
+                } else if(s.equals("scheduled_release_tricks")){
                     setScheduleForTricks(sharedPreferences,s);
+                } else if(s.equals("Relaxation_week_setting")){
+                    setScheduleForRelaxation(sharedPreferences,s);
                 }
             }
         });
     }
+
+    public void setScheduleForRelaxation(SharedPreferences pref, String s){
+        Set<String> stringSet = pref.getStringSet("Relaxation_week_setting", null);
+        String[] stringArr = stringSet.toArray(new String[stringSet.size()]);
+        String[] stringArrNotContains = new String[6 - stringArr.length];
+        int chk = 0;
+        int chk1 = 0;
+        while (chk < 6) {
+            if (!Arrays.asList(stringArr).contains((chk + 1) + "")) {
+                stringArrNotContains[chk1++] = (chk + 1) + "";
+            }
+            chk++;
+        }
+        try {
+            DBHelper helper = new DBHelper(getApplicationContext());
+            db = helper.getDB();
+            i = 0;
+            ContentValues v = new ContentValues();
+            v.put("RELAXATION", 1);
+            while (i < stringArr.length) {
+                db.update("ADMIN_ACTIVITY_SCHEDULER", v,"WEEK_NO = \"" + Integer.parseInt(stringArr[i++].toString())+ "\"", null);
+            }
+            db.close();
+            helper = new DBHelper(getApplicationContext());
+            db = helper.getDB();
+            i = 0;
+            ContentValues v1 = new ContentValues();
+            v1.put("RELAXATION", 0);
+            while (i < stringArrNotContains.length) {
+                db.update("ADMIN_ACTIVITY_SCHEDULER", v1, "WEEK_NO = \"" + Integer.parseInt(stringArrNotContains[i++].toString()) + "\"", null);
+            }
+
+            db.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void setScheduleForTricks(SharedPreferences pref, String s){
         Set<String> stringSet = pref.getStringSet("scheduled_release_tricks", null);

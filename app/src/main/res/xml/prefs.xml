@@ -24,6 +24,14 @@
             android:persistent="true"
             android:summary="Click to Enable/Disable per week"
             android:title="STOP Protocol" />
+        <MultiSelectListPreference
+            android:defaultValue="@array/emptyValue"
+            android:entries="@array/protocols"
+            android:entryValues="@array/protocolValue"
+            android:key="Relaxation_week_setting"
+            android:persistent="true"
+            android:summary="Click to Enable/Disable per week"
+            android:title="Relaxation Protocol" />
         <PreferenceScreen
             android:key="weekSelector"
             android:title="STIC Protocol"
