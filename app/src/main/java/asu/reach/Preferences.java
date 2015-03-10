@@ -15,12 +15,18 @@ import android.preference.PreferenceScreen;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Set;
 
 public class Preferences extends PreferenceActivity /*implements SharedPreferences.OnSharedPreferenceChangeListener */ {
 
     private MultiSelectListPreference DDProtocolChange, STOPProtocolChange, STICProtocolChange, scheduleTricks;
+    private DatePreference datePref;
     private SharedPreferences sharedPrefs;
     private SQLiteDatabase db;
     private int i = 0;
@@ -40,6 +46,33 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
         teacherPin = (EditTextPreference) findPreference("teacherPIN");
         exportToCSV = (PreferenceScreen) findPreference("exportDataMenu");
         scheduleTricks = (MultiSelectListPreference) findPreference("scheduled_release_tricks");
+        datePref = (DatePreference)findPreference("initialStartDate");
+        Calendar cal = Calendar.getInstance();
+        int hour_of_day = cal.get(Calendar.HOUR_OF_DAY);
+        int min_of_day = cal.get(Calendar.MINUTE);
+        long systemTime = (hour_of_day * 3600) + (min_of_day * 60);
+
+        DBHelper helper1 = new DBHelper(getApplicationContext());
+        db = helper1.getDB();
+        Cursor c1 = db.rawQuery("select start_date from DATE_TIME_SET where id=1", null);
+        c1.moveToFirst();
+        String ALLprotocolStartDate = c1.getString(0);
+        c1.close();
+        db.close();
+        try {
+            if (!ALLprotocolStartDate.equals("default")) {
+                DateFormat format = new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH);
+                Date ALLProtocolInDateFormat = format.parse(ALLprotocolStartDate);
+                Calendar c = Calendar.getInstance();
+                Date currDate = c.getTime();
+                if (ALLProtocolInDateFormat.getTime() < currDate.getTime())
+                    datePref.setEnabled(false);
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+
         exportToCSV.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
@@ -70,11 +103,11 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
                 } else if (s.equals("Week6_STIC_protocol_setting")) {
                     SticProtocolChange(sharedPreferences, s, 6);
                 } else if (s.equals("teacherPIN")) {
-                    updateTeacherPIN(sharedPreferences,s);
+                    updateTeacherPIN(sharedPreferences, s);
                 } else if(s.equals("scheduled_release_tricks")){
                     setScheduleForTricks(sharedPreferences,s);
                 } else if(s.equals("Relaxation_week_setting")){
-                    setScheduleForRelaxation(sharedPreferences,s);
+                    setScheduleForRelaxation(sharedPreferences, s);
                 }
             }
         });
