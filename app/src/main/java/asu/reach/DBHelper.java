@@ -34,6 +34,14 @@ public class DBHelper extends SQLiteOpenHelper{
 
     private final Context myContext;
 
+    public static enum Action {
+        STOP,
+        STIC,
+        DAILY_DIARY,
+        WORRYHEADS,
+        RELAXATION
+    }
+
     /**
      * Constructor
      * Takes and keeps a reference of the passed context in order to access to the application assets and resources.
@@ -379,6 +387,62 @@ public class DBHelper extends SQLiteOpenHelper{
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+    }
+
+    public boolean checkActivity(Action a){
+        int day = getCurrentDay();
+        Cursor c = myDataBase.rawQuery("SELECT * FROM ADMIN_ACTIVITY_SCHEDULER WHERE DAY = "
+                + day,null);
+        Cursor d = myDataBase.rawQuery("SELECT * FROM USER_ACTIVITY_TRACK WHERE DAY = "
+                + day,null);
+        c.moveToFirst();
+        d.moveToFirst();
+        switch (a){
+            case DAILY_DIARY:{
+                if(c.getInt(c.getColumnIndex("DIARY_EVENT1")) == 1
+                        && d.getInt(d.getColumnIndex("DIARY_EVENT1")) != 1){
+                    return true;
+                }
+                if(c.getInt(c.getColumnIndex("DIARY_EVENT2")) == 1
+                        && d.getInt(d.getColumnIndex("DIARY_EVENT2")) != 1){
+                    return true;
+                }
+                if(c.getInt(c.getColumnIndex("SUD_SCALE_EVENT")) == 1
+                        && d.getInt(d.getColumnIndex("SUD_SCALE_EVENT")) != 1){
+                    return true;
+                }
+                break;
+            }
+            case RELAXATION:{
+                if(c.getInt(c.getColumnIndex("RELAXATION")) == 1
+                        && d.getInt(d.getColumnIndex("RELAXATION")) != 1){
+                    return true;
+                }
+                break;
+            }
+            case WORRYHEADS:{
+                if(c.getInt(c.getColumnIndex("STOP_WORRYHEADS")) == 1
+                        && d.getInt(d.getColumnIndex("STOP_WORRYHEADS")) != 1){
+                    return true;
+                }
+                break;
+            }
+            case STIC:{
+                if(c.getInt(c.getColumnIndex("STIC")) == 1
+                        && d.getInt(d.getColumnIndex("STIC")) != 1){
+                    return true;
+                }
+                break;
+            }
+            case STOP:{
+                if(c.getInt(c.getColumnIndex("STOP")) == 1
+                        && d.getInt(d.getColumnIndex("STOP")) != 1){
+                    return true;
+                }
+                break;
+            }
+        }
+        return false;
     }
 
 }
