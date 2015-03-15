@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.FragmentManager;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -20,6 +21,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -254,6 +256,8 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
             }catch(Exception e){
                 e.printStackTrace();
             }
+            ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE))
+                    .hideSoftInputFromWindow(response.getWindowToken(), 0);
             nav.setVisibility(View.VISIBLE);
             blobLayout.setVisibility(View.VISIBLE);
             resp.setVisibility(View.GONE);

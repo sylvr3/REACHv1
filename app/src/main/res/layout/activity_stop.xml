@@ -181,7 +181,7 @@
         android:layout_alignParentEnd="false"
         android:layout_alignParentBottom="false"
         android:layout_alignParentRight="false"
-        android:background="@drawable/cancel_selector"
+        android:background="@drawable/close_selector"
         android:visibility="gone"
         android:layout_above="@+id/respLayout"
         android:layout_alignRight="@+id/respLayout"

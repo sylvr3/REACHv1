@@ -3,6 +3,7 @@ package asu.reach;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -16,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -30,7 +32,7 @@ import java.util.List;
 
 public class STOP extends Activity implements View.OnClickListener, DialogInterface.OnClickListener{
 
-    private ImageButton respond,back,next,done,cancel,clear,voice,complete;
+    private ImageButton respond,back,next,done,close,clear,voice,complete;
     private LinearLayout nav,respBtns,stopLayout;
     private RelativeLayout blob,resp,gjLayout;
     private ImageView s,t,o,p,message,gjView;
@@ -65,7 +67,7 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
         message = (ImageView)findViewById(R.id.messageView);
         response = (EditText)findViewById(R.id.responseTxt);
         done = (ImageButton)findViewById(R.id.doneBtn);
-        cancel = (ImageButton)findViewById(R.id.cancelBtn);
+        close = (ImageButton)findViewById(R.id.cancelBtn);
         clear = (ImageButton)findViewById(R.id.clearBtn);
         voice = (ImageButton)findViewById(R.id.voiceBtn);
         nav = (LinearLayout)findViewById(R.id.navLayout);
@@ -83,7 +85,7 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
         back.setOnClickListener(this);
         next.setOnClickListener(this);
         done.setOnClickListener(this);
-        cancel.setOnClickListener(this);
+        close.setOnClickListener(this);
         clear.setOnClickListener(this);
         voice.setOnClickListener(this);
         complete.setOnClickListener(this);
@@ -116,7 +118,7 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
             blob.setVisibility(View.GONE);
             resp.setVisibility(View.VISIBLE);
             respBtns.setVisibility(View.VISIBLE);
-            cancel.setVisibility(View.VISIBLE);
+            close.setVisibility(View.VISIBLE);
         }
         if(v.getId() == done.getId()){
             try {
@@ -130,24 +132,26 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
                 blob.setVisibility(View.VISIBLE);
                 resp.setVisibility(View.GONE);
                 respBtns.setVisibility(View.GONE);
-                cancel.setVisibility(View.GONE);
+                close.setVisibility(View.GONE);
                 respond.setActivated(true);
             }else{
                 Toast.makeText(this, "Please enter a\nresponse first.", Toast.LENGTH_SHORT).show();
             }
         }
-        if(v.getId() == cancel.getId()){
+        if(v.getId() == close.getId()){
             try {
                 DBHelper helper = new DBHelper(this);
                 helper.trackEvent(helper,"STOP_CANCEL_CLICKED","INSIDE_STOP_ACTIVITY");
             }catch(Exception e){
                 e.printStackTrace();
             }
+            ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE))
+                    .hideSoftInputFromWindow(response.getWindowToken(), 0);
             nav.setVisibility(View.VISIBLE);
             blob.setVisibility(View.VISIBLE);
             resp.setVisibility(View.GONE);
             respBtns.setVisibility(View.GONE);
-            cancel.setVisibility(View.GONE);
+            close.setVisibility(View.GONE);
         }
         if(v.getId() == clear.getId()){
             try {
