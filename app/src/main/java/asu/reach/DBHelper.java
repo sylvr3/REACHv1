@@ -175,8 +175,9 @@ public class DBHelper extends SQLiteOpenHelper{
                         Integer.parseInt(split[2]), 0, 0, 0);
                 currentDay = today.get(Calendar.DAY_OF_YEAR) - startDay.get(Calendar.DAY_OF_YEAR);
                 if (currentDay < 0) {
-                    currentDay = -currentDay;
+                    currentDay = -currentDay; // new year
                 }
+                currentDay++; // add a day so today = day 1
             }else{
                 currentDay = -1;
             }
