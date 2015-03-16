@@ -220,10 +220,10 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:visibility="visible"
-        android:background="@drawable/back_selector"
+        android:background="@drawable/home_selector"
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="-12dp"
-        android:layout_marginLeft="15dp" />
+        android:layout_marginLeft="12dp" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -235,7 +235,7 @@
         android:layout_marginBottom="-12dp"
         android:background="@drawable/next_selector"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="15dp" />
+        android:layout_marginRight="12dp" />
 
     <LinearLayout
         android:orientation="horizontal"

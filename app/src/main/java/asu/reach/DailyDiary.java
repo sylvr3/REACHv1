@@ -42,7 +42,8 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
         ThermScrollView.OnScrollStoppedListener,DialogInterface.OnClickListener
         ,DatePickerDialog.OnDateSetListener{
 
-    private ImageButton respond,back,next,done,cancel,clear,voice,complete,arrowLeft,arrowRight;
+    private ImageButton respond,back,next,done,cancel,clear,
+        voice,complete,arrowLeft,arrowRight,home;
     private LinearLayout nav,respBtns;
     private RelativeLayout blobLayout,resp,gjLayout;
     private ImageView message,gjView,title,numView,blob;
@@ -110,6 +111,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
         gjView = (ImageView)findViewById(R.id.gjView);
         gjLayout = (RelativeLayout)findViewById(R.id.gjLayout);
         complete = (ImageButton)findViewById(R.id.completeBtn);
+        home = (ImageButton)findViewById(R.id.homeBtn);
         title = (ImageView)findViewById(R.id.titleView);
         gj = (VideoView)findViewById(R.id.gjVid);
         therm = (ThermScrollView)findViewById(R.id.thermView);
@@ -131,6 +133,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
         arrowLeft.setOnClickListener(this);
         arrowRight.setOnClickListener(this);
         date.setOnClickListener(this);
+        home.setOnClickListener(this);
 
         thermParams = new RelativeLayout.LayoutParams(convertToPixels(35),convertToPixels(35));
         normParams = new RelativeLayout.LayoutParams(convertToPixels(200),convertToPixels(200));
@@ -217,6 +220,12 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
 
     @Override
     public void onClick(View v) {
+        if(v.getId() == home.getId()){
+            end = false;
+            FragmentManager fm = getFragmentManager();
+            DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this, end,false);
+            dialog.show(fm, "frag");
+        }
         if(v.getId() == respond.getId()){
             try {
                 DBHelper helper = new DBHelper(this);

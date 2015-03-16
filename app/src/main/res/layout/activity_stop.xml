@@ -225,4 +225,12 @@
         android:layout_alignParentBottom="true"
         android:visibility="gone" />
 
+    <ImageButton
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:id="@+id/homeBtn"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/home_selector" />
+
 </RelativeLayout>
