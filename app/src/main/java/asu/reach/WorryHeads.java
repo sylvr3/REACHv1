@@ -339,6 +339,7 @@ public class WorryHeads extends Activity implements View.OnClickListener, Dialog
                 } else {
                     if (intro) {
                         s = true;
+                        back.setBackgroundResource(R.drawable.home_selector);
                         message.setText("Situation:\n\n" + sText);
                         sView.setBackgroundResource(R.drawable.s_yellow);
                         tView.setBackgroundResource(R.drawable.t_white);
@@ -390,6 +391,7 @@ public class WorryHeads extends Activity implements View.OnClickListener, Dialog
             if(s){
                 message.setText("Thoughts:\n\n"+tText);
                 s = false;
+                back.setBackgroundResource(R.drawable.back_selector);
                 sView.setBackgroundResource(R.drawable.s_white);
                 tView.setBackgroundResource(R.drawable.t_yellow);
             }else{

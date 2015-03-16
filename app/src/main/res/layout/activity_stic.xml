@@ -38,8 +38,9 @@
         android:id="@+id/sticBack"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/back_btn_selector"
-        android:layout_marginTop="5dp"
-        android:onClick="onBackClick" />
+        android:background="@drawable/home_selector"
+        android:onClick="onBackClick"
+        android:layout_marginTop="-10dp"
+        android:layout_marginBottom="-10dp" />
 
 </RelativeLayout>

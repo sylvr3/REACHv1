@@ -78,7 +78,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/imageButton"
             android:layout_below="@+id/tgtBtn"
-            android:background="@drawable/back_btn_selector"
+            android:background="@drawable/home_selector"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:onClick="onBackClick" />

@@ -32,7 +32,7 @@ import java.util.List;
 
 public class STOP extends Activity implements View.OnClickListener, DialogInterface.OnClickListener{
 
-    private ImageButton respond,back,next,done,close,clear,voice,complete;
+    private ImageButton respond,back,next,done,close,clear,voice,complete,home;
     private LinearLayout nav,respBtns,stopLayout;
     private RelativeLayout blob,resp,gjLayout;
     private ImageView s,t,o,p,message,gjView;
@@ -79,6 +79,7 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
         gj = (VideoView)findViewById(R.id.gjVid);
         stopLayout = (LinearLayout)findViewById(R.id.stopLayout);
         complete = (ImageButton)findViewById(R.id.completeBtn);
+        home = (ImageButton)findViewById(R.id.homeBtn);
 
         response.setTypeface(Typeface.createFromAsset(getAssets(), "agentorange.ttf"));
         respond.setOnClickListener(this);
@@ -89,6 +90,7 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
         clear.setOnClickListener(this);
         voice.setOnClickListener(this);
         complete.setOnClickListener(this);
+        home.setOnClickListener(this);
 
         sr = "";
         tr = "";
@@ -107,6 +109,12 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
 
     @Override
     public void onClick(View v) {
+        if(v.getId() == home.getId()){
+            end = false;
+            FragmentManager fm = getFragmentManager();
+            DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this, end);
+            dialog.show(fm, "frag");
+        }
         if(v.getId() == respond.getId()){
             try {
                 DBHelper helper = new DBHelper(this);
