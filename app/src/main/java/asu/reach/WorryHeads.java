@@ -9,6 +9,8 @@ import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -21,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import java.io.File;
 import java.util.Calendar;
@@ -30,10 +33,11 @@ import java.util.Random;
 public class WorryHeads extends Activity implements View.OnClickListener, DialogInterface.OnClickListener{
     private SQLiteDatabase db;
     private RelativeLayout oLayout,msgLayout;
-    private ImageView sView, tView,o1,o2,o3,o4,title;
+    private ImageView sView, tView,o1,o2,o3,o4,title,gjView;
     private TextView oOne, oTwo, oThree, oFour, message;
     private ImageButton back, again, done, next;
     private String sText, tText, pText;
+    private VideoView gj;
     private LinearLayout complete;
 
     private int wrongO;  // which 0 is incorrect
@@ -69,6 +73,8 @@ public class WorryHeads extends Activity implements View.OnClickListener, Dialog
         next = (ImageButton)findViewById(R.id.whNextBtn);
         complete = (LinearLayout)findViewById(R.id.completeLayout);
         title = (ImageView)findViewById(R.id.whMessage);
+        gj = (VideoView)findViewById(R.id.gjVid);
+        gjView = (ImageView)findViewById(R.id.gjView);
 
         sView.setOnClickListener(this);
         tView.setOnClickListener(this);
@@ -264,7 +270,6 @@ public class WorryHeads extends Activity implements View.OnClickListener, Dialog
                         e.printStackTrace();
                     }
                     oLayout.setVisibility(View.GONE);
-                    msgLayout.setVisibility(View.VISIBLE);
                     message.setText("Praise Yourself:\n\n" + pText);
                     complete(oOne.getText().toString());
                 }
@@ -284,7 +289,6 @@ public class WorryHeads extends Activity implements View.OnClickListener, Dialog
                         e.printStackTrace();
                     }
                     oLayout.setVisibility(View.GONE);
-                    msgLayout.setVisibility(View.VISIBLE);
                     message.setText("Praise Yourself:\n\n" + pText);
                     complete(oTwo.getText().toString());
                 }
@@ -304,7 +308,6 @@ public class WorryHeads extends Activity implements View.OnClickListener, Dialog
                         e.printStackTrace();
                     }
                     oLayout.setVisibility(View.GONE);
-                    msgLayout.setVisibility(View.VISIBLE);
                     message.setText("Praise Yourself:\n\n" + pText);
                     complete(oThree.getText().toString());
                 }
@@ -324,7 +327,6 @@ public class WorryHeads extends Activity implements View.OnClickListener, Dialog
                         e.printStackTrace();
                     }
                     oLayout.setVisibility(View.GONE);
-                    msgLayout.setVisibility(View.VISIBLE);
                     message.setText("Praise Yourself:\n\n" + pText);
                     complete(oFour.getText().toString());
                 }
@@ -423,6 +425,24 @@ public class WorryHeads extends Activity implements View.OnClickListener, Dialog
     }
 
     private void complete(String msg){
+        gj.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.stars));
+        gj.start();
+        gj.setVisibility(View.VISIBLE);
+        gj.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.setLooping(true);
+                gjView.setVisibility(View.VISIBLE);
+                complete.setVisibility(View.VISIBLE);
+                title.setVisibility(View.GONE);
+                back.setVisibility(View.GONE);
+                next.setVisibility(View.GONE);
+                sView.setVisibility(View.GONE);
+                tView.setVisibility(View.GONE);
+                sView.setClickable(false);
+                tView.setClickable(false);
+            }
+        });
         ContentValues c = new ContentValues();
         c.put("TIMESTAMP", System.currentTimeMillis());
         c.put("S", sText);
@@ -455,14 +475,6 @@ public class WorryHeads extends Activity implements View.OnClickListener, Dialog
         }catch(Exception e){
             e.printStackTrace();
         }
-        complete.setVisibility(View.VISIBLE);
-        title.setVisibility(View.GONE);
-        back.setVisibility(View.GONE);
-        next.setVisibility(View.GONE);
-        sView.setVisibility(View.GONE);
-        tView.setVisibility(View.GONE);
-        sView.setClickable(false);
-        tView.setClickable(false);
     }
 
     @Override
