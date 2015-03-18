@@ -118,7 +118,7 @@ public class NotifyService extends Service {
         if (c.getInt(0) == 0) {
             Log.i("DD Notif Status","ABOUT TO BE FIRED");
             if (systemTime == currTime) {
-                String message="You have not done Daily Diary !!";
+                String message="Practice Daily Diary to help Bob the Blob learn new tricks to show you later";
                 fireNotifications(message,DailyDiary.class);
                 c.close();
                 db.close();
@@ -142,7 +142,7 @@ public class NotifyService extends Service {
         if (c.getInt(0) == 0) {
             Log.i("STOP Notif Status","ABOUT TO BE FIRED");
             if (systemTime == currTime) {
-                String message="You have not done STOP Protocol !!";
+                String message="Practice STOP to help Bob the Blob learn new tricks to show you later";
                 fireNotifications(message,STOP.class);
                 c.close();
                 db.close();
@@ -166,7 +166,7 @@ public class NotifyService extends Service {
         if (c.getInt(0) == 0) {
             Log.i("STIC Notif Status","ABOUT TO BE FIRED");
             if (systemTime == currTime) {
-                String message="You have not done STIC Protocol !!";
+                String message="Practice STIC to help Bob the Blob learn new tricks to show you later";
                 fireNotifications(message,STIC.class);
                 c.close();
                 db.close();
@@ -189,7 +189,7 @@ public class NotifyService extends Service {
         if (c.getInt(0) == 0) {
             Log.i("Worryhead Notif Status","ABOUT TO BE FIRED");
             if (systemTime == currTime) {
-                String message="You have not done WORRYHEADS Protocol !!";
+                String message="Practice Worryheads to help Bob the Blob learn new tricks to show you later";
                 fireNotifications(message,WorryHeads.class);
                 c.close();
                 db.close();
@@ -212,7 +212,7 @@ public class NotifyService extends Service {
         if (c.getInt(0) == 0) {
             Log.i("RELAX Notif Status","ABOUT TO BE FIRED");
             if (systemTime == currTime) {
-                String message="You have not done Relaxation Protocol !!";
+                String message="Practice Relaxation to help Bob the Blob learn new tricks to show you later";
                 fireNotifications(message,Relaxation.class);
                 c.close();
                 db.close();
@@ -234,7 +234,7 @@ public class NotifyService extends Service {
                 "REACH",
                 System.currentTimeMillis());
         Context context = getApplicationContext();
-        String notificationTitle = "How are you doing !!";
+        String notificationTitle = "Are you forgetting something ?";
         String notificationText = message;
         Intent myIntent = new Intent(getApplicationContext(), activityNotDone);
         PendingIntent pendingIntent = PendingIntent.getActivity(getBaseContext(), 0, myIntent, 0);
