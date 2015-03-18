@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.os.Environment;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -361,9 +362,10 @@ public class DBHelper extends SQLiteOpenHelper{
             bfw.close();
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("text/plain");
-            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"heal@asu.edu"});
-            intent.putExtra(Intent.EXTRA_SUBJECT, "Here's the Data ! <<TESTING>>>");
-
+            TelephonyManager tm = (TelephonyManager) myContext.getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
+            String deviceId = tm.getDeviceId();
+//            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"heal@asu.edu"});
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Here's the Data- Device ID:"+deviceId);
             // ENTER THE FILE YOU WANT TO SEND BELOW
             Toast.makeText(myContext,"Exported "+saveFile.getName()+" to "+saveFile.getAbsolutePath().toString(),Toast.LENGTH_LONG).show();
             intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(saveFile));
