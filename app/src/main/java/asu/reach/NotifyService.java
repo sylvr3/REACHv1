@@ -230,20 +230,28 @@ public class NotifyService extends Service {
     public void fireNotifications(String message, Class activityNotDone) {
         // Send Notification
         notificationManager =(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        myNotification = new Notification(R.drawable.ic_launcher,
-                "REACH",
-                System.currentTimeMillis());
         Context context = getApplicationContext();
         String notificationTitle = "Are you forgetting something ?";
         String notificationText = message;
         Intent myIntent = new Intent(getApplicationContext(), activityNotDone);
         PendingIntent pendingIntent = PendingIntent.getActivity(getBaseContext(), 0, myIntent, 0);
+        myNotification = new Notification.Builder(this)
+                .setStyle(new Notification.BigTextStyle().bigText(notificationText))
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setContentTitle(notificationTitle)
+                /*.setContentText(notificationText).setSmallIcon(R.drawable.ic_launcher)*/
+                .setContentIntent(pendingIntent)
+                .build();
+        /*myNotification = new Notification(R.drawable.ic_launcher,
+                "REACH",
+                System.currentTimeMillis());*/
+
         myNotification.defaults |= Notification.DEFAULT_SOUND;
         myNotification.flags |= Notification.FLAG_AUTO_CANCEL;
-        myNotification.setLatestEventInfo(context,
+        /*myNotification.setLatestEventInfo(context,
                 notificationTitle,
                 notificationText,
-                pendingIntent);
+                pendingIntent);*/
 //            startForeground(1,myNotification);
         notificationManager.notify(MY_NOTIFICATION_ID++, myNotification);
         Log.i("Notification","NEW NOTIF FIRED: "+message);
@@ -264,6 +272,7 @@ public class NotifyService extends Service {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        dayCount++;
         return Integer.parseInt(dayCount + "");
     }
 
