@@ -1,5 +1,7 @@
 package asu.reach;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +12,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.util.Patterns;
 import android.widget.Toast;
 
 import java.io.BufferedWriter;
@@ -24,6 +27,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 public class DBHelper extends SQLiteOpenHelper{
     //The Android's default system path of your application database.
@@ -362,9 +366,17 @@ public class DBHelper extends SQLiteOpenHelper{
             bfw.close();
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("text/plain");
+            Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
+            Account[] accounts = AccountManager.get(myContext).getAccounts();
+            String senderEmailId="";
+            for (Account account : accounts) {
+                if (emailPattern.matcher(account.name).matches()) {
+                    senderEmailId = account.name;
+                }
+            }
             TelephonyManager tm = (TelephonyManager) myContext.getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
             String deviceId = tm.getDeviceId();
-//            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"heal@asu.edu"});
+            intent.putExtra(Intent.EXTRA_EMAIL,new String[]{senderEmailId});
             intent.putExtra(Intent.EXTRA_SUBJECT, "Here's the Data- Device ID:"+deviceId);
             // ENTER THE FILE YOU WANT TO SEND BELOW
             Toast.makeText(myContext,"Exported "+saveFile.getName()+" to "+saveFile.getAbsolutePath().toString(),Toast.LENGTH_LONG).show();
