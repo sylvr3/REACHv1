@@ -59,7 +59,7 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
         String ALLprotocolStartDate = c1.getString(0);
         c1.close();
         db.close();
-        try {
+        /*try {
             if (!ALLprotocolStartDate.equals("default")) {
                 DateFormat format = new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH);
                 Date ALLProtocolInDateFormat = format.parse(ALLprotocolStartDate);
@@ -71,7 +71,7 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
         }
         catch(Exception e){
             e.printStackTrace();
-        }
+        }*/
 
         exportToCSV.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override

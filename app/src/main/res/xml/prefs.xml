@@ -145,10 +145,10 @@
 
     <EditTextPreference
         android:key="teacherPIN"
-        android:summary="Click to update Teacher PIN"
+        android:summary="Click to change Adult PIN"
         android:password="true"
         android:inputType="number"
-        android:title="Change Teacher PIN">
+        android:title="Adult PIN">
         <!--<EditTextPreference
             android:inputType="number"
             android:key="teacherPIN"

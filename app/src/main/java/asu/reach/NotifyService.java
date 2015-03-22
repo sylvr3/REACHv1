@@ -118,7 +118,7 @@ public class NotifyService extends Service {
         if (c.getInt(0) == 0) {
             Log.i("DD Notif Status","ABOUT TO BE FIRED");
             if (systemTime == currTime) {
-                String message="You have not done Daily Diary !!";
+                String message="Practice Daily Diary to help Bob the Blob learn new tricks to show you later";
                 fireNotifications(message,DailyDiary.class);
                 c.close();
                 db.close();
@@ -142,7 +142,7 @@ public class NotifyService extends Service {
         if (c.getInt(0) == 0) {
             Log.i("STOP Notif Status","ABOUT TO BE FIRED");
             if (systemTime == currTime) {
-                String message="You have not done STOP Protocol !!";
+                String message="Practice STOP to help Bob the Blob learn new tricks to show you later";
                 fireNotifications(message,STOP.class);
                 c.close();
                 db.close();
@@ -166,7 +166,7 @@ public class NotifyService extends Service {
         if (c.getInt(0) == 0) {
             Log.i("STIC Notif Status","ABOUT TO BE FIRED");
             if (systemTime == currTime) {
-                String message="You have not done STIC Protocol !!";
+                String message="Practice STIC to help Bob the Blob learn new tricks to show you later";
                 fireNotifications(message,STIC.class);
                 c.close();
                 db.close();
@@ -189,7 +189,7 @@ public class NotifyService extends Service {
         if (c.getInt(0) == 0) {
             Log.i("Worryhead Notif Status","ABOUT TO BE FIRED");
             if (systemTime == currTime) {
-                String message="You have not done WORRYHEADS Protocol !!";
+                String message="Practice Worryheads to help Bob the Blob learn new tricks to show you later";
                 fireNotifications(message,WorryHeads.class);
                 c.close();
                 db.close();
@@ -212,7 +212,7 @@ public class NotifyService extends Service {
         if (c.getInt(0) == 0) {
             Log.i("RELAX Notif Status","ABOUT TO BE FIRED");
             if (systemTime == currTime) {
-                String message="You have not done Relaxation Protocol !!";
+                String message="Practice Relaxation to help Bob the Blob learn new tricks to show you later";
                 fireNotifications(message,Relaxation.class);
                 c.close();
                 db.close();
@@ -230,20 +230,28 @@ public class NotifyService extends Service {
     public void fireNotifications(String message, Class activityNotDone) {
         // Send Notification
         notificationManager =(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        myNotification = new Notification(R.drawable.ic_launcher,
-                "REACH",
-                System.currentTimeMillis());
         Context context = getApplicationContext();
-        String notificationTitle = "How are you doing !!";
+        String notificationTitle = "Are you forgetting something ?";
         String notificationText = message;
         Intent myIntent = new Intent(getApplicationContext(), activityNotDone);
         PendingIntent pendingIntent = PendingIntent.getActivity(getBaseContext(), 0, myIntent, 0);
+        myNotification = new Notification.Builder(this)
+                .setStyle(new Notification.BigTextStyle().bigText(notificationText))
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setContentTitle(notificationTitle)
+                /*.setContentText(notificationText).setSmallIcon(R.drawable.ic_launcher)*/
+                .setContentIntent(pendingIntent)
+                .build();
+        /*myNotification = new Notification(R.drawable.ic_launcher,
+                "REACH",
+                System.currentTimeMillis());*/
+
         myNotification.defaults |= Notification.DEFAULT_SOUND;
         myNotification.flags |= Notification.FLAG_AUTO_CANCEL;
-        myNotification.setLatestEventInfo(context,
+        /*myNotification.setLatestEventInfo(context,
                 notificationTitle,
                 notificationText,
-                pendingIntent);
+                pendingIntent);*/
 //            startForeground(1,myNotification);
         notificationManager.notify(MY_NOTIFICATION_ID++, myNotification);
         Log.i("Notification","NEW NOTIF FIRED: "+message);
@@ -264,6 +272,7 @@ public class NotifyService extends Service {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        dayCount++;
         return Integer.parseInt(dayCount + "");
     }
 

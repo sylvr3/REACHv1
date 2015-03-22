@@ -1,5 +1,7 @@
 package asu.reach;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +10,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.os.Environment;
+import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.util.Patterns;
 import android.widget.Toast;
 
 import java.io.BufferedWriter;
@@ -23,6 +27,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 public class DBHelper extends SQLiteOpenHelper{
     //The Android's default system path of your application database.
@@ -148,7 +153,7 @@ public class DBHelper extends SQLiteOpenHelper{
             v1.put("EVENT_TYPE",EVENT_TYPE);
             v1.put("EVENT_PLACE",EVENT_PLACE);
             //db.insert("EVENT_TRACKER","EVENT_TIMESTAMP,EVENT_TYPE,EVENT_PLACE", v1);
-            if(EVENT_TYPE.equalsIgnoreCase("APP_STARTED") || EVENT_TYPE.contains("COMPLETED") || EVENT_TYPE.contains("RELAXATION") || EVENT_TYPE.contains("ADMIN_SETTINGS") || EVENT_TYPE.equalsIgnoreCase("WORRY_HEADS")   || EVENT_TYPE.equalsIgnoreCase("DAILY_DIARY") || EVENT_TYPE.equalsIgnoreCase("BLOB_TRICKS") || EVENT_TYPE.equalsIgnoreCase("STIC_STARTED") || EVENT_TYPE.equalsIgnoreCase("STOP_STARTED")){
+            if(EVENT_TYPE.equalsIgnoreCase("APP_STARTED") || EVENT_TYPE.contains("STOP_P_DONE") || EVENT_TYPE.contains("STOP_O_DONE") || EVENT_TYPE.contains("STOP_T_DONE")  || EVENT_TYPE.contains("STOP_S_DONE") ||  EVENT_TYPE.contains("WHAT") || EVENT_TYPE.contains("RATING") || EVENT_TYPE.contains("DID") || EVENT_TYPE.contains("THOUGHTS") || EVENT_TYPE.contains("COMPLETED") || EVENT_TYPE.contains("RELAXATION") || EVENT_TYPE.contains("ADMIN_SETTINGS") || EVENT_TYPE.equalsIgnoreCase("WORRY_HEADS")   || EVENT_TYPE.equalsIgnoreCase("DAILY_DIARY") || EVENT_TYPE.equalsIgnoreCase("BLOB_TRICKS") || EVENT_TYPE.equalsIgnoreCase("STIC_STARTED") || EVENT_TYPE.equalsIgnoreCase("STOP_STARTED")){
                 //db.insert("HIGH_LEVEL_EVENT_TRACKER","EVENT_TIMESTAMP,EVENT_TYPE,EVENT_PLACE", v1);
                 db.insert("EVENT_TRACKER","EVENT_TIMESTAMP,EVENT_TYPE,EVENT_PLACE", v1);
             }
@@ -343,7 +348,7 @@ public class DBHelper extends SQLiteOpenHelper{
                     for (int j = 0; j < colCount; j++) {
                         if (j != colCount - 1)
                             if(j==1){
-                                bfw.write(DBHelper.getDate(Long.parseLong(c.getString(j)),"dd/MM/yyyy hh:mm:ss.SSS") + ',');
+                                bfw.write(DBHelper.getDate(Long.parseLong(c.getString(j)),"dd/MM/yyyy hh:mm") + ',');
                             }else {
                                 bfw.write(c.getString(j) + ',');
                             }
@@ -361,9 +366,18 @@ public class DBHelper extends SQLiteOpenHelper{
             bfw.close();
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("text/plain");
-            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"heal@asu.edu"});
-            intent.putExtra(Intent.EXTRA_SUBJECT, "Here's the Data ! <<TESTING>>>");
-
+            Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
+            Account[] accounts = AccountManager.get(myContext).getAccounts();
+            String senderEmailId="";
+            for (Account account : accounts) {
+                if (emailPattern.matcher(account.name).matches()) {
+                    senderEmailId = account.name;
+                }
+            }
+            TelephonyManager tm = (TelephonyManager) myContext.getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
+            String deviceId = tm.getDeviceId();
+            intent.putExtra(Intent.EXTRA_EMAIL,new String[]{senderEmailId});
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Here's the Data- Device ID:"+deviceId);
             // ENTER THE FILE YOU WANT TO SEND BELOW
             Toast.makeText(myContext,"Exported "+saveFile.getName()+" to "+saveFile.getAbsolutePath().toString(),Toast.LENGTH_LONG).show();
             intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(saveFile));

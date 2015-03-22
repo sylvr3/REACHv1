@@ -299,7 +299,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                 case ONE_STATE:{
                     try {
                         DBHelper helper = new DBHelper(this);
-                        helper.trackEvent(helper,"DAILY_DIARY_STATE_ONE_NEXT_CLICKED","INSIDE_DAILY_DIARY");
+                        helper.trackEvent(helper,"DAILY_DIARY_WHAT","INSIDE_DAILY_DIARY");
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -322,7 +322,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                 case TWO_STATE:{
                     try {
                         DBHelper helper = new DBHelper(this);
-                        helper.trackEvent(helper,"DAILY_DIARY_STATE_TWO_NEXT_CLICKED","INSIDE_DAILY_DIARY");
+                        helper.trackEvent(helper,"DAILY_DIARY_RATING","INSIDE_DAILY_DIARY");
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -349,7 +349,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                 case THREE_STATE:{
                     try {
                         DBHelper helper = new DBHelper(this);
-                        helper.trackEvent(helper,"DAILY_DIARY_STATE_THREE_NEXT_CLICKED","INSIDE_DAILY_DIARY");
+                        helper.trackEvent(helper,"DAILY_DIARY_DID","INSIDE_DAILY_DIARY");
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -376,7 +376,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                 case FOUR_STATE:{
                     try {
                         DBHelper helper = new DBHelper(this);
-                        helper.trackEvent(helper,"DAILY_DIARY_STATE_FOUR_NEXT_CLICKED","INSIDE_DAILY_DIARY");
+                        helper.trackEvent(helper,"DAILY_DIARY_THOUGHTS","INSIDE_DAILY_DIARY");
                     }catch(Exception e){
                         e.printStackTrace();
                     }
