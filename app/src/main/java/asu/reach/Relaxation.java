@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.pm.ActivityInfo;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.Toast;
 
@@ -29,6 +31,7 @@ public class Relaxation extends Activity implements View.OnClickListener,
         MediaPlayer.OnCompletionListener{
 
     private ImageButton intro,worrybox,bb,tgt,review;
+    private ImageView crab;
     private MediaPlayer player;
     private MediaController control;
     private Handler handler = new Handler();
@@ -49,6 +52,7 @@ public class Relaxation extends Activity implements View.OnClickListener,
         bb = (ImageButton)findViewById(R.id.bbBtn);
         tgt = (ImageButton)findViewById(R.id.tgtBtn);
         review = (ImageButton)findViewById(R.id.reviewBtn);
+        crab = (ImageView)findViewById(R.id.crab);
 
         intro.setOnClickListener(this);
         worrybox.setOnClickListener(this);
@@ -61,6 +65,9 @@ public class Relaxation extends Activity implements View.OnClickListener,
         player.setOnCompletionListener(this);
 
         control = new MediaController(this);
+
+        AnimationDrawable anicrab = (AnimationDrawable) crab.getBackground();
+        anicrab.start();
     }
 
     @Override

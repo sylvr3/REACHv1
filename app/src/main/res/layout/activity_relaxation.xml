@@ -30,7 +30,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/relaxTitle"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="50dp"
+        android:id="@+id/relativeLayout3">
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -84,5 +85,15 @@
             android:onClick="onBackClick" />
 
     </RelativeLayout>
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="85dp"
+        android:id="@+id/crab"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/crab_anim"
+        android:layout_marginBottom="125dp" />
 
 </RelativeLayout>
