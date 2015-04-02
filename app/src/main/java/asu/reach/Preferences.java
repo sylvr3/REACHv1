@@ -205,10 +205,21 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
             DBHelper helper = new DBHelper(this);
 //            helper.trackEvent(helper,"RELAXATION","LANDING_PAGE");
             db = helper.getDB();
-            Cursor c = db.rawQuery("select * from EVENT_TRACKER;", null);
-            helper.exportToCSV(c, "REACH_DATA.csv"/*, getApplicationContext()*/);
-            db.close();
-            helper.close();
+            Cursor EVENT_TRACKER = db.rawQuery("select * from EVENT_TRACKER;", null);
+            helper.exportToCSV(EVENT_TRACKER, "REACH_DATA_EVENT_TRACKER.csv"/*, getApplicationContext()*/);
+
+            Cursor DAILY_DIARY_COMPLETION = db.rawQuery("select * from DAILY_DIARY_COMPLETION;", null);
+            helper.exportToCSV(DAILY_DIARY_COMPLETION, "DAILY_DIARY_COMPLETION.csv"/*, getApplicationContext()*/);
+
+            Cursor STIC_COMPLETION = db.rawQuery("select * from STIC_COMPLETION;", null);
+            helper.exportToCSV(STIC_COMPLETION, "STIC_COMPLETION.csv"/*, getApplicationContext()*/);
+
+            Cursor WORRYHEADS_COMPLETION = db.rawQuery("select * from WORRYHEADS_COMPLETION;", null);
+            helper.exportToCSV(WORRYHEADS_COMPLETION, "WORRYHEADS_COMPLETION.csv"/*, getApplicationContext()*/);
+
+            Cursor STOP = db.rawQuery("select * from STOP;", null);
+            helper.exportToCSV(STOP, "STOP.csv"/*, getApplicationContext()*/);
+            helper.sendData();
 
         } catch (Exception e) {
             Log.i("Exception occured", "Exception occured");

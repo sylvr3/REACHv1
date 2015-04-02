@@ -25,7 +25,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
@@ -34,6 +36,8 @@ public class DBHelper extends SQLiteOpenHelper{
     private static String DB_PATH;
 
     private static String DB_NAME = "REACH_DB";
+
+    private static List<File> filepaths=new ArrayList<File>();
 
     private SQLiteDatabase myDataBase;
 
@@ -318,10 +322,12 @@ public class DBHelper extends SQLiteOpenHelper{
         Log.i("path", "path");
         int rowCount = 0;
         int colCount = 0;
+        int columnIndexForTimeStamp=0;
         FileWriter fw;
         BufferedWriter bfw;
         File sdCardDir = Environment.getExternalStorageDirectory();
         File saveFile = new File(sdCardDir, fileName);
+        DBHelper.filepaths.add(saveFile);
         try {
 
             rowCount = c.getCount();
@@ -332,10 +338,18 @@ public class DBHelper extends SQLiteOpenHelper{
                 c.moveToFirst();
                 //
                 for (int i = 0; i < colCount; i++) {
-                    if (i != colCount - 1)
-                        bfw.write(c.getColumnName(i) + ',');
-                    else
+                    if (i != colCount - 1) {
+                        if (c.getColumnName(i).equalsIgnoreCase("TIMESTAMP") || c.getColumnName(i).equalsIgnoreCase("EVENT_TIMESTAMP")) {
+                            columnIndexForTimeStamp = i;
+                            bfw.write(c.getColumnName(i) + ',');
+                        }else {
+                            if (!c.getColumnName(i).equalsIgnoreCase("WRONG_FLAG"))
+                                bfw.write(c.getColumnName(i) + ',');
+                        }
+                    }
+                    else {
                         bfw.write(c.getColumnName(i));
+                    }
                 }
                 //
                 bfw.newLine();
@@ -347,7 +361,7 @@ public class DBHelper extends SQLiteOpenHelper{
                     //Log.v("", "" + (i + 1) + "");
                     for (int j = 0; j < colCount; j++) {
                         if (j != colCount - 1)
-                            if(j==1){
+                            if(j==columnIndexForTimeStamp){
                                 bfw.write(DBHelper.getDate(Long.parseLong(c.getString(j)),"dd/MM/yyyy hh:mm") + ',');
                             }else {
                                 bfw.write(c.getString(j) + ',');
@@ -364,24 +378,7 @@ public class DBHelper extends SQLiteOpenHelper{
             bfw.flush();
             //
             bfw.close();
-            Intent intent = new Intent(Intent.ACTION_SEND);
-            intent.setType("text/plain");
-            Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
-            Account[] accounts = AccountManager.get(myContext).getAccounts();
-            String senderEmailId="";
-            for (Account account : accounts) {
-                if (emailPattern.matcher(account.name).matches()) {
-                    senderEmailId = account.name;
-                }
-            }
-            TelephonyManager tm = (TelephonyManager) myContext.getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
-            String deviceId = tm.getDeviceId();
-            intent.putExtra(Intent.EXTRA_EMAIL,new String[]{senderEmailId});
-            intent.putExtra(Intent.EXTRA_SUBJECT, "Here's the Data- Device ID:"+deviceId);
-            // ENTER THE FILE YOU WANT TO SEND BELOW
-            Toast.makeText(myContext,"Exported "+saveFile.getName()+" to "+saveFile.getAbsolutePath().toString(),Toast.LENGTH_LONG).show();
-            intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(saveFile));
-            myContext.startActivity(Intent.createChooser(intent, "Share using"));
+
 
             // Toast.makeText(mContext, "?", Toast.LENGTH_SHORT).show();
 
@@ -393,6 +390,54 @@ public class DBHelper extends SQLiteOpenHelper{
         }
     }
 
+    public void sendData(){
+        /*
+        * Intent intent = new Intent();
+          intent.setAction(Intent.ACTION_SEND_MULTIPLE);
+          intent.putExtra(Intent.EXTRA_SUBJECT, "Here are some files.");
+          intent.setType("image/jpeg"); /* This example is sharing jpeg images.
+
+        ArrayList<Uri> files = new ArrayList<Uri>();
+
+        for(String path : filesToSend /* List of the files you want to send ) {
+            File file = new File(path);
+            Uri uri = Uri.fromFile(file);
+            files.add(uri);
+        }
+        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, files);
+        startActivity(intent);
+        * */
+
+        Intent intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
+        intent.setType("text/plain");
+        Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
+        Account[] accounts = AccountManager.get(myContext).getAccounts();
+        String senderEmailId="";
+        for (Account account : accounts) {
+            if (emailPattern.matcher(account.name).matches()) {
+                senderEmailId = account.name;
+            }
+        }
+
+        TelephonyManager tm = (TelephonyManager) myContext.getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
+        String deviceId = tm.getDeviceId();
+        intent.putExtra(Intent.EXTRA_EMAIL,new String[]{senderEmailId});
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Here's the Data- Device ID:"+deviceId);
+        // ENTER THE FILE YOU WANT TO SEND BELOW
+        //Toast.makeText(myContext,"Exported "+saveFile.getName()+" to "+saveFile.getAbsolutePath().toString(),Toast.LENGTH_LONG).show();
+
+        //intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(saveFile));
+
+        ArrayList<Uri> files = new ArrayList<Uri>();
+
+        for(File file : DBHelper.filepaths ) {
+            //File file = new File(path);
+            Uri uri = Uri.fromFile(file);
+            files.add(uri);
+        }
+        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, files);
+        myContext.startActivity(Intent.createChooser(intent, "Share using"));
+    }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
