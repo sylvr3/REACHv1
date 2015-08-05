@@ -11,8 +11,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
@@ -20,15 +22,18 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 import java.util.Calendar;
 
-public class Landing extends Activity implements View.OnClickListener,DialogInterface.OnClickListener {
+public class Landing extends Activity implements View.OnClickListener,DialogInterface.OnClickListener, GestureDetector.OnGestureListener {
 
     private SQLiteDatabase db;
     private RelativeLayout topLeftLayout, topRightLayout, bottomLeftLayout, bottomRightLayout;
     private ImageButton dd,stic,stop,relax,wh;
     private ImageView blob,stopGlow,sticGlow,whGlow,ddGlow,relaxGlow;
+    private ViewSwitcher viewSwitcher;
+    private GestureDetector gestureDetector;
     private EditText pin;
     private boolean topLeft,topRight,bottomRight;
     private long time;
@@ -86,6 +91,7 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         whGlow = (ImageView)findViewById(R.id.whGlow);
         ddGlow = (ImageView)findViewById(R.id.ddGlow);
         relaxGlow = (ImageView)findViewById(R.id.relaxGlow);
+        viewSwitcher = (ViewSwitcher)findViewById(R.id.viewSwitcher);
         topLeft = false;
         topRight = false;
         bottomRight = false;
@@ -101,6 +107,9 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         topRightLayout.setOnClickListener(this);
         bottomLeftLayout.setOnClickListener(this);
         bottomRightLayout.setOnClickListener(this);
+        viewSwitcher.setInAnimation(this, android.R.anim.fade_in);
+        viewSwitcher.setOutAnimation(this, android.R.anim.fade_out);
+        gestureDetector = new GestureDetector(this, this);
 
         try {
             DBHelper helper = new DBHelper(this);
@@ -374,5 +383,45 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
                 break;
             }
         }
+    }
+
+    @Override
+    public boolean onDown(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        if (e1.getRawY() > e2.getRawY()) {
+            viewSwitcher.showNext();
+        } else {
+            viewSwitcher.showPrevious();
+        }
+        return false;
+    }
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        gestureDetector.onTouchEvent(event);
+        return super.onTouchEvent(event);
     }
 }

@@ -1,6 +1,5 @@
 package asu.reach;
 
-import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -43,69 +42,73 @@ public class NotifyService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-// TODO Auto-generated method stub
-        Log.i("Notif Service", "Inside onStartCommand of Service");
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(ACTION);
-        registerReceiver(notifyServiceReceiver, intentFilter);
-        DBHelper helper = new DBHelper(getApplicationContext());
-        db = helper.getDB();
-        Cursor c = db.rawQuery("select start_time from DATE_TIME_SET where id=1", null);
-        c.moveToFirst();
-        String notificationTime = c.getString(0);
-        c.close();
-        db.close();
-
-        String[] data = notificationTime.split(":");
-        int hours = Integer.parseInt(data[0]);
-        int minutes = Integer.parseInt(data[1]);
-        long time = (hours * 60 * 60) + (minutes * 60);
-        Calendar cal = Calendar.getInstance();
-        int hour_of_day = cal.get(Calendar.HOUR_OF_DAY);
-        int min_of_day = cal.get(Calendar.MINUTE);
-        long systemTime = (hour_of_day * 3600) + (min_of_day * 60);
-
-        DBHelper helper1 = new DBHelper(getApplicationContext());
-        db = helper1.getDB();
-        Cursor c1 = db.rawQuery("select start_date from DATE_TIME_SET where id=1", null);
-        c1.moveToFirst();
-        String ALLprotocolStartDate = c1.getString(0);
-        c1.close();
-        db.close();
-
-        int currentDayofProtocol = calculateDayofProtocol(ALLprotocolStartDate);
-
-        if (currentDayofProtocol > 0) {
-            DBHelper helper2 = new DBHelper(getApplicationContext());
-            db = helper2.getDB();
-            Cursor c2 = db.rawQuery("select * from ADMIN_ACTIVITY_SCHEDULER where DAY=" + currentDayofProtocol, null);
-            c2.moveToFirst();
-            boolean DDNotificationCheck=false;
-            boolean STICNotificationCheck=false;
-            boolean STOPNotificationCheck=false;
-            boolean WORRYHEADnotificationCheck=false;
-            boolean RelaxationNotificationCheck=false;
-            if (c2.getInt(3) == 1 /*|| c2.getInt(4)==1*/)                                                             //Are we updating DIARY_EVENT2 when user completes DIARY EVENT_2 anywhere ??
-                DDNotificationCheck= checkForDDNotification(currentDayofProtocol, systemTime, time);
-            if(c2.getInt(5) == 1)
-                STOPNotificationCheck = checkForSTOPNotification(currentDayofProtocol, systemTime, time);
-            if(c2.getInt(6) == 1)
-                WORRYHEADnotificationCheck = checkForWORRYHEADNotification(currentDayofProtocol, systemTime, time);
-            if(c2.getInt(7) == 1)
-                STICNotificationCheck = checkForSTICNotification(currentDayofProtocol, systemTime, time);
-            if(c2.getInt(7) == 1)
-                RelaxationNotificationCheck = checkForRelaxationNotification(currentDayofProtocol, systemTime, time);
-
-            Log.i("DD NOTIF DONE",DDNotificationCheck+"");
-            Log.i("WORRY HEAD NOTIF DONE",WORRYHEADnotificationCheck+"");
-            Log.i("STOP NOTIF DONE",STOPNotificationCheck+"");
-            Log.i("STIC NOTIF DONE",STICNotificationCheck+"");
-            Log.i("RELAX NOTIF DONE",RelaxationNotificationCheck+"");
-            c2.close();
+        try {
+            Log.i("Notif Service", "Inside onStartCommand of Service");
+            IntentFilter intentFilter = new IntentFilter();
+            intentFilter.addAction(ACTION);
+            registerReceiver(notifyServiceReceiver, intentFilter);
+            DBHelper helper = new DBHelper(getApplicationContext());
+            db = helper.getDB();
+            Cursor c = db.rawQuery("select start_time from DATE_TIME_SET where id=1", null);
+            c.moveToFirst();
+            String notificationTime = c.getString(0);
+            c.close();
             db.close();
 
+            String[] data = notificationTime.split(":");
+            int hours = Integer.parseInt(data[0]);
+            int minutes = Integer.parseInt(data[1]);
+            long time = (hours * 60 * 60) + (minutes * 60);
+            Calendar cal = Calendar.getInstance();
+            int hour_of_day = cal.get(Calendar.HOUR_OF_DAY);
+            int min_of_day = cal.get(Calendar.MINUTE);
+            long systemTime = (hour_of_day * 3600) + (min_of_day * 60);
+
+            DBHelper helper1 = new DBHelper(getApplicationContext());
+            db = helper1.getDB();
+            Cursor c1 = db.rawQuery("select start_date from DATE_TIME_SET where id=1", null);
+            c1.moveToFirst();
+            String ALLprotocolStartDate = c1.getString(0);
+            c1.close();
+            db.close();
+
+            int currentDayofProtocol = calculateDayofProtocol(ALLprotocolStartDate);
+
+            if (currentDayofProtocol > 0) {
+                DBHelper helper2 = new DBHelper(getApplicationContext());
+                db = helper2.getDB();
+                Cursor c2 = db.rawQuery("select * from ADMIN_ACTIVITY_SCHEDULER where DAY=" + currentDayofProtocol, null);
+                c2.moveToFirst();
+                boolean DDNotificationCheck = false;
+                boolean STICNotificationCheck = false;
+                boolean STOPNotificationCheck = false;
+                boolean WORRYHEADnotificationCheck = false;
+                boolean RelaxationNotificationCheck = false;
+                if (c2.getInt(3) == 1 /*|| c2.getInt(4)==1*/)                                                             //Are we updating DIARY_EVENT2 when user completes DIARY EVENT_2 anywhere ??
+                    DDNotificationCheck = checkForDDNotification(currentDayofProtocol, systemTime, time);
+                if (c2.getInt(5) == 1)
+                    STOPNotificationCheck = checkForSTOPNotification(currentDayofProtocol, systemTime, time);
+                if (c2.getInt(6) == 1)
+                    WORRYHEADnotificationCheck = checkForWORRYHEADNotification(currentDayofProtocol, systemTime, time);
+                if (c2.getInt(7) == 1)
+                    STICNotificationCheck = checkForSTICNotification(currentDayofProtocol, systemTime, time);
+                if (c2.getInt(7) == 1)
+                    RelaxationNotificationCheck = checkForRelaxationNotification(currentDayofProtocol, systemTime, time);
+
+                Log.i("DD NOTIF DONE", DDNotificationCheck + "");
+                Log.i("WORRY HEAD NOTIF DONE", WORRYHEADnotificationCheck + "");
+                Log.i("STOP NOTIF DONE", STOPNotificationCheck + "");
+                Log.i("STIC NOTIF DONE", STICNotificationCheck + "");
+                Log.i("RELAX NOTIF DONE", RelaxationNotificationCheck + "");
+                c2.close();
+                db.close();
+
+            }
+            return (START_STICKY);
+        }catch(Exception e){
+            e.printStackTrace();
+            return (START_STICKY);
         }
-        return (START_STICKY);
     }
 
     public boolean checkForDDNotification(int currentDayofProtocol, long systemTime, long currTime) {
