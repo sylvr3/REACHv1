@@ -7,9 +7,156 @@
     android:background="@drawable/landing">
 
     <ViewSwitcher
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/viewSwitcher" >
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/viewSwitcher"
+        android:layout_marginTop="-16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+
+            <RelativeLayout
+                android:layout_width="65dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="100dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/border_bg"
+                android:gravity="center"
+                android:layout_marginLeft="5dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/ddBarLayout"
+                    android:gravity="center"
+                    android:background="#40c649"
+                    android:layout_margin="4dp"
+                    android:layout_alignParentEnd="false"
+                    android:layout_alignParentBottom="true">
+
+                </RelativeLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/imageView3"
+                    android:src="@drawable/dd_bar_text"
+                    android:layout_centerInParent="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="65dp"
+                android:layout_height="match_parent"
+                android:id="@+id/relativeLayout5"
+                android:layout_toRightOf="@+id/relaxBarLayout"
+                android:layout_marginTop="100dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/border_bg">
+
+                <RelativeLayout
+                    android:layout_width="65dp"
+                    android:layout_height="300dp"
+                    android:id="@+id/sticBarLayout"
+                    android:gravity="center"
+                    android:layout_margin="4dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#f96331">
+
+                </RelativeLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView5"
+                    android:src="@drawable/stic_bar_text"
+                    android:layout_centerInParent="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="65dp"
+                android:layout_height="match_parent"
+                android:id="@+id/relativeLayout4"
+                android:layout_toRightOf="@+id/sticBarLayout"
+                android:layout_marginTop="100dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/border_bg">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:id="@+id/whBarLayout"
+                    android:gravity="center"
+                    android:layout_margin="4dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#f4485e">
+
+                </RelativeLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView7"
+                    android:src="@drawable/wh_bar_text"
+                    android:layout_centerInParent="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="65dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="100dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/border_bg">
+
+                <RelativeLayout
+                    android:layout_width="65dp"
+                    android:layout_height="250dp"
+                    android:id="@+id/stopBarLayout"
+                    android:gravity="center"
+                    android:background="#b83428"
+                    android:layout_margin="4dp"
+                    android:layout_alignParentBottom="true">
+
+                </RelativeLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView6"
+                    android:src="@drawable/stop_bar_text"
+                    android:layout_centerInParent="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="65dp"
+                android:layout_height="match_parent"
+                android:id="@+id/relativeLayout6"
+                android:layout_toRightOf="@+id/ddBarLayout"
+                android:layout_marginTop="100dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/border_bg">
+
+                <RelativeLayout
+                    android:layout_width="65dp"
+                    android:layout_height="340dp"
+                    android:id="@+id/relaxBarLayout"
+                    android:layout_margin="4dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#2882ce"
+                    android:gravity="center">
+
+                </RelativeLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView4"
+                    android:src="@drawable/relax_bar_text"
+                    android:layout_centerInParent="true" />
+            </RelativeLayout>
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -38,7 +185,7 @@
                 android:layout_alignParentStart="false"
                 android:id="@+id/relativeLayout2"
                 android:layout_alignTop="@+id/vidLayout"
-                android:layout_marginTop="-75dp">
+                android:layout_marginTop="-150dp">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -63,25 +210,28 @@
                     android:layout_alignBottom="@+id/ddBtn"
                     android:layout_alignRight="@+id/ddBtn"
                     android:layout_alignLeft="@+id/ddBtn"
-                    android:layout_marginLeft="-28dp"
-                    android:layout_marginTop="-28dp"
-                    android:layout_marginRight="-28dp"
-                    android:layout_marginBottom="-28dp"
+                    android:layout_marginLeft="-32dp"
+                    android:layout_marginTop="-32dp"
+                    android:layout_marginRight="-32dp"
+                    android:layout_marginBottom="-32dp"
                     android:background="@drawable/btn_glow"
                     android:visibility="gone" />
 
                 <ImageView
-                    android:layout_width="155dp"
-                    android:layout_height="155dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:id="@+id/sticGlow"
-                    android:layout_marginRight="-21dp"
-                    android:layout_marginBottom="-15dp"
                     android:background="@drawable/btn_glow"
                     android:layout_alignParentStart="false"
                     android:layout_alignParentEnd="false"
-                    android:layout_alignBottom="@+id/stopBtn"
-                    android:layout_toLeftOf="@+id/stopBtn"
-                    android:layout_marginLeft="-12dp"
+                    android:layout_alignBottom="@+id/sticBtn"
+                    android:layout_alignRight="@+id/sticBtn"
+                    android:layout_alignTop="@+id/sticBtn"
+                    android:layout_alignLeft="@+id/sticBtn"
+                    android:layout_marginBottom="-32dp"
+                    android:layout_marginRight="-32dp"
+                    android:layout_marginLeft="-30dp"
+                    android:layout_marginTop="-32dp"
                     android:visibility="gone" />
 
                 <ImageView
@@ -107,10 +257,10 @@
                     android:layout_alignBottom="@+id/relaxBtn"
                     android:layout_alignRight="@+id/relaxBtn"
                     android:layout_alignLeft="@+id/relaxBtn"
-                    android:layout_marginLeft="-28dp"
-                    android:layout_marginTop="-28dp"
-                    android:layout_marginRight="-28dp"
-                    android:layout_marginBottom="-28dp"
+                    android:layout_marginLeft="-32dp"
+                    android:layout_marginTop="-32dp"
+                    android:layout_marginRight="-32dp"
+                    android:layout_marginBottom="-32dp"
                     android:background="@drawable/btn_glow"
                     android:focusableInTouchMode="false"
                     android:visibility="gone" />
@@ -121,7 +271,7 @@
                     android:id="@+id/ddBtn"
                     android:background="@drawable/dd_selector"
                     android:layout_alignParentStart="false"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginLeft="60dp"
                     android:layout_marginTop="100dp"
                     android:layout_alignParentBottom="true"
                     android:layout_marginBottom="15dp" />
@@ -133,7 +283,8 @@
                     android:background="@drawable/stop_selector"
                     android:layout_alignParentBottom="false"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="100dp" />
+                    android:layout_marginBottom="100dp"
+                    android:layout_marginTop="55dp" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
@@ -144,7 +295,8 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="15dp"
                     android:layout_toLeftOf="@+id/stopBtn"
-                    android:layout_marginTop="30dp" />
+                    android:layout_marginTop="30dp"
+                    android:layout_alignTop="@+id/stopBtn" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
@@ -152,7 +304,7 @@
                     android:id="@+id/relaxBtn"
                     android:background="@drawable/relax_selector"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginRight="50dp"
+                    android:layout_marginRight="60dp"
                     android:layout_marginTop="100dp"
                     android:layout_alignParentBottom="true"
                     android:layout_marginBottom="15dp" />
@@ -204,152 +356,6 @@
                 android:layout_marginBottom="-16dp"
                 android:layout_alignParentEnd="true" />
         </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center_horizontal">
-
-            <RelativeLayout
-                android:layout_width="65dp"
-                android:layout_height="match_parent"
-                android:layout_marginTop="100dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/border_bg"
-                android:gravity="center"
-                android:layout_marginLeft="5dp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:id="@+id/ddBarLayout"
-                    android:gravity="center"
-                    android:background="#40c749"
-                    android:layout_margin="4dp"
-                    android:layout_alignParentEnd="false"
-                    android:layout_alignParentBottom="true">
-
-                </RelativeLayout>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:id="@+id/imageView3"
-                    android:src="@drawable/dd_bar_text"
-                    android:layout_centerInParent="true" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="65dp"
-                android:layout_height="match_parent"
-                android:id="@+id/relativeLayout5"
-                android:layout_toRightOf="@+id/relaxBarLayout"
-                android:layout_marginTop="100dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/border_bg">
-
-                <RelativeLayout
-                    android:layout_width="65dp"
-                    android:layout_height="300dp"
-                    android:id="@+id/sticBarLayout"
-                    android:gravity="center"
-                    android:layout_margin="4dp"
-                    android:layout_alignParentBottom="true"
-                    android:background="#2982cd">
-
-                </RelativeLayout>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView5"
-                    android:src="@drawable/stic_bar_text"
-                    android:layout_centerInParent="true" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="65dp"
-                android:layout_height="match_parent"
-                android:id="@+id/relativeLayout4"
-                android:layout_toRightOf="@+id/sticBarLayout"
-                android:layout_marginTop="100dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/border_bg">
-
-                <RelativeLayout
-                    android:layout_width="65dp"
-                    android:layout_height="250dp"
-                    android:id="@+id/stopBarLayout"
-                    android:gravity="center"
-                    android:background="#ef367c"
-                    android:layout_margin="4dp"
-                    android:layout_alignParentBottom="true">
-
-                </RelativeLayout>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView6"
-                    android:src="@drawable/stop_bar_text"
-                    android:layout_centerInParent="true" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="65dp"
-                android:layout_height="match_parent"
-                android:layout_marginTop="100dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/border_bg">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:id="@+id/whBarLayout"
-                    android:gravity="center"
-                    android:layout_margin="4dp"
-                    android:layout_alignParentBottom="true"
-                    android:background="#b83429">
-
-                </RelativeLayout>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView7"
-                    android:src="@drawable/wh_bar_text"
-                    android:layout_centerInParent="true" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="65dp"
-                android:layout_height="match_parent"
-                android:id="@+id/relativeLayout6"
-                android:layout_toRightOf="@+id/ddBarLayout"
-                android:layout_marginTop="100dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/border_bg">
-
-                <RelativeLayout
-                    android:layout_width="65dp"
-                    android:layout_height="340dp"
-                    android:id="@+id/relaxBarLayout"
-                    android:layout_margin="4dp"
-                    android:layout_alignParentBottom="true"
-                    android:background="#e79120"
-                    android:gravity="center">
-
-                </RelativeLayout>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView4"
-                    android:src="@drawable/relax_bar_text"
-                    android:layout_centerInParent="true" />
-            </RelativeLayout>
-        </LinearLayout>
 
     </ViewSwitcher>
 
