@@ -183,6 +183,7 @@ public class STIC extends Activity implements View.OnClickListener, DialogInterf
                     try {
                         DBHelper helper = new DBHelper(this);
                         helper.trackEvent(helper,"STIC_COMPLETED","INSIDE_STIC_ACTIVITY");
+                        helper.setActivityProgressCount("STIC");
                         db = helper.getDB();
                         currentDay = helper.getCurrentDay();
                         if (currentDay < 43 && currentDay > 0) {

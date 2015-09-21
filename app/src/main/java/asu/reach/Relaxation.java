@@ -77,9 +77,11 @@ public class Relaxation extends Activity implements View.OnClickListener,
                 if(player.isPlaying()){
                     player.stop();
                 }
+
                 try {
                     DBHelper helper = new DBHelper(this);
                     helper.trackEvent(helper,"RELAXATION_INTRO","INSIDE_WORRY_HEADS_ACTIVITY");
+                    helper.setActivityProgressCount("RELAXATION");
                     helper.close();
                 }catch(Exception e){
                     e.printStackTrace();
@@ -96,6 +98,7 @@ public class Relaxation extends Activity implements View.OnClickListener,
                 try {
                     DBHelper helper = new DBHelper(this);
                     helper.trackEvent(helper,"RELAXATION_WORRYBOX","INSIDE_WORRY_HEADS_ACTIVITY");
+                    helper.setActivityProgressCount("RELAXATION");
                     helper.close();
                 }catch(Exception e){
                     e.printStackTrace();
@@ -112,6 +115,7 @@ public class Relaxation extends Activity implements View.OnClickListener,
                 try {
                     DBHelper helper = new DBHelper(this);
                     helper.trackEvent(helper,"RELAXATION_BELLY_BREATHING","INSIDE_WORRY_HEADS_ACTIVITY");
+                    helper.setActivityProgressCount("RELAXATION");
                     helper.close();
                 }catch(Exception e){
                     e.printStackTrace();
@@ -128,6 +132,7 @@ public class Relaxation extends Activity implements View.OnClickListener,
                 try {
                     DBHelper helper = new DBHelper(this);
                     helper.trackEvent(helper,"RELAXATION_THE_GROWING_TREE","INSIDE_WORRY_HEADS_ACTIVITY");
+                    helper.setActivityProgressCount("RELAXATION");
                     helper.close();
                 }catch(Exception e){
                     e.printStackTrace();
@@ -144,6 +149,7 @@ public class Relaxation extends Activity implements View.OnClickListener,
                 try {
                     DBHelper helper = new DBHelper(this);
                     helper.trackEvent(helper,"RELAXATION_REVIEW","INSIDE_WORRY_HEADS_ACTIVITY");
+                    helper.setActivityProgressCount("RELAXATION");
                     helper.close();
                 }catch(Exception e){
                     e.printStackTrace();

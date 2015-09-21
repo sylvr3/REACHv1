@@ -341,6 +341,7 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
             try {
                 DBHelper helper = new DBHelper(this);
                 helper.trackEvent(helper,"STOP_COMPLETED","INSIDE_STOP_ACTIVITY");
+                helper.setActivityProgressCount("STOP");
             }catch(Exception e){
                 e.printStackTrace();
             }

@@ -15,6 +15,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -468,6 +469,8 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
             try {
                 DBHelper helper = new DBHelper(this);
                 helper.trackEvent(helper,"DAILY_DIARY_COMPLETED","INSIDE_DAILY_DIARY");
+                helper.setActivityProgressCount("DAILY_DIARY");
+                //Log.i("Daily Diary Count",helper.getActivityProgressCount("DAILY_DIARY").toString());
             }catch(Exception e){
                 e.printStackTrace();
             }

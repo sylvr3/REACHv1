@@ -44,6 +44,7 @@ public class NotifyService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         try {
             Log.i("Notif Service", "Inside onStartCommand of Service");
+
             IntentFilter intentFilter = new IntentFilter();
             intentFilter.addAction(ACTION);
             registerReceiver(notifyServiceReceiver, intentFilter);
@@ -52,8 +53,9 @@ public class NotifyService extends Service {
             Cursor c = db.rawQuery("select start_time from DATE_TIME_SET where id=1", null);
             c.moveToFirst();
             String notificationTime = c.getString(0);
-            c.close();
-            db.close();
+            //c.close();
+            //db.close();
+            //helper.releaseTrick();// Calling this function here to make sure the trick is released on only 2 intended days of week.
 
             String[] data = notificationTime.split(":");
             int hours = Integer.parseInt(data[0]);
@@ -69,14 +71,31 @@ public class NotifyService extends Service {
             Cursor c1 = db.rawQuery("select start_date from DATE_TIME_SET where id=1", null);
             c1.moveToFirst();
             String ALLprotocolStartDate = c1.getString(0);
-            c1.close();
-            db.close();
+            //c1.close();
+            //db.close();
 
             int currentDayofProtocol = calculateDayofProtocol(ALLprotocolStartDate);
+            int weekNumber=(currentDayofProtocol/7)+1;
+
+            /*Check if the trick release days have been set or not*/
+            db=helper1.getDB();
+            Cursor dayCheck = db.rawQuery("select start_date from DATE_TIME_SET where id=2", null);
+            dayCheck.moveToFirst();
+            String dayOfTheWeek = dayCheck.getString(0);
+            System.out.println("dayOftheWeek"+dayOfTheWeek);
+            if(dayOfTheWeek.isEmpty()){
+                //cant release trick because the days are not set in admin preferences.
+            }else{
+                helper1.releaseTrick();
+            }
+
 
             if (currentDayofProtocol > 0) {
                 DBHelper helper2 = new DBHelper(getApplicationContext());
                 db = helper2.getDB();
+
+                db.execSQL("update WEEK_NUMBER_OF_PROTOCOL set WEEK_NUMBER="+weekNumber+""); //To keep track of the ongoing week
+
                 Cursor c2 = db.rawQuery("select * from ADMIN_ACTIVITY_SCHEDULER where DAY=" + currentDayofProtocol, null);
                 c2.moveToFirst();
                 boolean DDNotificationCheck = false;
@@ -100,8 +119,8 @@ public class NotifyService extends Service {
                 Log.i("STOP NOTIF DONE", STOPNotificationCheck + "");
                 Log.i("STIC NOTIF DONE", STICNotificationCheck + "");
                 Log.i("RELAX NOTIF DONE", RelaxationNotificationCheck + "");
-                c2.close();
-                db.close();
+                //c2.close();
+                //db.close();
 
             }
             return (START_STICKY);
@@ -123,15 +142,15 @@ public class NotifyService extends Service {
             if (systemTime == currTime) {
                 String message="Practice Daily Diary to help Bob the Blob learn new tricks to show you later";
                 fireNotifications(message,DailyDiary.class);
-                c.close();
-                db.close();
-                helper.close();
+                //c.close();
+                //db.close();
+                //helper.close();
                 return true;
             }
         }
-        c.close();
-        db.close();
-        helper.close();
+        //c.close();
+        //db.close();
+        //helper.close();
         return false;
     }
 
@@ -147,15 +166,15 @@ public class NotifyService extends Service {
             if (systemTime == currTime) {
                 String message="Practice STOP to help Bob the Blob learn new tricks to show you later";
                 fireNotifications(message,STOP.class);
-                c.close();
-                db.close();
-                helper.close();
+                //c.close();
+                //db.close();
+                //helper.close();
                 return true;
             }
         }
-        c.close();
-        db.close();
-        helper.close();
+        //c.close();
+        //db.close();
+        //helper.close();
         return false;
     }
 
@@ -171,15 +190,15 @@ public class NotifyService extends Service {
             if (systemTime == currTime) {
                 String message="Practice STIC to help Bob the Blob learn new tricks to show you later";
                 fireNotifications(message,STIC.class);
-                c.close();
-                db.close();
-                helper.close();
+                //c.close();
+                //db.close();
+                //helper.close();
                 return true;
             }
         }
-        c.close();
-        db.close();
-        helper.close();
+        //c.close();
+        //db.close();
+        //helper.close();
         return false;
     }
 
@@ -194,15 +213,15 @@ public class NotifyService extends Service {
             if (systemTime == currTime) {
                 String message="Practice Worryheads to help Bob the Blob learn new tricks to show you later";
                 fireNotifications(message,WorryHeads.class);
-                c.close();
-                db.close();
-                helper.close();
+                //c.close();
+                //db.close();
+                //helper.close();
                 return true;
             }
         }
-        c.close();
-        db.close();
-        helper.close();
+        //c.close();
+        //db.close();
+        //helper.close();
         return false;
     }
 
@@ -217,15 +236,15 @@ public class NotifyService extends Service {
             if (systemTime == currTime) {
                 String message="Practice Relaxation to help Bob the Blob learn new tricks to show you later";
                 fireNotifications(message,Relaxation.class);
-                c.close();
-                db.close();
-                helper.close();
+                //c.close();
+                //db.close();
+                //helper.close();
                 return true;
             }
         }
-        c.close();
-        db.close();
-        helper.close();
+        //c.close();
+        //db.close();
+        //helper.close();
         return false;
     }
 

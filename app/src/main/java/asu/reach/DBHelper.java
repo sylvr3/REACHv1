@@ -2,6 +2,7 @@ package asu.reach;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.os.Environment;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.util.Patterns;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.io.BufferedWriter;
@@ -86,6 +88,80 @@ public class DBHelper extends SQLiteOpenHelper{
             e.printStackTrace();
         }
     }
+
+
+    public void changeProgressBarLevel(Activity activity){
+        try {
+            /*This code resets the Bar layouts to zero*/
+            RelativeLayout r11 = (RelativeLayout) activity.findViewById(R.id.ddBarLayout);
+            r11.getLayoutParams().height = 0 ;
+            RelativeLayout r22 = (RelativeLayout) activity.findViewById(R.id.sticBarLayout);
+            r22.getLayoutParams().height = 0 ;
+            RelativeLayout r33 = (RelativeLayout) activity.findViewById(R.id.stopBarLayout);
+            r33.getLayoutParams().height = 0 ;
+            RelativeLayout r44 = (RelativeLayout) activity.findViewById(R.id.whBarLayout);
+            r44.getLayoutParams().height = 0 ;
+            RelativeLayout r55 = (RelativeLayout) activity.findViewById(R.id.relaxBarLayout);
+            r55.getLayoutParams().height = 0 ;
+
+            /* This code is written to get the count of activities completed during the week.*/
+            Cursor c=myDataBase.rawQuery("SELECT * from PROGRESS_BAR_DATA WHERE ROWID='1'",null);
+            c.moveToFirst();
+            int stic=c.getInt(0);
+            int stop=c.getInt(1);
+            int worry=c.getInt(2);
+            int relax=c.getInt(3);
+            int dd=c.getInt(4);
+
+
+            Cursor week=myDataBase.rawQuery("SELECT * FROM WEEK_NUMBER_OF_PROTOCOL;",null);
+            week.moveToFirst();
+            int weekNumber=week.getInt(0);
+
+            /* This code is written to get the threshold count of activities required during the week.
+            * */
+            Cursor ct=myDataBase.rawQuery("SELECT * from PROGRESS_THRESHOLDS WHERE WEEK_NUMBER="+weekNumber+"",null);
+            ct.moveToFirst();
+            int sticT=ct.getInt(1);
+            int stopT=ct.getInt(2);
+            int worryT=ct.getInt(4);
+            int relaxT=ct.getInt(5);
+            int ddT=ct.getInt(3);
+
+            RelativeLayout rl = (RelativeLayout) activity.findViewById(R.id.ddBarLayout);
+            rl.getLayoutParams().height = (dd>0 && ddT> 0) ? 660*dd/ddT : 0 ;
+            RelativeLayout r2 = (RelativeLayout) activity.findViewById(R.id.sticBarLayout);
+            r2.getLayoutParams().height = (stic > 0 && sticT>0) ? 660*stic/sticT : 0 ;
+            RelativeLayout r3 = (RelativeLayout) activity.findViewById(R.id.stopBarLayout);
+            r3.getLayoutParams().height = (stop > 0 && stopT>0) ? 660*stop/stopT : 0 ;
+            RelativeLayout r4 = (RelativeLayout) activity.findViewById(R.id.whBarLayout);
+            r4.getLayoutParams().height = (worry > 0 && worryT>0) ? 660*worry/worryT : 0 ;
+            RelativeLayout r5 = (RelativeLayout) activity.findViewById(R.id.relaxBarLayout);
+            r5.getLayoutParams().height = (relax > 0 && relaxT>0) ? 660*relax/relaxT : 0 ;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /*This function increases the count of the activity when it is completed.*/
+    public void setActivityProgressCount(String activityName){
+        try {
+            Cursor c=myDataBase.rawQuery("SELECT "+activityName+" from PROGRESS_BAR_DATA WHERE ROWID='1'",null);
+            c.moveToFirst();
+            int count=c.getInt(0);
+            count=count+1;
+            myDataBase.execSQL("update PROGRESS_BAR_DATA set "+activityName+"="+count+" where ROWID=1");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /*
+    public Integer getActivityProgressCount(String activityName){
+            Cursor c=myDataBase.rawQuery("SELECT * from PROGRESS_BAR_DATA WHERE ROWID='1'",null);
+            Integer count=c.getInt(c.getColumnIndex(activityName));
+            return count;
+    }*/
 
     public void releaseTrick(){
         try{

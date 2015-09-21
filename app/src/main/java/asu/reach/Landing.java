@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.FragmentManager;
 import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -24,7 +25,9 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class Landing extends Activity implements View.OnClickListener,DialogInterface.OnClickListener, GestureDetector.OnGestureListener {
 
@@ -157,6 +160,21 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
                 }
             }
             helper.trackEvent(helper,"APP_STARTED","LANDING_PAGE");
+
+            /*The first time this app is created, one trick is uncloked already.*/
+            SimpleDateFormat saveTodayFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            db=helper.getDB();
+            Calendar calendar = Calendar.getInstance();
+            String today;
+            today = saveTodayFormat.format(calendar.getTime());
+            ContentValues v = new ContentValues();
+            v.put("DATE",today);
+            db.update("LAST_TRICK_UNLOCK", v, null, null);
+
+            /*
+            Update the Bar Layout once we open the app.
+            * */
+            helper.changeProgressBarLevel(Landing.this);
             helper.close();
             /*Intent nInt = new Intent(this, HelperService.class);
             startService(nInt);*/
@@ -193,6 +211,8 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         }
         if(v.getId() == dd.getId()){
             Intent intent = new Intent(this, DailyDiary.class);
+            RelativeLayout rl = (RelativeLayout) findViewById(R.id.ddBarLayout);
+            rl.getLayoutParams().height = 0;
             try {
                 DBHelper helper = new DBHelper(this);
                 helper.trackEvent(helper,"DAILY_DIARY","LANDING_PAGE");
@@ -207,6 +227,7 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
             try {
                 DBHelper helper = new DBHelper(this);
                 helper.trackEvent(helper,"STIC_STARTED","LANDING_PAGE");
+//                helper.changeProgressBarLevel(Landing.this);
                 helper.close();
             }catch(Exception e){
                 e.printStackTrace();
@@ -215,6 +236,8 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         }
         if(v.getId() == stop.getId()){
             Intent intent = new Intent(this, STOP.class);
+            RelativeLayout rl = (RelativeLayout) findViewById(R.id.ddBarLayout);
+            rl.getLayoutParams().height = 500;
             try {
                 DBHelper helper = new DBHelper(this);
                 helper.trackEvent(helper,"STOP_STARTED","LANDING_PAGE");
@@ -344,7 +367,13 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
             } else {
                 relaxGlow.setVisibility(View.GONE);
             }
-        }catch (Exception e){
+
+            /*
+            Update the Bar Layout once we come back to landing page.
+            * */
+            helper.changeProgressBarLevel(Landing.this);
+
+         }catch (Exception e){
             e.printStackTrace();
         }
     }

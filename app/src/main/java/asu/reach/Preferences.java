@@ -165,6 +165,7 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
                 v.put("start_date", stringArr[1]);
                 db.update("DATE_TIME_SET", v, "id=3", null);
                 db.close();
+                Log.i("Trick Release Dates","Selected"+stringArr[0]+" "+stringArr[1]);
                 helper.close();
             }else{
                 Toast.makeText(this, "Please select\ntwo days ONLY.", Toast.LENGTH_SHORT).show();

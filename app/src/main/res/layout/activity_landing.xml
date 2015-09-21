@@ -231,7 +231,7 @@
                     android:layout_height="50dp"
                     android:id="@+id/ddBarLayout"
                     android:gravity="center"
-                    android:background="#40c649"
+                    android:background="#974087"
                     android:layout_margin="4dp"
                     android:layout_alignParentEnd="false"
                     android:layout_alignParentBottom="true">
@@ -257,12 +257,12 @@
 
                 <RelativeLayout
                     android:layout_width="65dp"
-                    android:layout_height="300dp"
+                    android:layout_height="500dp"
                     android:id="@+id/sticBarLayout"
                     android:gravity="center"
                     android:layout_margin="4dp"
                     android:layout_alignParentBottom="true"
-                    android:background="#f96331">
+                    android:background="#f5e663">
 
                 </RelativeLayout>
 
@@ -290,7 +290,7 @@
                     android:gravity="center"
                     android:layout_margin="4dp"
                     android:layout_alignParentBottom="true"
-                    android:background="#f4485e">
+                    android:background="#e65656">
 
                 </RelativeLayout>
 
@@ -314,7 +314,7 @@
                     android:layout_height="250dp"
                     android:id="@+id/stopBarLayout"
                     android:gravity="center"
-                    android:background="#b83428"
+                    android:background="#b83429"
                     android:layout_margin="4dp"
                     android:layout_alignParentBottom="true">
 
@@ -343,7 +343,7 @@
                     android:id="@+id/relaxBarLayout"
                     android:layout_margin="4dp"
                     android:layout_alignParentBottom="true"
-                    android:background="#2882ce"
+                    android:background="#2982cd"
                     android:gravity="center">
 
                 </RelativeLayout>

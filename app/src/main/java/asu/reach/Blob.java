@@ -39,7 +39,7 @@ public class Blob extends Activity implements MediaPlayer.OnCompletionListener, 
         one = (ImageButton)findViewById(R.id.trickOneBtn);
         try {
             DBHelper helper = new DBHelper(this);
-            helper.releaseTrick();
+            //helper.releaseTrick();
             two = (ImageButton) findViewById(R.id.trickTwoBtn);
             if (helper.checkIfLocked(2)) {
                 two.setBackgroundResource(R.drawable.lock_selector);

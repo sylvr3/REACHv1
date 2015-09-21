@@ -460,6 +460,7 @@ public class WorryHeads extends Activity implements View.OnClickListener, Dialog
         try {
             DBHelper helper = new DBHelper(this);
             helper.trackEvent(helper,"WORRY_HEADS_COMPLETED","INSIDE_WORRY_HEADS_ACTIVITY");
+            helper.setActivityProgressCount("WORRYHEADS");
             File file=helper.getFile();
             Log.i("File Path",file.getAbsolutePath());
             db = helper.getDB();
