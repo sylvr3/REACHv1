@@ -26,9 +26,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
@@ -162,6 +166,91 @@ public class DBHelper extends SQLiteOpenHelper{
             Integer count=c.getInt(c.getColumnIndex(activityName));
             return count;
     }*/
+
+    /*Formatter functions used to specify the format of the date and time*/
+    public static SimpleDateFormat dateFormatter() {
+        return new SimpleDateFormat("yyyy.MM.dd");
+    }
+    public static SimpleDateFormat timeFormatter() {
+        return new SimpleDateFormat("HH:mm");
+    }
+    /*Function to set the protocol date*/
+    public boolean setStartDateForProtocol(int year,int month,int day){
+        try {
+            Calendar selected = new GregorianCalendar(year, month, day);
+            String dateString = dateFormatter().format(selected.getTime());
+            ContentValues valueMap = new ContentValues();
+            valueMap.put("start_date",dateString);
+            int rowsAffected=myDataBase.update("DATE_TIME_SET",valueMap,"id=1",null);
+            if(rowsAffected>0)
+                return true;
+            else
+                return false;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /*Function to get the preselected value of protocol date*/
+    public Calendar getStartDateForProtocol(){
+        Calendar cal=null;
+        try {
+            Cursor dateOfProtocol=myDataBase.rawQuery("SELECT start_date FROM DATE_TIME_SET WHERE id=1;;",null);
+            dateOfProtocol.moveToFirst();
+            String date=dateOfProtocol.getString(0);
+            //Convert the string date returned by cursor to Date and then to calendar which will be returned.
+            if(date.equalsIgnoreCase("default")){
+                return cal;
+            }else{
+                DateFormat df = new SimpleDateFormat("yyyy.MM.dd");
+                cal  = Calendar.getInstance();
+                cal.setTime(df.parse(date));
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return cal;
+    }
+
+    /*Function to set the notification time*/
+    public boolean setTimeForNotifications(int hour,int minute){
+        try {
+            Calendar selected = new GregorianCalendar(1970,0,1,hour,minute);
+            String notificationTimeString = timeFormatter().format(selected.getTime());
+            ContentValues valueMap = new ContentValues();
+            valueMap.put("start_time",notificationTimeString);
+            int rowsAffected=myDataBase.update("DATE_TIME_SET",valueMap,"id=1",null);
+            if(rowsAffected>0)
+                return true;
+            else
+                return false;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /*Function to get the preselected value of protocol date*/
+    public Calendar getTimeForNotifications(){
+        Calendar cal=null;
+        try {
+            Cursor timeOfNotification=myDataBase.rawQuery("SELECT start_time FROM DATE_TIME_SET WHERE id=1;;",null);
+            timeOfNotification.moveToFirst();
+            String time=timeOfNotification.getString(0);
+            //Convert the string time returned by cursor to Date and then to calendar which will be returned.
+            if(time.equalsIgnoreCase("default")){
+                return cal;
+            }else{
+                DateFormat df = new SimpleDateFormat("HH:mm");
+                cal  = Calendar.getInstance();
+                cal.setTime(df.parse(time));
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return cal;
+    }
 
     public void releaseTrick(){
         try{

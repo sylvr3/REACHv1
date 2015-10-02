@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +26,8 @@ import android.widget.Toast;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+
+import static java.security.AccessController.getContext;
 
 
 public class AdminFeatures extends Activity{
@@ -69,14 +72,6 @@ public class AdminFeatures extends Activity{
                                                 });
     }
 
-    @Override
-    public void onBackPressed() {
-        //protocolListView.setVisibility(View.GONE);
-        setContentView(R.layout.activity_admin_features);
-    }
-
-
-
     public void showTimePickerDialog() {
         DialogFragment newFragment = new TimePickerFragment();
         newFragment.show(this.getFragmentManager(), "timePicker");
@@ -87,10 +82,20 @@ public class AdminFeatures extends Activity{
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current time as the default values for the picker
-            final Calendar c = Calendar.getInstance();
-            int hour = c.get(Calendar.HOUR_OF_DAY);
-            int minute = c.get(Calendar.MINUTE);
+            //Check if the time is set already, if yes, display that time. Otherwise show current time.
+            int hour,minute;
+            Calendar c;
+            DBHelper helper= new DBHelper(this.getActivity().getApplicationContext());
+            c=helper.getTimeForNotifications();
+            if(c!=null){
+                hour=c.get(Calendar.HOUR_OF_DAY);
+                minute=c.get(Calendar.MINUTE);
+            }else{
+                //Calendar is null. Use the current time as the default values for the picker
+                c = Calendar.getInstance();
+                hour = c.get(Calendar.HOUR_OF_DAY);
+                minute = c.get(Calendar.MINUTE);
+            }
 
             // Create a new instance of TimePickerDialog and return it
             return new TimePickerDialog(getActivity(), this, hour, minute,
@@ -99,7 +104,10 @@ public class AdminFeatures extends Activity{
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             // Do something with the time chosen by the user
-            //Toast.makeText(AdminFeatures, "Date Selected",Toast.LENGTH_SHORT).show();
+            DBHelper helper= new DBHelper(this.getActivity().getApplicationContext());
+            boolean result=helper.setTimeForNotifications(hourOfDay,minute);
+            if(result==true)
+                System.out.println("Time is set for notifications.");
         }
     }
 
@@ -113,11 +121,23 @@ public class AdminFeatures extends Activity{
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current date as the default date in the picker
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
+
+            //Check if the date is set already, if yes, display that date. Otherwise show current date.
+            int year,month,day;
+            Calendar c;
+            DBHelper helper= new DBHelper(this.getActivity().getApplicationContext());
+            c=helper.getStartDateForProtocol();
+            if(c!=null){
+                year = c.get(Calendar.YEAR);
+                month = c.get(Calendar.MONTH);
+                day = c.get(Calendar.DAY_OF_MONTH);
+            }else{
+                //Calendar is null. Use the current date as the default date in the picker
+                c = Calendar.getInstance();
+                year = c.get(Calendar.YEAR);
+                month = c.get(Calendar.MONTH);
+                day = c.get(Calendar.DAY_OF_MONTH);
+            }
 
             // Create a new instance of DatePickerDialog and return it
             return new DatePickerDialog(getActivity(), this, year, month, day);
@@ -125,6 +145,8 @@ public class AdminFeatures extends Activity{
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
             // Do something with the date chosen by the user
+            DBHelper helper= new DBHelper(this.getActivity().getApplicationContext());
+            boolean result=helper.setStartDateForProtocol(year,month,day);
         }
     }
 

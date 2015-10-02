@@ -394,6 +394,7 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
                         c.moveToFirst();
                         if("admin".equals(c.getString(c.getColumnIndex("OWNER")))){
                             //Intent intent = new Intent(Landing.this, Preferences.class);
+                            /*Removing the call to preferences object and replacing it with newly created AdminFeatures activity.*/
                             Intent intent=new Intent(this,AdminFeatures.class);
                             startActivity(intent);
                             dialog.dismiss();
