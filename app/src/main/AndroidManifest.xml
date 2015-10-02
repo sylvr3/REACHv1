@@ -13,8 +13,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-
-        <receiver android:name=".NotifyService$NotifyServiceReceiver">
+        <receiver android:name=".NotifyService$NotifyServiceReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
@@ -68,8 +67,30 @@
             android:enabled="true"
             android:exported="true" >
         </service>
-        <service android:name=".HelperService"
-            android:exported="false"/>
+        <service
+            android:name=".HelperService"
+            android:exported="false" />
+
+        <activity
+            android:name=".AdminFeatures"
+            android:label="@string/title_activity_admin_features" >
+        </activity>
+        <activity
+            android:name=".ProtocolSettings"
+            android:label="@string/title_activity_protocol_settings" >
+        </activity>
+        <activity
+            android:name=".WeekListViewCheckboxActivity"
+            android:label="@string/title_activity_week_list_view_checkbox" >
+        </activity>
+        <activity
+            android:name=".TrickRelease"
+            android:label="@string/title_activity_trick_release" >
+        </activity>
+        <activity
+            android:name=".SticListsSelection"
+            android:label="@string/title_activity_stic__lists__selection" >
+        </activity>
     </application>
 
 </manifest>

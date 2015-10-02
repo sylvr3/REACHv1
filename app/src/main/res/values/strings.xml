@@ -13,4 +13,10 @@
     <string name="prefs">Chinmay;Akshay</string>
     <string name="title_activity_date_preference">DatePreferenceActivity</string>
     <string name="title_activity_Notification">NotificationActivity</string>
+    <string name="title_activity_admin_features">AdminFeatures</string>
+    <string name="title_activity_protocol_settings">ProtocolSettings</string>
+    <string name="title_activity_week_list_view_checkbox">WeekListViewCheckboxActivity</string>
+    <string name="title_activity_trick_release">TrickRelease</string>
+    <string name="title_activity_stic__lists__selection">Stic_Lists_Selection</string>
+
 </resources>

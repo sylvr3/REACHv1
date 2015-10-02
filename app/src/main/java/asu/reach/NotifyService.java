@@ -83,8 +83,9 @@ public class NotifyService extends Service {
             dayCheck.moveToFirst();
             String dayOfTheWeek = dayCheck.getString(0);
             System.out.println("dayOftheWeek"+dayOfTheWeek);
-            if(dayOfTheWeek.isEmpty()){
+            if(dayOfTheWeek.equalsIgnoreCase("default")){
                 //cant release trick because the days are not set in admin preferences.
+                System.out.println("cant release trick because the days are not set in admin preferences.");
             }else{
                 helper1.releaseTrick();
             }

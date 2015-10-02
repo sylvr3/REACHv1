@@ -393,7 +393,8 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
                     if(c.getCount() > 0){
                         c.moveToFirst();
                         if("admin".equals(c.getString(c.getColumnIndex("OWNER")))){
-                            Intent intent = new Intent(Landing.this, Preferences.class);
+                            //Intent intent = new Intent(Landing.this, Preferences.class);
+                            Intent intent=new Intent(this,AdminFeatures.class);
                             startActivity(intent);
                             dialog.dismiss();
                         }else {
