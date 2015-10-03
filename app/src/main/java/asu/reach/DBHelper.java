@@ -25,14 +25,17 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
@@ -171,8 +174,7 @@ public class DBHelper extends SQLiteOpenHelper{
     public static SimpleDateFormat dateFormatter() {
         return new SimpleDateFormat("yyyy.MM.dd");
     }
-    public static SimpleDateFormat timeFormatter() {
-        return new SimpleDateFormat("HH:mm");
+    public static SimpleDateFormat timeFormatter() { return new SimpleDateFormat("HH:mm");
     }
     /*Function to set the protocol date*/
     public boolean setStartDateForProtocol(int year,int month,int day){
@@ -250,6 +252,52 @@ public class DBHelper extends SQLiteOpenHelper{
             e.printStackTrace();
         }
         return cal;
+    }
+    public void setTrickReleaseDays(HashSet<String> setOfDays){
+        try {
+            if(setOfDays.size()==2) {
+                String arrayOfTwoDays[]= new String[2];
+                int i=0;
+                for(String s:setOfDays){
+                    arrayOfTwoDays[i]=s;
+                    i++;
+                }
+                ContentValues v = new ContentValues();
+                v.put("start_date", arrayOfTwoDays[0]);
+                myDataBase.update("DATE_TIME_SET", v, "id=2", null);
+                v = new ContentValues();
+                v.put("start_date", arrayOfTwoDays[1]);
+                myDataBase.update("DATE_TIME_SET", v, "id=3", null);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public ArrayList<Days> getSelectedTrickReleaseDays(){
+        ArrayList<Days> daysArrayList= new ArrayList<Days>();
+        try {
+            String dayArray[]={"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"};
+            Cursor day_one = myDataBase.rawQuery("SELECT start_date FROM DATE_TIME_SET WHERE id =2;",null);
+            day_one.moveToFirst();
+            Cursor day_two = myDataBase.rawQuery("SELECT start_date FROM DATE_TIME_SET WHERE id =3;",null);
+            day_two.moveToFirst();
+
+            for(int index=0;index<dayArray.length;index++){
+                if(dayArray[index].equalsIgnoreCase(day_one.getString(0))){
+                    Days day= new Days(dayArray[index],true);
+                    daysArrayList.add(day);
+                }else if(dayArray[index].equalsIgnoreCase(day_two.getString(0))){
+                    Days day= new Days(dayArray[index],true);
+                    daysArrayList.add(day);
+                }else{
+                    Days day= new Days(dayArray[index],false);
+                    daysArrayList.add(day);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return  daysArrayList;
     }
 
     public void releaseTrick(){

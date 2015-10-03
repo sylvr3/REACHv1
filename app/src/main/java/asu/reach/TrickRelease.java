@@ -1,7 +1,10 @@
 package asu.reach;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,42 +19,59 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-
+import java.util.HashSet;
 
 
 public class TrickRelease extends Activity {
 
     MyCustomAdapter dataAdapter = null;
-
+    int daySelectedCount=0;
+    boolean uncheckFlag=false;
+    ArrayList<Days> dayList=null;
+    HashSet<String> setOfDays = new HashSet<String>();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trick_release);
+        //Array list of countries
+
+        try {
+            DBHelper helper= new DBHelper(getApplicationContext());
+            dayList=helper.getSelectedTrickReleaseDays();
+            daySelectedCount=0;
+            for(int loopIndex=0;loopIndex<dayList.size();loopIndex++){
+                Days day= dayList.get(loopIndex);
+                if(day.isSelected()==true){
+                    daySelectedCount++;
+                    setOfDays.add(day.getDayName());
+                }
+            }
+            System.out.println("The daySelectedCount is:"+String.valueOf(daySelectedCount));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         //Generate list View from ArrayList
         displayListView();
     }
 
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Really Exit?")
+                .setMessage("Are you sure you want to exit?")
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        DBHelper helper= new DBHelper(getApplicationContext());
+                        helper.setTrickReleaseDays(setOfDays);
+                        TrickRelease.super.onBackPressed();
+
+                    }
+                }).create().show();
+    }
+
     private void displayListView() {
-
-
-        //Array list of countries
-        ArrayList<Days> dayList = new ArrayList<Days>();
-        Days monday= new Days("Monday",false);
-        dayList.add(monday);
-        Days tuesday= new Days("Tuesday",false);
-        dayList.add(tuesday);
-        Days wednesday= new Days("Wednesday",false);
-        dayList.add(wednesday);
-        Days thursday= new Days("Thursday",false);
-        dayList.add(thursday);
-        Days friday= new Days("Friday",false);
-        dayList.add(friday);
-        Days saturday= new Days("Saturday",false);
-        dayList.add(saturday);
-        Days sunday= new Days("Sunday",false);
-        dayList.add(sunday);
-
-
         //create an ArrayAdaptar from the String Array
         dataAdapter = new MyCustomAdapter(this,
                 R.layout.check_box_row, dayList);
@@ -89,6 +109,9 @@ public class TrickRelease extends Activity {
             CheckBox name;
         }
 
+
+
+
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -108,12 +131,46 @@ public class TrickRelease extends Activity {
                     public void onClick(View v) {
                         CheckBox cb = (CheckBox) v ;
                         Days day = (Days) cb.getTag();
-                        Toast.makeText(getApplicationContext(),
-                                "Clicked on Checkbox: " + cb.getText() +
-                                        " is " + cb.isChecked(),
-                                Toast.LENGTH_SHORT).show();
-                        day.setSelected(cb.isChecked());
-                        Log.i("is Selected", String.valueOf((Boolean) cb.isChecked()));
+                        if(daySelectedCount<2){
+                            if(cb.isChecked()==true){
+                                daySelectedCount++;
+                            }else{
+                                daySelectedCount--;
+                            }
+
+                            setOfDays.add((String)cb.getText());
+                            if(cb.isChecked()==false){
+                                setOfDays.remove(cb.getText());
+                            }
+                            Toast.makeText(getApplicationContext(),
+                                    "Clicked on Checkbox: " + cb.getText() +
+                                            " is " + cb.isChecked() +" ArrayLength "+String.valueOf(setOfDays.size()),
+                                    Toast.LENGTH_SHORT).show();
+
+                            day.setSelected(cb.isChecked());
+                        }else{
+                            if(cb.isChecked()==true){
+                                daySelectedCount++;
+                            }else{
+                                daySelectedCount--;
+                            }
+                            if(daySelectedCount>2){
+                                Toast.makeText(getApplicationContext(),"Please select only 2 days for trick release.",Toast.LENGTH_SHORT).show();
+                                cb.toggle();
+                                daySelectedCount--;
+                                System.out.println("The daySelectedCount is:"+String.valueOf(daySelectedCount));
+                            }else{
+                                if(cb.isChecked()==false){
+                                    setOfDays.remove(cb.getText());
+                                }
+                                Toast.makeText(getApplicationContext(),
+                                        "Clicked on Checkbox: " + cb.getText() +
+                                                " is " + cb.isChecked(),
+                                        Toast.LENGTH_SHORT).show();
+                                System.out.println("The daySelectedCount is:"+String.valueOf(daySelectedCount));
+
+                            }
+                        }
                     }
                 });
             }
