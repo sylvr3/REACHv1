@@ -36,8 +36,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class DBHelper extends SQLiteOpenHelper{
@@ -119,11 +121,12 @@ public class DBHelper extends SQLiteOpenHelper{
             int worry=c.getInt(2);
             int relax=c.getInt(3);
             int dd=c.getInt(4);
-
+            c.close();
 
             Cursor week=myDataBase.rawQuery("SELECT * FROM WEEK_NUMBER_OF_PROTOCOL;",null);
             week.moveToFirst();
             int weekNumber=week.getInt(0);
+            week.close();
 
             /* This code is written to get the threshold count of activities required during the week.
             * */
@@ -134,6 +137,7 @@ public class DBHelper extends SQLiteOpenHelper{
             int worryT=ct.getInt(4);
             int relaxT=ct.getInt(5);
             int ddT=ct.getInt(3);
+            ct.close();
 
             RelativeLayout rl = (RelativeLayout) activity.findViewById(R.id.ddBarLayout);
             rl.getLayoutParams().height = (dd>0 && ddT> 0) ? 660*dd/ddT : 0 ;
@@ -156,6 +160,7 @@ public class DBHelper extends SQLiteOpenHelper{
             Cursor c=myDataBase.rawQuery("SELECT "+activityName+" from PROGRESS_BAR_DATA WHERE ROWID='1'",null);
             c.moveToFirst();
             int count=c.getInt(0);
+            c.close();
             count=count+1;
             myDataBase.execSQL("update PROGRESS_BAR_DATA set "+activityName+"="+count+" where ROWID=1");
         }catch (Exception e){
@@ -201,6 +206,7 @@ public class DBHelper extends SQLiteOpenHelper{
             Cursor dateOfProtocol=myDataBase.rawQuery("SELECT start_date FROM DATE_TIME_SET WHERE id=1;;",null);
             dateOfProtocol.moveToFirst();
             String date=dateOfProtocol.getString(0);
+            dateOfProtocol.close();
             //Convert the string date returned by cursor to Date and then to calendar which will be returned.
             if(date.equalsIgnoreCase("default")){
                 return cal;
@@ -240,6 +246,7 @@ public class DBHelper extends SQLiteOpenHelper{
             Cursor timeOfNotification=myDataBase.rawQuery("SELECT start_time FROM DATE_TIME_SET WHERE id=1;;",null);
             timeOfNotification.moveToFirst();
             String time=timeOfNotification.getString(0);
+            timeOfNotification.close();
             //Convert the string time returned by cursor to Date and then to calendar which will be returned.
             if(time.equalsIgnoreCase("default")){
                 return cal;
@@ -273,6 +280,7 @@ public class DBHelper extends SQLiteOpenHelper{
             e.printStackTrace();
         }
     }
+
     public ArrayList<Days> getSelectedTrickReleaseDays(){
         ArrayList<Days> daysArrayList= new ArrayList<Days>();
         try {
@@ -294,6 +302,8 @@ public class DBHelper extends SQLiteOpenHelper{
                     daysArrayList.add(day);
                 }
             }
+            day_one.close();
+            day_two.close();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -345,6 +355,8 @@ public class DBHelper extends SQLiteOpenHelper{
                 Log.i("weekDay",weekDay);
                 Log.i("Status","Do Not Release Trick");
             }
+            dayFind.close();
+            dayFind2.close();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -353,11 +365,88 @@ public class DBHelper extends SQLiteOpenHelper{
     public boolean checkIfLocked(int id){
         Cursor find = myDataBase.rawQuery("SELECT * FROM BLOB_TRICK_LOCKED_CHECK WHERE TRICK_ID ="+id+";",null);
         if(find.getCount()>0){
+            find.close();
             return true;
         }else{
+            find.close();
             return false;
         }
+
     }
+
+
+
+    public void setSticListValueForGivenWeek(int week_no,int list_no){
+        try {
+            ContentValues cv=new ContentValues();
+            cv.put("LIST",list_no);
+            myDataBase.update("STIC_WEEKLY_LIST_TRACKER",cv,"WEEK_NO="+week_no,null);
+            ContentValues c=new ContentValues();
+            c.put("STIC",list_no);
+            myDataBase.update("ADMIN_ACTIVITY_SCHEDULER",c,"WEEK_NO="+week_no,null);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public int getSticListValueForGivenWeek(int week_no){
+        int list_number=0;
+        try {
+            Cursor stic_list_cursor=myDataBase.rawQuery("select LIST from STIC_WEEKLY_LIST_TRACKER where WEEK_NO='"+week_no+"';",null);
+            stic_list_cursor.moveToFirst();
+            list_number=stic_list_cursor.getInt(0);
+            stic_list_cursor.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return list_number;
+    }
+
+    public void setWeeksSelectedForProtocol(String protocol_name ,Map map){
+           try {
+               Iterator it = map.entrySet().iterator();
+               while (it.hasNext()) {
+                   Map.Entry pair = (Map.Entry)it.next();
+                   ContentValues cv=new ContentValues();
+                   cv.put(protocol_name, (Integer) pair.getValue());
+                   myDataBase.update("PROTOCOL_WEEKLY_SELECTION", cv, "WEEK_NO=" + pair.getKey(), null);
+
+                   ContentValues cv2=new ContentValues();
+                   if(protocol_name.equalsIgnoreCase("DAILY_DIARY")){
+                       cv2.put("DIARY_EVENT1",(Integer) pair.getValue());
+                       cv2.put("DIARY_EVENT2",(Integer) pair.getValue());
+                   }else if(protocol_name.equalsIgnoreCase("WORRY_HEADS")){
+                       cv2.put("STOP_WORRYHEADS",(Integer) pair.getValue());
+                   }else{
+                       cv2.put(protocol_name,(Integer) pair.getValue());
+                   }
+                   myDataBase.update("ADMIN_ACTIVITY_SCHEDULER", cv2, "WEEK_NO=" + pair.getKey(), null);
+                   it.remove();
+               }
+           }catch (Exception e){
+               e.printStackTrace();
+           }
+    }
+    public ArrayList<Weeks> getWeeksSelectedListForProtocol(String protocol_name){
+        ArrayList<Weeks> weeks= new ArrayList<Weeks>();
+        try {
+            Cursor cursor=myDataBase.rawQuery("select "+protocol_name+" from PROTOCOL_WEEKLY_SELECTION;",null);
+            cursor.moveToFirst();
+            for(int index=1;index<=cursor.getCount() && !cursor.isAfterLast();index++){
+                boolean flag=false;
+                if(cursor.getInt(0)==1){
+                    flag=true;
+                }
+                Weeks week=new Weeks("Week "+index,flag);
+                weeks.add(week);
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return weeks;
+    }
+
 
     public void trackEvent(DBHelper helper,String EVENT_TYPE,String EVENT_PLACE){
         try {

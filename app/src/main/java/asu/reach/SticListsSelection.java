@@ -32,22 +32,22 @@ public class SticListsSelection extends Activity {
                                                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                                             switch(position){
                                                                 case 0:
-                                                                    sticListSelectionDialog();
+                                                                    sticListSelectionDialog(1);
                                                                     break;
                                                                 case 1:
-                                                                    sticListSelectionDialog();
+                                                                    sticListSelectionDialog(2);
                                                                     break;
                                                                 case 2:
-                                                                    sticListSelectionDialog();
+                                                                    sticListSelectionDialog(3);
                                                                     break;
                                                                 case 3:
-                                                                    sticListSelectionDialog();
+                                                                    sticListSelectionDialog(4);
                                                                     break;
                                                                 case 4:
-                                                                    sticListSelectionDialog();
+                                                                    sticListSelectionDialog(5);
                                                                     break;
                                                                 case 5:
-                                                                    sticListSelectionDialog();
+                                                                    sticListSelectionDialog(6);
                                                                     break;
                                                                 default:
 
@@ -57,33 +57,39 @@ public class SticListsSelection extends Activity {
                                                     });
     }
 
-    protected void sticListSelectionDialog(){
+    protected void sticListSelectionDialog(final int week_no){
         AlertDialog levelDialog;
 
-// Strings to Show In Dialog with Radio Buttons
+        // Strings to Show In Dialog with Radio Buttons
         final CharSequence[] items = {" None "," List 1 "," List 2 "," Both "};
+
+        //Get the preselected STIC List already stored in the database.
+        final DBHelper helper= new DBHelper(getApplicationContext());
+        int list_choice=helper.getSticListValueForGivenWeek(week_no);
 
         // Creating and Building the Dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Select The List for this week:");
-        builder.setSingleChoiceItems(items, 2, new DialogInterface.OnClickListener() {
+        builder.setSingleChoiceItems(items, list_choice, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
 
                 switch(item)
                 {
                     case 0:
-                        // Your code when first option seletced
-
+                        //Set None for that particular week.
+                        helper.setSticListValueForGivenWeek(week_no,0);
                         break;
                     case 1:
-                        // Your code when 2nd  option seletced
-
+                        //Set List 1 for that particular week.
+                        helper.setSticListValueForGivenWeek(week_no,1);
                         break;
                     case 2:
-                        // Your code when 3rd option seletced
+                        //Set List 2 for that particular week.
+                        helper.setSticListValueForGivenWeek(week_no,2);
                         break;
                     case 3:
-                        // Your code when 4th  option seletced
+                        //Set Both for that particular week.
+                        helper.setSticListValueForGivenWeek(week_no,3);
                         break;
 
                 }

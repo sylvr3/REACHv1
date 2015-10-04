@@ -42,17 +42,17 @@ public class ProtocolSettings extends Activity {
                                                                     break;
                                                                 case 2:
                                                                     Intent worry_heads_intent=new Intent(ProtocolSettings.this,WeekListViewCheckboxActivity.class);
-                                                                    worry_heads_intent.putExtra("protocol","WH");
+                                                                    worry_heads_intent.putExtra("protocol","WORRY_HEADS");
                                                                     startActivity(worry_heads_intent);
                                                                     break;
                                                                 case 3:
                                                                     Intent dd_intent=new Intent(ProtocolSettings.this,WeekListViewCheckboxActivity.class);
-                                                                    dd_intent.putExtra("protocol","DD");
+                                                                    dd_intent.putExtra("protocol","DAILY_DIARY");
                                                                     startActivity(dd_intent);
                                                                     break;
                                                                 case 4:
                                                                     Intent relax_intent=new Intent(ProtocolSettings.this,WeekListViewCheckboxActivity.class);
-                                                                    relax_intent.putExtra("protocol","DD");
+                                                                    relax_intent.putExtra("protocol","RELAXATION");
                                                                     startActivity(relax_intent);
                                                                     break;
                                                                 default:
