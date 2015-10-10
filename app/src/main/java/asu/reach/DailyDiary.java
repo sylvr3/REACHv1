@@ -222,6 +222,8 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
     @Override
     public void onClick(View v) {
         if(v.getId() == home.getId()){
+            DBHelper helper = new DBHelper(this);
+            helper.trackEvent(helper,"DAILY_DIARY_HOME_CLICKED","INSIDE_DAILY_DIARY");
             end = false;
             FragmentManager fm = getFragmentManager();
             DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this, end,false);
@@ -468,8 +470,9 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
         if(v.getId()==complete.getId()){
             try {
                 DBHelper helper = new DBHelper(this);
-                helper.trackEvent(helper,"DAILY_DIARY_COMPLETED","INSIDE_DAILY_DIARY");
                 helper.setActivityProgressCount("DAILY_DIARY");
+                System.out.println("getActivityProgressCount "+helper.getActivityProgressCount("DAILY_DIARY"));
+                helper.trackEvent(helper,"DAILY_DIARY_COMPLETED","INSIDE_DAILY_DIARY");
                 //Log.i("Daily Diary Count",helper.getActivityProgressCount("DAILY_DIARY").toString());
             }catch(Exception e){
                 e.printStackTrace();

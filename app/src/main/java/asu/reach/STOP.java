@@ -110,6 +110,12 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
     @Override
     public void onClick(View v) {
         if(v.getId() == home.getId()){
+            try {
+                DBHelper helper = new DBHelper(this);
+                helper.trackEvent(helper,"STOP_HOME_BUTTON_CLICKED","INSIDE_STOP_ACTIVITY");
+            }catch(Exception e){
+                e.printStackTrace();
+            }
             end = false;
             FragmentManager fm = getFragmentManager();
             DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this, end);
@@ -340,8 +346,9 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
         if(v.getId()==complete.getId()){
             try {
                 DBHelper helper = new DBHelper(this);
-                helper.trackEvent(helper,"STOP_COMPLETED","INSIDE_STOP_ACTIVITY");
                 helper.setActivityProgressCount("STOP");
+                helper.trackEvent(helper,"STOP_COMPLETED","INSIDE_STOP_ACTIVITY");
+
             }catch(Exception e){
                 e.printStackTrace();
             }

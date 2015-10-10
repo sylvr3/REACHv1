@@ -182,8 +182,10 @@ public class STIC extends Activity implements View.OnClickListener, DialogInterf
                     i.setBackgroundResource(R.drawable.thumbs_up);
                     try {
                         DBHelper helper = new DBHelper(this);
-                        helper.trackEvent(helper,"STIC_COMPLETED","INSIDE_STIC_ACTIVITY");
                         helper.setActivityProgressCount("STIC");
+                        System.out.println("getActivityProgressCount "+helper.getActivityProgressCount("STIC"));
+                        helper.trackEvent(helper,"STIC_COMPLETED","INSIDE_STIC_ACTIVITY");
+
                         db = helper.getDB();
                         currentDay = helper.getCurrentDay();
                         if (currentDay < 43 && currentDay > 0) {
@@ -232,6 +234,8 @@ public class STIC extends Activity implements View.OnClickListener, DialogInterf
     public void onBackPressed() {}
 
     public void onBackClick(View v){
+        DBHelper helper = new DBHelper(this);
+        helper.trackEvent(helper,"STIC_HOME_BUTTON_CLICKED","INSIDE_STIC_ACTIVITY");
         finish();
     }
 }

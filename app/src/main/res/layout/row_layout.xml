@@ -11,4 +11,11 @@
         android:textSize="20sp"
         android:padding="15dp"/>
 
+    <TextView
+        android:id="@+id/row_2_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/row_id"
+        android:layout_alignStart="@id/row_id"/>
+
 </LinearLayout>

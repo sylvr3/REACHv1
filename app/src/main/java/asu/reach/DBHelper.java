@@ -73,14 +73,14 @@ public class DBHelper extends SQLiteOpenHelper{
         this.myContext = context;
         DB_PATH = context.getFilesDir().toString() + "/";
         try {
-            System.out.println("checking");
+           // System.out.println("checking");
             String myPath = DB_PATH + DB_NAME;
             myDataBase = SQLiteDatabase.openDatabase(myPath,
                     null, SQLiteDatabase.OPEN_READWRITE);
             Cursor c = myDataBase.rawQuery("SELECT * FROM STIC",null);
-            if(!(c.getCount() > 0)){
+            /*if(!(c.getCount() > 0)){
                 copyDataBase();
-            }
+            }*/
         }catch(Exception e){
             e.printStackTrace();
             if(myDataBase == null) {
@@ -157,23 +157,74 @@ public class DBHelper extends SQLiteOpenHelper{
     /*This function increases the count of the activity when it is completed.*/
     public void setActivityProgressCount(String activityName){
         try {
-            Cursor c=myDataBase.rawQuery("SELECT "+activityName+" from PROGRESS_BAR_DATA WHERE ROWID='1'",null);
-            c.moveToFirst();
-            int count=c.getInt(0);
-            c.close();
-            count=count+1;
-            myDataBase.execSQL("update PROGRESS_BAR_DATA set "+activityName+"="+count+" where ROWID=1");
+            //TO-DO Check if the protocol is done once that day and then only increment.
+            boolean increaseCountFlag=false;
+            String whereString=activityName+"_COMPLETED";
+            Cursor check=myDataBase.rawQuery("SELECT EVENT_TIMESTAMP FROM EVENT_TRACKER WHERE EVENT_TYPE='"+whereString+"';",null);
+            if(check.moveToLast()){
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(check.getLong(0));
+                int mYear = calendar.get(Calendar.YEAR);
+                int mMonth = calendar.get(Calendar.MONTH);
+                int mDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+                Calendar today = Calendar.getInstance();
+                int Year = today.get(Calendar.YEAR);
+                int Month = today.get(Calendar.MONTH);
+                int Day = today.get(Calendar.DAY_OF_MONTH);
+                System.out.println("LastIncrement"+mYear+"/"+mMonth+"/"+mDay+" "+check.getInt(0));
+                if(mYear==Year && mMonth==Month && mDay==Day){
+                    //Do not increase count.
+                    increaseCountFlag=false;
+                }else{
+                    increaseCountFlag=true;
+                }
+                check.close();
+            }else{
+                Cursor c=myDataBase.rawQuery("SELECT "+activityName+" from PROGRESS_BAR_DATA WHERE ROWID='1'",null);
+                c.moveToFirst();
+                int count=c.getInt(0);
+                c.close();
+                count=count+1;
+                myDataBase.execSQL("update PROGRESS_BAR_DATA set "+activityName+"="+count+" where ROWID=1");
+            }
+            if(increaseCountFlag==true){
+                Cursor c=myDataBase.rawQuery("SELECT "+activityName+" from PROGRESS_BAR_DATA WHERE ROWID='1'",null);
+                c.moveToFirst();
+                int count=c.getInt(0);
+                c.close();
+                count=count+1;
+                myDataBase.execSQL("update PROGRESS_BAR_DATA set "+activityName+"="+count+" where ROWID=1");
+            }
+
         }catch (Exception e){
             e.printStackTrace();
         }
     }
 
-    /*
+    /*This function makes the count zero at end of the week.*/
+    public void setActivityProgressCountToZero(){
+        try {
+            ContentValues valueMap = new ContentValues();
+            valueMap.put("STIC",0);
+            valueMap.put("STOP",0);
+            valueMap.put("WORRYHEADS",0);
+            valueMap.put("RELAXATION",0);
+            valueMap.put("DAILY_DIARY",0);
+            myDataBase.update("PROGRESS_BAR_DATA",valueMap,"ROWID=1",null);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
     public Integer getActivityProgressCount(String activityName){
             Cursor c=myDataBase.rawQuery("SELECT * from PROGRESS_BAR_DATA WHERE ROWID='1'",null);
+            c.moveToFirst();
             Integer count=c.getInt(c.getColumnIndex(activityName));
+            c.close();
             return count;
-    }*/
+    }
 
     /*Formatter functions used to specify the format of the date and time*/
     public static SimpleDateFormat dateFormatter() {
@@ -279,6 +330,28 @@ public class DBHelper extends SQLiteOpenHelper{
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public int statusOfTheDayForGivenProtocol(String protocolName,long currentDayofProtocol){
+        try {
+            Cursor c = myDataBase.rawQuery("select "+protocolName+" from USER_ACTIVITY_TRACK where DAY=" + currentDayofProtocol, null);
+            Cursor c1 = myDataBase.rawQuery("select "+protocolName+" from ADMIN_ACTIVITY_SCHEDULER where DAY=" + currentDayofProtocol, null);
+            c.moveToFirst();
+            c1.moveToFirst();
+            if(c1.getInt(0)==1 && c.getInt(0)==0){
+                return 1;
+            }else if(c1.getInt(0)==1 && c.getInt(0)==1){
+                return 0;
+            }else if(c1.getInt(0)==0){
+                return 0;
+            }
+            c.close();
+            c1.close();
+            return 0;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     public ArrayList<Days> getSelectedTrickReleaseDays(){
@@ -453,7 +526,7 @@ public class DBHelper extends SQLiteOpenHelper{
             //Log.i("inserted","inserted");
             //helper.copyDataBase();
             //helper.openDataBase();
-            SQLiteDatabase db =  helper.getDB();
+            //SQLiteDatabase db =  helper.getDB();
             ContentValues v1 = new ContentValues();
             v1.put("EVENT_TIMESTAMP",System.currentTimeMillis());
             v1.put("EVENT_TYPE",EVENT_TYPE);
@@ -461,7 +534,7 @@ public class DBHelper extends SQLiteOpenHelper{
             //db.insert("EVENT_TRACKER","EVENT_TIMESTAMP,EVENT_TYPE,EVENT_PLACE", v1);
             if(EVENT_TYPE.equalsIgnoreCase("APP_STARTED") || EVENT_TYPE.contains("STOP_P_DONE") || EVENT_TYPE.contains("STOP_O_DONE") || EVENT_TYPE.contains("STOP_T_DONE")  || EVENT_TYPE.contains("STOP_S_DONE") ||  EVENT_TYPE.contains("WHAT") || EVENT_TYPE.contains("RATING") || EVENT_TYPE.contains("DID") || EVENT_TYPE.contains("THOUGHTS") || EVENT_TYPE.contains("COMPLETED") || EVENT_TYPE.contains("RELAXATION") || EVENT_TYPE.contains("ADMIN_SETTINGS") || EVENT_TYPE.equalsIgnoreCase("WORRY_HEADS")   || EVENT_TYPE.equalsIgnoreCase("DAILY_DIARY") || EVENT_TYPE.equalsIgnoreCase("BLOB_TRICKS") || EVENT_TYPE.equalsIgnoreCase("STIC_STARTED") || EVENT_TYPE.equalsIgnoreCase("STOP_STARTED")){
                 //db.insert("HIGH_LEVEL_EVENT_TRACKER","EVENT_TIMESTAMP,EVENT_TYPE,EVENT_PLACE", v1);
-                db.insert("EVENT_TRACKER","EVENT_TIMESTAMP,EVENT_TYPE,EVENT_PLACE", v1);
+                myDataBase.insert("EVENT_TRACKER","EVENT_TIMESTAMP,EVENT_TYPE,EVENT_PLACE", v1);
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -692,6 +765,36 @@ public class DBHelper extends SQLiteOpenHelper{
         }
     }
 
+    public void callExportCSV() {
+        try {
+            Cursor EVENT_TRACKER = myDataBase.rawQuery("select * from EVENT_TRACKER;", null);
+            exportToCSV(EVENT_TRACKER, "REACH_DATA_EVENT_TRACKER.csv");
+            EVENT_TRACKER.close();
+
+            Cursor DAILY_DIARY_COMPLETION = myDataBase.rawQuery("select * from DAILY_DIARY_COMPLETION;", null);
+            exportToCSV(DAILY_DIARY_COMPLETION, "DAILY_DIARY_COMPLETION.csv");
+            DAILY_DIARY_COMPLETION.close();
+
+            Cursor STIC_COMPLETION = myDataBase.rawQuery("select * from STIC_COMPLETION;", null);
+            exportToCSV(STIC_COMPLETION, "STIC_COMPLETION.csv");
+            STIC_COMPLETION.close();
+
+            Cursor WORRYHEADS_COMPLETION = myDataBase.rawQuery("select * from WORRYHEADS_COMPLETION;", null);
+            exportToCSV(WORRYHEADS_COMPLETION, "WORRYHEADS_COMPLETION.csv");
+            WORRYHEADS_COMPLETION.close();
+
+            Cursor STOP = myDataBase.rawQuery("select * from STOP;", null);
+            exportToCSV(STOP, "STOP.csv");
+            STOP.close();
+
+            sendData();
+
+        } catch (Exception e) {
+            Log.i("Exception occured", "Exception occured");
+            e.printStackTrace();
+        }
+    }
+
     public void sendData(){
         /*
         * Intent intent = new Intent();
@@ -738,7 +841,10 @@ public class DBHelper extends SQLiteOpenHelper{
             files.add(uri);
         }
         intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, files);
-        myContext.startActivity(Intent.createChooser(intent, "Share using"));
+        //myContext.startActivity(Intent.createChooser(intent, "Share using"));
+        Intent new_intent =Intent.createChooser(intent, "Share using");
+        new_intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        myContext.startActivity(new_intent);
     }
 
     @Override
@@ -806,5 +912,4 @@ public class DBHelper extends SQLiteOpenHelper{
         }
         return false;
     }
-
 }

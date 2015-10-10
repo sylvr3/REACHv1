@@ -338,6 +338,8 @@ public class WorryHeads extends Activity implements View.OnClickListener, Dialog
                     FragmentManager fm = getFragmentManager();
                     DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this);
                     dialog.show(fm, "frag");
+                    DBHelper helper = new DBHelper(this);
+                    helper.trackEvent(helper,"WORRY_HEADS_HOME_BUTTON_CLICKED","INSIDE_WORRY_HEADS_ACTIVITY");
                 } else {
                     if (intro) {
                         s = true;
@@ -459,8 +461,8 @@ public class WorryHeads extends Activity implements View.OnClickListener, Dialog
         }
         try {
             DBHelper helper = new DBHelper(this);
-            helper.trackEvent(helper,"WORRY_HEADS_COMPLETED","INSIDE_WORRY_HEADS_ACTIVITY");
             helper.setActivityProgressCount("WORRYHEADS");
+            helper.trackEvent(helper,"WORRYHEADS_COMPLETED","INSIDE_WORRY_HEADS_ACTIVITY");
             File file=helper.getFile();
             Log.i("File Path",file.getAbsolutePath());
             db = helper.getDB();

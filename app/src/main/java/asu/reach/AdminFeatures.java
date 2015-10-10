@@ -62,6 +62,11 @@ public class AdminFeatures extends Activity{
                                                                 Intent trick_intent=new Intent(AdminFeatures.this,TrickRelease.class);
                                                                 startActivity(trick_intent);
                                                                 break;
+                                                            case 5:
+                                                                DBHelper helper=new DBHelper(getApplicationContext());
+                                                                helper.callExportCSV();
+
+                                                                break;
                                                             default:
                                                                 String rowSelected="You selected"+String.valueOf(adapter.getItem(position));
                                                                 Toast.makeText(AdminFeatures.this,rowSelected,Toast.LENGTH_SHORT).show();

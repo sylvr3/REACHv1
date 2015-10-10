@@ -1,5 +1,6 @@
 package asu.reach;
 
+// BackgroundService.java
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -7,252 +8,180 @@ import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.IBinder;
 import android.util.Log;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
-public class NotifyService extends Service {
+public class NotifyService extends Service
+{
+    private static final String TAG = "BackgroundService";
+    private NotificationManager notificationMgr;
+    private ThreadGroup myThreads = new ThreadGroup("ServiceWorker");
 
+    NotifyServiceReceiver notifyServiceReceiver;
     final static String ACTION = "NotifyServiceAction";
     final static String STOP_SERVICE = "";
     final static int RQS_STOP_SERVICE = 1;
     private SQLiteDatabase db;
 
-    NotifyServiceReceiver notifyServiceReceiver;
-
     private static int MY_NOTIFICATION_ID = 1;
-    private NotificationManager notificationManager;
+    //private NotificationManager notificationManager;
     private Notification myNotification;
-//    private final String myBlog = "http://android-er.blogspot.com/";
 
     @Override
     public void onCreate() {
-// TODO Auto-generated method stub
-        notifyServiceReceiver = new NotifyServiceReceiver();
         super.onCreate();
+        notifyServiceReceiver = new NotifyServiceReceiver();
+        Log.v(TAG, "in onCreate()");
+        notificationMgr =(NotificationManager)getSystemService(
+                NOTIFICATION_SERVICE);
+        //displayNotificationMessage("Background Service is running",STIC.class);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        super.onStartCommand(intent, flags, startId);
+        int counter = intent.getExtras().getInt("counter");
+        Log.v(TAG, "in onStartCommand(), counter = " + counter +
+                ", startId = " + startId);
+
+        new Thread(myThreads, new ServiceWorker(counter), "BackgroundService")
+                .start();
+
+        return START_STICKY;
+    }
+
+    class ServiceWorker implements Runnable
+    {
+        private int counter = -1;
+        public ServiceWorker(int counter) {
+            this.counter = counter;
+        }
+
+        public void run() {
+            final String TAG2 = "ServiceWorker:" + Thread.currentThread().getId();
+            // do background processing here...
+            try {
+                Log.v(TAG2, "sleeping for 20 seconds. counter = " + counter);
+                Thread.sleep(20000);
+                checkValuesInService();
+                Log.v(TAG2, "... waking up");
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                Log.v(TAG2, "... sleep interrupted");
+            }
+        }
+    }
+
+    public void checkValuesInService(){
         try {
-            Log.i("Notif Service", "Inside onStartCommand of Service");
+            String message="";
+            DBHelper helper=new DBHelper(getApplicationContext());
+            Calendar protocolDate=helper.getStartDateForProtocol();
+            Calendar protocolTime=helper.getTimeForNotifications();
+            Calendar c = Calendar.getInstance();
+            if(protocolDate!=null && protocolTime!=null){
+                Date storedDate=protocolDate.getTime();
+                long currentDayOfProtocol=currentDayOfProtocol(storedDate);
+                System.out.println(currentDayOfProtocol);
+                if(c.get(Calendar.HOUR_OF_DAY)==protocolTime.get(Calendar.HOUR_OF_DAY) && c.get(Calendar.MINUTE)==protocolTime.get(Calendar.MINUTE)) {
+                    if (checkForNotification("STIC", currentDayOfProtocol) == true) {
+                        message = "Practice STIC today.";
+                        displayNotificationMessage(message, STIC.class);
+                    }  if (checkForNotification("DIARY_EVENT1", currentDayOfProtocol) == true || checkForNotification("DIARY_EVENT2", currentDayOfProtocol) == true) {
+                        message = "Practice DAILY DIARY today.";
+                        displayNotificationMessage(message, DailyDiary.class);
+                    }  if (checkForNotification("RELAXATION", currentDayOfProtocol) == true) {
+                        message = "Practice RELAXATION today.";
+                        displayNotificationMessage(message, Relaxation.class);
+                    }  if (checkForNotification("STOP", currentDayOfProtocol) == true) {
+                        message = "Practice STOP today.";
+                        displayNotificationMessage(message, STOP.class);
+                    }  if (checkForNotification("STOP_WORRYHEADS", currentDayOfProtocol) == true) {
+                        message = "Practice WORRYHEADS today.";
+                        displayNotificationMessage(message, WorryHeads.class);
+                    }
+                }
 
-            IntentFilter intentFilter = new IntentFilter();
-            intentFilter.addAction(ACTION);
-            registerReceiver(notifyServiceReceiver, intentFilter);
-            DBHelper helper = new DBHelper(getApplicationContext());
-            db = helper.getDB();
-            Cursor c = db.rawQuery("select start_time from DATE_TIME_SET where id=1", null);
-            c.moveToFirst();
-            String notificationTime = c.getString(0);
-            //c.close();
-            //db.close();
-            //helper.releaseTrick();// Calling this function here to make sure the trick is released on only 2 intended days of week.
-
-            String[] data = notificationTime.split(":");
-            int hours = Integer.parseInt(data[0]);
-            int minutes = Integer.parseInt(data[1]);
-            long time = (hours * 60 * 60) + (minutes * 60);
-            Calendar cal = Calendar.getInstance();
-            int hour_of_day = cal.get(Calendar.HOUR_OF_DAY);
-            int min_of_day = cal.get(Calendar.MINUTE);
-            long systemTime = (hour_of_day * 3600) + (min_of_day * 60);
-
-            DBHelper helper1 = new DBHelper(getApplicationContext());
-            db = helper1.getDB();
-            Cursor c1 = db.rawQuery("select start_date from DATE_TIME_SET where id=1", null);
-            c1.moveToFirst();
-            String ALLprotocolStartDate = c1.getString(0);
-            //c1.close();
-            //db.close();
-
-            int currentDayofProtocol = calculateDayofProtocol(ALLprotocolStartDate);
-            int weekNumber=(currentDayofProtocol/7)+1;
-
-            /*Check if the trick release days have been set or not*/
-            db=helper1.getDB();
-            Cursor dayCheck = db.rawQuery("select start_date from DATE_TIME_SET where id=2", null);
-            dayCheck.moveToFirst();
-            String dayOfTheWeek = dayCheck.getString(0);
-            System.out.println("dayOftheWeek"+dayOfTheWeek);
-            if(dayOfTheWeek.equalsIgnoreCase("default")){
-                //cant release trick because the days are not set in admin preferences.
-                System.out.println("cant release trick because the days are not set in admin preferences.");
+                //Check if its a day/7. ie. the last day of the week.
+                if(currentDayOfProtocol%7==0){
+                    helper.setActivityProgressCountToZero();
+                }
+                helper.releaseTrick();
             }else{
-                helper1.releaseTrick();
+                System.out.println("Not set.");
             }
-
-
-            if (currentDayofProtocol > 0) {
-                DBHelper helper2 = new DBHelper(getApplicationContext());
-                db = helper2.getDB();
-
-                db.execSQL("update WEEK_NUMBER_OF_PROTOCOL set WEEK_NUMBER="+weekNumber+""); //To keep track of the ongoing week
-
-                Cursor c2 = db.rawQuery("select * from ADMIN_ACTIVITY_SCHEDULER where DAY=" + currentDayofProtocol, null);
-                c2.moveToFirst();
-                boolean DDNotificationCheck = false;
-                boolean STICNotificationCheck = false;
-                boolean STOPNotificationCheck = false;
-                boolean WORRYHEADnotificationCheck = false;
-                boolean RelaxationNotificationCheck = false;
-                if (c2.getInt(3) == 1 /*|| c2.getInt(4)==1*/)                                                             //Are we updating DIARY_EVENT2 when user completes DIARY EVENT_2 anywhere ??
-                    DDNotificationCheck = checkForDDNotification(currentDayofProtocol, systemTime, time);
-                if (c2.getInt(5) == 1)
-                    STOPNotificationCheck = checkForSTOPNotification(currentDayofProtocol, systemTime, time);
-                if (c2.getInt(6) == 1)
-                    WORRYHEADnotificationCheck = checkForWORRYHEADNotification(currentDayofProtocol, systemTime, time);
-                if (c2.getInt(7) == 1)
-                    STICNotificationCheck = checkForSTICNotification(currentDayofProtocol, systemTime, time);
-                if (c2.getInt(7) == 1)
-                    RelaxationNotificationCheck = checkForRelaxationNotification(currentDayofProtocol, systemTime, time);
-
-                Log.i("DD NOTIF DONE", DDNotificationCheck + "");
-                Log.i("WORRY HEAD NOTIF DONE", WORRYHEADnotificationCheck + "");
-                Log.i("STOP NOTIF DONE", STOPNotificationCheck + "");
-                Log.i("STIC NOTIF DONE", STICNotificationCheck + "");
-                Log.i("RELAX NOTIF DONE", RelaxationNotificationCheck + "");
-                //c2.close();
-                //db.close();
-
-            }
-            return (START_STICKY);
-        }catch(Exception e){
+        }catch (Exception e){
             e.printStackTrace();
-            return (START_STICKY);
         }
+
     }
 
-    public boolean checkForDDNotification(int currentDayofProtocol, long systemTime, long currTime) {
+    public long currentDayOfProtocol(Date storedDate){
+        long dayCount=0;
+        Calendar c = Calendar.getInstance();
+        Date currDate = c.getTime();
+        long dayCountInMS = currDate.getTime() - storedDate.getTime();
+        long diffHours = dayCountInMS / (60 * 60 * 1000);
+        dayCount = diffHours / 24;
 
-        DBHelper helper = new DBHelper(getApplicationContext());
-        db = helper.getDB();
-        Cursor c = db.rawQuery("select DIARY_EVENT1,DIARY_EVENT2 from USER_ACTIVITY_TRACK where DAY=" + currentDayofProtocol, null);
-        c.moveToFirst();
-        //Are we updating DIARY_EVENT2 when user completes DIARY EVENT_2 anywhere ??
-        if (c.getInt(0) == 0) {
-            Log.i("DD Notif Status","ABOUT TO BE FIRED");
-            if (systemTime == currTime) {
-                String message="Practice Daily Diary to help Bob the Blob learn new tricks to show you later";
-                fireNotifications(message,DailyDiary.class);
-                //c.close();
-                //db.close();
-                //helper.close();
-                return true;
+        dayCount++;
+        return dayCount;
+    }
+
+    public boolean checkForNotification(String protocolName, long currentDayOfProtocol) {
+        try {
+            DBHelper helper=new DBHelper(getApplicationContext());
+            if(currentDayOfProtocol>0){
+                int status=helper.statusOfTheDayForGivenProtocol(protocolName,currentDayOfProtocol);
+                if(status==1){
+                    return true;
+                }else{
+                    return false;
+                }
             }
+
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        //c.close();
-        //db.close();
-        //helper.close();
         return false;
     }
-
-    public boolean checkForSTOPNotification(int currentDayofProtocol, long systemTime, long currTime) {
-
-        DBHelper helper = new DBHelper(getApplicationContext());
-        db = helper.getDB();
-        Cursor c = db.rawQuery("select STOP from USER_ACTIVITY_TRACK where DAY=" + currentDayofProtocol, null);
-        c.moveToFirst();
-        c.moveToFirst();
-        if (c.getInt(0) == 0) {
-            Log.i("STOP Notif Status","ABOUT TO BE FIRED");
-            if (systemTime == currTime) {
-                String message="Practice STOP to help Bob the Blob learn new tricks to show you later";
-                fireNotifications(message,STOP.class);
-                //c.close();
-                //db.close();
-                //helper.close();
-                return true;
-            }
-        }
-        //c.close();
-        //db.close();
-        //helper.close();
-        return false;
+    @Override
+    public void onDestroy()
+    {
+        Log.v(TAG, "in onDestroy(). Interrupting threads and cancelling notifications");
+        myThreads.interrupt();
+        notificationMgr.cancelAll();
+        super.onDestroy();
     }
 
-    public boolean checkForSTICNotification(int currentDayofProtocol, long systemTime, long currTime) {
-
-        DBHelper helper = new DBHelper(getApplicationContext());
-        db = helper.getDB();
-        Cursor c = db.rawQuery("select STIC from USER_ACTIVITY_TRACK where DAY=" + currentDayofProtocol, null);
-        c.moveToFirst();
-        c.moveToFirst();
-        if (c.getInt(0) == 0) {
-            Log.i("STIC Notif Status","ABOUT TO BE FIRED");
-            if (systemTime == currTime) {
-                String message="Practice STIC to help Bob the Blob learn new tricks to show you later";
-                fireNotifications(message,STIC.class);
-                //c.close();
-                //db.close();
-                //helper.close();
-                return true;
-            }
-        }
-        //c.close();
-        //db.close();
-        //helper.close();
-        return false;
+    @Override
+    public IBinder onBind(Intent intent) {
+        Log.v(TAG, "in onBind()");
+        return null;
     }
 
-    public boolean checkForWORRYHEADNotification(int currentDayofProtocol, long systemTime, long currTime) {
+    /*private void displayNotificationMessage(String message)
+    {
+        Notification notification = new Notification(R.drawable.emo_im_winking,
+                message, System.currentTimeMillis());
 
-        DBHelper helper = new DBHelper(getApplicationContext());
-        db = helper.getDB();
-        Cursor c = db.rawQuery("select STOP_WORRYHEADS from USER_ACTIVITY_TRACK where DAY=" + currentDayofProtocol, null);
-        c.moveToFirst();
-        if (c.getInt(0) == 0) {
-            Log.i("Worryhead Notif Status","ABOUT TO BE FIRED");
-            if (systemTime == currTime) {
-                String message="Practice Worryheads to help Bob the Blob learn new tricks to show you later";
-                fireNotifications(message,WorryHeads.class);
-                //c.close();
-                //db.close();
-                //helper.close();
-                return true;
-            }
-        }
-        //c.close();
-        //db.close();
-        //helper.close();
-        return false;
-    }
+        notification.flags = Notification.FLAG_NO_CLEAR;
 
-    public boolean checkForRelaxationNotification(int currentDayofProtocol, long systemTime, long currTime) {
+        PendingIntent contentIntent =
+                PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
 
-        DBHelper helper = new DBHelper(getApplicationContext());
-        db = helper.getDB();
-        Cursor c = db.rawQuery("select RELAXATION from USER_ACTIVITY_TRACK where DAY=" + currentDayofProtocol, null);
-        c.moveToFirst();
-        if (c.getInt(0) == 0) {
-            Log.i("RELAX Notif Status","ABOUT TO BE FIRED");
-            if (systemTime == currTime) {
-                String message="Practice Relaxation to help Bob the Blob learn new tricks to show you later";
-                fireNotifications(message,Relaxation.class);
-                //c.close();
-                //db.close();
-                //helper.close();
-                return true;
-            }
-        }
-        //c.close();
-        //db.close();
-        //helper.close();
-        return false;
-    }
+        notification.setLatestEventInfo(this, TAG, message, contentIntent);
 
+        notificationMgr.notify(0, notification);
+    }*/
 
-    public void fireNotifications(String message, Class activityNotDone) {
+    public void displayNotificationMessage(String message, Class activityNotDone) {
         // Send Notification
-        notificationManager =(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        //notificationManager =(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         Context context = getApplicationContext();
         String notificationTitle = "Are you forgetting something ?";
         String notificationText = message;
@@ -276,39 +205,9 @@ public class NotifyService extends Service {
                 notificationText,
                 pendingIntent);*/
 //            startForeground(1,myNotification);
-        notificationManager.notify(MY_NOTIFICATION_ID++, myNotification);
+        notificationMgr.notify(MY_NOTIFICATION_ID++, myNotification);
         Log.i("Notification","NEW NOTIF FIRED: "+message);
 
-    }
-
-    public int calculateDayofProtocol(String ALLprotocolStartDate) {
-        long dayCount = 0;
-        try {
-            DateFormat format = new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH);
-            Date ALLProtocolInDateFormat = format.parse(ALLprotocolStartDate);
-            Calendar c = Calendar.getInstance();
-            Date currDate = c.getTime();
-            long dayCountInMS = currDate.getTime() - ALLProtocolInDateFormat.getTime();
-            long diffHours = dayCountInMS / (60 * 60 * 1000);
-            dayCount = diffHours / 24;
-            Log.i("ascsa", dayCount + "");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        dayCount++;
-        return Integer.parseInt(dayCount + "");
-    }
-
-    @Override
-    public void onDestroy() {
-// TODO Auto-generated method stub
-        Log.i("destroy", "in destroy");
-    }
-
-    @Override
-    public IBinder onBind(Intent arg0) {
-// TODO Auto-generated method stub
-        return null;
     }
 
     public class NotifyServiceReceiver extends BroadcastReceiver {
@@ -332,3 +231,4 @@ public class NotifyService extends Service {
         }
     }
 }
+

@@ -80,8 +80,8 @@ public class Relaxation extends Activity implements View.OnClickListener,
 
                 try {
                     DBHelper helper = new DBHelper(this);
-                    helper.trackEvent(helper,"RELAXATION_INTRO","INSIDE_WORRY_HEADS_ACTIVITY");
-                    helper.setActivityProgressCount("RELAXATION");
+                    helper.trackEvent(helper,"RELAXATION_INTRO","INSIDE_RELAXATION_HEADS_ACTIVITY");
+
                     helper.close();
                 }catch(Exception e){
                     e.printStackTrace();
@@ -97,8 +97,8 @@ public class Relaxation extends Activity implements View.OnClickListener,
                 }
                 try {
                     DBHelper helper = new DBHelper(this);
-                    helper.trackEvent(helper,"RELAXATION_WORRYBOX","INSIDE_WORRY_HEADS_ACTIVITY");
-                    helper.setActivityProgressCount("RELAXATION");
+                    helper.trackEvent(helper,"RELAXATION_WORRYBOX","INSIDE_RELAXATION_HEADS_ACTIVITY");
+
                     helper.close();
                 }catch(Exception e){
                     e.printStackTrace();
@@ -114,8 +114,8 @@ public class Relaxation extends Activity implements View.OnClickListener,
                 }
                 try {
                     DBHelper helper = new DBHelper(this);
-                    helper.trackEvent(helper,"RELAXATION_BELLY_BREATHING","INSIDE_WORRY_HEADS_ACTIVITY");
-                    helper.setActivityProgressCount("RELAXATION");
+                    helper.trackEvent(helper,"RELAXATION_BELLY_BREATHING","INSIDE_RELAXATION_HEADS_ACTIVITY");
+
                     helper.close();
                 }catch(Exception e){
                     e.printStackTrace();
@@ -131,8 +131,8 @@ public class Relaxation extends Activity implements View.OnClickListener,
                 }
                 try {
                     DBHelper helper = new DBHelper(this);
-                    helper.trackEvent(helper,"RELAXATION_THE_GROWING_TREE","INSIDE_WORRY_HEADS_ACTIVITY");
-                    helper.setActivityProgressCount("RELAXATION");
+                    helper.trackEvent(helper,"RELAXATION_THE_GROWING_TREE","INSIDE_RELAXATION_ACTIVITY");
+
                     helper.close();
                 }catch(Exception e){
                     e.printStackTrace();
@@ -148,8 +148,8 @@ public class Relaxation extends Activity implements View.OnClickListener,
                 }
                 try {
                     DBHelper helper = new DBHelper(this);
-                    helper.trackEvent(helper,"RELAXATION_REVIEW","INSIDE_WORRY_HEADS_ACTIVITY");
-                    helper.setActivityProgressCount("RELAXATION");
+                    helper.trackEvent(helper,"RELAXATION_REVIEW","INSIDE_RELAXATION_ACTIVITY");
+
                     helper.close();
                 }catch(Exception e){
                     e.printStackTrace();
@@ -266,6 +266,8 @@ public class Relaxation extends Activity implements View.OnClickListener,
     public void onBackPressed() {}
 
     public void onBackClick(View v){
+        DBHelper helper = new DBHelper(this);
+        helper.trackEvent(helper,"RELAXATION_HOME_CLICKED","INSIDE_RELAXATION_ACTIVITY");
         finish();
     }
 
@@ -279,6 +281,9 @@ public class Relaxation extends Activity implements View.OnClickListener,
                 ContentValues v = new ContentValues();
                 v.put("RELAXATION", 1);
                 db.update("USER_ACTIVITY_TRACK", v, "DAY = " + currentDay, null);
+                helper.setActivityProgressCount("RELAXATION");
+                helper.trackEvent(helper,"RELAXATION_COMPLETED","INSIDE_RELAXATION_ACTIVITY");
+
             } else {
                 Toast.makeText(this, "Invalid day,\nplease change\nstart date",
                         Toast.LENGTH_SHORT).show();
