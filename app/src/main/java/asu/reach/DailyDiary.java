@@ -224,6 +224,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
         if(v.getId() == home.getId()){
             DBHelper helper = new DBHelper(this);
             helper.trackEvent(helper,"DAILY_DIARY_HOME_CLICKED","INSIDE_DAILY_DIARY");
+            helper.close();
             end = false;
             FragmentManager fm = getFragmentManager();
             DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this, end,false);
@@ -233,6 +234,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
             try {
                 DBHelper helper = new DBHelper(this);
                 helper.trackEvent(helper,"DAILY_DIARY_RESPOND_CLICKED","INSIDE_DAILY_DIARY");
+                helper.close();
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -248,6 +250,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                 try {
                     DBHelper helper = new DBHelper(this);
                     helper.trackEvent(helper,"DAILY_DIARY_DONE_CHECKED","INSIDE_DAILY_DIARY");
+                    helper.close();
                 }catch(Exception e){
                     e.printStackTrace();
                 }
@@ -265,6 +268,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
             try {
                 DBHelper helper = new DBHelper(this);
                 helper.trackEvent(helper,"DAILY_DIARY_CANCEL_CLICKED","INSIDE_DAILY_DIARY");
+                helper.close();
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -280,6 +284,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
             try {
                 DBHelper helper = new DBHelper(this);
                 helper.trackEvent(helper,"DAILY_DIARY_CLEAR_CLICKED","INSIDE_DAILY_DIARY");
+                helper.close();
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -289,6 +294,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
             try {
                 DBHelper helper = new DBHelper(this);
                 helper.trackEvent(helper,"DAILY_DIARY_VOICE_INPUT","INSIDE_DAILY_DIARY");
+                helper.close();
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -303,6 +309,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                     try {
                         DBHelper helper = new DBHelper(this);
                         helper.trackEvent(helper,"DAILY_DIARY_WHAT","INSIDE_DAILY_DIARY");
+                        helper.close();
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -326,6 +333,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                     try {
                         DBHelper helper = new DBHelper(this);
                         helper.trackEvent(helper,"DAILY_DIARY_RATING","INSIDE_DAILY_DIARY");
+                        helper.close();
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -353,6 +361,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                     try {
                         DBHelper helper = new DBHelper(this);
                         helper.trackEvent(helper,"DAILY_DIARY_DID","INSIDE_DAILY_DIARY");
+                        helper.close();
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -380,6 +389,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                     try {
                         DBHelper helper = new DBHelper(this);
                         helper.trackEvent(helper,"DAILY_DIARY_THOUGHTS","INSIDE_DAILY_DIARY");
+                        helper.close();
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -397,6 +407,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                     try {
                         DBHelper helper = new DBHelper(this);
                         helper.trackEvent(helper,"DAILY_DIARY_STATE_ONE_BACK_CLICKED","INSIDE_DAILY_DIARY");
+                        helper.close();
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -410,6 +421,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                     try {
                         DBHelper helper = new DBHelper(this);
                         helper.trackEvent(helper,"DAILY_DIARY_STATE_TWO_BACK_CLICKED","INSIDE_DAILY_DIARY");
+                        helper.close();
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -437,6 +449,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                     try {
                         DBHelper helper = new DBHelper(this);
                         helper.trackEvent(helper,"DAILY_DIARY_STATE_THREE_BACK_CLICKED","INSIDE_DAILY_DIARY");
+                        helper.close();
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -455,6 +468,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                     try {
                         DBHelper helper = new DBHelper(this);
                         helper.trackEvent(helper,"DAILY_DIARY_STATE_FOUR_BACK_CLICKED","INSIDE_DAILY_DIARY");
+                        helper.close();
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -474,6 +488,7 @@ public class DailyDiary extends Activity implements View.OnClickListener, View.O
                 System.out.println("getActivityProgressCount "+helper.getActivityProgressCount("DAILY_DIARY"));
                 helper.trackEvent(helper,"DAILY_DIARY_COMPLETED","INSIDE_DAILY_DIARY");
                 //Log.i("Daily Diary Count",helper.getActivityProgressCount("DAILY_DIARY").toString());
+                helper.close();
             }catch(Exception e){
                 e.printStackTrace();
             }

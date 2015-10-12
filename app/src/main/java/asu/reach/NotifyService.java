@@ -183,7 +183,7 @@ public class NotifyService extends Service
         // Send Notification
         //notificationManager =(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         Context context = getApplicationContext();
-        String notificationTitle = "Are you forgetting something ?";
+        String notificationTitle = message;
         String notificationText = message;
         Intent myIntent = new Intent(getApplicationContext(), activityNotDone);
         PendingIntent pendingIntent = PendingIntent.getActivity(getBaseContext(), 0, myIntent, 0);

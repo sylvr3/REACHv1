@@ -147,6 +147,7 @@ public class STIC extends Activity implements View.OnClickListener, DialogInterf
                 try {
                     DBHelper helper = new DBHelper(this);
                     helper.trackEvent(helper,"STIC_TEACHER_PIN","INSIDE_STIC_ACTIVITY");
+                    helper.close();
                 }catch(Exception e){
                     e.printStackTrace();
                 }
@@ -205,6 +206,7 @@ public class STIC extends Activity implements View.OnClickListener, DialogInterf
                     try {
                         DBHelper helper = new DBHelper(this);
                         helper.trackEvent(helper,"INVALID_PIN","INSIDE_STIC_ACTIVITY");
+                        helper.close();
                     }catch(Exception e1){
                         e.printStackTrace();
                     }
@@ -236,6 +238,7 @@ public class STIC extends Activity implements View.OnClickListener, DialogInterf
     public void onBackClick(View v){
         DBHelper helper = new DBHelper(this);
         helper.trackEvent(helper,"STIC_HOME_BUTTON_CLICKED","INSIDE_STIC_ACTIVITY");
+        helper.close();
         finish();
     }
 }

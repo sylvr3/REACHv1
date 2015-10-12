@@ -268,6 +268,7 @@ public class Relaxation extends Activity implements View.OnClickListener,
     public void onBackClick(View v){
         DBHelper helper = new DBHelper(this);
         helper.trackEvent(helper,"RELAXATION_HOME_CLICKED","INSIDE_RELAXATION_ACTIVITY");
+        helper.close();
         finish();
     }
 

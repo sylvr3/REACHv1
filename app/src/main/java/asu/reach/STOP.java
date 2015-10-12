@@ -113,6 +113,7 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
             try {
                 DBHelper helper = new DBHelper(this);
                 helper.trackEvent(helper,"STOP_HOME_BUTTON_CLICKED","INSIDE_STOP_ACTIVITY");
+                helper.close();
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -125,6 +126,7 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
             try {
                 DBHelper helper = new DBHelper(this);
                 helper.trackEvent(helper,"STOP_RESPOND_BUTTON_CLICKED","INSIDE_STOP_ACTIVITY");
+                helper.close();
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -138,6 +140,7 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
             try {
                 DBHelper helper = new DBHelper(this);
                 helper.trackEvent(helper,"STOP_DONE_BUTTON_CLICKED","INSIDE_STOP_ACTIVITY");
+                helper.close();
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -156,6 +159,7 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
             try {
                 DBHelper helper = new DBHelper(this);
                 helper.trackEvent(helper,"STOP_CANCEL_CLICKED","INSIDE_STOP_ACTIVITY");
+                helper.close();
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -171,6 +175,7 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
             try {
                 DBHelper helper = new DBHelper(this);
                 helper.trackEvent(helper,"STOP_CLEAR_CLICKED","INSIDE_STOP_ACTIVITY");
+                helper.close();
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -180,6 +185,7 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
             try {
                 DBHelper helper = new DBHelper(this);
                 helper.trackEvent(helper,"STOP_VOICE_CLICKED","INSIDE_STOP_ACTIVITY");
+                helper.close();
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -194,6 +200,7 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
                     try {
                         DBHelper helper = new DBHelper(this);
                         helper.trackEvent(helper,"STOP_S_DONE","INSIDE_STOP_ACTIVITY");
+                        helper.close();
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -216,6 +223,7 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
                     try {
                         DBHelper helper = new DBHelper(this);
                         helper.trackEvent(helper,"STOP_T_DONE","INSIDE_STOP_ACTIVITY");
+                        helper.close();
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -238,6 +246,7 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
                     try {
                         DBHelper helper = new DBHelper(this);
                         helper.trackEvent(helper,"STOP_O_DONE","INSIDE_STOP_ACTIVITY");
+                        helper.close();
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -260,6 +269,7 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
                     try {
                         DBHelper helper = new DBHelper(this);
                         helper.trackEvent(helper,"STOP_P_DONE","INSIDE_STOP_ACTIVITY");
+                        helper.close();
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -277,6 +287,7 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
                     try {
                         DBHelper helper = new DBHelper(this);
                         helper.trackEvent(helper,"STOP_S_BACK_CLICKED","INSIDE_STOP_ACTIVITY");
+                        helper.close();
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -290,6 +301,7 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
                     try {
                         DBHelper helper = new DBHelper(this);
                         helper.trackEvent(helper,"STOP_T_BACK_CLICKED","INSIDE_STOP_ACTIVITY");
+                        helper.close();
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -308,6 +320,7 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
                     try {
                         DBHelper helper = new DBHelper(this);
                         helper.trackEvent(helper,"STOP_O_BACK_CLICKED","INSIDE_STOP_ACTIVITY");
+                        helper.close();
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -326,6 +339,7 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
                     try {
                         DBHelper helper = new DBHelper(this);
                         helper.trackEvent(helper,"STOP_P_BACK_CLICKED","INSIDE_STOP_ACTIVITY");
+                        helper.close();
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -348,6 +362,7 @@ public class STOP extends Activity implements View.OnClickListener, DialogInterf
                 DBHelper helper = new DBHelper(this);
                 helper.setActivityProgressCount("STOP");
                 helper.trackEvent(helper,"STOP_COMPLETED","INSIDE_STOP_ACTIVITY");
+                helper.close();
 
             }catch(Exception e){
                 e.printStackTrace();

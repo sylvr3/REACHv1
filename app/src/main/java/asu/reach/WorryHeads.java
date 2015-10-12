@@ -215,6 +215,7 @@ public class WorryHeads extends Activity implements View.OnClickListener, Dialog
                 try {
                     DBHelper helper = new DBHelper(this);
                     helper.trackEvent(helper, "WORRY_HEADS_S_SHOWED", "INSIDE_WORRY_HEADS_ACTIVITY");
+                    helper.close();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -235,6 +236,7 @@ public class WorryHeads extends Activity implements View.OnClickListener, Dialog
                 try {
                     DBHelper helper = new DBHelper(this);
                     helper.trackEvent(helper, "WORRY_HEADS_T_SHOWED", "INSIDE_WORRY_HEADS_ACTIVITY");
+                    helper.close();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -256,6 +258,7 @@ public class WorryHeads extends Activity implements View.OnClickListener, Dialog
                     try {
                         DBHelper helper = new DBHelper(this);
                         helper.trackEvent(helper,"WORRY_HEADS_O_WRONG","INSIDE_WORRY_HEADS_ACTIVITY");
+                        helper.close();
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -266,6 +269,7 @@ public class WorryHeads extends Activity implements View.OnClickListener, Dialog
                     try {
                         DBHelper helper = new DBHelper(this);
                         helper.trackEvent(helper,"WORRY_HEADS_O_RIGHT","INSIDE_WORRY_HEADS_ACTIVITY");
+                        helper.close();
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -285,6 +289,7 @@ public class WorryHeads extends Activity implements View.OnClickListener, Dialog
                     try {
                         DBHelper helper = new DBHelper(this);
                         helper.trackEvent(helper,"WORRY_HEADS_O_RIGHT","INSIDE_WORRY_HEADS_ACTIVITY");
+                        helper.close();
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -304,6 +309,7 @@ public class WorryHeads extends Activity implements View.OnClickListener, Dialog
                     try {
                         DBHelper helper = new DBHelper(this);
                         helper.trackEvent(helper,"WORRY_HEADS_O_RIGHT","INSIDE_WORRY_HEADS_ACTIVITY");
+                        helper.close();
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -323,6 +329,7 @@ public class WorryHeads extends Activity implements View.OnClickListener, Dialog
                     try {
                         DBHelper helper = new DBHelper(this);
                         helper.trackEvent(helper,"WORRY_HEADS_O_RIGHT","INSIDE_WORRY_HEADS_ACTIVITY");
+                        helper.close();
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -340,6 +347,7 @@ public class WorryHeads extends Activity implements View.OnClickListener, Dialog
                     dialog.show(fm, "frag");
                     DBHelper helper = new DBHelper(this);
                     helper.trackEvent(helper,"WORRY_HEADS_HOME_BUTTON_CLICKED","INSIDE_WORRY_HEADS_ACTIVITY");
+                    helper.close();
                 } else {
                     if (intro) {
                         s = true;
@@ -369,6 +377,7 @@ public class WorryHeads extends Activity implements View.OnClickListener, Dialog
             try {
                 DBHelper helper = new DBHelper(this);
                 helper.trackEvent(helper,"WORRY_HEADS_AGAIN","INSIDE_WORRY_HEADS_ACTIVITY");
+                helper.close();
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -380,6 +389,7 @@ public class WorryHeads extends Activity implements View.OnClickListener, Dialog
             try {
                 DBHelper helper = new DBHelper(this);
                 helper.trackEvent(helper,"WORRY_HEADS_P_SELECTED","INSIDE_WORRY_HEADS_ACTIVITY");
+                helper.close();
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -389,6 +399,7 @@ public class WorryHeads extends Activity implements View.OnClickListener, Dialog
             try {
                 DBHelper helper = new DBHelper(this);
                 helper.trackEvent(helper,"WORRY_HEADS_NEXT_CLICKED","INSIDE_WORRY_HEADS_ACTIVITY");
+                helper.close();
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -415,6 +426,7 @@ public class WorryHeads extends Activity implements View.OnClickListener, Dialog
         try {
             DBHelper helper = new DBHelper(this);
             helper.trackEvent(helper,"WORRY_HEADS_O_WRONG","INSIDE_WORRY_HEADS_ACTIVITY");
+            helper.close();
         }catch(Exception e){
             e.printStackTrace();
         }

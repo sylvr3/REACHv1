@@ -85,9 +85,9 @@ public class TrickRelease extends Activity {
                                     int position, long id) {
                 // When clicked, show a toast with the TextView text
                 Days day = (Days) parent.getItemAtPosition(position);
-                Toast.makeText(getApplicationContext(),
+               /* Toast.makeText(getApplicationContext(),
                         "Clicked on Row: " + day.getDayName(),
-                        Toast.LENGTH_SHORT).show();
+                        Toast.LENGTH_SHORT).show();*/
             }
         });
 
@@ -142,10 +142,10 @@ public class TrickRelease extends Activity {
                             if(cb.isChecked()==false){
                                 setOfDays.remove(cb.getText());
                             }
-                            Toast.makeText(getApplicationContext(),
+                            /*Toast.makeText(getApplicationContext(),
                                     "Clicked on Checkbox: " + cb.getText() +
                                             " is " + cb.isChecked() +" ArrayLength "+String.valueOf(setOfDays.size()),
-                                    Toast.LENGTH_SHORT).show();
+                                    Toast.LENGTH_SHORT).show();*/
 
                             day.setSelected(cb.isChecked());
                         }else{
@@ -163,10 +163,10 @@ public class TrickRelease extends Activity {
                                 if(cb.isChecked()==false){
                                     setOfDays.remove(cb.getText());
                                 }
-                                Toast.makeText(getApplicationContext(),
+                                /*Toast.makeText(getApplicationContext(),
                                         "Clicked on Checkbox: " + cb.getText() +
                                                 " is " + cb.isChecked(),
-                                        Toast.LENGTH_SHORT).show();
+                                        Toast.LENGTH_SHORT).show();*/
                                 System.out.println("The daySelectedCount is:"+String.valueOf(daySelectedCount));
 
                             }
