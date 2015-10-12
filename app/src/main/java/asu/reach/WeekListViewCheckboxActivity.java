@@ -88,7 +88,6 @@ public class WeekListViewCheckboxActivity extends Activity {
                         Toast.LENGTH_SHORT).show();*/
             }
         });
-
     }
 
     private class MyCustomAdapter extends ArrayAdapter<Weeks> {

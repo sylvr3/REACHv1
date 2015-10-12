@@ -283,7 +283,6 @@ public class Relaxation extends Activity implements View.OnClickListener,
                 db.update("USER_ACTIVITY_TRACK", v, "DAY = " + currentDay, null);
                 helper.setActivityProgressCount("RELAXATION");
                 helper.trackEvent(helper,"RELAXATION_COMPLETED","INSIDE_RELAXATION_ACTIVITY");
-
             } else {
                 Toast.makeText(this, "Invalid day,\nplease change\nstart date",
                         Toast.LENGTH_SHORT).show();

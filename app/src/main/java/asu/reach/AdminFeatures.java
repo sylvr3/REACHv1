@@ -33,7 +33,7 @@ import static java.security.AccessController.getContext;
 public class AdminFeatures extends Activity{
 
     ListView mainListView;
-    String feature_array[]={"Protocol Settings","Start Date","Notification time","Schedule for Trick Release","Pin Change","Export Data"};
+    String feature_array[]={"Protocol Settings","Start Date","Notification time","Schedule for Trick Release","Set Threshold","Export Data"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -61,6 +61,10 @@ public class AdminFeatures extends Activity{
                                                             case 3:
                                                                 Intent trick_intent=new Intent(AdminFeatures.this,TrickRelease.class);
                                                                 startActivity(trick_intent);
+                                                                break;
+                                                            case 4:
+                                                                Intent threshold=new Intent(AdminFeatures.this,SetThreshold.class);
+                                                                startActivity(threshold);
                                                                 break;
                                                             case 5:
                                                                 DBHelper helper=new DBHelper(getApplicationContext());

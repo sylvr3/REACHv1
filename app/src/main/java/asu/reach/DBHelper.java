@@ -77,7 +77,7 @@ public class DBHelper extends SQLiteOpenHelper{
             String myPath = DB_PATH + DB_NAME;
             myDataBase = SQLiteDatabase.openDatabase(myPath,
                     null, SQLiteDatabase.OPEN_READWRITE);
-            Cursor c = myDataBase.rawQuery("SELECT * FROM STIC",null);
+            //Cursor c = myDataBase.rawQuery("SELECT * FROM STIC",null);
             /*if(!(c.getCount() > 0)){
                 copyDataBase();
             }*/
@@ -216,7 +216,24 @@ public class DBHelper extends SQLiteOpenHelper{
             e.printStackTrace();
         }
     }
+    /*This function makes the count zero at end of the week.*/
+    public void setActivityProgressCountToSpecificValue(String protocolName,int count,int weekNumber){
+        try {
+            ContentValues valueMap = new ContentValues();
+            valueMap.put(protocolName,count);
+            myDataBase.update("PROGRESS_THRESHOLDS",valueMap,"WEEK_NUMBER="+weekNumber,null);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
+    public Integer getActivityThresholdCountOfProtocolForAWeek(String activityName,int weekNumber){
+        Cursor c=myDataBase.rawQuery("SELECT "+activityName+" from PROGRESS_THRESHOLDS WHERE WEEK_NUMBER="+weekNumber+";",null);
+        c.moveToFirst();
+        Integer count=c.getInt(c.getColumnIndex(activityName));
+        c.close();
+        return count;
+    }
 
     public Integer getActivityProgressCount(String activityName){
             Cursor c=myDataBase.rawQuery("SELECT * from PROGRESS_BAR_DATA WHERE ROWID='1'",null);

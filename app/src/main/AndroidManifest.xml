@@ -91,6 +91,14 @@
             android:name=".SticListsSelection"
             android:label="@string/title_activity_stic__lists__selection" >
         </activity>
+        <activity
+            android:name=".SetThreshold"
+            android:label="@string/title_activity_set_threshold" >
+        </activity>
+        <activity
+            android:name=".SetThresholdListActivity"
+            android:label="@string/title_activity_set_threshold_list" >
+        </activity>
     </application>
 
 </manifest>

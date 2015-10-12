@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -72,7 +73,6 @@ public class SticListsSelection extends Activity {
         builder.setTitle("Select The List for this week:");
         builder.setSingleChoiceItems(items, list_choice, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
-
                 switch(item)
                 {
                     case 0:
@@ -91,7 +91,6 @@ public class SticListsSelection extends Activity {
                         //Set Both for that particular week.
                         helper.setSticListValueForGivenWeek(week_no,3);
                         break;
-
                 }
                 dialog.dismiss();
             }
