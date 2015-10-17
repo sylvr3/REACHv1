@@ -19,4 +19,16 @@
     <string name="title_activity_trick_release">TrickRelease</string>
     <string name="title_activity_stic__lists__selection">Stic_Lists_Selection</string>
 
+    <string-array name="admin_features">
+        <item>Set the protocol settings</item>
+        <item>Set the Start Date</item>
+        <item>Set the notification time</item>
+        <item>Set the days for releasing tricks</item>
+        <item>Changing admin pin</item>
+        <item>Export the data</item>
+    </string-array>
+
+    <string name="title_activity_set_threshold">SetThreshold</string>
+    <string name="title_activity_set_threshold_list">SetThresholdListActivity</string>
+
 </resources>

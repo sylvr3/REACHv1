@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 
 
 public class TrickRelease extends Activity {
@@ -65,6 +66,13 @@ public class TrickRelease extends Activity {
                     public void onClick(DialogInterface arg0, int arg1) {
                         DBHelper helper= new DBHelper(getApplicationContext());
                         helper.setTrickReleaseDays(setOfDays);
+                        Iterator<String> it = setOfDays.iterator();
+                        String dayName="";
+                        while(it.hasNext()){
+                            dayName=dayName+it.next()+"";
+                        }
+                        helper.setStatus("ScheduleForTrickRelease","'"+dayName+"'");
+                        helper.close();
                         TrickRelease.super.onBackPressed();
 
                     }

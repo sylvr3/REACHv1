@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -23,6 +24,9 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -34,15 +38,27 @@ public class AdminFeatures extends Activity{
 
     ListView mainListView;
     String feature_array[]={"Protocol Settings","Start Date","Notification time","Schedule for Trick Release","Set Threshold","Export Data"};
+    String feature_status_metadata[]={"Set Schedule","Set Start Date","Set Notification time","Set Trick Release Dates","Set Threshold","Export data"};
+    List<AdminFeaturesMetadata> listOfSettings;
+    static String timeString="",dateString="";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_features);
 
-        final ListAdapter adapter= new ArrayAdapter<String>(this,R.layout.row_layout,R.id.row_id,feature_array);
+        //Get status data
+        DBHelper helper=new DBHelper(getApplicationContext());
+        listOfSettings=helper.getStatus("ADMIN_FEATURES");
+        helper.close();
+
+        // final ListAdapter adapter= new ArrayAdapter<String>(this,R.layout.row_layout,R.id.row_id,feature_array);
+        ArrayAdapter<AdminFeaturesMetadata> adapter= new MyListAdapter();
         mainListView=(ListView) findViewById(R.id.AdminFeatureslistView);
         mainListView.setAdapter(adapter);
+
         mainListView.setOnItemClickListener(new
                                                 AdapterView.OnItemClickListener() {
                                                     @Override
@@ -69,11 +85,7 @@ public class AdminFeatures extends Activity{
                                                             case 5:
                                                                 DBHelper helper=new DBHelper(getApplicationContext());
                                                                 helper.callExportCSV();
-
-                                                                break;
-                                                            default:
-                                                                String rowSelected="You selected"+String.valueOf(adapter.getItem(position));
-                                                                Toast.makeText(AdminFeatures.this,rowSelected,Toast.LENGTH_SHORT).show();
+                                                                helper.close();
                                                                 break;
                                                         };
 
@@ -114,9 +126,10 @@ public class AdminFeatures extends Activity{
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             // Do something with the time chosen by the user
             DBHelper helper= new DBHelper(this.getActivity().getApplicationContext());
-            boolean result=helper.setTimeForNotifications(hourOfDay,minute);
-            if(result==true)
-                System.out.println("Time is set for notifications.");
+            helper.setTimeForNotifications(hourOfDay,minute);
+            timeString="'Notification time: "+hourOfDay+":"+minute+"'";
+            helper.setStatus("NotificationTime",timeString);
+            helper.close();
         }
     }
 
@@ -156,7 +169,36 @@ public class AdminFeatures extends Activity{
             // Do something with the date chosen by the user
             DBHelper helper= new DBHelper(this.getActivity().getApplicationContext());
             boolean result=helper.setStartDateForProtocol(year,month,day);
+            dateString="'Start Date: "+month+"/"+day+"/"+year+"'";
+            helper.setStatus("StartDate",dateString);
+            helper.close();
         }
     }
 
+    private class MyListAdapter extends ArrayAdapter<AdminFeaturesMetadata>{
+        public MyListAdapter(){
+            super(AdminFeatures.this,R.layout.row_layout,listOfSettings);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            //Make sure we have a view to work with (may come as null)
+            View row_layout=convertView;
+            if(row_layout==null){
+                row_layout=getLayoutInflater().inflate(R.layout.row_layout,parent,false);
+            }
+
+            //Find the setting to work with
+            AdminFeaturesMetadata afm=listOfSettings.get(position);
+
+            //Fill the view
+            TextView settingName= (TextView) row_layout.findViewById(R.id.row_id);
+            settingName.setText(afm.getActivityName());
+
+            TextView settingStatus= (TextView) row_layout.findViewById(R.id.row_2_id);
+            settingStatus.setText(afm.getActivityStatus());
+
+            return row_layout;
+        }
+    }
 }

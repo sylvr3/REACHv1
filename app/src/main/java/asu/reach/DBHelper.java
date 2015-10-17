@@ -537,6 +537,32 @@ public class DBHelper extends SQLiteOpenHelper{
         return weeks;
     }
 
+    public List<AdminFeaturesMetadata> getStatus(String screenName){
+        List<AdminFeaturesMetadata> listOfSettings=new ArrayList<AdminFeaturesMetadata>();
+        try {
+            Cursor c=myDataBase.rawQuery("SELECT KEY,VALUE from ADMIN_METADATA WHERE SCREEN_NAME='"+screenName+"';",null);
+            while (c.moveToNext()) {
+                AdminFeaturesMetadata afm=new AdminFeaturesMetadata(c.getString(0),c.getString(1));
+                listOfSettings.add(afm);
+            }
+            c.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return listOfSettings;
+    }
+    public void setStatus(String KEY,String value){
+        try {
+            ContentValues v=new ContentValues();
+            v.put("VALUE",value);
+            String whereString="KEY='"+KEY+"'";
+            int count=myDataBase.update("ADMIN_METADATA",v,whereString,null);
+            System.out.println("Updated rows:"+count+" whereString"+whereString+" value"+value);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
     public void trackEvent(DBHelper helper,String EVENT_TYPE,String EVENT_PLACE){
         try {
