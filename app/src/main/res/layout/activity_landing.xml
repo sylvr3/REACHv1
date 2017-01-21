@@ -118,16 +118,33 @@
                     android:focusableInTouchMode="false"
                     android:visibility="gone" />
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/safeGlow"
+                    android:layout_alignTop="@+id/safeBtn"
+                    android:layout_alignBottom="@+id/safeBtn"
+                    android:layout_alignRight="@+id/safeBtn"
+                    android:layout_alignLeft="@+id/safeBtn"
+                    android:layout_marginLeft="-32dp"
+                    android:layout_marginTop="-32dp"
+                    android:layout_marginRight="-32dp"
+                    android:layout_marginBottom="-32dp"
+                    android:background="@drawable/btn_glow"
+                    android:focusableInTouchMode="false"
+                    android:visibility="gone" />
+
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/ddBtn"
                     android:background="@drawable/dd_selector"
-                    android:layout_alignParentStart="false"
-                    android:layout_marginLeft="60dp"
-                    android:layout_marginTop="100dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="15dp" />
+                    android:layout_alignParentEnd="false"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_toLeftOf="@+id/relaxBtn"
+                    android:layout_marginTop="-20dp"
+                    android:layout_alignTop="@+id/relaxBtn" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
@@ -156,11 +173,22 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/relaxBtn"
                     android:background="@drawable/relax_selector"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginRight="60dp"
-                    android:layout_marginTop="100dp"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="15dp" />
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="55dp" />
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/safeBtn"
+                    android:background="@drawable/safe_selector"
+                    android:layout_toRightOf="@+id/relaxBtn"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="35dp"
+                    android:layout_alignTop="@+id/relaxBtn"
+                    android:layout_marginTop="-30dp" />
 
                 <ImageButton
                     android:layout_width="wrap_content"

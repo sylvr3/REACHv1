@@ -43,6 +43,7 @@ public class DialogBuilder extends DialogFragment{
         stopActivity = null;
         ddActivity = null;
         whActivity = null;
+        safeActivity = null;        //Safe
         pin = p;
         return frag;
     }
@@ -57,6 +58,7 @@ public class DialogBuilder extends DialogFragment{
         landingActivity = null;
         ddActivity = null;
         whActivity = null;
+        safeActivity = null;        //Safe
         end = e;
         return frag;
     }
@@ -71,6 +73,7 @@ public class DialogBuilder extends DialogFragment{
         stopActivity = null;
         landingActivity = null;
         whActivity = null;
+        safeActivity = null;        //Safe
         end = e;
         date = d;
         return frag;
@@ -86,6 +89,7 @@ public class DialogBuilder extends DialogFragment{
         stopActivity = null;
         ddActivity = null;
         whActivity = null;
+        safeActivity = null;        //Safe
         pin = p;
         return frag;
     }
@@ -99,6 +103,7 @@ public class DialogBuilder extends DialogFragment{
         landingActivity = null;
         stopActivity = null;
         ddActivity = null;
+        safeActivity = null;        //Safe
         return frag;
     }
 
@@ -200,6 +205,15 @@ public class DialogBuilder extends DialogFragment{
                     .setMessage("Are you sure you want to Leave?")
                     .setPositiveButton("Yes", whActivity)
                     .setNegativeButton("Cancel", whActivity)
+                    .create();
+        }
+        if(safeActivity != null){
+            return new AlertDialog.Builder(getActivity())
+                    .setIcon(R.drawable.ic_launcher)
+                    .setTitle(title)
+                    .setMessage("Are you sure you want to Leave?")
+                    .setPositiveButton("Yes", safeActivity)
+                    .setNegativeButton("Cancel", safeActivity)
                     .create();
         }
         return null;
