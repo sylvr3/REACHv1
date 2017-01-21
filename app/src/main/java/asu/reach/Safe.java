@@ -135,7 +135,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         try {
             Calendar ca = Calendar.getInstance();
             ca.set(ca.get(Calendar.YEAR), ca.get(Calendar.MONTH),ca.get(Calendar.DAY_OF_MONTH),0,0,0);
-            
+
             Cursor c = db.rawQuery("SELECT S FROM WORRYHEADS_COMPLETION where TIMESTAMP < "
                     + ca.getTimeInMillis()
                     + " AND S not in (SELECT S FROM WORRYHEADS_COMPLETION where TIMESTAMP > "

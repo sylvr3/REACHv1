@@ -22,6 +22,7 @@ public class DialogBuilder extends DialogFragment{
     private static STOP stopActivity;
     private static DailyDiary ddActivity;
     private static WorryHeads whActivity;
+    private static Safe safeActivity;
     private static boolean end,date;
 
     public static DialogBuilder newInstance(String title) {
@@ -95,6 +96,21 @@ public class DialogBuilder extends DialogFragment{
         frag.setArguments(args);
         whActivity = a;
         sticActivity = null;
+        landingActivity = null;
+        stopActivity = null;
+        ddActivity = null;
+        return frag;
+    }
+
+    //Safe
+    public static DialogBuilder newInstance(String title, Safe a) {
+        DialogBuilder frag = new DialogBuilder();
+        Bundle args = new Bundle();
+        args.putString("title", title);
+        frag.setArguments(args);
+        safeActivity = a;
+        sticActivity = null;
+        whActivity = null;
         landingActivity = null;
         stopActivity = null;
         ddActivity = null;
