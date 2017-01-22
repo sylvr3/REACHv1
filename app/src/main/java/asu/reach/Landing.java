@@ -30,8 +30,8 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
 
     private SQLiteDatabase db;
     private RelativeLayout topLeftLayout, topRightLayout, bottomLeftLayout, bottomRightLayout;
-    private ImageButton dd,stic,stop,relax,wh;
-    private ImageView blob,stopGlow,sticGlow,whGlow,ddGlow,relaxGlow;
+    private ImageButton dd,stic,stop,relax,wh,safe;
+    private ImageView blob,stopGlow,sticGlow,whGlow,ddGlow,relaxGlow, safeGlow;
     private ViewSwitcher viewSwitcher;
     private GestureDetector gestureDetector;
     private EditText pin;
@@ -81,6 +81,7 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         stop = (ImageButton)findViewById(R.id.stopBtn);
         wh = (ImageButton)findViewById(R.id.whBtn);
         relax = (ImageButton)findViewById(R.id.relaxBtn);
+        safe = (ImageButton)findViewById(R.id.safeBtn);         //safe
         blob = (ImageView)findViewById(R.id.whiteBGView);
         topLeftLayout = (RelativeLayout)findViewById(R.id.topLeft);
         topRightLayout = (RelativeLayout)findViewById(R.id.topRight);
@@ -91,6 +92,7 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         whGlow = (ImageView)findViewById(R.id.whGlow);
         ddGlow = (ImageView)findViewById(R.id.ddGlow);
         relaxGlow = (ImageView)findViewById(R.id.relaxGlow);
+        safeGlow = (ImageView)findViewById(R.id.safeGlow);      //safe
         viewSwitcher = (ViewSwitcher)findViewById(R.id.viewSwitcher);
         topLeft = false;
         topRight = false;
@@ -103,6 +105,7 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         stop.setOnClickListener(this);
         blob.setOnClickListener(this);
         wh.setOnClickListener(this);
+        safe.setOnClickListener(this);  // safe
         topLeftLayout.setOnClickListener(this);
         topRightLayout.setOnClickListener(this);
         bottomLeftLayout.setOnClickListener(this);
@@ -246,6 +249,14 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
             }
             startActivity(intent);
         }
+
+        // Safe
+        if(v.getId() == safe.getId()) {
+            Intent intent = new Intent(this, Safe.class);
+
+            startActivity(intent);
+        }
+
         if(v.getId() == topLeftLayout.getId()){
             topLeft = true;
             time = System.currentTimeMillis();

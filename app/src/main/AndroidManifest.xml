@@ -53,6 +53,10 @@
             android:name=".WorryHeads"
             android:label="@string/title_activity_worry_heads" >
         </activity>
+        <activity
+            android:name=".Safe"
+            android:label="@string/title_activity_safe" >
+        </activity>
         <activity android:name=".Preferences" />
         <activity
             android:name=".DatePreferenceActivity"
