@@ -254,8 +254,8 @@
             android:layout_marginTop="10dp">
 
             <ImageView
-                android:layout_width="150dp"
-                android:layout_height="125dp"
+                android:layout_width="190dp"
+                android:layout_height="140dp"
                 android:id="@+id/recordMsg"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="false"
@@ -264,33 +264,53 @@
                 android:layout_alignParentBottom="false"
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="10dp"
-                android:visibility="gone"/>
+                android:visibility="visible"/>
 
             <ImageView
-                android:layout_width="150dp"
-                android:layout_height="125dp"
+                android:layout_width="390dp"
+                android:layout_height="140dp"
                 android:id="@+id/lookEyesMsg"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentStart="false"
-                android:layout_alignParentLeft="true"
-                android:background="@drawable/safe_msg_look_into_eyes"
-                android:layout_alignParentBottom="false"
-                android:layout_alignParentEnd="true"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/safe_msg_eye_contact"
                 android:layout_marginRight="10dp"
                 android:visibility="gone"/>
 
             <ImageView
-                android:layout_width="150dp"
-                android:layout_height="325dp"
-                android:id="@+id/safeBlob"
+                android:layout_width="300dp"
+                android:layout_height="150dp"
+                android:id="@+id/answer"
                 android:layout_alignParentTop="false"
-                android:layout_alignParentStart="false"
-                android:layout_alignParentLeft="true"
-                android:background="@drawable/blob_open"
-                android:layout_alignParentBottom="false"
-                android:layout_alignParentEnd="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/wh_card"
+                android:layout_alignBottom="@+id/safeBlob"
+                android:layout_marginBottom="-130dp"
+                android:layout_alignParentBottom="false"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/answerTxt"
+                android:layout_alignTop="@+id/answer"
+                android:layout_alignLeft="@+id/answer"
+                android:layout_alignRight="@+id/answer"
+                android:layout_alignBottom="@+id/answer"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="100dp"/>
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:lineSpacingExtra="2dp"
+                android:textSize="13dp" />
+
+            <ImageView
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:id="@+id/safeBlob"
+                android:src="@drawable/safe_blob"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="83dp"
+                android:layout_alignTop="@+id/lookEyesMsg" />
 
         </RelativeLayout>
 

@@ -30,8 +30,8 @@ import java.util.Random;
 public class Safe extends Activity implements View.OnClickListener, DialogInterface.OnClickListener{
     private SQLiteDatabase db;
     private RelativeLayout oLayout,msgLayout;
-    private ImageView sView, tView,o1,o2,o3,o4,title,gjView;
-    private TextView oOne, oTwo, oThree, oFour, message;
+    private ImageView sView, tView,o1,o2,o3,o4,title,gjView, answerImageView;
+    private TextView oOne, oTwo, oThree, oFour, message, answerTextView;
     private ImageButton back, again, done, next;
     private String sText, tText, pText;
     private VideoView gj;
@@ -39,7 +39,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
     //Safe
     private RelativeLayout rLayout;
-    private ImageView safePRMImageView, safeLIEImageView, safeBlob, safeBlobEyes;
+    private ImageView safePRMImageView, safeEyeContactImageView, safeBlob, safeBlobEyes;
     private ImageButton safeRecordImageButton, safeDoneImageButton;
 
     private int wrongO;  // which 0 is incorrect
@@ -83,18 +83,19 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
         rLayout = (RelativeLayout) findViewById(R.id.recordLayout);
         safePRMImageView = (ImageView) findViewById(R.id.recordMsg);
-        safeLIEImageView = (ImageView) findViewById(R.id.lookEyesMsg);
+        safeEyeContactImageView = (ImageView) findViewById(R.id.lookEyesMsg);
         safeRecordImageButton = (ImageButton) findViewById(R.id.recordButton);
         safeDoneImageButton = (ImageButton) findViewById(R.id.recordDone);
         safeBlob = (ImageView)findViewById(R.id.safeBlob);
-
+        answerImageView = (ImageView) findViewById(R.id.answer);
+        answerTextView = (TextView) findViewById(R.id.answerTxt);
 
         safeRecordImageButton.setOnClickListener(this);
         safeDoneImageButton.setOnClickListener(this);
 
         rLayout.setVisibility(View.GONE);
         safePRMImageView.setVisibility(View.GONE);
-        safeLIEImageView.setVisibility(View.GONE);
+        safeEyeContactImageView.setVisibility(View.GONE);
         safeRecordImageButton.setVisibility(View.GONE);
         safeDoneImageButton.setVisibility(View.GONE);
         safeBlob.setVisibility(View.GONE);
@@ -120,6 +121,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         oThree.setTypeface(t);
         oFour.setTypeface(t);
         message.setTypeface(t);
+        answerTextView.setTypeface(t);
 
         DBHelper helper = new DBHelper(this);
         //helper.copyDataBase();
@@ -268,7 +270,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                     oOne.setActivated(true);
                     o1.setActivated(true);
                 }else{
-
                     oLayout.setVisibility(View.GONE);
                     message.setText("Praise Yourself:\n\n" + pText);
 //                    complete(oOne.getText().toString());
@@ -283,7 +284,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                     oTwo.setActivated(true);
                     o2.setActivated(true);
                 }else{
-
                     oLayout.setVisibility(View.GONE);
                     message.setText("Praise Yourself:\n\n" + pText);
 //                    complete(oTwo.getText().toString());
@@ -298,7 +298,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                     oThree.setActivated(true);
                     o3.setActivated(true);
                 }else{
-
                     oLayout.setVisibility(View.GONE);
                     message.setText("Praise Yourself:\n\n" + pText);
 //                    complete(oThree.getText().toString());
@@ -313,7 +312,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                     oFour.setActivated(true);
                     o4.setActivated(true);
                 }else{
-
                     oLayout.setVisibility(View.GONE);
                     message.setText("Praise Yourself:\n\n" + pText);
 //                    complete(oFour.getText().toString());
@@ -390,13 +388,15 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             safeBlob.setImageResource(id);
 
             safePRMImageView.setVisibility(View.GONE);
-            safeLIEImageView.setVisibility(View.VISIBLE);
+            safeEyeContactImageView.setVisibility(View.VISIBLE);
             safeRecordImageButton.setVisibility(View.GONE);
             safeDoneImageButton.setVisibility(View.VISIBLE);
+            answerTextView.setVisibility(View.VISIBLE);
+            answerImageView.setVisibility(View.VISIBLE);
         }
 
         if(v.getId() == safeDoneImageButton.getId()){
-            safeLIEImageView.setVisibility(View.GONE);
+            safeEyeContactImageView.setVisibility(View.GONE);
             safeDoneImageButton.setVisibility(View.GONE);
             again.setVisibility(View.VISIBLE);
             done.setVisibility(View.VISIBLE);
@@ -425,11 +425,14 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
         rLayout.setVisibility(View.VISIBLE);
         safePRMImageView.setVisibility(View.VISIBLE);
-        safeLIEImageView.setVisibility(View.GONE);
+        safeEyeContactImageView.setVisibility(View.GONE);
         safeBlob.setVisibility(View.VISIBLE);
         int id = getResources().getIdentifier("safe_blob", "drawable", getPackageName());
         safeBlob.setImageResource(id);
         safeRecordImageButton.setVisibility(View.VISIBLE);
+        answerTextView.setText(msg);
+        answerTextView.setVisibility(View.GONE);
+        answerImageView.setVisibility(View.GONE);
     }
 
     private void complete(String msg){
