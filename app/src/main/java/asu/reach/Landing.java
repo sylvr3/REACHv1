@@ -250,9 +250,9 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
             startActivity(intent);
         }
 
-        // Safe
+        // SAFE
         if(v.getId() == safe.getId()) {
-            Intent intent = new Intent(this, Safe.class);
+            Intent intent = new Intent(this, SAFE.class);
 
             startActivity(intent);
         }

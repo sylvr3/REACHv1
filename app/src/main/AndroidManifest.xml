@@ -54,7 +54,7 @@
             android:label="@string/title_activity_worry_heads" >
         </activity>
         <activity
-            android:name=".Safe"
+            android:name=".SAFE"
             android:label="@string/title_activity_safe" >
         </activity>
         <activity android:name=".Preferences" />

@@ -239,23 +239,24 @@ public class NotifyService extends Service {
 
         DBHelper helper = new DBHelper(getApplicationContext());
         db = helper.getDB();
-        Cursor c = db.rawQuery("select RELAXATION from USER_ACTIVITY_TRACK where DAY=" + currentDayofProtocol, null);
+        Cursor c = db.rawQuery("select SAFE from USER_ACTIVITY_TRACK where DAY=" + currentDayofProtocol, null);
         c.moveToFirst();
         if (c.getInt(0) == 0) {
-            Log.i("SAFE Notif Status","ABOUT TO BE FIRED");
+            Log.i("SAFE Notif Status", "ABOUT TO BE FIRED");
             if (systemTime == currTime) {
-                String message="Practice Safe to help Bob the Blob learn new tricks to show you later";
-                fireNotifications(message,Safe.class);
+                String message = "Practice SAFE to help Bob the Blob learn new tricks to show you later";
+                fireNotifications(message, SAFE.class);
                 c.close();
                 db.close();
                 helper.close();
                 return true;
             }
-       // }
-      //  c.close();
-      //  db.close();
-      //  helper.close();
-    }
+             }
+              c.close();
+              db.close();
+              helper.close();
+              return false;
+        }
 
 
 

@@ -22,7 +22,7 @@ public class DialogBuilder extends DialogFragment{
     private static STOP stopActivity;
     private static DailyDiary ddActivity;
     private static WorryHeads whActivity;
-    private static Safe safeActivity;
+    private static SAFE safeActivity;
     private static boolean end,date;
 
     public static DialogBuilder newInstance(String title) {
@@ -43,7 +43,7 @@ public class DialogBuilder extends DialogFragment{
         stopActivity = null;
         ddActivity = null;
         whActivity = null;
-        safeActivity = null;        //Safe
+        safeActivity = null;        //SAFE
         pin = p;
         return frag;
     }
@@ -58,7 +58,7 @@ public class DialogBuilder extends DialogFragment{
         landingActivity = null;
         ddActivity = null;
         whActivity = null;
-        safeActivity = null;        //Safe
+        safeActivity = null;        //SAFE
         end = e;
         return frag;
     }
@@ -73,7 +73,7 @@ public class DialogBuilder extends DialogFragment{
         stopActivity = null;
         landingActivity = null;
         whActivity = null;
-        safeActivity = null;        //Safe
+        safeActivity = null;        //SAFE
         end = e;
         date = d;
         return frag;
@@ -89,7 +89,7 @@ public class DialogBuilder extends DialogFragment{
         stopActivity = null;
         ddActivity = null;
         whActivity = null;
-        safeActivity = null;        //Safe
+        safeActivity = null;        //SAFE
         pin = p;
         return frag;
     }
@@ -103,12 +103,12 @@ public class DialogBuilder extends DialogFragment{
         landingActivity = null;
         stopActivity = null;
         ddActivity = null;
-        safeActivity = null;        //Safe
+        safeActivity = null;        //SAFE
         return frag;
     }
 
-    //Safe
-    public static DialogBuilder newInstance(String title, Safe a) {
+    //SAFE
+    public static DialogBuilder newInstance(String title, SAFE a) {
         DialogBuilder frag = new DialogBuilder();
         Bundle args = new Bundle();
         args.putString("title", title);
