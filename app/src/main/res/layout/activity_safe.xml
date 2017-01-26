@@ -405,7 +405,14 @@
                 android:layout_toRightOf="@+id/whBackBtn"
                 android:layout_alignBottom="@+id/whBackBtn"
                 android:visibility="gone" />
-        </LinearLayout>
+
+            <asu.reach.CustomGifView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/blob_blink"
+                />
+
+    </LinearLayout>
     </RelativeLayout>
 
 </RelativeLayout>

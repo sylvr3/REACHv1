@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,6 +24,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Random;
 
@@ -99,7 +102,9 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         safeRecordImageButton.setVisibility(View.GONE);
         safeDoneImageButton.setVisibility(View.GONE);
         safeBlob.setVisibility(View.GONE);
-
+       // WebView wView = new WebView(this);
+      //  wView.loadUrl("assets/blob_blink.gif");
+      //  setContentView(wView);
 
         sView.setOnClickListener(this);
         tView.setOnClickListener(this);
@@ -384,7 +389,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         if(v.getId() == safeRecordImageButton.getId()){
             safeRecordImageButton.setVisibility(View.GONE);
 
-            int id = getResources().getIdentifier("safe_blob_eyes", "drawable", getPackageName());
+            int id = getResources().getIdentifier("blob_blink", "drawable", getPackageName());
             safeBlob.setImageResource(id);
 
             safePRMImageView.setVisibility(View.GONE);
