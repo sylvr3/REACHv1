@@ -49,6 +49,9 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
     private boolean intro = true;  // intro is showing
     private int currentDay;
 
+    //Safe
+    private boolean onRecord = false; // Record screens are showing
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -321,7 +324,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         }
         if (v.getId() == back.getId()){
             if(!choice) {
-                if (s) {
+                if (s || onRecord) {
                     FragmentManager fm = getFragmentManager();
                     DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this);
                     dialog.show(fm, "frag");
@@ -366,6 +369,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                 message.setText("Thoughts:\n\n"+tText);
                 s = false;
                 back.setBackgroundResource(R.drawable.back_selector);
+
                 sView.setBackgroundResource(R.drawable.s_white);
                 tView.setBackgroundResource(R.drawable.t_yellow);
             }else{
@@ -433,6 +437,10 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         answerTextView.setText(msg);
         answerTextView.setVisibility(View.GONE);
         answerImageView.setVisibility(View.GONE);
+
+        back.setBackgroundResource(R.drawable.home_selector);
+        back.setVisibility(View.VISIBLE);
+        onRecord = true;
     }
 
     private void complete(String msg){
@@ -446,6 +454,8 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                 gjView.setVisibility(View.VISIBLE);
                 complete.setVisibility(View.VISIBLE);
                 title.setVisibility(View.GONE);
+                back.setBackgroundResource(R.drawable.back_selector);
+                onRecord = false;
                 back.setVisibility(View.GONE);
                 next.setVisibility(View.GONE);
                 sView.setVisibility(View.GONE);

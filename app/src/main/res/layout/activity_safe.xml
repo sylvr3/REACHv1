@@ -350,12 +350,12 @@
             android:weightSum="1">
 
             <ImageButton
-                android:layout_width="74dp"
-                android:layout_height="56dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:id="@+id/recordButton"
                 android:layout_alignParentBottom="false"
                 android:layout_alignParentStart="false"
-                android:background="@drawable/safe_record_button"
+                android:background="@drawable/safe_record"
                 android:layout_toLeftOf="@+id/whBackBtn"
                 android:layout_alignBottom="@+id/whBackBtn"
                 android:visibility="gone"
