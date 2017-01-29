@@ -16,7 +16,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,8 +23,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Random;
 
@@ -42,7 +39,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
     //Safe
     private RelativeLayout rLayout;
-    private ImageView safePRMImageView, safeEyeContactImageView, safeBlob, safeBlobEyes;
+    private ImageView safePRMImageView, safeEyeContactImageView;
     private ImageButton safeRecordImageButton, safeDoneImageButton;
 
     private int wrongO;  // which 0 is incorrect
@@ -51,6 +48,9 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
     private boolean s = true;    //  S is currently showing
     private boolean intro = true;  // intro is showing
     private int currentDay;
+
+    //Safe
+    private boolean onRecord = false; // Record screens are showing
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +89,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         safeEyeContactImageView = (ImageView) findViewById(R.id.lookEyesMsg);
         safeRecordImageButton = (ImageButton) findViewById(R.id.recordButton);
         safeDoneImageButton = (ImageButton) findViewById(R.id.recordDone);
-        safeBlob = (ImageView)findViewById(R.id.safeBlob);
         answerImageView = (ImageView) findViewById(R.id.answer);
         answerTextView = (TextView) findViewById(R.id.answerTxt);
 
@@ -101,10 +100,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         safeEyeContactImageView.setVisibility(View.GONE);
         safeRecordImageButton.setVisibility(View.GONE);
         safeDoneImageButton.setVisibility(View.GONE);
-        safeBlob.setVisibility(View.GONE);
-       // WebView wView = new WebView(this);
-      //  wView.loadUrl("assets/blob_blink.gif");
-      //  setContentView(wView);
 
         sView.setOnClickListener(this);
         tView.setOnClickListener(this);
@@ -326,7 +321,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         }
         if (v.getId() == back.getId()){
             if(!choice) {
-                if (s) {
+                if (s || onRecord) {
                     FragmentManager fm = getFragmentManager();
                     DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this);
                     dialog.show(fm, "frag");
@@ -371,6 +366,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                 message.setText("Thoughts:\n\n"+tText);
                 s = false;
                 back.setBackgroundResource(R.drawable.back_selector);
+
                 sView.setBackgroundResource(R.drawable.s_white);
                 tView.setBackgroundResource(R.drawable.t_yellow);
             }else{
@@ -389,15 +385,20 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         if(v.getId() == safeRecordImageButton.getId()){
             safeRecordImageButton.setVisibility(View.GONE);
 
-            int id = getResources().getIdentifier("blob_blink", "drawable", getPackageName());
-            safeBlob.setImageResource(id);
 
-            safePRMImageView.setVisibility(View.GONE);
-            safeEyeContactImageView.setVisibility(View.VISIBLE);
-            safeRecordImageButton.setVisibility(View.GONE);
-            safeDoneImageButton.setVisibility(View.VISIBLE);
-            answerTextView.setVisibility(View.VISIBLE);
-            answerImageView.setVisibility(View.VISIBLE);
+            gj.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.blob_blinking));
+            gj.start();
+            gj.setVisibility(View.VISIBLE);
+            gj.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                                         @Override
+                                         public void onPrepared(MediaPlayer mp) {
+                                             mp.setLooping(true);
+                                             safePRMImageView.setVisibility(View.GONE);
+                                             safeEyeContactImageView.setVisibility(View.VISIBLE);
+                                             safeRecordImageButton.setVisibility(View.GONE);
+                                             safeDoneImageButton.setVisibility(View.VISIBLE);
+                                         }
+                                     });
         }
 
         if(v.getId() == safeDoneImageButton.getId()){
@@ -431,13 +432,17 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         rLayout.setVisibility(View.VISIBLE);
         safePRMImageView.setVisibility(View.VISIBLE);
         safeEyeContactImageView.setVisibility(View.GONE);
-        safeBlob.setVisibility(View.VISIBLE);
-        int id = getResources().getIdentifier("safe_blob", "drawable", getPackageName());
-        safeBlob.setImageResource(id);
+
+
+
         safeRecordImageButton.setVisibility(View.VISIBLE);
         answerTextView.setText(msg);
         answerTextView.setVisibility(View.GONE);
         answerImageView.setVisibility(View.GONE);
+
+        back.setBackgroundResource(R.drawable.home_selector);
+        back.setVisibility(View.VISIBLE);
+        onRecord = true;
     }
 
     private void complete(String msg){
@@ -451,6 +456,8 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                 gjView.setVisibility(View.VISIBLE);
                 complete.setVisibility(View.VISIBLE);
                 title.setVisibility(View.GONE);
+                back.setBackgroundResource(R.drawable.back_selector);
+                onRecord = false;
                 back.setVisibility(View.GONE);
                 next.setVisibility(View.GONE);
                 sView.setVisibility(View.GONE);

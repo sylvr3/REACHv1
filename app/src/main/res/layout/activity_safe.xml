@@ -282,8 +282,7 @@
                 android:id="@+id/answer"
                 android:layout_alignParentTop="false"
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/wh_card"
-                android:layout_alignBottom="@+id/safeBlob"
+                android:layout_alignBottom="@+id/lookEyesMsg"
                 android:layout_marginBottom="-130dp"
                 android:layout_alignParentBottom="false"/>
 
@@ -302,15 +301,6 @@
                 android:gravity="center"
                 android:lineSpacingExtra="2dp"
                 android:textSize="13dp" />
-
-            <ImageView
-                android:layout_width="300dp"
-                android:layout_height="300dp"
-                android:id="@+id/safeBlob"
-                android:src="@drawable/safe_blob"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="83dp"
-                android:layout_alignTop="@+id/lookEyesMsg" />
 
         </RelativeLayout>
 
@@ -350,12 +340,12 @@
             android:weightSum="1">
 
             <ImageButton
-                android:layout_width="74dp"
-                android:layout_height="56dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:id="@+id/recordButton"
                 android:layout_alignParentBottom="false"
                 android:layout_alignParentStart="false"
-                android:background="@drawable/safe_record_button"
+                android:background="@drawable/safe_record"
                 android:layout_toLeftOf="@+id/whBackBtn"
                 android:layout_alignBottom="@+id/whBackBtn"
                 android:visibility="gone"
@@ -405,14 +395,7 @@
                 android:layout_toRightOf="@+id/whBackBtn"
                 android:layout_alignBottom="@+id/whBackBtn"
                 android:visibility="gone" />
-
-            <asu.reach.CustomGifView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/blob_blink"
-                />
-
-    </LinearLayout>
+        </LinearLayout>
     </RelativeLayout>
 
 </RelativeLayout>
