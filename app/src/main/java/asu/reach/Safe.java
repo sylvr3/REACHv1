@@ -287,10 +287,12 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                     oTwo.setActivated(true);
                     o2.setActivated(true);
                 }else{
-                    oLayout.setVisibility(View.GONE);
-                    message.setText("Praise Yourself:\n\n" + pText);
-//                    complete(oTwo.getText().toString());
-                    speakAnswer(oTwo.getText().toString());
+//                    oLayout.setVisibility(View.GONE);
+//                    message.setText("Praise Yourself:\n\n" + pText);
+////                    complete(oTwo.getText().toString());
+//                    speakAnswer(oTwo.getText().toString());
+                    Intent intent = new Intent(this,SafeFaceDetectionActivity.class);
+                    startActivity(intent);
                 }
             }
         }
