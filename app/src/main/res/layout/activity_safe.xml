@@ -279,7 +279,7 @@
                 android:layout_width="300dp"
                 android:layout_height="300dp"
                 android:id="@+id/safeBlob"
-                android:src="@drawable/safe_blob"
+                android:background="@drawable/safe_blob"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="83dp"
                 android:layout_alignTop="@+id/lookEyesMsg" />
