@@ -245,7 +245,7 @@ public class NotifyService extends Service {
             Log.i("SAFE Notif Status", "ABOUT TO BE FIRED");
             if (systemTime == currTime) {
                 String message = "Practice SAFE to help Bob the Blob learn new tricks to show you later";
-                fireNotifications(message, SAFE.class);
+                fireNotifications(message, Safe.class);
                 c.close();
                 db.close();
                 helper.close();

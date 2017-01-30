@@ -9,6 +9,7 @@ import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
+import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,19 +31,19 @@ import java.util.Calendar;
 import java.util.Random;
 
 
-public class SAFE extends Activity implements View.OnClickListener, DialogInterface.OnClickListener{
+public class Safe extends Activity implements View.OnClickListener, DialogInterface.OnClickListener{
     private SQLiteDatabase db;
     private RelativeLayout oLayout,msgLayout;
-    private ImageView sView, tView, o1,o2,o3,title,gjView,safeEyeContactImageView;
-    private TextView oOne, oTwo, oThree, message;
+    private ImageView sView, tView,o1,o2,o3,title,gjView, answerImageView;
+    private TextView oOne, oTwo, oThree, message, answerTextView;
     private ImageButton back, again, done, next;
     private String sText;
     private VideoView gj;
     private LinearLayout complete;
 
-    //SAFE
+    //Safe
     private RelativeLayout rLayout;
-    private ImageView safePRMImageView, safeBlob;
+    private ImageView safePRMImageView, safeEyeContactImageView, safeBlob, safeBlobEyes;
     private ImageButton safeRecordImageButton, safeDoneImageButton;
 
     private int wrongO;  // which 0 is incorrect
@@ -51,6 +52,9 @@ public class SAFE extends Activity implements View.OnClickListener, DialogInterf
     private boolean s = true;    //  S is currently showing
     private boolean intro = true;  // intro is showing
     private int currentDay;
+
+    //Safe
+    private boolean onRecord = false; // Record screens are showing
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -383,19 +387,10 @@ public class SAFE extends Activity implements View.OnClickListener, DialogInterf
         if(v.getId() == safeRecordImageButton.getId()){
             safeRecordImageButton.setVisibility(View.GONE);
 
-            gj.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.stars));
-            gj.start();
-            gj.setVisibility(View.VISIBLE);
-            gj.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    mp.setLooping(true);
-                    gjView.setVisibility(View.VISIBLE);
-                    safePRMImageView.setVisibility(View.GONE);
-                    safeRecordImageButton.setVisibility(View.GONE);
-                    safeDoneImageButton.setVisibility(View.VISIBLE);
-                }
-            });
+//            int id = getResources().getIdentifier("safe_blob_eye_contact", "drawable", getPackageName());
+            safeBlob.setBackgroundResource(R.drawable.safe_blob_eye_contact);
+            AnimationDrawable anim1 = (AnimationDrawable) safeBlob.getBackground();
+            anim1.start();
 
         }
 
@@ -436,13 +431,18 @@ public class SAFE extends Activity implements View.OnClickListener, DialogInterf
         safePRMImageView.setVisibility(View.VISIBLE);
         safeEyeContactImageView.setVisibility(View.GONE);
         safeBlob.setVisibility(View.VISIBLE);
-        //int id = getResources().getIdentifier("safe_blob", "drawable", getPackageName());
-       // safeBlob.setImageResource(id);
+//        int id = getResources().getIdentifier("safe_blob", "drawable", getPackageName());
+        safeBlob.setBackgroundResource(R.drawable.safe_blob);
 
         safeRecordImageButton.setVisibility(View.VISIBLE);
-        //answerTextView.setText(msg);
-       // answerTextView.setVisibility(View.GONE);
-      //  answerImageView.setVisibility(View.GONE);
+        answerTextView.setText(msg);
+        answerTextView.setVisibility(View.GONE);
+        answerImageView.setVisibility(View.GONE);
+
+
+        back.setBackgroundResource(R.drawable.home_selector);
+        back.setVisibility(View.VISIBLE);
+        onRecord = true;
     }
 
     private void complete(String msg){
