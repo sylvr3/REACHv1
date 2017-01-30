@@ -9,6 +9,7 @@ import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
+import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -388,8 +389,10 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         if(v.getId() == safeRecordImageButton.getId()){
             safeRecordImageButton.setVisibility(View.GONE);
 
-            int id = getResources().getIdentifier("safe_blob_eyes", "drawable", getPackageName());
-            safeBlob.setImageResource(id);
+//            int id = getResources().getIdentifier("safe_blob_eye_contact", "drawable", getPackageName());
+            safeBlob.setBackgroundResource(R.drawable.safe_blob_eye_contact);
+            AnimationDrawable anim1 = (AnimationDrawable) safeBlob.getBackground();
+            anim1.start();
 
             safePRMImageView.setVisibility(View.GONE);
             safeEyeContactImageView.setVisibility(View.VISIBLE);
@@ -431,8 +434,9 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         safePRMImageView.setVisibility(View.VISIBLE);
         safeEyeContactImageView.setVisibility(View.GONE);
         safeBlob.setVisibility(View.VISIBLE);
-        int id = getResources().getIdentifier("safe_blob", "drawable", getPackageName());
-        safeBlob.setImageResource(id);
+//        int id = getResources().getIdentifier("safe_blob", "drawable", getPackageName());
+        safeBlob.setBackgroundResource(R.drawable.safe_blob);
+
         safeRecordImageButton.setVisibility(View.VISIBLE);
         answerTextView.setText(msg);
         answerTextView.setVisibility(View.GONE);
