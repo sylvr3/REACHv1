@@ -92,6 +92,8 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         safeRecordImageButton = (ImageButton) findViewById(R.id.recordButton);
         safeDoneImageButton = (ImageButton) findViewById(R.id.recordDone);
         safeBlob = (ImageView)findViewById(R.id.safeBlob);
+        answerImageView = (ImageView) findViewById(R.id.answer);
+        answerTextView = (TextView) findViewById(R.id.answerTxt);
 
         safeRecordImageButton.setOnClickListener(this);
         safeDoneImageButton.setOnClickListener(this);
@@ -122,6 +124,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         oTwo.setTypeface(t);
         oThree.setTypeface(t);
         message.setTypeface(t);
+        answerTextView.setTypeface(t);
 
         DBHelper helper = new DBHelper(this);
         //helper.copyDataBase();
@@ -278,7 +281,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                         e.printStackTrace();
                     }
                     oLayout.setVisibility(View.GONE);
-                    complete(oOne.getText().toString());
+                  //  complete(oOne.getText().toString());
                     speakAnswer(oOne.getText().toString());
                 }
             }
@@ -297,7 +300,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                         e.printStackTrace();
                     }
                     oLayout.setVisibility(View.GONE);
-                    complete(oTwo.getText().toString());
+                   // complete(oTwo.getText().toString());
                     speakAnswer(oTwo.getText().toString());
                 }
             }
@@ -316,7 +319,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                         e.printStackTrace();
                     }
                     oLayout.setVisibility(View.GONE);
-                    complete(oThree.getText().toString());
+                  //  complete(oThree.getText().toString());
                     speakAnswer(oThree.getText().toString());
                 }
             }
@@ -392,6 +395,13 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             AnimationDrawable anim1 = (AnimationDrawable) safeBlob.getBackground();
             anim1.start();
 
+            safePRMImageView.setVisibility(View.GONE);
+            safeEyeContactImageView.setVisibility(View.VISIBLE);
+            safeRecordImageButton.setVisibility(View.GONE);
+            safeDoneImageButton.setVisibility(View.VISIBLE);
+            answerTextView.setVisibility(View.VISIBLE);
+            answerImageView.setVisibility(View.VISIBLE);
+
         }
 
         if(v.getId() == safeDoneImageButton.getId()){
@@ -446,17 +456,18 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
     }
 
     private void complete(String msg){
-        gj.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.blob_blinking));
+        gj.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.stars));
         gj.start();
         gj.setVisibility(View.VISIBLE);
         gj.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 mp.setLooping(true);
-                gjView.setVisibility(View.GONE);
-                safePRMImageView.setVisibility(View.VISIBLE);
+                gjView.setVisibility(View.VISIBLE);
                 complete.setVisibility(View.VISIBLE);
                 title.setVisibility(View.GONE);
+                back.setBackgroundResource(R.drawable.back_selector);
+                onRecord = false;
                 back.setVisibility(View.GONE);
                 next.setVisibility(View.GONE);
                 sView.setVisibility(View.GONE);
@@ -466,6 +477,8 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                 rLayout.setVisibility(View.GONE);
             }
         });
+
+
 
         ContentValues c = new ContentValues();
         c.put("TIMESTAMP", System.currentTimeMillis());
