@@ -12,6 +12,7 @@ import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,25 +22,27 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.Random;
 
 
-public class Safe extends Activity implements View.OnClickListener, DialogInterface.OnClickListener{
+public class SAFE extends Activity implements View.OnClickListener, DialogInterface.OnClickListener{
     private SQLiteDatabase db;
     private RelativeLayout oLayout,msgLayout;
-    private ImageView sView, tView,o1,o2,o3,o4,title,gjView, answerImageView;
-    private TextView oOne, oTwo, oThree, oFour, message, answerTextView;
+    private ImageView sView, tView, o1,o2,o3,title,gjView,safeEyeContactImageView;
+    private TextView oOne, oTwo, oThree, message;
     private ImageButton back, again, done, next;
-    private String sText, tText, pText;
+    private String sText;
     private VideoView gj;
     private LinearLayout complete;
 
-    //Safe
+    //SAFE
     private RelativeLayout rLayout;
-    private ImageView safePRMImageView, safeEyeContactImageView, safeBlob, safeBlobEyes;
+    private ImageView safePRMImageView, safeBlob;
     private ImageButton safeRecordImageButton, safeDoneImageButton;
 
     private int wrongO;  // which 0 is incorrect
@@ -49,9 +52,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
     private boolean intro = true;  // intro is showing
     private int currentDay;
 
-    //Safe
-    private boolean onRecord = false; // Record screens are showing
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,18 +59,16 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_safe);
 
-        oLayout = (RelativeLayout)findViewById(R.id.oLayout);
+        oLayout = (RelativeLayout)findViewById(R.id.fLayout);
         msgLayout = (RelativeLayout)findViewById(R.id.msgLayout);
         sView = (ImageView)findViewById(R.id.sView);
         tView = (ImageView)findViewById(R.id.tView);
-        o1 = (ImageView)findViewById(R.id.oOne);
-        o2 = (ImageView)findViewById(R.id.oTwo);
-        o3 = (ImageView)findViewById(R.id.oThree);
-        o4 = (ImageView)findViewById(R.id.oFour);
-        oOne = (TextView)findViewById(R.id.oOneTxt);
-        oTwo = (TextView)findViewById(R.id.oTwoTxt);
-        oThree = (TextView)findViewById(R.id.oThreeTxt);
-        oFour = (TextView)findViewById(R.id.oFourTxt);
+        o1 = (ImageView)findViewById(R.id.fOne);
+        o2 = (ImageView)findViewById(R.id.fTwo);
+        o3 = (ImageView)findViewById(R.id.fThree);
+        oOne = (TextView)findViewById(R.id.fOneTxt);
+        oTwo = (TextView)findViewById(R.id.fTwoTxt);
+        oThree = (TextView)findViewById(R.id.fThreeTxt);
         message = (TextView)findViewById(R.id.message);
         back = (ImageButton)findViewById(R.id.whBackBtn);
         again = (ImageButton)findViewById(R.id.againBtn);
@@ -82,7 +80,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         gjView = (ImageView)findViewById(R.id.gjView);
 
 
-        //Safe
+        //SAFE
 
         rLayout = (RelativeLayout) findViewById(R.id.recordLayout);
         safePRMImageView = (ImageView) findViewById(R.id.recordMsg);
@@ -90,8 +88,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         safeRecordImageButton = (ImageButton) findViewById(R.id.recordButton);
         safeDoneImageButton = (ImageButton) findViewById(R.id.recordDone);
         safeBlob = (ImageView)findViewById(R.id.safeBlob);
-        answerImageView = (ImageView) findViewById(R.id.answer);
-        answerTextView = (TextView) findViewById(R.id.answerTxt);
 
         safeRecordImageButton.setOnClickListener(this);
         safeDoneImageButton.setOnClickListener(this);
@@ -109,7 +105,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         oOne.setOnClickListener(this);
         oTwo.setOnClickListener(this);
         oThree.setOnClickListener(this);
-        oFour.setOnClickListener(this);
         back.setOnClickListener(this);
         again.setOnClickListener(this);
         done.setOnClickListener(this);
@@ -122,9 +117,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         oOne.setTypeface(t);
         oTwo.setTypeface(t);
         oThree.setTypeface(t);
-        oFour.setTypeface(t);
         message.setTypeface(t);
-        answerTextView.setTypeface(t);
 
         DBHelper helper = new DBHelper(this);
         //helper.copyDataBase();
@@ -141,34 +134,34 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             Calendar ca = Calendar.getInstance();
             ca.set(ca.get(Calendar.YEAR), ca.get(Calendar.MONTH),ca.get(Calendar.DAY_OF_MONTH),0,0,0);
 
-            Cursor c = db.rawQuery("SELECT S FROM WORRYHEADS_COMPLETION where TIMESTAMP < "
+            Cursor c = db.rawQuery("SELECT SITUATION FROM SAFE_COMPLETION where TIMESTAMP < "
                     + ca.getTimeInMillis()
-                    + " AND S not in (SELECT S FROM WORRYHEADS_COMPLETION where TIMESTAMP > "
+                    + " AND SITUATION not in (SELECT SITUATION FROM SAFE_COMPLETION where TIMESTAMP > "
                     + ca.getTimeInMillis() + ")", null);
             c.moveToFirst();
             ContentValues v;
             for(int x = 0; x < c.getCount(); x++){
                 v = new ContentValues();
                 v.put("COMPLETED_FLAG", 0);
-                db.update("STOP_WORRYHEADS",v,"S = \"" + c.getString(c.getColumnIndex("S")) + "\"",null);
+                db.update("SAFE",v,"SITUATION = \"" + c.getString(c.getColumnIndex("SITUATION")) + "\"",null);
                 c.moveToNext();
             }
             c.close();
-            c = db.rawQuery("SELECT * from STOP_WORRYHEADS where COMPLETED_FLAG = 0", null);
+            c = db.rawQuery("SELECT * from SAFE where COMPLETED_FLAG = 0", null); // works
             // Random seed
             if(c.getCount() > 0) {
                 Random num = new Random(System.currentTimeMillis());
                 int position = (int) (c.getCount() * num.nextDouble());
                 c.moveToPosition(position);
-                wrongO = (int)(num.nextDouble()*3);
-                sText = c.getString(c.getColumnIndex("S"));
-                tText = c.getString(c.getColumnIndex("T"));
-                pText = c.getString(c.getColumnIndex("P"));
-                String[] o = new String[4];
-                o[0] = c.getString(c.getColumnIndex("O1"));
-                o[1] = c.getString(c.getColumnIndex("O2"));
-                o[2] = c.getString(c.getColumnIndex("O3"));
-                o[3] = c.getString(c.getColumnIndex("O_WRONG"));
+                wrongO = (int)(num.nextDouble()*2);
+                sText = c.getString(c.getColumnIndex("SITUATION"));
+                String[] o = new String[3];
+                o[0] = c.getString(c.getColumnIndex("F1_RIGHT"));
+                o[1] = c.getString(c.getColumnIndex("F2_WRONG"));
+                o[2] = c.getString(c.getColumnIndex("F3_WRONG"));
+                System.out.println(o[0]);
+                System.out.println(o[1]);
+                System.out.println(o[2]);
                 populateO(o);
                 message.setText("Situation:\n\n"+sText);
 
@@ -185,59 +178,52 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
     private void populateO(String[] o){
         switch(wrongO){
             case 0:{
-                oOne.setText(o[3]);
+                oOne.setText(o[2]);
                 oTwo.setText(o[0]);
                 oThree.setText(o[1]);
-                oFour.setText(o[2]);
                 resize();
                 break;
             }
             case 1:{
-                oTwo.setText(o[3]);
+                oTwo.setText(o[2]);
                 oThree.setText(o[0]);
                 oOne.setText(o[1]);
-                oFour.setText(o[2]);
                 resize();
                 break;
             }
             case 2:{
-                oThree.setText(o[3]);
+                oThree.setText(o[2]);
                 oTwo.setText(o[0]);
                 oOne.setText(o[1]);
-                oFour.setText(o[2]);
                 resize();
                 break;
             }
-            case 3:{
-                oFour.setText(o[3]);
-                oTwo.setText(o[0]);
-                oThree.setText(o[1]);
-                oOne.setText(o[2]);
-                resize();
-                break;
-            }
+
         }
     }
 
     private void resize(){
-        if(oOne.getText().length() > 80){
-            oOne.setTextSize(11);
+        if(oOne.getText().length() > 10){
+            oOne.setTextSize(10);
         }
-        if(oTwo.getText().length() > 80){
+        if(oTwo.getText().length() > 10){
             oTwo.setTextSize(11);
         }
-        if(oThree.getText().length() > 80){
+        if(oThree.getText().length() > 10){
             oThree.setTextSize(11);
         }
-        if(oFour.getText().length() > 80){
-            oFour.setTextSize(11);
-        }
+
     }
     @Override
     public void onClick(View v) {
         if (v.getId() == sView.getId()){
             if(!sView.isActivated()) {
-
+                try {
+                    DBHelper helper = new DBHelper(this);
+                    helper.trackEvent(helper, "SAFE_SITUATION_SHOWED", "INSIDE_SAFE_ACTIVITY");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 s = true;
                 intro = true;
                 sView.setBackgroundResource(R.drawable.s_yellow);
@@ -252,7 +238,12 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         }
         if (v.getId() == tView.getId()){
             if(!tView.isActivated()) {
-
+                try {
+                    DBHelper helper = new DBHelper(this);
+                    helper.trackEvent(helper, "SAFE_A_SHOWED", "INSIDE_SAFE_ACTIVITY");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 s = false;
                 intro = true;
                 sView.setBackgroundResource(R.drawable.s_white);
@@ -260,22 +251,30 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                 title.setVisibility(View.GONE);
                 next.setVisibility(View.VISIBLE);
                 oLayout.setVisibility(View.GONE);
-                msgLayout.setVisibility(View.VISIBLE);
                 back.setVisibility(View.VISIBLE);
-                message.setText("Thoughts:\n\n" + tText);
             }
         }
         if (v.getId() == oOne.getId()){
             if(!oOne.isActivated()) {
                 if (wrongO == 0) {
-
+                    try {
+                        DBHelper helper = new DBHelper(this);
+                        helper.trackEvent(helper,"SAFE_F_WRONG","INSIDE_SAFE_ACTIVITY");
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                     wrongSelection();
                     oOne.setActivated(true);
                     o1.setActivated(true);
                 }else{
+                    try {
+                        DBHelper helper = new DBHelper(this);
+                        helper.trackEvent(helper,"SAFE_F_RIGHT","INSIDE_SAFE_ACTIVITY");
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                     oLayout.setVisibility(View.GONE);
-                    message.setText("Praise Yourself:\n\n" + pText);
-//                    complete(oOne.getText().toString());
+                    complete(oOne.getText().toString());
                     speakAnswer(oOne.getText().toString());
                 }
             }
@@ -287,9 +286,14 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                     oTwo.setActivated(true);
                     o2.setActivated(true);
                 }else{
+                    try {
+                        DBHelper helper = new DBHelper(this);
+                        helper.trackEvent(helper,"SAFE_F_RIGHT","INSIDE_SAFE_ACTIVITY");
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                     oLayout.setVisibility(View.GONE);
-                    message.setText("Praise Yourself:\n\n" + pText);
-//                    complete(oTwo.getText().toString());
+                    complete(oTwo.getText().toString());
                     speakAnswer(oTwo.getText().toString());
                 }
             }
@@ -301,30 +305,22 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                     oThree.setActivated(true);
                     o3.setActivated(true);
                 }else{
+                    try {
+                        DBHelper helper = new DBHelper(this);
+                        helper.trackEvent(helper,"SAFE_F_RIGHT","INSIDE_SAFE_ACTIVITY");
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                     oLayout.setVisibility(View.GONE);
-                    message.setText("Praise Yourself:\n\n" + pText);
-//                    complete(oThree.getText().toString());
+                    complete(oThree.getText().toString());
                     speakAnswer(oThree.getText().toString());
                 }
             }
         }
-        if (v.getId() == oFour.getId()){
-            if(!oFour.isActivated()) {
-                if (wrongO == 3) {
-                    wrongSelection();
-                    oFour.setActivated(true);
-                    o4.setActivated(true);
-                }else{
-                    oLayout.setVisibility(View.GONE);
-                    message.setText("Praise Yourself:\n\n" + pText);
-//                    complete(oFour.getText().toString());
-                    speakAnswer(oFour.getText().toString());
-                }
-            }
-        }
+
         if (v.getId() == back.getId()){
             if(!choice) {
-                if (s || onRecord) {
+                if (s) {
                     FragmentManager fm = getFragmentManager();
                     DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this);
                     dialog.show(fm, "frag");
@@ -337,7 +333,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                         tView.setBackgroundResource(R.drawable.t_white);
                     } else {
                         intro = true;
-                        message.setText("Thoughts:\n\n" + tText);
+                        message.setText("Speak Your Mind\n\n");
                         oLayout.setVisibility(View.GONE);
                         msgLayout.setVisibility(View.VISIBLE);
                         next.setVisibility(View.VISIBLE);
@@ -366,10 +362,9 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         if(v.getId() == next.getId()){
 
             if(s){
-                message.setText("Thoughts:\n\n"+tText);
+                message.setText("Speak Your Mind\n\n");
                 s = false;
                 back.setBackgroundResource(R.drawable.back_selector);
-
                 sView.setBackgroundResource(R.drawable.s_white);
                 tView.setBackgroundResource(R.drawable.t_yellow);
             }else{
@@ -384,19 +379,24 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             }
         }
 
-        //Safe
+        //SAFE
         if(v.getId() == safeRecordImageButton.getId()){
             safeRecordImageButton.setVisibility(View.GONE);
 
-            int id = getResources().getIdentifier("safe_blob_eyes", "drawable", getPackageName());
-            safeBlob.setImageResource(id);
+            gj.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.stars));
+            gj.start();
+            gj.setVisibility(View.VISIBLE);
+            gj.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    mp.setLooping(true);
+                    gjView.setVisibility(View.VISIBLE);
+                    safePRMImageView.setVisibility(View.GONE);
+                    safeRecordImageButton.setVisibility(View.GONE);
+                    safeDoneImageButton.setVisibility(View.VISIBLE);
+                }
+            });
 
-            safePRMImageView.setVisibility(View.GONE);
-            safeEyeContactImageView.setVisibility(View.VISIBLE);
-            safeRecordImageButton.setVisibility(View.GONE);
-            safeDoneImageButton.setVisibility(View.VISIBLE);
-            answerTextView.setVisibility(View.VISIBLE);
-            answerImageView.setVisibility(View.VISIBLE);
         }
 
         if(v.getId() == safeDoneImageButton.getId()){
@@ -409,7 +409,12 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
     }
 
     private void wrongSelection(){
-
+        try {
+            DBHelper helper = new DBHelper(this);
+            helper.trackEvent(helper,"SAFE_F_WRONG","INSIDE_SAFE_ACTIVITY");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         oLayout.setVisibility(View.GONE);
         msgLayout.setVisibility(View.VISIBLE);
         back.setVisibility(View.VISIBLE);
@@ -431,31 +436,27 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         safePRMImageView.setVisibility(View.VISIBLE);
         safeEyeContactImageView.setVisibility(View.GONE);
         safeBlob.setVisibility(View.VISIBLE);
-        int id = getResources().getIdentifier("safe_blob", "drawable", getPackageName());
-        safeBlob.setImageResource(id);
-        safeRecordImageButton.setVisibility(View.VISIBLE);
-        answerTextView.setText(msg);
-        answerTextView.setVisibility(View.GONE);
-        answerImageView.setVisibility(View.GONE);
+        //int id = getResources().getIdentifier("safe_blob", "drawable", getPackageName());
+       // safeBlob.setImageResource(id);
 
-        back.setBackgroundResource(R.drawable.home_selector);
-        back.setVisibility(View.VISIBLE);
-        onRecord = true;
+        safeRecordImageButton.setVisibility(View.VISIBLE);
+        //answerTextView.setText(msg);
+       // answerTextView.setVisibility(View.GONE);
+      //  answerImageView.setVisibility(View.GONE);
     }
 
     private void complete(String msg){
-        gj.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.stars));
+        gj.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.blob_blinking));
         gj.start();
         gj.setVisibility(View.VISIBLE);
         gj.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 mp.setLooping(true);
-                gjView.setVisibility(View.VISIBLE);
+                gjView.setVisibility(View.GONE);
+                safePRMImageView.setVisibility(View.VISIBLE);
                 complete.setVisibility(View.VISIBLE);
                 title.setVisibility(View.GONE);
-                back.setBackgroundResource(R.drawable.back_selector);
-                onRecord = false;
                 back.setVisibility(View.GONE);
                 next.setVisibility(View.GONE);
                 sView.setVisibility(View.GONE);
@@ -466,12 +467,46 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             }
         });
 
+        ContentValues c = new ContentValues();
+        c.put("TIMESTAMP", System.currentTimeMillis());
+        c.put("SITUATION", sText);
+        c.put("SELECTED_F", msg);
+        if(wrong) {
+            c.put("WRONG_FLAG", 1);
+        }
+        db.insert("SAFE_COMPLETION", "TIMESTAMP,SITUATION,SELECTED_F", c);
+        c = new ContentValues();
+        c.put("COMPLETED_FLAG", 1);
+        int foo = db.update("SAFE",c,"SITUATION = \""+sText+"\"",null);
+        if(foo > 0){
+            System.out.println("Successful update");
+        }
+        try {
+            DBHelper helper = new DBHelper(this);
+            helper.trackEvent(helper,"SAFE_COMPLETED","INSIDE_SAFE_ACTIVITY");
+            File file=helper.getFile();
+            Log.i("File Path",file.getAbsolutePath());
+            db = helper.getDB();
+            currentDay = helper.getCurrentDay();
+            if (currentDay < 43 && currentDay > 0) {
+                ContentValues v = new ContentValues();
+                v.put("SAFE", 1);
+                db.update("USER_ACTIVITY_TRACK", v, "DAY = " + currentDay, null);
+            } else {
+                Toast.makeText(this, "Invalid day,\nplease change\nstart date",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_worry_heads, menu);
+        getMenuInflater().inflate(R.menu.menu_safe, menu);
         return true;
     }
 
