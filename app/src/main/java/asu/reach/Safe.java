@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +28,7 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Random;
 
@@ -52,6 +54,10 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
     private boolean s = true;    //  S is currently showing
     private boolean intro = true;  // intro is showing
     private int currentDay;
+
+    private MediaRecorder mRecorder = null;
+    private static String mFileName = null;
+
 
     //Safe
     private boolean onRecord = false; // Record screens are showing
@@ -217,6 +223,37 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             oThree.setTextSize(11);
         }
 
+    }
+
+    private void onRecord(boolean start) {
+        if (start) {
+            startRecording();
+        } else {
+            stopRecording();
+        }
+    }
+
+
+    private void startRecording() {
+        mRecorder = new MediaRecorder();
+        mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        mRecorder.setOutputFile(mFileName);
+        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+
+        try {
+            mRecorder.prepare();
+        } catch (IOException e) {
+            //Log.e(LOG_TAG, "prepare() failed");
+        }
+
+        mRecorder.start();
+    }
+
+    private void stopRecording() {
+        mRecorder.stop();
+        mRecorder.release();
+        mRecorder = null;
     }
     @Override
     public void onClick(View v) {
