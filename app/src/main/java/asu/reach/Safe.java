@@ -34,8 +34,8 @@ import java.util.Random;
 public class Safe extends Activity implements View.OnClickListener, DialogInterface.OnClickListener{
     private SQLiteDatabase db;
     private RelativeLayout oLayout,msgLayout;
-    private ImageView sView, tView,o1,o2,o3,title,gjView;
-    private TextView oOne, oTwo, oThree, message;
+    private ImageView sView, tView,o1,o2,o3,o4,title,gjView, answerImageView;
+    private TextView oOne, oTwo, oThree, oFour, message, answerTextView;
     private ImageButton back, again, done, next;
     private String sText;
     private VideoView gj;
@@ -43,7 +43,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
     //Safe
     private RelativeLayout rLayout;
-    private ImageView safePRMImageView, safeEyeContactImageView, safeBlob, safeBlobEyes;
+    private ImageView safePRMImageView, safeEyeContactImageView, safeBlob;
     private ImageButton safeRecordImageButton, safeDoneImageButton;
 
     private int wrongO;  // which 0 is incorrect
@@ -102,6 +102,8 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         safeRecordImageButton.setVisibility(View.GONE);
         safeDoneImageButton.setVisibility(View.GONE);
         safeBlob.setVisibility(View.GONE);
+        answerImageView = (ImageView) findViewById(R.id.answer);
+        answerTextView = (TextView) findViewById(R.id.answerTxt);
 
 
         sView.setOnClickListener(this);
@@ -122,6 +124,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         oTwo.setTypeface(t);
         oThree.setTypeface(t);
         message.setTypeface(t);
+        answerTextView.setTypeface(t);
 
         DBHelper helper = new DBHelper(this);
         //helper.copyDataBase();
@@ -394,6 +397,8 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             safeEyeContactImageView.setVisibility(View.VISIBLE);
             safeRecordImageButton.setVisibility(View.GONE);
             safeDoneImageButton.setVisibility(View.VISIBLE);
+            answerTextView.setVisibility(View.VISIBLE);
+            answerImageView.setVisibility(View.VISIBLE);
 
         }
 
@@ -437,6 +442,9 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         safeBlob.setBackgroundResource(R.drawable.safe_blob);
 
         safeRecordImageButton.setVisibility(View.VISIBLE);
+        answerTextView.setText(msg);
+        answerTextView.setVisibility(View.GONE);
+        answerImageView.setVisibility(View.GONE);
 
         back.setBackgroundResource(R.drawable.home_selector);
         back.setVisibility(View.VISIBLE);
