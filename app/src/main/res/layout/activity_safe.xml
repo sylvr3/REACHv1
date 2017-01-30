@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="asu.reach.Safe"
+    tools:context="asu.reach.SAFE"
     android:background="@drawable/background_space">
 
     <VideoView
@@ -49,14 +49,14 @@
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/oLayout"
+            android:id="@+id/fLayout"
             android:visibility="visible"
             android:layout_marginTop="100dp">
 
             <ImageView
                 android:layout_width="150dp"
                 android:layout_height="190dp"
-                android:id="@+id/oOne"
+                android:id="@+id/fOne"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
@@ -68,12 +68,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/oOneTxt"
-                android:layout_alignTop="@+id/oOne"
-                android:layout_alignLeft="@+id/oOne"
-                android:layout_alignRight="@+id/oOne"
-                android:layout_alignBottom="@+id/oOne"
-                android:layout_marginLeft="15dp"
+                android:id="@+id/fOneTxt"
+                android:layout_alignTop="@+id/fOne"
+                android:layout_alignLeft="@+id/fOne"
+                android:layout_alignRight="@+id/fOne"
+                android:layout_alignBottom="@+id/fOne"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="10dp"
@@ -84,7 +84,7 @@
             <ImageView
                 android:layout_width="150dp"
                 android:layout_height="190dp"
-                android:id="@+id/oTwo"
+                android:id="@+id/fTwo"
                 android:layout_alignParentTop="false"
                 android:layout_alignParentStart="false"
                 android:layout_alignParentLeft="false"
@@ -97,23 +97,23 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/oTwoTxt"
+                android:id="@+id/fTwoTxt"
                 android:gravity="center"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="10dp"
-                android:layout_alignTop="@+id/oTwo"
-                android:layout_alignLeft="@+id/oTwo"
-                android:layout_alignBottom="@+id/oTwo"
-                android:layout_alignRight="@+id/oTwo"
+                android:layout_alignTop="@+id/fTwo"
+                android:layout_alignLeft="@+id/fTwo"
+                android:layout_alignBottom="@+id/fTwo"
+                android:layout_alignRight="@+id/fTwo"
                 android:lineSpacingExtra="2dp"
                 android:textSize="13dp" />
 
             <ImageView
                 android:layout_width="150dp"
                 android:layout_height="190dp"
-                android:id="@+id/oThree"
+                android:id="@+id/fThree"
                 android:layout_alignParentTop="false"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
@@ -122,52 +122,22 @@
                 android:layout_alignParentBottom="false"
                 android:layout_marginTop="5dp"
                 android:clickable="true"
-                android:layout_below="@+id/oOne" />
+                android:layout_below="@+id/fOne" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/oThreeTxt"
-                android:layout_alignTop="@+id/oThree"
-                android:layout_alignLeft="@+id/oThree"
-                android:layout_alignRight="@+id/oThree"
-                android:layout_alignBottom="@+id/oThree"
+                android:id="@+id/fThreeTxt"
+                android:layout_alignTop="@+id/fThree"
+                android:layout_alignLeft="@+id/fThree"
+                android:layout_alignRight="@+id/fThree"
+                android:layout_alignBottom="@+id/fThree"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="10dp"
                 android:lineSpacingExtra="2dp"
                 android:gravity="center"
-                android:textSize="13dp" />
-
-            <ImageView
-                android:layout_width="150dp"
-                android:layout_height="190dp"
-                android:id="@+id/oFour"
-                android:layout_alignParentTop="false"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/wh_card_selector"
-                android:layout_marginRight="10dp"
-                android:layout_alignParentBottom="false"
-                android:layout_marginTop="5dp"
-                android:clickable="true"
-                android:layout_below="@+id/oTwo" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/oFourTxt"
-                android:gravity="center"
-                android:layout_alignTop="@+id/oFour"
-                android:layout_alignLeft="@+id/oFour"
-                android:layout_alignBottom="@+id/oFour"
-                android:layout_alignRight="@+id/oFour"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:lineSpacingExtra="2dp"
-                android:layout_marginBottom="10dp"
                 android:textSize="13dp" />
 
         </RelativeLayout>
@@ -205,6 +175,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentBottom="true" />
         </LinearLayout>
+
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -303,6 +274,7 @@
                 android:lineSpacingExtra="2dp"
                 android:textSize="13dp" />
 
+
             <ImageView
                 android:layout_width="300dp"
                 android:layout_height="300dp"
@@ -350,8 +322,8 @@
             android:weightSum="1">
 
             <ImageButton
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="74dp"
+                android:layout_height="56dp"
                 android:id="@+id/recordButton"
                 android:layout_alignParentBottom="false"
                 android:layout_alignParentStart="false"

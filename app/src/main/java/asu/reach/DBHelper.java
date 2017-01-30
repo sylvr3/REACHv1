@@ -48,7 +48,8 @@ public class DBHelper extends SQLiteOpenHelper{
         STIC,
         DAILY_DIARY,
         WORRYHEADS,
-        RELAXATION
+        RELAXATION,
+        SAFE
     }
 
     /**
@@ -157,7 +158,7 @@ public class DBHelper extends SQLiteOpenHelper{
             v1.put("EVENT_TYPE",EVENT_TYPE);
             v1.put("EVENT_PLACE",EVENT_PLACE);
             //db.insert("EVENT_TRACKER","EVENT_TIMESTAMP,EVENT_TYPE,EVENT_PLACE", v1);
-            if(EVENT_TYPE.equalsIgnoreCase("APP_STARTED") || EVENT_TYPE.contains("STOP_P_DONE") || EVENT_TYPE.contains("STOP_O_DONE") || EVENT_TYPE.contains("STOP_T_DONE")  || EVENT_TYPE.contains("STOP_S_DONE") ||  EVENT_TYPE.contains("WHAT") || EVENT_TYPE.contains("RATING") || EVENT_TYPE.contains("DID") || EVENT_TYPE.contains("THOUGHTS") || EVENT_TYPE.contains("COMPLETED") || EVENT_TYPE.contains("RELAXATION") || EVENT_TYPE.contains("ADMIN_SETTINGS") || EVENT_TYPE.equalsIgnoreCase("WORRY_HEADS")   || EVENT_TYPE.equalsIgnoreCase("DAILY_DIARY") || EVENT_TYPE.equalsIgnoreCase("BLOB_TRICKS") || EVENT_TYPE.equalsIgnoreCase("STIC_STARTED") || EVENT_TYPE.equalsIgnoreCase("STOP_STARTED")){
+            if(EVENT_TYPE.equalsIgnoreCase("APP_STARTED") || EVENT_TYPE.contains("STOP_P_DONE") || EVENT_TYPE.contains("STOP_O_DONE") || EVENT_TYPE.contains("STOP_T_DONE")  || EVENT_TYPE.contains("STOP_S_DONE") ||  EVENT_TYPE.contains("WHAT") || EVENT_TYPE.contains("RATING") || EVENT_TYPE.contains("DID") || EVENT_TYPE.contains("THOUGHTS") || EVENT_TYPE.contains("COMPLETED") || EVENT_TYPE.contains("RELAXATION") || EVENT_TYPE.contains("ADMIN_SETTINGS") || EVENT_TYPE.equalsIgnoreCase("WORRY_HEADS")   || EVENT_TYPE.equalsIgnoreCase("DAILY_DIARY") || EVENT_TYPE.equalsIgnoreCase("BLOB_TRICKS") || EVENT_TYPE.equalsIgnoreCase("STIC_STARTED") || EVENT_TYPE.equalsIgnoreCase("STOP_STARTED") || EVENT_TYPE.equalsIgnoreCase("SAFE")){
                 //db.insert("HIGH_LEVEL_EVENT_TRACKER","EVENT_TIMESTAMP,EVENT_TYPE,EVENT_PLACE", v1);
                 db.insert("EVENT_TRACKER","EVENT_TIMESTAMP,EVENT_TYPE,EVENT_PLACE", v1);
             }
@@ -497,6 +498,14 @@ public class DBHelper extends SQLiteOpenHelper{
             case STOP:{
                 if(c.getInt(c.getColumnIndex("STOP")) == 1
                         && d.getInt(d.getColumnIndex("STOP")) != 1){
+                    return true;
+                }
+                break;
+            }
+
+            case SAFE:{
+                if(c.getInt(c.getColumnIndex("SAFE")) == 1
+                        && d.getInt(d.getColumnIndex("SAFE")) != 1){
                     return true;
                 }
                 break;
