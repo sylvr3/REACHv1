@@ -295,7 +295,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                     oLayout.setVisibility(View.GONE);
                     message.setText("Firm But Kind Voice:\n\n");
                     //  complete(oOne.getText().toString());
-                 //   speakAnswer(oOne.getText().toString());
+                    //   speakAnswer(oOne.getText().toString());
                     firmButKindVoice(oOne.getText().toString());
                     chosenAnswer = 1;
                 }
@@ -317,7 +317,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                     oLayout.setVisibility(View.GONE);
                     message.setText("Firm But Kind Voice:\n\n");
                     // complete(oTwo.getText().toString());
-                  //  speakAnswer(oTwo.getText().toString());
+                    //  speakAnswer(oTwo.getText().toString());
                     firmButKindVoice(oTwo.getText().toString());
                     chosenAnswer = 2;
                 }
@@ -339,7 +339,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                     oLayout.setVisibility(View.GONE);
                     message.setText("Firm But Kind Voice:\n\n");
                     //  complete(oThree.getText().toString());
-                   // speakAnswer(oThree.getText().toString());
+                    // speakAnswer(oThree.getText().toString());
                     firmButKindVoice(oThree.getText().toString());
                     chosenAnswer = 3;
                 }
@@ -365,7 +365,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                         oLayout.setVisibility(View.GONE);
                         msgLayout.setVisibility(View.VISIBLE);
                         next.setVisibility(View.VISIBLE);
-                      //  nextFirm.setVisibility(View.GONE);
+                        //  nextFirm.setVisibility(View.GONE);
                         title.setVisibility(View.GONE);
                         sView.setBackgroundResource(R.drawable.s_white);
                         tView.setBackgroundResource(R.drawable.t_yellow);
@@ -397,6 +397,8 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                 sView.setBackgroundResource(R.drawable.s_white);
                 tView.setBackgroundResource(R.drawable.t_yellow);
             }else{
+
+
                 tView.setBackgroundResource(R.drawable.t_white);
                 intro = false;
                 sView.setActivated(false);
@@ -411,27 +413,8 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
         if(v.getId() == nextFirm.getId()){
 
-
-            switch(chosenAnswer)
-            {
-
-                case 1:
-                    speakAnswer(oOne.getText().toString());
-                case 2:
-                    speakAnswer(oTwo.getText().toString());
-                case 3:
-                    speakAnswer(oThree.getText().toString());
-                default:
-                System.out.println("Error picked");
-
-            }
-
-
-        }
-
-        //SAFE
-        if(v.getId() == safeRecordImageButton.getId()){
             safeRecordImageButton.setVisibility(View.GONE);
+            safeBlob.setVisibility(View.VISIBLE);
             safeBlob.setBackgroundResource(R.drawable.safe_blob_eye_contact);
             AnimationDrawable anim1 = (AnimationDrawable) safeBlob.getBackground();
             anim1.start();
@@ -443,16 +426,121 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             answerTextView.setVisibility(View.VISIBLE);
             answerImageView.setVisibility(View.VISIBLE);
             firm.setVisibility(View.GONE);
+/*
+            switch(chosenAnswer)
+            {
+
+                case 1:
+                    speakAnswer(oOne.getText().toString());
+                case 2:
+                    speakAnswer(oTwo.getText().toString());
+                case 3:
+                    speakAnswer(oThree.getText().toString());
+                default:
+                    System.out.println("Error picked");
+
+            }
+            */
+/*
+
+
+
+
+            safeRecordImageButton.setVisibility(View.GONE);
+
+            safeBlob.setVisibility(View.VISIBLE);
+            safeBlob.setBackgroundResource(R.drawable.safe_blob_eye_contact);
+            AnimationDrawable anim1 = (AnimationDrawable) safeBlob.getBackground();
+            anim1.start();
+
+            safePRMImageView.setVisibility(View.GONE);
+            safeEyeContactImageView.setVisibility(View.VISIBLE);
+            safeRecordImageButton.setVisibility(View.GONE);
+            safeDoneImageButton.setVisibility(View.VISIBLE);
+            msgLayout.setVisibility(View.GONE);
+            answerTextView.setVisibility(View.VISIBLE);
+            answerImageView.setVisibility(View.VISIBLE);
+
+            firm.setVisibility(View.GONE);
+
+            rLayout.setVisibility(View.GONE);
+
+
+
+
+            title.setVisibility(View.GONE);
+            next.setVisibility(View.GONE);
+
+            safeRecordImageButton.setVisibility(View.GONE);
+            nextFirm.setVisibility(View.GONE);
+            //  answerTextView.setText(msg);
+            answerTextView.setVisibility(View.GONE);
+            answerImageView.setVisibility(View.GONE);
+
+            back.setBackgroundResource(R.drawable.home_selector);
+            back.setVisibility(View.GONE);
+
+
+
+
+
+
+*/
+
 
         }
 
         if(v.getId() == safeDoneImageButton.getId()){
+
             safeEyeContactImageView.setVisibility(View.GONE);
             safeDoneImageButton.setVisibility(View.GONE);
+            safeRecordImageButton.setVisibility(View.GONE);
+
+            switch(chosenAnswer)
+            {
+
+                case 1:
+                    speakAnswer(oOne.getText().toString());
+                case 2:
+                    speakAnswer(oTwo.getText().toString());
+                case 3:
+                    speakAnswer(oThree.getText().toString());
+                default:
+                    System.out.println("Error picked");
+
+            }
+
+
+
+
+
+        }
+
+        //SAFE
+        if(v.getId() == safeRecordImageButton.getId()){
+
+
+            rLayout.setVisibility(View.VISIBLE);
+            msgLayout.setVisibility(View.GONE);
+            safePRMImageView.setVisibility(View.GONE);
+            safeEyeContactImageView.setVisibility(View.GONE);
+            safeBlob.setVisibility(View.GONE);
+            title.setVisibility(View.GONE);
+            next.setVisibility(View.GONE);
+            // safeBlob.setBackgroundResource(R.drawable.safe_blob);
+
+            safeRecordImageButton.setVisibility(View.GONE);
+            //  answerTextView.setText(msg);
+            answerTextView.setVisibility(View.GONE);
+            answerImageView.setVisibility(View.GONE);
+
+
             again.setVisibility(View.VISIBLE);
             done.setVisibility(View.VISIBLE);
             complete("test");
         }
+
+
     }
 
     private void wrongSelection(){
@@ -487,26 +575,29 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         sView.setClickable(false);
         tView.setClickable(false);
 
-
-
         rLayout.setVisibility(View.VISIBLE);
         safePRMImageView.setVisibility(View.GONE);
         safeEyeContactImageView.setVisibility(View.GONE);
         safeBlob.setVisibility(View.GONE);
-        firm.setVisibility(View.VISIBLE);
+
+        msgLayout.setVisibility(View.VISIBLE);
+
+        message.setText("Firm But Kind Voice\n\n");
+
+      //  firm.setVisibility(View.VISIBLE);
         title.setVisibility(View.GONE);
         next.setVisibility(View.GONE);
-       // safeBlob.setBackgroundResource(R.drawable.safe_blob);
+        // safeBlob.setBackgroundResource(R.drawable.safe_blob);
 
         safeRecordImageButton.setVisibility(View.GONE);
         nextFirm.setVisibility(View.VISIBLE);
-      //  answerTextView.setText(msg);
+        //  answerTextView.setText(msg);
         answerTextView.setVisibility(View.GONE);
         answerImageView.setVisibility(View.GONE);
 
         back.setBackgroundResource(R.drawable.home_selector);
         back.setVisibility(View.VISIBLE);
-        onRecord = true;
+        //onRecord = true;
     }
 
 
@@ -523,12 +614,17 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         tView.setClickable(false);
 
         rLayout.setVisibility(View.VISIBLE);
+
         safePRMImageView.setVisibility(View.VISIBLE);
         safeEyeContactImageView.setVisibility(View.GONE);
+
         safeBlob.setVisibility(View.VISIBLE);
         safeBlob.setBackgroundResource(R.drawable.safe_blob);
 
+        msgLayout.setVisibility(View.GONE);
+
         safeRecordImageButton.setVisibility(View.VISIBLE);
+        done.setVisibility(View.GONE);
         answerTextView.setText(msg);
         answerTextView.setVisibility(View.GONE);
         answerImageView.setVisibility(View.GONE);
