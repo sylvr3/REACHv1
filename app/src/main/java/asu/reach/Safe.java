@@ -11,8 +11,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,7 +29,11 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Random;
 
 
@@ -56,6 +62,12 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
     //Safe
     private boolean onRecord = false; // Record screens are showing
 
+    // Recording
+    private MediaRecorder mediaRecorder;
+    private String outputFile;
+    private File mediaStorageDir;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +95,20 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         gj = (VideoView)findViewById(R.id.gjVid);
         gjView = (ImageView)findViewById(R.id.gjView);
 
+        //Recording
+        //outputFile = Environment.getExternalStorageDirectory().getAbsolutePath()+"/recording.3gp";
+        mediaRecorder = new MediaRecorder();
+        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
+
+        // create a new directory with name REACH in internal storage if the directory is not exist
+        mediaStorageDir = new File(Environment.getExternalStorageDirectory(), "REACH");
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                Log.d("App", "failed to create directory");
+            }
+        }
 
         //SAFE
 
@@ -281,7 +307,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                         e.printStackTrace();
                     }
                     oLayout.setVisibility(View.GONE);
-                  //  complete(oOne.getText().toString());
+                    //  complete(oOne.getText().toString());
                     speakAnswer(oOne.getText().toString());
                 }
             }
@@ -300,7 +326,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                         e.printStackTrace();
                     }
                     oLayout.setVisibility(View.GONE);
-                   // complete(oTwo.getText().toString());
+                    // complete(oTwo.getText().toString());
                     speakAnswer(oTwo.getText().toString());
                 }
             }
@@ -319,7 +345,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                         e.printStackTrace();
                     }
                     oLayout.setVisibility(View.GONE);
-                  //  complete(oThree.getText().toString());
+                    //  complete(oThree.getText().toString());
                     speakAnswer(oThree.getText().toString());
                 }
             }
@@ -389,9 +415,11 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         //SAFE
         if(v.getId() == safeRecordImageButton.getId()){
             safeRecordImageButton.setVisibility(View.GONE);
-            safeBlob.setBackgroundResource(R.drawable.safe_blob_eye_contact);
-            AnimationDrawable anim1 = (AnimationDrawable) safeBlob.getBackground();
-            anim1.start();
+
+//            int id = getResources().getIdentifier("safe_blob_eye_contact", "drawable", getPackageName());
+            //safeBlob.setBackgroundResource(R.drawable.safe_blob_eye_contact);
+            //AnimationDrawable anim1 = (AnimationDrawable) safeBlob.getBackground();
+            //anim1.start();
 
             safePRMImageView.setVisibility(View.GONE);
             safeEyeContactImageView.setVisibility(View.VISIBLE);
@@ -400,6 +428,22 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             answerTextView.setVisibility(View.VISIBLE);
             answerImageView.setVisibility(View.VISIBLE);
 
+            // Create file name with the timeStamp
+            SimpleDateFormat timeStampFormat = new SimpleDateFormat("yyyy-MM-dd-HH.mm.ss", Locale.US);
+            String fileName = "audio_" + timeStampFormat.format(new Date())+ ".3gp";
+            //outputFile = Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+fileName;
+            outputFile = mediaStorageDir.getAbsolutePath()+"/"+fileName;
+            mediaRecorder.setOutputFile(outputFile);
+            try {
+                mediaRecorder.prepare();
+                mediaRecorder.start();
+                Toast.makeText(getApplicationContext(),"Recording Started", Toast.LENGTH_LONG).show();
+            }
+            catch(IOException ie) {
+                //System.out.println(ie.fillInStackTrace());
+                Toast.makeText(getApplicationContext(),"Exception happend", Toast.LENGTH_LONG).show();
+            }
+
         }
 
         if(v.getId() == safeDoneImageButton.getId()){
@@ -407,7 +451,19 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             safeDoneImageButton.setVisibility(View.GONE);
             again.setVisibility(View.VISIBLE);
             done.setVisibility(View.VISIBLE);
-            complete("test");
+            //complete("test");
+            mediaRecorder.stop();
+            mediaRecorder.release();
+            Toast.makeText(getApplicationContext(),"Recorded Successfully", Toast.LENGTH_LONG).show();
+            MediaPlayer mediaPlayer = new MediaPlayer();
+            try {
+                mediaPlayer.setDataSource(outputFile);
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+            }
+            catch(Exception e) {
+                Toast.makeText(getApplicationContext(),"Exception in MediaPlayer", Toast.LENGTH_LONG).show();
+            }
         }
     }
 
@@ -483,7 +539,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         if(wrong) {
             c.put("WRONG_FLAG", 1);
         }
-        db.insert("SAFE_COMPLETION", "TIMESTAMP,SITUATION,SELECTED_F", c);
+        //db.insert("SAFE_COMPLETION", "TIMESTAMP,SITUATION,SELECTED_F", c);
         c = new ContentValues();
         c.put("COMPLETED_FLAG", 1);
         int foo = db.update("SAFE",c,"SITUATION = \""+sText+"\"",null);
