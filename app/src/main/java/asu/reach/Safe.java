@@ -40,8 +40,8 @@ import java.util.Random;
 public class Safe extends Activity implements View.OnClickListener, DialogInterface.OnClickListener{
     private SQLiteDatabase db;
     private RelativeLayout oLayout,msgLayout;
-    private ImageView sView, tView,o1,o2,o3,o4,title,gjView, answerImageView, firm;
-    private TextView oOne, oTwo, oThree, oFour, message, answerTextView;
+    private ImageView sView, tView,o1,o2,o3,title,gjView, answerImageView;
+    private TextView oOne, oTwo, oThree, message, answerTextView;
     private ImageButton back, again, done, next, nextFirm;
     private String sText;
     private VideoView gj;
@@ -76,7 +76,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_safe);
-
         oLayout = (RelativeLayout)findViewById(R.id.fLayout);
         msgLayout = (RelativeLayout)findViewById(R.id.msgLayout);
         sView = (ImageView)findViewById(R.id.sView);
@@ -90,17 +89,14 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         message = (TextView)findViewById(R.id.message);
         back = (ImageButton)findViewById(R.id.whBackBtn);
         again = (ImageButton)findViewById(R.id.againBtn);
+        again = (ImageButton)findViewById(R.id.againBtn);
         done = (ImageButton)findViewById(R.id.whDoneBtn);
         next = (ImageButton)findViewById(R.id.whNextBtn);
         complete = (LinearLayout)findViewById(R.id.completeLayout);
         title = (ImageView)findViewById(R.id.whMessage);
         gj = (VideoView)findViewById(R.id.gjVid);
         gjView = (ImageView)findViewById(R.id.gjView);
-        firm = (ImageView)findViewById(R.id.firm_but_kind);
         nextFirm = (ImageButton)findViewById(R.id.nextFirm);
-
-
-
 
         //Recording
         //outputFile = Environment.getExternalStorageDirectory().getAbsolutePath()+"/recording.3gp";
@@ -137,7 +133,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         safeBlob.setVisibility(View.GONE);
         answerImageView = (ImageView) findViewById(R.id.answer);
         answerTextView = (TextView) findViewById(R.id.answerTxt);
-        firm.setVisibility(View.GONE);
 
 
         sView.setOnClickListener(this);
@@ -454,8 +449,8 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             safeDoneImageButton.setVisibility(View.VISIBLE);
             answerTextView.setVisibility(View.VISIBLE);
             answerImageView.setVisibility(View.VISIBLE);
-            firm.setVisibility(View.GONE);
-            
+            nextFirm.setVisibility(View.GONE);
+
             // Create file name with the timeStamp
             SimpleDateFormat timeStampFormat = new SimpleDateFormat("yyyy-MM-dd-HH.mm.ss", Locale.US);
             String fileName = "audio_" + timeStampFormat.format(new Date())+ ".3gp";
@@ -521,7 +516,9 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
             again.setVisibility(View.VISIBLE);
             done.setVisibility(View.VISIBLE);
-            //complete("test");
+
+
+            complete("test");
             mediaRecorder.stop();
             mediaRecorder.release();
             Toast.makeText(getApplicationContext(),"Recorded Successfully", Toast.LENGTH_LONG).show();
@@ -580,7 +577,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
         message.setText("Firm But Kind Voice\n\n");
 
-      //  firm.setVisibility(View.VISIBLE);
         title.setVisibility(View.GONE);
         next.setVisibility(View.GONE);
         // safeBlob.setBackgroundResource(R.drawable.safe_blob);
@@ -599,7 +595,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
 
     private void speakAnswer(String msg){
-        firm.setVisibility(View.GONE);
         title.setVisibility(View.GONE);
         back.setVisibility(View.GONE);
         next.setVisibility(View.GONE);
