@@ -284,6 +284,8 @@ public class SafeFaceDetectionActivity extends Activity {
         public void onUpdate(FaceDetector.Detections<Face> detectionResults, Face face) {
             mOverlay.add(mFaceGraphic);
             mFaceGraphic.updateFace(face);
+            Log.d("leftFace",String.valueOf(face.getIsLeftEyeOpenProbability()));
+            Log.d("rightFace",String.valueOf(face.getIsRightEyeOpenProbability()));
         }
 
         /**
