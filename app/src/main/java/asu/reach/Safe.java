@@ -96,6 +96,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
     private static final int RC_HANDLE_GMS = 9001;
     // permission request codes need to be < 256
     private static final int RC_HANDLE_CAMERA_PERM = 2;
+    private static final int RC_HANDLE_MICROPHONE= 3;
 
     //Left and Right Eye probability
     private float leftEyeOpenProbability = 0;
@@ -132,20 +133,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         gj = (VideoView)findViewById(R.id.gjVid);
         gjView = (ImageView)findViewById(R.id.gjView);
 
-        //Recording
-        //outputFile = Environment.getExternalStorageDirectory().getAbsolutePath()+"/recording.3gp";
-        mediaRecorder = new MediaRecorder();
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
-
-        // create a new directory with name REACH in internal storage if the directory is not exist
-        mediaStorageDir = new File(Environment.getExternalStorageDirectory(), "REACH");
-        if (!mediaStorageDir.exists()) {
-            if (!mediaStorageDir.mkdirs()) {
-                Log.d("App", "failed to create directory");
-            }
-        }
 
         //SAFE
 
@@ -251,15 +238,21 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             }
 
             // Safe Setup Related Code
-
-            // Check for the camera permission before accessing the camera.  If the
-            // permission is not granted yet, request permission.
             int rc = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
             if (rc == PackageManager.PERMISSION_GRANTED) {
                 createCameraSource();
             } else {
                 requestCameraPermission();
             }
+
+
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                String [] permissions = {"android.permission.RECORD_AUDIO", "android.permission.WRITE_EXTERNAL_STORAGE"};
+//                requestPermissions(permissions, RC_HANDLE_MICROPHONE);
+//            } else {
+//                createMicrophone();
+//            }
+
 
 
         }catch(Exception e){
@@ -370,33 +363,73 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
      */
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode != RC_HANDLE_CAMERA_PERM) {
-            Log.d(TAG, "Got unexpected permission result: " + requestCode);
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-            return;
-        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == RC_HANDLE_CAMERA_PERM) {
+//            Log.d(TAG, "Got unexpected permission result: " + requestCode);
+//            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//            return;
 
-        if (grantResults.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            Log.d(TAG, "Camera permission granted - initialize the camera source");
-            // we have permission, so create the camerasource
-            createCameraSource();
-            return;
-        }
-
-        Log.e(TAG, "Permission not granted: results len = " + grantResults.length +
-                " Result code = " + (grantResults.length > 0 ? grantResults[0] : "(empty)"));
-
-        DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                finish();
+            if (grantResults.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.d(TAG, "Camera permission granted - initialize the camera source");
+                // we have permission, so create the camerasource
+                createCameraSource();
+                requestMicrophonePermission();
+                return;
             }
-        };
+
+            Log.e(TAG, "Permission not granted: results len = " + grantResults.length +
+                    " Result code = " + (grantResults.length > 0 ? grantResults[0] : "(empty)"));
+
+            DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    finish();
+                }
+            };
+
+
 
 //        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 //        builder.setTitle("Face Tracker sample")
 //                .setMessage(R.string.no_camera_permission)
 //                .setPositiveButton(R.string.ok, listener)
 //                .show();
+
+        }
+        else if (requestCode == RC_HANDLE_MICROPHONE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
+                createMicrophone();
+            }
+        }
+    }
+
+    private  void requestMicrophonePermission(){
+        // Check for the camera permission before accessing the camera.  If the
+        // permission is not granted yet, request permission.
+        int mc = ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.RECORD_AUDIO);
+        int sc = ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (mc == PackageManager.PERMISSION_GRANTED && sc == PackageManager.PERMISSION_GRANTED) {
+            createMicrophone();
+        } else {
+            String [] permissionsSound = {"android.permission.RECORD_AUDIO", "android.permission.WRITE_EXTERNAL_STORAGE"};
+            ActivityCompat.requestPermissions(this,permissionsSound,RC_HANDLE_MICROPHONE);
+        }
+    }
+
+    private void createMicrophone(){
+        //Recording
+        //outputFile = Environment.getExternalStorageDirectory().getAbsolutePath()+"/recording.3gp";
+        mediaRecorder = new MediaRecorder();
+        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
+
+        // create a new directory with name REACH in internal storage if the directory is not exist
+        mediaStorageDir = new File(Environment.getExternalStorageDirectory(), "REACH");
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                Log.d("App", "failed to create directory");
+            }
+        }
     }
 
     //==============================================================================================
