@@ -758,6 +758,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             answerTextView.setVisibility(View.VISIBLE);
             answerImageView.setVisibility(View.VISIBLE);
 
+            /*
             // Create file name with the timeStamp
             SimpleDateFormat timeStampFormat = new SimpleDateFormat("yyyy-MM-dd-HH.mm.ss", Locale.US);
             String fileName = "audio_" + timeStampFormat.format(new Date())+ ".3gp";
@@ -773,7 +774,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                 //System.out.println(ie.fillInStackTrace());
                 Toast.makeText(getApplicationContext(),"Exception happend", Toast.LENGTH_LONG).show();
             }
-
+            */
         }
 
         if(v.getId() == safeDoneImageButton.getId()){
@@ -782,10 +783,11 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             again.setVisibility(View.VISIBLE);
             done.setVisibility(View.VISIBLE);
             //complete("test");
-            mediaRecorder.stop();
-            mediaRecorder.release();
+//            mediaRecorder.stop();
+//            mediaRecorder.release();
             Toast.makeText(getApplicationContext(),"Recorded Successfully", Toast.LENGTH_LONG).show();
             complete("test");
+            /*
             MediaPlayer mediaPlayer = new MediaPlayer();
             try {
                 mediaPlayer.setDataSource(outputFile);
@@ -795,6 +797,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             catch(Exception e) {
                 Toast.makeText(getApplicationContext(),"Exception in MediaPlayer", Toast.LENGTH_LONG).show();
             }
+            */
         }
     }
 
@@ -814,6 +817,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
     }
 
     private void speakAnswer(String msg){
+
         title.setVisibility(View.GONE);
         back.setVisibility(View.GONE);
         next.setVisibility(View.GONE);
