@@ -1,4 +1,30 @@
 body {
-margin: 0;
-padding: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.hide {
+    display: none;
+}
+
+#main-div{
+    width:100%;
+    height:100%;
+    border: 3px solid #73AD21;
+}
+
+.main-card {
+    width: 100%;
+    height 50%;
+    border: 3px solid #73AD21;
+}
+
+.left-button {
+    height: 20%;
+    float: left;
+}
+
+.right-button {
+    height:20%;
+    float: right;
 }
