@@ -23,6 +23,8 @@ public class SafeWebView extends Activity {
         mWebView.setInitialScale(1);
         mWebView.setVerticalScrollBarEnabled(false);
         mWebView.setHorizontalScrollBarEnabled(false);
+        mWebView.setBackgroundResource(R.drawable.background_space);
+        mWebView.setBackgroundColor(0x00000000);
         mWebView.setWebViewClient(new WebViewClient());
 
         WebSettings webSettings = mWebView.getSettings();
@@ -30,6 +32,6 @@ public class SafeWebView extends Activity {
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setUseWideViewPort(true);
 
-        mWebView.loadUrl("file:///android_asset/www/html/index.html");
+        mWebView.loadUrl("file:///android_asset/www/html/safe.html");
     }
 }
