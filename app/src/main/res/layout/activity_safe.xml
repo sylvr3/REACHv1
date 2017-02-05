@@ -6,6 +6,36 @@
     tools:context="asu.reach.Safe"
     android:background="@drawable/background_space">
 
+    <FrameLayout
+        android:id="@+id/topLayout"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:keepScreenOn="true">
+
+        <ImageView
+            android:id="@+id/overlayImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/landing"
+            android:scaleType="fitXY"/>
+
+        <asu.reach.googleVision.CameraSourcePreview
+            android:id="@+id/preview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <asu.reach.googleVision.GraphicOverlay
+                android:id="@+id/faceOverlay"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" />
+
+
+        </asu.reach.googleVision.CameraSourcePreview>
+
+    </FrameLayout>
+
+
     <VideoView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
