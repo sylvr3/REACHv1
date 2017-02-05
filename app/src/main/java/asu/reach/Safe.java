@@ -639,7 +639,8 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                     }
                     oLayout.setVisibility(View.GONE);
                     //  complete(oOne.getText().toString());
-                    speakAnswer(oOne.getText().toString());
+//                    speakAnswer(oOne.getText().toString());
+                    startEyeTracking(oOne.getText().toString());
                 }
             }
         }
@@ -658,7 +659,8 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                     }
                     oLayout.setVisibility(View.GONE);
                     // complete(oTwo.getText().toString());
-                    speakAnswer(oTwo.getText().toString());
+//                    speakAnswer(oTwo.getText().toString());
+                    startEyeTracking(oTwo.getText().toString());
                 }
             }
         }
@@ -677,7 +679,8 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                     }
                     oLayout.setVisibility(View.GONE);
                     //  complete(oThree.getText().toString());
-                    speakAnswer(oThree.getText().toString());
+//                    speakAnswer(oThree.getText().toString());
+                    startEyeTracking(oThree.getText().toString());
                 }
             }
         }
