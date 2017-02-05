@@ -3,8 +3,6 @@ package asu.reach;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 
 import com.google.android.gms.vision.face.Face;
 
@@ -20,7 +18,6 @@ class FaceGraphic extends GraphicOverlay.Graphic {
     private static final float ID_Y_OFFSET = 50.0f;
     private static final float ID_X_OFFSET = -50.0f;
     private static final float BOX_STROKE_WIDTH = 5.0f;
-    private
 
     private static final int COLOR_CHOICES[] = {
             Color.BLUE,
@@ -105,5 +102,6 @@ class FaceGraphic extends GraphicOverlay.Graphic {
 //        Drawable d = ContextCompat.getDrawable(context, R.drawable.***)
 //        d.setBounds(left, top, right, bottom);
 //        d.draw(canvas);
+
     }
 }

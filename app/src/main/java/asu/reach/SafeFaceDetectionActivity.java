@@ -11,6 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -54,6 +55,8 @@ public class SafeFaceDetectionActivity extends Activity {
 
         mPreview = (CameraSourcePreview) findViewById(R.id.preview);
         mGraphicOverlay = (GraphicOverlay) findViewById(R.id.faceOverlay);
+        ImageView imgv = (ImageView) findViewById(R.id.overlayImage);
+        imgv.bringToFront();
 
         // Check for the camera permission before accessing the camera.  If the
         // permission is not granted yet, request permission.
@@ -229,6 +232,9 @@ public class SafeFaceDetectionActivity extends Activity {
                     GoogleApiAvailability.getInstance().getErrorDialog(this, code, RC_HANDLE_GMS);
             dlg.show();
         }
+//         mGraphicOverlay.add(R.drawable.safe_blob);
+
+
 
         if (mCameraSource != null) {
             try {
@@ -239,6 +245,7 @@ public class SafeFaceDetectionActivity extends Activity {
                 mCameraSource = null;
             }
         }
+
     }
 
     //==============================================================================================
