@@ -455,6 +455,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             mediaRecorder.stop();
             mediaRecorder.release();
             Toast.makeText(getApplicationContext(),"Recorded Successfully", Toast.LENGTH_LONG).show();
+            complete("test");
             MediaPlayer mediaPlayer = new MediaPlayer();
             try {
                 mediaPlayer.setDataSource(outputFile);
