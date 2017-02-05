@@ -261,7 +261,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
     }
 
-    private void startEyeTracking(){
+    private void startEyeTracking(final String msg){
         //TODO: start new recording activity
         Log.d("Record","Going to start Recording Activity");
         leftEyeOpenProbability = 0;
@@ -274,6 +274,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                 public void run() {
                     overlayRecordingImage.setVisibility(View.INVISIBLE);
                     overlayRecordingImage.invalidate();
+                    speakAnswer(msg);
                 }
             }, 5000);
     }
