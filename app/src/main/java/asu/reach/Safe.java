@@ -50,7 +50,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
     //Safe
     private RelativeLayout rLayout;
     private ImageView safePRMImageView, safeEyeContactImageView, safeBlob;
-    private ImageButton safeRecordImageButton, safeDoneImageButton;
+    private ImageButton safeRecordImageButton, safeDoneImageButton, doneRecording;
 
     private int wrongO;  // which 0 is incorrect
     private boolean choice = false; // to remove "TRY AGAIN"
@@ -97,6 +97,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         gj = (VideoView)findViewById(R.id.gjVid);
         gjView = (ImageView)findViewById(R.id.gjView);
         nextFirm = (ImageButton)findViewById(R.id.nextFirm);
+        doneRecording = (ImageButton)findViewById(R.id.recordDone);
 
         //Recording
         //outputFile = Environment.getExternalStorageDirectory().getAbsolutePath()+"/recording.3gp";
@@ -408,9 +409,26 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             startActivity(intent);
             finish();
         }
-        if(v.getId() == done.getId()){
 
-            finish();
+        if(v.getId() == done.getId()){
+             finish();
+        }
+        if(v.getId() == doneRecording.getId()){
+            again.setVisibility(View.VISIBLE);
+            done.setVisibility(View.VISIBLE);
+            complete("test");
+            mediaRecorder.stop();
+            mediaRecorder.release();
+            Toast.makeText(getApplicationContext(),"Recorded Successfully", Toast.LENGTH_LONG).show();
+            MediaPlayer mediaPlayer = new MediaPlayer();
+            try {
+                mediaPlayer.setDataSource(outputFile);
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+            }
+            catch(Exception e) {
+                Toast.makeText(getApplicationContext(),"Exception in MediaPlayer", Toast.LENGTH_LONG).show();
+            }
         }
         if(v.getId() == next.getId()){
 
@@ -438,7 +456,8 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         if(v.getId() == nextFirm.getId()){
 
             safeRecordImageButton.setVisibility(View.GONE);
-            safeBlob.setVisibility(View.VISIBLE);
+
+            int id = getResources().getIdentifier("safe_blob_eye_contact", "drawable", getPackageName());
             safeBlob.setBackgroundResource(R.drawable.safe_blob_eye_contact);
             AnimationDrawable anim1 = (AnimationDrawable) safeBlob.getBackground();
             anim1.start();
@@ -447,25 +466,14 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             safeEyeContactImageView.setVisibility(View.VISIBLE);
             safeRecordImageButton.setVisibility(View.GONE);
             safeDoneImageButton.setVisibility(View.VISIBLE);
+
+            message.setVisibility(View.GONE);
             answerTextView.setVisibility(View.VISIBLE);
             answerImageView.setVisibility(View.VISIBLE);
             nextFirm.setVisibility(View.GONE);
+            next.setVisibility(View.GONE);
 
-            // Create file name with the timeStamp
-            SimpleDateFormat timeStampFormat = new SimpleDateFormat("yyyy-MM-dd-HH.mm.ss", Locale.US);
-            String fileName = "audio_" + timeStampFormat.format(new Date())+ ".3gp";
-            //outputFile = Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+fileName;
-            outputFile = mediaStorageDir.getAbsolutePath()+"/"+fileName;
-            mediaRecorder.setOutputFile(outputFile);
-            try {
-                mediaRecorder.prepare();
-                mediaRecorder.start();
-                Toast.makeText(getApplicationContext(),"Recording Started", Toast.LENGTH_LONG).show();
-            }
-            catch(IOException ie) {
-                //System.out.println(ie.fillInStackTrace());
-                Toast.makeText(getApplicationContext(),"Exception happend", Toast.LENGTH_LONG).show();
-            }
+
 
         }
 
@@ -490,9 +498,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             }
 
 
-
-
-
         }
 
         //SAFE
@@ -506,31 +511,28 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             safeBlob.setVisibility(View.GONE);
             title.setVisibility(View.GONE);
             next.setVisibility(View.GONE);
-            // safeBlob.setBackgroundResource(R.drawable.safe_blob);
-
             safeRecordImageButton.setVisibility(View.GONE);
-            //  answerTextView.setText(msg);
+            doneRecording.setVisibility(View.VISIBLE);
             answerTextView.setVisibility(View.GONE);
             answerImageView.setVisibility(View.GONE);
 
-
-            again.setVisibility(View.VISIBLE);
-            done.setVisibility(View.VISIBLE);
-
-
-            complete("test");
-            mediaRecorder.stop();
-            mediaRecorder.release();
-            Toast.makeText(getApplicationContext(),"Recorded Successfully", Toast.LENGTH_LONG).show();
-            MediaPlayer mediaPlayer = new MediaPlayer();
+            // Create file name with the timeStamp
+            SimpleDateFormat timeStampFormat = new SimpleDateFormat("yyyy-MM-dd-HH.mm.ss", Locale.US);
+            String fileName = "audio_" + timeStampFormat.format(new Date())+ ".3gp";
+            //outputFile = Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+fileName;
+            outputFile = mediaStorageDir.getAbsolutePath()+"/"+fileName;
+            mediaRecorder.setOutputFile(outputFile);
             try {
-                mediaPlayer.setDataSource(outputFile);
-                mediaPlayer.prepare();
-                mediaPlayer.start();
+                mediaRecorder.prepare();
+                mediaRecorder.start();
+                Toast.makeText(getApplicationContext(),"Recording Started", Toast.LENGTH_LONG).show();
             }
-            catch(Exception e) {
-                Toast.makeText(getApplicationContext(),"Exception in MediaPlayer", Toast.LENGTH_LONG).show();
+            catch(IOException ie) {
+                //System.out.println(ie.fillInStackTrace());
+                Toast.makeText(getApplicationContext(),"Exception happend", Toast.LENGTH_LONG).show();
             }
+
+
         }
 
 
@@ -551,14 +553,14 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         choice = true;
     }
 
-    public String getAns(String msg) {
-        return msg;
+  //  public String getAns(String msg) {
+   //     return msg;
 
-    }
+   // }
 
     private void firmButKindVoice(String msg) {
 
-        getAns(msg);
+        // getAns(msg);
 
         title.setVisibility(View.GONE);
         back.setVisibility(View.GONE);
@@ -568,14 +570,13 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         sView.setClickable(false);
         tView.setClickable(false);
 
-        rLayout.setVisibility(View.VISIBLE);
+        rLayout.setVisibility(View.GONE);
         safePRMImageView.setVisibility(View.GONE);
         safeEyeContactImageView.setVisibility(View.GONE);
         safeBlob.setVisibility(View.GONE);
 
-        msgLayout.setVisibility(View.VISIBLE);
-
-        message.setText("Firm But Kind Voice\n\n");
+        msgLayout.setVisibility(View.GONE);
+       // message.setText("Firm But Kind Voice\n\n");
 
         title.setVisibility(View.GONE);
         next.setVisibility(View.GONE);
@@ -583,13 +584,12 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
         safeRecordImageButton.setVisibility(View.GONE);
         nextFirm.setVisibility(View.VISIBLE);
-        //  answerTextView.setText(msg);
+       // answerTextView.setText(msg);
         answerTextView.setVisibility(View.GONE);
         answerImageView.setVisibility(View.GONE);
 
         back.setBackgroundResource(R.drawable.home_selector);
         back.setVisibility(View.VISIBLE);
-        //onRecord = true;
     }
 
 
@@ -616,6 +616,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
         safeRecordImageButton.setVisibility(View.VISIBLE);
         done.setVisibility(View.GONE);
+
         answerTextView.setText(msg);
         answerTextView.setVisibility(View.GONE);
         answerImageView.setVisibility(View.GONE);
