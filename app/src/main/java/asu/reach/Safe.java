@@ -352,8 +352,8 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         }
 
         if (v.getId() == back.getId()){
-            if(!choice) {
-                if (s) {
+            if(!choice ) {
+                if (s || onRecord) {
                     FragmentManager fm = getFragmentManager();
                     DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this);
                     dialog.show(fm, "frag");
@@ -417,9 +417,9 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             safeRecordImageButton.setVisibility(View.GONE);
 
 //            int id = getResources().getIdentifier("safe_blob_eye_contact", "drawable", getPackageName());
-            //safeBlob.setBackgroundResource(R.drawable.safe_blob_eye_contact);
-            //AnimationDrawable anim1 = (AnimationDrawable) safeBlob.getBackground();
-            //anim1.start();
+            safeBlob.setBackgroundResource(R.drawable.safe_blob_eye_contact);
+            AnimationDrawable anim1 = (AnimationDrawable) safeBlob.getBackground();
+            anim1.start();
 
             safePRMImageView.setVisibility(View.GONE);
             safeEyeContactImageView.setVisibility(View.VISIBLE);
@@ -484,6 +484,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
     }
 
     private void speakAnswer(String msg){
+        onRecord = true;
         title.setVisibility(View.GONE);
         back.setVisibility(View.GONE);
         next.setVisibility(View.GONE);
@@ -509,6 +510,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
     }
 
     private void complete(String msg){
+
         gj.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.stars));
         gj.start();
         gj.setVisibility(View.VISIBLE);
@@ -528,6 +530,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                 sView.setClickable(false);
                 tView.setClickable(false);
                 rLayout.setVisibility(View.GONE);
+                onRecord = false;
             }
         });
 
@@ -543,7 +546,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         //db.insert("SAFE_COMPLETION", "TIMESTAMP,SITUATION,SELECTED_F", c);
         c = new ContentValues();
         c.put("COMPLETED_FLAG", 1);
-        int foo = db.update("SAFE",c,"SITUATION = \""+sText+"\"",null);
+        int foo = db.update("SAFE",c,"SITUATION = \""+sText.replace("\"", "\"\"")+"\"",null);
         if(foo > 0){
             System.out.println("Successful update");
         }
