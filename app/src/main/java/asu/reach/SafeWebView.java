@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Display;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebSettings;
 import android.webkit.WebViewClient;
@@ -26,6 +27,12 @@ public class SafeWebView extends Activity {
         mWebView.setBackgroundResource(R.drawable.background_space);
         mWebView.setBackgroundColor(0x00000000);
         mWebView.setWebViewClient(new WebViewClient());
+        mWebView.addJavascriptInterface(new Object(){
+            @JavascriptInterface
+            public String getSituation(){
+                return "getSituation now!";
+            }
+        }, "safe");
 
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -34,4 +41,5 @@ public class SafeWebView extends Activity {
 
         mWebView.loadUrl("file:///android_asset/www/html/safe.html");
     }
+
 }
