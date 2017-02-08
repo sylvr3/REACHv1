@@ -153,28 +153,6 @@
             android:layout_alignParentBottom="true"
             android:layout_marginTop="20dp">
 
-            <ImageView
-                android:layout_width="75dp"
-                android:layout_height="60dp"
-                android:id="@+id/sView"
-                android:layout_alignParentTop="false"
-                android:layout_alignParentStart="false"
-                android:background="@drawable/s_selector"
-                android:layout_marginLeft="40dp"
-                android:clickable="true"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true" />
-
-            <ImageView
-                android:layout_width="75dp"
-                android:layout_height="60dp"
-                android:id="@+id/tView"
-                android:background="@drawable/t_selector"
-                android:layout_alignParentEnd="false"
-                android:layout_marginRight="40dp"
-                android:clickable="true"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentBottom="true" />
         </LinearLayout>
 
 
@@ -359,6 +337,17 @@
                 android:visibility="gone"
                 android:layout_marginRight="10dp"
                 android:layout_weight="0.50" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/eyeContactDone"
+                android:layout_alignParentBottom="false"
+                android:layout_alignParentEnd="false"
+                android:background="@drawable/done_selector"
+                android:layout_toRightOf="@+id/whBackBtn"
+                android:layout_alignBottom="@+id/whBackBtn"
+                android:visibility="gone" />
 
             <ImageButton
                 android:layout_width="wrap_content"
