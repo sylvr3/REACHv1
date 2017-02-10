@@ -87,7 +87,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         message = (TextView)findViewById(R.id.message);
         back = (ImageButton)findViewById(R.id.whBackBtn);
         again = (ImageButton)findViewById(R.id.againBtn);
-        again = (ImageButton)findViewById(R.id.againBtn);
         done = (ImageButton)findViewById(R.id.whDoneBtn);
         next = (ImageButton)findViewById(R.id.whNextBtn);
         complete = (LinearLayout)findViewById(R.id.completeLayout);
