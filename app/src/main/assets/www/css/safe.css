@@ -7,24 +7,40 @@ body {
     display: none;
 }
 
-#main-div{
+#main-div {
     width:100%;
     height:100%;
-    border: 3px solid #73AD21;
+}
+
+#top-div {
+    width:100%;
+    height: 15%;
+}
+
+#mid-div {
+    position: relative;
+    width:100%;
+    height: 70%;
+}
+
+#bottom-div{
+    width:100%;
+    height: 15%;
 }
 
 .main-card {
-    width: 100%;
-    height 50%;
-    border: 3px solid #73AD21;
+    position: absolute;
+    bottom: 0;
+    width: 97%;
+    height auto;
 }
 
 .left-button {
-    height: 20%;
+    height: 100%;
     float: left;
 }
 
 .right-button {
-    height:20%;
+    height: 100%;
     float: right;
 }
