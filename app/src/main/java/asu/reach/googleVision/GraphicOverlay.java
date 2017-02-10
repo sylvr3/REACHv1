@@ -1,11 +1,8 @@
 package asu.reach.googleVision;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
-import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.Display;
 import android.view.View;
@@ -15,8 +12,6 @@ import com.google.android.gms.vision.CameraSource;
 
 import java.util.HashSet;
 import java.util.Set;
-
-import asu.reach.R;
 
 /**
  * A view which renders a series of custom graphics to be overlayed on top of an associated preview
@@ -181,8 +176,8 @@ public class GraphicOverlay extends View {
             int width = size.x;
             int height = size.y;
 
-            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.safe_blob);
-            canvas.drawBitmap(bmp,null,new Rect(0,0,width,height),null);
+//            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.safe_blob);
+//            canvas.drawBitmap(bmp,null,new Rect(0,0,width,height),null);
         }
     }
 }

@@ -25,6 +25,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -43,10 +44,7 @@ import com.google.android.gms.vision.face.FaceDetector;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -103,6 +101,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
     private float rightEyeOpenProbability = 0;
     private int probabilityCount = 0;
     private ImageView overlayRecordingImage;
+    private FrameLayout topLayout;
 
 
 
@@ -192,8 +191,10 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         mPreview = (CameraSourcePreview) findViewById(R.id.preview);
         mGraphicOverlay = (GraphicOverlay) findViewById(R.id.faceOverlay);
         //Get and ignore the safe camera background for now
-        overlayRecordingImage = (ImageView) findViewById(R.id.overlayImage);
-        overlayRecordingImage.setVisibility(View.INVISIBLE);
+//        overlayRecordingImage = (ImageView) findViewById(R.id.overlayImage);
+//        overlayRecordingImage.setVisibility(View.INVISIBLE);
+        topLayout = (FrameLayout) findViewById(R.id.topLayout);
+        topLayout.setVisibility(View.INVISIBLE);
 
 
 
@@ -263,12 +264,16 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
     private void startEyeTracking(final String msg){
         //TODO: start new recording activity
-        Log.d("Record","Going to start Recording Activity");
+        Log.d("Vision","Going to start Recording Activity");
+        startCameraSource();
         leftEyeOpenProbability = 0;
         rightEyeOpenProbability = 0;
         probabilityCount = 0;
-        overlayRecordingImage.bringToFront();
-        overlayRecordingImage.setVisibility(View.VISIBLE);
+//        overlayRecordingImage.bringToFront();
+//        overlayRecordingImage.setVisibility(View.VISIBLE);
+//        topLayout.setVisibility(View.VISIBLE);
+        topLayout.bringToFront();
+
         new Timer().schedule(new TimerTask() {
                 @Override
                 public void run() {
@@ -511,8 +516,8 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         public void onUpdate(FaceDetector.Detections<Face> detectionResults, Face face) {
             mOverlay.add(mFaceGraphic);
             mFaceGraphic.updateFace(face);
-            Log.d("leftFace",String.valueOf(face.getIsLeftEyeOpenProbability()));
-            Log.d("rightFace",String.valueOf(face.getIsRightEyeOpenProbability()));
+            Log.d("Vision",String.valueOf(face.getIsLeftEyeOpenProbability()));
+            Log.d("Vision",String.valueOf(face.getIsRightEyeOpenProbability()));
             leftEyeOpenProbability += face.getIsLeftEyeOpenProbability();
             rightEyeOpenProbability += face.getIsRightEyeOpenProbability();
             probabilityCount += 1;
