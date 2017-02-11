@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="asu.reach.Safe"
-    android:background="@drawable/safe_background">
+    android:background="@drawable/safe_background"
+    android:id="@+id/SafeActivityLayout">
 
     <VideoView
         android:layout_width="match_parent"
@@ -250,6 +251,15 @@
             android:layout_marginTop="10dp">
 
             <ImageView
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:id="@+id/safeBlob"
+                android:background="@drawable/safe_blob"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="83dp"
+                android:layout_alignTop="@+id/lookEyesMsg" />
+
+            <ImageView
                 android:layout_width="190dp"
                 android:layout_height="140dp"
                 android:id="@+id/recordMsg"
@@ -301,22 +311,12 @@
                 android:lineSpacingExtra="2dp"
                 android:textSize="13dp" />
 
-
-            <ImageView
-                android:layout_width="300dp"
-                android:layout_height="300dp"
-                android:id="@+id/safeBlob"
-                android:background="@drawable/safe_blob"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="83dp"
-                android:layout_alignTop="@+id/lookEyesMsg" />
-
         </RelativeLayout>
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/whBackBtn"
+            android:id="@+id/safeBackButton"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:visibility="visible"
@@ -329,7 +329,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/whNextBtn"
+            android:id="@+id/safeNextButton"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:visibility="visible"
@@ -430,7 +430,7 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/whDoneBtn"
+                android:id="@+id/safeDoneButton"
                 android:layout_alignParentBottom="false"
                 android:layout_alignParentEnd="false"
                 android:background="@drawable/done_selector"
