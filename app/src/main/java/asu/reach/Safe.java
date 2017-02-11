@@ -354,6 +354,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                         msgLayout.setVisibility(View.VISIBLE);
                         next.setVisibility(View.VISIBLE);
                         title.setVisibility(View.GONE);
+                        activateS();
                     }
 
                 }
