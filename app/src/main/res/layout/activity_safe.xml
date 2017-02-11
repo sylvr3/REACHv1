@@ -147,18 +147,64 @@
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/stLayout"
+            android:id="@+id/safeLayout"
             android:visibility="visible"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="20dp"
+            android:weightSum="1">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:id="@+id/sView"
+                android:layout_alignParentTop="false"
+                android:layout_alignParentStart="false"
+                android:background="@drawable/s_selector"
+                android:layout_marginLeft="100dp"
+                android:clickable="true"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:id="@+id/aView"
+                android:background="@drawable/a_selector"
+                android:layout_alignParentEnd="false"
+                android:layout_marginRight="0dp"
+                android:clickable="true"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:id="@+id/fView"
+                android:background="@drawable/f_selector"
+                android:layout_alignParentEnd="false"
+                android:layout_marginRight="0dp"
+                android:clickable="true"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:id="@+id/eView"
+                android:background="@drawable/e_selector"
+                android:layout_alignParentEnd="false"
+                android:layout_marginRight="800dp"
+                android:clickable="true"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true" />
 
         </LinearLayout>
 
 
         <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="400dp"
             android:id="@+id/msgLayout"
             android:visibility="gone"
             android:layout_above="@+id/stLayout"
@@ -320,7 +366,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
+            android:layout_alignParentRight="true"
             android:id="@+id/recordControls"
             android:visibility="visible"
             android:weightSum="1">
@@ -335,8 +381,7 @@
                 android:layout_toLeftOf="@+id/whBackBtn"
                 android:layout_alignBottom="@+id/whBackBtn"
                 android:visibility="gone"
-                android:layout_marginRight="10dp"
-                android:layout_weight="0.50" />
+                android:layout_marginRight="10dp"/>
 
             <ImageButton
                 android:layout_width="wrap_content"
