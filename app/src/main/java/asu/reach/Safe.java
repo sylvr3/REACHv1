@@ -49,7 +49,8 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
     //Safe
     private RelativeLayout rLayout;
-    private LinearLayout safeLayout;
+    private LinearLayout safeAcronymLayout;
+    private RelativeLayout safeActivityLayout;
     private ImageView safePRMImageView, safeEyeContactImageView, safeBlob;
     private ImageButton safeRecordImageButton, safeDoneImageButton;
 
@@ -80,7 +81,8 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         oLayout = (RelativeLayout)findViewById(R.id.fLayout);
         msgLayout = (RelativeLayout)findViewById(R.id.msgLayout);
 
-        safeLayout = (LinearLayout)findViewById(R.id.safeLayout);
+        safeActivityLayout = (RelativeLayout) findViewById(R.id.SafeActivityLayout);
+        safeAcronymLayout = (LinearLayout)findViewById(R.id.safeLayout);
         sView = (ImageView)findViewById(R.id.sView);
         aView = (ImageView)findViewById(R.id.aView);
         fView = (ImageView)findViewById(R.id.fView);
@@ -93,10 +95,10 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         oTwo = (TextView)findViewById(R.id.fTwoTxt);
         oThree = (TextView)findViewById(R.id.fThreeTxt);
         message = (TextView)findViewById(R.id.message);
-        back = (ImageButton)findViewById(R.id.whBackBtn);
+        back = (ImageButton)findViewById(R.id.safeBackButton);
         again = (ImageButton)findViewById(R.id.againBtn);
-        done = (ImageButton)findViewById(R.id.whDoneBtn);
-        next = (ImageButton)findViewById(R.id.whNextBtn);
+        done = (ImageButton)findViewById(R.id.safeDoneButton);
+        next = (ImageButton)findViewById(R.id.safeNextButton);
         complete = (LinearLayout)findViewById(R.id.completeLayout);
         title = (ImageView)findViewById(R.id.whMessage);
         gj = (VideoView)findViewById(R.id.gjVid);
@@ -392,11 +394,18 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         if(v.getId() == nextFirm.getId()){
             onRecord = true;
             activateE();
+
             msgLayout.setVisibility(View.GONE);
             safeRecordImageButton.setVisibility(View.GONE);
+            /*
             safeBlob.setVisibility(View.VISIBLE);
             safeBlob.setBackgroundResource(R.drawable.safe_blob_eye_contact);
             AnimationDrawable anim1 = (AnimationDrawable) safeBlob.getBackground();
+            anim1.start();
+            */
+
+            rLayout.setBackgroundResource(R.drawable.safe_blob_eye_contact);
+            AnimationDrawable anim1 = (AnimationDrawable) rLayout.getBackground();
             anim1.start();
 
             safePRMImageView.setVisibility(View.GONE);
@@ -556,8 +565,8 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         safePRMImageView.setVisibility(View.VISIBLE);
         safeEyeContactImageView.setVisibility(View.GONE);
 
-        safeBlob.setVisibility(View.VISIBLE);
-        safeBlob.setBackgroundResource(R.drawable.safe_blob);
+//        safeBlob.setVisibility(View.VISIBLE);
+//        safeBlob.setBackgroundResource(R.drawable.safe_blob);
 
         msgLayout.setVisibility(View.GONE);
 
@@ -589,7 +598,8 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                 next.setVisibility(View.GONE);
                 rLayout.setVisibility(View.GONE);
                 onRecord = false;
-                safeLayout.setVisibility(View.GONE);
+                safeAcronymLayout.setVisibility(View.GONE);
+
             }
         });
 
