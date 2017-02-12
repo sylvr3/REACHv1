@@ -100,6 +100,11 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
     private float leftEyeOpenProbability = 0;
     private float rightEyeOpenProbability = 0;
     private int probabilityCount = 0;
+    //Final values to storein the DB
+    private float finalLeftEyeProbablity = 0;
+    private float finalRightEyeProbablity = 0;
+    private int finalProbablityCount = 0;
+
     private ImageView overlayRecordingImage;
     private FrameLayout topLayout;
 
@@ -269,17 +274,24 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         leftEyeOpenProbability = 0;
         rightEyeOpenProbability = 0;
         probabilityCount = 0;
-//        overlayRecordingImage.bringToFront();
-//        overlayRecordingImage.setVisibility(View.VISIBLE);
-//        topLayout.setVisibility(View.VISIBLE);
-        topLayout.bringToFront();
 
         new Timer().schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    overlayRecordingImage.setVisibility(View.INVISIBLE);
-                    overlayRecordingImage.invalidate();
-                    speakAnswer(msg);
+                    finalProbablityCount = probabilityCount;
+                    finalLeftEyeProbablity = leftEyeOpenProbability / finalRightEyeProbablity;
+                    finalRightEyeProbablity = rightEyeOpenProbability / finalProbablityCount;
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            topLayout.invalidate();
+                            topLayout.setVisibility(View.GONE);
+                            topLayout.removeAllViews();
+                            speakAnswer(msg);
+                        }
+                    });
+
                 }
             }, 5000);
     }
