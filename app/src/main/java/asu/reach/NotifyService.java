@@ -84,6 +84,7 @@ public class NotifyService extends Service {
                 boolean STOPNotificationCheck = false;
                 boolean WORRYHEADnotificationCheck = false;
                 boolean RelaxationNotificationCheck = false;
+                boolean SAFENotificationCheck = false;
                 if (c2.getInt(3) == 1 /*|| c2.getInt(4)==1*/)                                                             //Are we updating DIARY_EVENT2 when user completes DIARY EVENT_2 anywhere ??
                     DDNotificationCheck = checkForDDNotification(currentDayofProtocol, systemTime, time);
                 if (c2.getInt(5) == 1)
@@ -94,12 +95,15 @@ public class NotifyService extends Service {
                     STICNotificationCheck = checkForSTICNotification(currentDayofProtocol, systemTime, time);
                 if (c2.getInt(7) == 1)
                     RelaxationNotificationCheck = checkForRelaxationNotification(currentDayofProtocol, systemTime, time);
+                if (c2.getInt(8) == 1)
+                    RelaxationNotificationCheck = checkForSAFENotification(currentDayofProtocol, systemTime, time);
 
                 Log.i("DD NOTIF DONE", DDNotificationCheck + "");
                 Log.i("WORRY HEAD NOTIF DONE", WORRYHEADnotificationCheck + "");
                 Log.i("STOP NOTIF DONE", STOPNotificationCheck + "");
                 Log.i("STIC NOTIF DONE", STICNotificationCheck + "");
                 Log.i("RELAX NOTIF DONE", RelaxationNotificationCheck + "");
+                Log.i("SAFE NOTIF DONE", SAFENotificationCheck + "");
                 c2.close();
                 db.close();
 
@@ -109,6 +113,8 @@ public class NotifyService extends Service {
             e.printStackTrace();
             return (START_STICKY);
         }
+
+
     }
 
     public boolean checkForDDNotification(int currentDayofProtocol, long systemTime, long currTime) {
@@ -228,6 +234,30 @@ public class NotifyService extends Service {
         helper.close();
         return false;
     }
+
+    public boolean checkForSAFENotification(int currentDayofProtocol, long systemTime, long currTime) {
+
+        DBHelper helper = new DBHelper(getApplicationContext());
+        db = helper.getDB();
+        Cursor c = db.rawQuery("select SAFE from USER_ACTIVITY_TRACK where DAY=" + currentDayofProtocol, null);
+        c.moveToFirst();
+        if (c.getInt(0) == 0) {
+            Log.i("SAFE Notif Status", "ABOUT TO BE FIRED");
+            if (systemTime == currTime) {
+                String message = "Practice SAFE to help Bob the Blob learn new tricks to show you later";
+                fireNotifications(message, Safe.class);
+                c.close();
+                db.close();
+                helper.close();
+                return true;
+            }
+        }
+        c.close();
+        db.close();
+        helper.close();
+        return false;
+    }
+
 
 
     public void fireNotifications(String message, Class activityNotDone) {
