@@ -73,7 +73,7 @@ public class SafeWebView extends Activity implements DialogInterface.OnClickList
 
             @JavascriptInterface
             public void goToHomeScreen() {
-                onBackPressed();
+                goToHomepage();
             }
         }, "safe");
 
@@ -107,11 +107,15 @@ public class SafeWebView extends Activity implements DialogInterface.OnClickList
         return new Situation(c);
     }
 
-    @Override
-    public void onBackPressed() {
+    private void goToHomepage(){
         FragmentManager fm = getFragmentManager();
         DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this);
         dialog.show(fm, "frag");
+    }
+
+    @Override
+    public void onBackPressed() {
+        return;
     }
 
     @Override
