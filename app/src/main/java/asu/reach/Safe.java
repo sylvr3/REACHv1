@@ -155,18 +155,18 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
         //Recording
         //outputFile = Environment.getExternalStorageDirectory().getAbsolutePath()+"/recording.3gp";
-        mediaRecorder = new MediaRecorder();
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
+//        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+//        mediaRecorder = new MediaRecorder();
+//        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+//        mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
 
         // create a new directory with name REACH in internal storage if the directory is not exist
-        mediaStorageDir = new File(Environment.getExternalStorageDirectory(), "REACH");
-        if (!mediaStorageDir.exists()) {
-            if (!mediaStorageDir.mkdirs()) {
-                Log.d("App", "failed to create directory");
-            }
-        }
+//        mediaStorageDir = new File(Environment.getExternalStorageDirectory(), "REACH");
+//        if (!mediaStorageDir.exists()) {
+//            if (!mediaStorageDir.mkdirs()) {
+//                Log.d("App", "failed to create directory");
+//            }
+//        }
 
         //SAFE
 
@@ -221,8 +221,8 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         //Safe Eye tracking setup
         mPreview = (CameraSourcePreview) findViewById(R.id.preview);
         mGraphicOverlay = (GraphicOverlay) findViewById(R.id.faceOverlay);
-        topLayout = (FrameLayout) findViewById(R.id.topLayout);
-        topLayout.setVisibility(View.GONE);
+//        topLayout = (FrameLayout) findViewById(R.id.topLayout);
+//        topLayout.setVisibility(View.GONE);
 
 
         try {
@@ -283,8 +283,9 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
     private void startEyeTracking(){
         //TODO: start new recording activity
         Log.d("Vision","Going to start Recording Activity");
-        topLayout.setVisibility(View.INVISIBLE);
-        rLayout.bringToFront();
+//        topLayout.setVisibility(View.INVISIBLE);
+//        rLayout.bringToFront();
+        rLayout.setVisibility(View.VISIBLE);
         startCameraSource();
         leftEyeOpenProbability = 0;
         rightEyeOpenProbability = 0;
@@ -300,9 +301,9 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        topLayout.invalidate();
-                        topLayout.setVisibility(View.GONE);
-                        topLayout.removeAllViews();
+//                        topLayout.invalidate();
+//                        topLayout.setVisibility(View.GONE);
+//                        topLayout.removeAllViews();
                         rLayout.invalidate();
                         speakAnswer();
                     }
