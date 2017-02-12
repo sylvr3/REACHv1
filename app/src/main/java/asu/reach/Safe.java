@@ -307,7 +307,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 //                        topLayout.removeAllViews();
                         createMicrophone();
 //                        mPreview.removeAllViews();
-                        rLayout.setVisibility(View.GONE);
+//                        rLayout.setVisibility(View.GONE);
                         speakAnswer();
                     }
                 });
@@ -953,7 +953,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
     }
 
     private void complete(String msg){
-
+        rLayout.removeAllViews();
         gj.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.stars));
         gj.start();
         gj.setVisibility(View.VISIBLE);
