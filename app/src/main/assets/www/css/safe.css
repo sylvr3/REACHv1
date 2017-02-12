@@ -1,3 +1,12 @@
+@font-face {
+    font-family: "agentorange";
+    src: url('file:///android_asset/agentorange.ttf');
+}
+
+.agentorange {
+    font-family: 'agentorange';
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -33,6 +42,37 @@ body {
     bottom: 0;
     width: 97%;
     height auto;
+}
+
+.main-card-text{
+    position: absolute;
+    width: 85%;
+    height: 55%;
+    padding-left: 40px;
+    bottom: 0;
+    text-align: center;
+}
+
+.top-left-main-card {
+    position: absolute;
+    width: 45%;
+    height 45%;
+    float: left;
+}
+
+.top-right-main-card {
+    position: relative;
+    width: 45%;
+    height 45%;
+    float: right;
+}
+
+.bot-left-main-card {
+    position: absolute;
+    width: 45%;
+    height 45%;
+    float: left;
+    bottom: 10;
 }
 
 .left-button {
