@@ -1,0 +1,8 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch feature/sylvia
+# Changes to be committed:
+#	modified:   app/src/main/res/layout/activity_safe.xml
+#
+
