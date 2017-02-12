@@ -53,27 +53,37 @@ body {
     text-align: center;
 }
 
-.top-left-main-card {
-    position: absolute;
-    width: 45%;
+#quad > div {
+    position: relative;
+    width: 100%;
+    height: 50%;
+}
+
+.quad-left {
+    width: 48%;
     height 45%;
     float: left;
 }
 
-.top-right-main-card {
-    position: relative;
-    width: 45%;
+.quad-right {
+    width: 48%;
     height 45%;
+    padding-right: 5px;
     float: right;
 }
 
-.bot-left-main-card {
-    position: absolute;
-    width: 45%;
-    height 45%;
-    float: left;
-    bottom: 10;
+.quad-left > img, .quad-right > img {
+    width: 100%;
+    height: 100%;
 }
+
+.quad-left > div , .quad-right > div{
+    position: absolute;
+    top: 25;
+    width: 45%;
+    text-align: center;
+}
+
 
 .left-button {
     height: 100%;

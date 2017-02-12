@@ -22,9 +22,10 @@
     const singleDiv = document.getElementById("single");
     const quadDiv = document.getElementById("quad");
     const leftImg = document.getElementById("left-img");
+    const rightImg = document.getElementById("right-img");
 
     leftImg.addEventListener("click", backScreenEventHandler);
-    document.getElementById("right-img").addEventListener("click", nextScreenEventHandler);
+    rightImg.addEventListener("click", nextScreenEventHandler);
 
     mainCardText.innerHTML = situation.description;
 
@@ -36,6 +37,7 @@
         }else if(currentProgress.A){
             singleDiv.classList.remove("hide");
             quadDiv.classList.add("hide");
+            rightImg.classList.remove("hide");
         }else if(currentProgress.F){
 
         }else if(currentProgress.E){
@@ -51,6 +53,7 @@
         }else if(currentProgress.S.S2){
             singleDiv.classList.add("hide");
             quadDiv.classList.remove("hide");
+            rightImg.classList.add("hide");
         }else if(currentProgress.A){
 
         }else if(currentProgress.F){
