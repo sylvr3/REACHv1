@@ -95,15 +95,15 @@ public class NotifyService extends Service {
                     STICNotificationCheck = checkForSTICNotification(currentDayofProtocol, systemTime, time);
                 if (c2.getInt(7) == 1)
                     RelaxationNotificationCheck = checkForRelaxationNotification(currentDayofProtocol, systemTime, time);
-
-
-                RelaxationNotificationCheck = checkForSAFENotification(currentDayofProtocol, systemTime, time);
+                if (c2.getInt(8) == 1)
+                    RelaxationNotificationCheck = checkForSAFENotification(currentDayofProtocol, systemTime, time);
 
                 Log.i("DD NOTIF DONE", DDNotificationCheck + "");
                 Log.i("WORRY HEAD NOTIF DONE", WORRYHEADnotificationCheck + "");
                 Log.i("STOP NOTIF DONE", STOPNotificationCheck + "");
                 Log.i("STIC NOTIF DONE", STICNotificationCheck + "");
                 Log.i("RELAX NOTIF DONE", RelaxationNotificationCheck + "");
+                Log.i("SAFE NOTIF DONE", SAFENotificationCheck + "");
                 c2.close();
                 db.close();
 
