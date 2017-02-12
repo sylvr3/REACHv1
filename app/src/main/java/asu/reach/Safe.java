@@ -336,7 +336,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         }
 
         if (v.getId() == back.getId()){
-            if(!choice) {
+            if(!choice ) {
                 if (s || onRecord) {
                     FragmentManager fm = getFragmentManager();
                     DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this);
@@ -403,7 +403,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             AnimationDrawable anim1 = (AnimationDrawable) safeBlob.getBackground();
             anim1.start();
             */
-
             rLayout.setBackgroundResource(R.drawable.safe_blob_eye_contact);
             AnimationDrawable anim1 = (AnimationDrawable) rLayout.getBackground();
             anim1.start();
