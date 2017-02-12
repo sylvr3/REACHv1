@@ -285,7 +285,8 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         Log.d("Vision","Going to start Recording Activity");
 //        topLayout.setVisibility(View.INVISIBLE);
 //        rLayout.bringToFront();
-        rLayout.setVisibility(View.VISIBLE);
+//        rLayout.setVisibility(View.VISIBLE);
+        mPreview.setVisibility(View.INVISIBLE);
         startCameraSource();
         leftEyeOpenProbability = 0;
         rightEyeOpenProbability = 0;
@@ -304,7 +305,9 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 //                        topLayout.invalidate();
 //                        topLayout.setVisibility(View.GONE);
 //                        topLayout.removeAllViews();
-                        rLayout.invalidate();
+                        createMicrophone();
+//                        mPreview.removeAllViews();
+                        rLayout.setVisibility(View.GONE);
                         speakAnswer();
                     }
                 });
@@ -433,7 +436,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         }
         else if (requestCode == RC_HANDLE_MICROPHONE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
-                createMicrophone();
+//                createMicrophone();
             }
         }
     }
@@ -546,8 +549,8 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         public void onUpdate(FaceDetector.Detections<Face> detectionResults, Face face) {
             mOverlay.add(mFaceGraphic);
             mFaceGraphic.updateFace(face);
-            Log.d("Vision",String.valueOf(face.getIsLeftEyeOpenProbability()));
-            Log.d("Vision",String.valueOf(face.getIsRightEyeOpenProbability()));
+            Log.d("vision",String.valueOf(face.getIsLeftEyeOpenProbability()));
+            Log.d("vision",String.valueOf(face.getIsRightEyeOpenProbability()));
             leftEyeOpenProbability += face.getIsLeftEyeOpenProbability();
             rightEyeOpenProbability += face.getIsRightEyeOpenProbability();
             probabilityCount += 1;
