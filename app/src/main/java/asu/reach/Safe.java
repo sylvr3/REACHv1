@@ -61,7 +61,7 @@ import static asu.reach.R.id.recordLayout;
 public class Safe extends Activity implements View.OnClickListener, DialogInterface.OnClickListener{
     private SQLiteDatabase db;
     private RelativeLayout oLayout,msgLayout;
-    private ImageView o1,o2,o3,title,gjView, answerImageView,sView,aView,fView,eView;
+    private ImageView o1,o2,o3,title,gjView, answerImageView,sView,aView,fView,eView, thumbsUp;
     private TextView oOne, oTwo, oThree, message, answerTextView;
     private ImageButton back, again, done, next, nextFirm, doneRecording;
     private String sText;
@@ -117,7 +117,8 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
     private ImageView overlayRecordingImage;
     private FrameLayout topLayout;
 
-
+    private Typeface t;
+    private Typeface textType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,6 +153,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         gjView = (ImageView)findViewById(R.id.gjView);
         nextFirm = (ImageButton)findViewById(R.id.nextFirm);
         doneRecording = (ImageButton)findViewById(R.id.recordDone);
+        thumbsUp = (ImageView)findViewById(R.id.thumbsUp);
 
         //Recording
         //outputFile = Environment.getExternalStorageDirectory().getAbsolutePath()+"/recording.3gp";
@@ -202,12 +204,13 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         doneRecording.setOnClickListener(this);
 
 
-        Typeface t = Typeface.createFromAsset(getAssets(), "agentorange.ttf");
-        oOne.setTypeface(t);
-        oTwo.setTypeface(t);
-        oThree.setTypeface(t);
-        message.setTypeface(t);
-        answerTextView.setTypeface(t);
+        t = Typeface.createFromAsset(getAssets(), "agentorange.ttf");
+        textType = Typeface.createFromAsset(getAssets(), "Average-Regular.ttf");
+        oOne.setTypeface(textType);
+        oTwo.setTypeface(textType);
+        oThree.setTypeface(textType);
+        message.setTypeface(textType);
+        answerTextView.setTypeface(textType);
 
         DBHelper helper = new DBHelper(this);
         //helper.copyDataBase();
@@ -217,6 +220,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         oLayout.setVisibility(View.GONE);
         msgLayout.setVisibility(View.VISIBLE);
         title.setVisibility(View.GONE);
+        thumbsUp.setVisibility(View.GONE);
 
         //Safe Eye tracking setup
         mPreview = (CameraSourcePreview) findViewById(R.id.preview);
@@ -607,13 +611,13 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
     private void resize(){
         if(oOne.getText().length() > 10){
-            oOne.setTextSize(10);
+            oOne.setTextSize(20);
         }
         if(oTwo.getText().length() > 10){
-            oTwo.setTextSize(11);
+            oTwo.setTextSize(20);
         }
         if(oThree.getText().length() > 10){
-            oThree.setTextSize(11);
+            oThree.setTextSize(20);
         }
 
     }
@@ -640,6 +644,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                     }
                     oLayout.setVisibility(View.GONE);
                     message.setText("Firm But Kind Voice:\n\n");
+                    thumbsUp.setVisibility(View.VISIBLE);
                     //  complete(oOne.getText().toString());
                     //   speakAnswer(oOne.getText().toString());
                     answerTextView.setText(oOne.getText().toString());
@@ -711,6 +716,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                         message.setText("Situation:\n\n" + sText);
                     } else {
                         intro = true;
+                        message.setTypeface(t);
                         message.setText("Speak Your Mind\n\n");
                         oLayout.setVisibility(View.GONE);
                         msgLayout.setVisibility(View.VISIBLE);
@@ -739,6 +745,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         if(v.getId() == next.getId()){
 
             if(s){
+                message.setTypeface(t);
                 message.setText("Speak Your Mind\n\n");
                 activateS();
                 s = false;
@@ -757,21 +764,11 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         if(v.getId() == nextFirm.getId()){
             onRecord = true;
             activateE();
-
             msgLayout.setVisibility(View.GONE);
+            thumbsUp.setVisibility(View.GONE);
             safeRecordImageButton.setVisibility(View.GONE);
-
             safeBlob.setVisibility(View.VISIBLE);
             safeBlob.setBackgroundResource(R.drawable.safe_blob_eye_contact1);
-//            AnimationDrawable anim1 = (AnimationDrawable) safeBlob.getBackground();
-//            anim1.start();
-
-
-
-//            rLayout.setBackgroundResource(R.drawable.safe_blob_eye_contact);
-//            AnimationDrawable anim1 = (AnimationDrawable) rLayout.getBackground();
-//            anim1.start();
-
             safePRMImageView.setVisibility(View.GONE);
             safeEyeContactImageView.setVisibility(View.VISIBLE);
             safeRecordImageButton.setVisibility(View.GONE);
@@ -800,16 +797,10 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             safeEyeContactImageView.setVisibility(View.GONE);
             title.setVisibility(View.GONE);
             next.setVisibility(View.GONE);
-            // safeBlob.setBackgroundResource(R.drawable.safe_blob);
-
-            //  answerTextView.setText(msg);
-            answerTextView.setVisibility(View.GONE);
             answerImageView.setVisibility(View.GONE);
             doneRecording.setVisibility(View.VISIBLE);
             answerTextView.setVisibility(View.VISIBLE);
             answerImageView.setVisibility(View.VISIBLE);
-         //   again.setVisibility(View.VISIBLE);
-         //   done.setVisibility(View.VISIBLE);
 
             // Create file name with the timeStamp
             SimpleDateFormat timeStampFormat = new SimpleDateFormat("yyyy-MM-dd-HH.mm.ss", Locale.US);
@@ -909,10 +900,12 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
         msgLayout.setVisibility(View.VISIBLE);
 
+        message.setTypeface(t);
         message.setText("Firm But Kind Voice\n\n");
         activateF();
         title.setVisibility(View.GONE);
         next.setVisibility(View.GONE);
+        thumbsUp.setVisibility(View.VISIBLE);
 
         safeRecordImageButton.setVisibility(View.GONE);
         nextFirm.setVisibility(View.VISIBLE);

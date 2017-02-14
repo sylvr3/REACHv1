@@ -44,7 +44,7 @@
             android:id="@+id/whMessage"
             android:background="@drawable/ask_nicely"
             android:visibility="gone"
-            android:layout_marginTop="-30dp"
+            android:layout_marginTop="-50dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp" />
 
@@ -240,6 +240,18 @@
                 android:gravity="center"
                 android:textSize="17dp" />
 
+            <ImageView
+                android:layout_width="300dp"
+                android:layout_height="150dp"
+                android:id="@+id/thumbsUp"
+                android:layout_alignParentTop="false"
+                android:layout_alignParentStart="false"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/thumbs_up"
+                android:layout_alignBottom="@+id/message"
+                android:layout_marginBottom="-160dp"
+                android:layout_alignParentBottom="false"/>
+
         </RelativeLayout>
 
 
@@ -289,6 +301,13 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="10dp"
                 android:visibility="visible"/>
+
+
+
+
+
+
+
 
 
 
