@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/viewSwitcher"
-        android:layout_alignParentStart="false">
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -58,11 +59,11 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/ddGlow"
-                    android:layout_alignTop="@+id/ddBtn"
-                    android:layout_alignBottom="@+id/ddBtn"
-                    android:layout_alignRight="@+id/ddBtn"
-                    android:layout_alignLeft="@+id/ddBtn"
+                    android:id="@+id/mbGlow"
+                    android:layout_alignTop="@+id/mbBtn"
+                    android:layout_alignBottom="@+id/mbBtn"
+                    android:layout_alignRight="@+id/mbBtn"
+                    android:layout_alignLeft="@+id/mbBtn"
                     android:layout_marginLeft="-32dp"
                     android:layout_marginTop="-32dp"
                     android:layout_marginRight="-32dp"
@@ -121,11 +122,11 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/safeGlow"
-                    android:layout_alignTop="@+id/safeBtn"
-                    android:layout_alignBottom="@+id/safeBtn"
-                    android:layout_alignRight="@+id/safeBtn"
-                    android:layout_alignLeft="@+id/safeBtn"
+                    android:id="@+id/standupGlow"
+                    android:layout_alignTop="@+id/standupBtn"
+                    android:layout_alignBottom="@+id/standupBtn"
+                    android:layout_alignRight="@+id/standupBtn"
+                    android:layout_alignLeft="@+id/standupBtn"
                     android:layout_marginLeft="-32dp"
                     android:layout_marginTop="-32dp"
                     android:layout_marginRight="-32dp"
@@ -137,8 +138,8 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/ddBtn"
-                    android:background="@drawable/dd_selector"
+                    android:id="@+id/mbBtn"
+                    android:background="@drawable/mb_selector"
                     android:layout_alignParentEnd="false"
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="15dp"
@@ -181,8 +182,8 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/safeBtn"
-                    android:background="@drawable/safe_selector"
+                    android:id="@+id/standupBtn"
+                    android:background="@drawable/stand_up_selector"
                     android:layout_toRightOf="@+id/relaxBtn"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="10dp"
