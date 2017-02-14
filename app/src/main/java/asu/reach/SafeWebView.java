@@ -7,7 +7,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.Display;
 import android.view.Window;
 import android.view.WindowManager;
@@ -15,8 +19,13 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebSettings;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Random;
 
 public class SafeWebView extends Activity implements DialogInterface.OnClickListener {
@@ -24,6 +33,10 @@ public class SafeWebView extends Activity implements DialogInterface.OnClickList
     private WebView mWebView;
     private SQLiteDatabase db;
     private Situation situation;
+
+    private MediaRecorder mediaRecorder;
+    private String outputFile;
+    private File mediaStorageDir;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +46,16 @@ public class SafeWebView extends Activity implements DialogInterface.OnClickList
         db = dbHelper.getDB();
 
         situation = retrieveSituationFromDB();
+        mediaStorageDir = new File(Environment.getExternalStorageDirectory(), "REACH");
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                Log.d("App", "failed to create directory");
+            }
+        }
+        mediaRecorder = new MediaRecorder();
+        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
 
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.safe_web_view);
@@ -66,14 +89,18 @@ public class SafeWebView extends Activity implements DialogInterface.OnClickList
             }
 
             @JavascriptInterface
-            public int getRandom(){
-                Random num = new Random(System.currentTimeMillis());
-                return (int) (3 * num.nextDouble());
+            public void goToHomeScreen(boolean force) {
+                goToHomepage(force);
             }
 
             @JavascriptInterface
-            public void goToHomeScreen() {
-                goToHomepage();
+            public void startRecording() {
+                sw_startRecording();
+            }
+
+            @JavascriptInterface
+            public void stopRecording() {
+                sw_stopRecording();
             }
         }, "safe");
 
@@ -107,10 +134,38 @@ public class SafeWebView extends Activity implements DialogInterface.OnClickList
         return new Situation(c);
     }
 
-    private void goToHomepage(){
-        FragmentManager fm = getFragmentManager();
-        DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this);
-        dialog.show(fm, "frag");
+    private void goToHomepage(boolean force) {
+        if (!force) {
+            FragmentManager fm = getFragmentManager();
+            DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this);
+            dialog.show(fm, "frag");
+        } else {
+            finish();
+        }
+    }
+
+    private void sw_startRecording() {
+        SimpleDateFormat timeStampFormat = new SimpleDateFormat("yyyy-MM-dd-HH.mm.ss", Locale.US);
+        String fileName = "audio_" + timeStampFormat.format(new Date()) + ".3gp";
+        outputFile = mediaStorageDir.getAbsolutePath() + "/" + fileName;
+        mediaRecorder.setOutputFile(outputFile);
+        try {
+            mediaRecorder.prepare();
+            mediaRecorder.start();
+        } catch (Exception e) {
+        }
+    }
+
+    private void sw_stopRecording() {
+        mediaRecorder.stop();
+        mediaRecorder.release();
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        try {
+            mediaPlayer.setDataSource(outputFile);
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+        } catch (Exception e) {
+        }
     }
 
     @Override

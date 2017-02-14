@@ -84,13 +84,34 @@ body {
     text-align: center;
 }
 
-
 .left-button {
     height: 100%;
     float: left;
+    width: 18%;
+}
+
+.progress {
+    height: 70%;
+    width: 14%;
 }
 
 .right-button {
     height: 100%;
     float: right;
+    width: 18%;
+}
+
+.right-button-record {
+    height: 75%;
+    float: right;
+    width: 18%;
+}
+
+.top-img {
+    height: 100%;
+    width: 100%;
+}
+
+.top-img[src="file:///android_res/drawable/safe_msg_eye_contact.png"], .top-img[src="file:///android_res/drawable/safe_msg_push_record.png"]{
+    height: 300px;
 }
