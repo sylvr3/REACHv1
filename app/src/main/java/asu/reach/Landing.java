@@ -252,7 +252,7 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
 
         // Safe
         if(v.getId() == safe.getId()) {
-            Intent intent = new Intent(this, SafeWebView.class);
+            Intent intent = new Intent(this, Safe.class);
 
             startActivity(intent);
         }
