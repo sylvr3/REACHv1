@@ -72,7 +72,13 @@ public class NotifyService extends Service {
             c1.close();
             db.close();
 
-            int currentDayofProtocol = calculateDayofProtocol(ALLprotocolStartDate);
+            int currentDayofProtocol = 0;
+            try{
+                currentDayofProtocol  = calculateDayofProtocol(ALLprotocolStartDate);
+            } catch (Exception e){
+                Log.d("excep", e.getLocalizedMessage());
+            }
+
 
             if (currentDayofProtocol > 0) {
                 DBHelper helper2 = new DBHelper(getApplicationContext());
