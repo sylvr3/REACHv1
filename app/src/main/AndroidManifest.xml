@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="asu.reach">
 
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -50,7 +52,11 @@
             android:label="@string/title_activity_worry_heads"></activity>
         <activity
             android:name=".Safe"
-            android:label="@string/title_activity_safe"></activity>
+
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_safe" >
+        </activity>
+
         <activity android:name=".Preferences" />
         <activity
             android:name=".DatePreferenceActivity"

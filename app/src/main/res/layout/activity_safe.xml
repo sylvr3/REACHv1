@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="asu.reach.Safe"
-    android:background="@drawable/background_space">
+    android:background="@drawable/safe_background"
+    android:id="@+id/SafeActivityLayout">
 
     <VideoView
         android:layout_width="match_parent"
@@ -34,15 +35,16 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:paddingBottom="@dimen/activity_vertical_margin"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/gjView"
         android:layout_alignParentStart="true">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/whMessage"
-            android:background="@drawable/wh_title"
+            android:background="@drawable/ask_nicely"
             android:visibility="gone"
+            android:layout_marginTop="-30dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp" />
 
@@ -146,40 +148,64 @@
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/stLayout"
+            android:id="@+id/safeLayout"
             android:visibility="visible"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="20dp"
+            android:weightSum="1">
 
             <ImageView
-                android:layout_width="75dp"
-                android:layout_height="60dp"
+                android:layout_width="40dp"
+                android:layout_height="50dp"
                 android:id="@+id/sView"
                 android:layout_alignParentTop="false"
                 android:layout_alignParentStart="false"
                 android:background="@drawable/s_selector"
-                android:layout_marginLeft="40dp"
+                android:layout_marginLeft="100dp"
                 android:clickable="true"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true" />
 
             <ImageView
-                android:layout_width="75dp"
-                android:layout_height="60dp"
-                android:id="@+id/tView"
-                android:background="@drawable/t_selector"
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:id="@+id/aView"
+                android:background="@drawable/a_selector"
                 android:layout_alignParentEnd="false"
-                android:layout_marginRight="40dp"
+                android:layout_marginRight="0dp"
                 android:clickable="true"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentBottom="true" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:id="@+id/fView"
+                android:background="@drawable/f_selector"
+                android:layout_alignParentEnd="false"
+                android:layout_marginRight="0dp"
+                android:clickable="true"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:id="@+id/eView"
+                android:background="@drawable/e_selector"
+                android:layout_alignParentEnd="false"
+                android:layout_marginRight="800dp"
+                android:clickable="true"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true" />
+
         </LinearLayout>
 
 
         <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="400dp"
             android:id="@+id/msgLayout"
             android:visibility="gone"
             android:layout_above="@+id/stLayout"
@@ -216,6 +242,8 @@
 
         </RelativeLayout>
 
+
+
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -223,6 +251,31 @@
             android:visibility="gone"
             android:layout_above="@+id/stLayout"
             android:layout_marginTop="10dp">
+
+            <asu.reach.googleVision.CameraSourcePreview
+                android:id="@+id/preview"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <asu.reach.googleVision.GraphicOverlay
+                    android:id="@+id/faceOverlay"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" />
+
+
+            </asu.reach.googleVision.CameraSourcePreview>
+
+
+
+
+            <ImageView
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:id="@+id/safeBlob"
+                android:background="@drawable/safe_blob"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="83dp"
+                android:layout_alignTop="@+id/lookEyesMsg" />
 
             <ImageView
                 android:layout_width="190dp"
@@ -236,6 +289,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="10dp"
                 android:visibility="visible"/>
+
+
 
             <ImageView
                 android:layout_width="390dp"
@@ -274,22 +329,12 @@
                 android:lineSpacingExtra="2dp"
                 android:textSize="13dp" />
 
-
-            <ImageView
-                android:layout_width="300dp"
-                android:layout_height="300dp"
-                android:id="@+id/safeBlob"
-                android:background="@drawable/safe_blob"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="83dp"
-                android:layout_alignTop="@+id/lookEyesMsg" />
-
         </RelativeLayout>
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/whBackBtn"
+            android:id="@+id/safeBackButton"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:visibility="visible"
@@ -298,10 +343,11 @@
             android:layout_marginBottom="-12dp"
             android:layout_marginLeft="12dp" />
 
+
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/whNextBtn"
+            android:id="@+id/safeNextButton"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:visibility="visible"
@@ -310,13 +356,35 @@
             android:layout_alignParentEnd="true"
             android:layout_marginRight="12dp" />
 
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/nextFirm"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"
+            android:layout_marginBottom="-12dp"
+            android:background="@drawable/next_selector"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="12dp" />
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/firm_but_kind"
+            android:background="@drawable/firm_but_kind_voice"
+            android:visibility="gone"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
+
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
+            android:layout_alignParentRight="true"
             android:id="@+id/recordControls"
             android:visibility="visible"
             android:weightSum="1">
@@ -331,8 +399,18 @@
                 android:layout_toLeftOf="@+id/whBackBtn"
                 android:layout_alignBottom="@+id/whBackBtn"
                 android:visibility="gone"
-                android:layout_marginRight="10dp"
-                android:layout_weight="0.50" />
+                android:layout_marginRight="10dp"/>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/eyeContactDone"
+                android:layout_alignParentBottom="false"
+                android:layout_alignParentEnd="false"
+                android:background="@drawable/done_selector"
+                android:layout_toRightOf="@+id/whBackBtn"
+                android:layout_alignBottom="@+id/whBackBtn"
+                android:visibility="gone" />
 
             <ImageButton
                 android:layout_width="wrap_content"
@@ -370,7 +448,7 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/whDoneBtn"
+                android:id="@+id/safeDoneButton"
                 android:layout_alignParentBottom="false"
                 android:layout_alignParentEnd="false"
                 android:background="@drawable/done_selector"
