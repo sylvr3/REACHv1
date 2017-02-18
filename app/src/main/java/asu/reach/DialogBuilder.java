@@ -6,11 +6,17 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import java.util.ArrayList;
@@ -26,10 +32,15 @@ public class DialogBuilder extends DialogFragment{
     private static WorryHeads whActivity;
     private static Safe safeActivity;
     private static boolean end,date;
+    private CheckBox checkBox;
 
-    final CharSequence[] items = {"Don't ask me again "};
-    // arraylist to keep the selected items
-    final ArrayList selectedItems=new ArrayList<>();
+    public static final String PREFS_NAME = "DoNotShowAgain";
+
+
+    private void doNotShowAgain() {
+        // persist shared preference to prevent dialog from showing again.
+        Log.d("MainActivity", "TODO: Persist shared preferences.");
+    }
 
     public static DialogBuilder newInstance(String title) {
         DialogBuilder frag = new DialogBuilder();
@@ -132,11 +143,13 @@ public class DialogBuilder extends DialogFragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         getDialog().setCanceledOnTouchOutside(false);
         return super.onCreateView(inflater, container, savedInstanceState);
+
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         String title = getArguments().getString("title");
+
         if(landingActivity != null){
             pin.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
             return new AlertDialog.Builder(getActivity())
@@ -209,31 +222,34 @@ public class DialogBuilder extends DialogFragment{
                     .setIcon(R.drawable.ic_launcher)
                     .setTitle(title)
                     .setMessage("Are you sure you want to Leave?")
-            .setMultiChoiceItems(items, null,
-                    new DialogInterface.OnMultiChoiceClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int indexSelected,
-                                            boolean isChecked) {
-                            if (isChecked) {
-                                selectedItems.add(indexSelected);
-                            } else if (selectedItems.contains(indexSelected)) {
-                                selectedItems.remove(Integer.valueOf(indexSelected));
-                            }
-                        }
-                    })
                     .setPositiveButton("Yes", whActivity)
                     .setNegativeButton("Cancel", whActivity)
                     .create();
         }
+        AlertDialog.Builder adb = new AlertDialog.Builder(safeActivity);
+        LayoutInflater inflater = LayoutInflater.from(safeActivity);
+        View neverShow = inflater.inflate(R.layout.checkbox, null);
+        checkBox = (CheckBox) neverShow.findViewById(R.id.checkbox);
         if(safeActivity != null){
             return new AlertDialog.Builder(getActivity())
                     .setIcon(R.drawable.ic_launcher)
                     .setTitle(title)
                     .setMessage("Are you sure you want to Leave?")
-                    .setPositiveButton("Yes", safeActivity)
-                    .setNegativeButton("Cancel", safeActivity)
-                    .create();
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            String checkBoxResult = "NOT checked";
+                            if (checkBox.isChecked())
+                                checkBoxResult = "checked";
+                            SharedPreferences settings = getContext().getSharedPreferences(PREFS_NAME, 0);
+                            SharedPreferences.Editor editor = settings.edit();
+                            editor.putString("skipMessage", checkBoxResult);
+                            editor.commit();
+                        }
+                    })
+                            .setNegativeButton("Cancel", safeActivity)
+                            .create();
         }
+
         return null;
     }
 }
