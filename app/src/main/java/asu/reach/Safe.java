@@ -262,6 +262,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                 System.out.println(o[1]);
                 System.out.println(o[2]);
                 populateO(o);
+                message.setTypeface(textType);
                 message.setText("Situation:\n\n"+sText);
 
             }else{
@@ -611,13 +612,13 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
     private void resize() {
         if (oOne.getText().length() > 10) {
-            oOne.setTextSize(18);
+            oOne.setTextSize(25);
         }
         if (oTwo.getText().length() > 10) {
-            oTwo.setTextSize(18);
+            oTwo.setTextSize(25);
         }
         if (oThree.getText().length() > 10) {
-            oThree.setTextSize(18);
+            oThree.setTextSize(25);
 
         }
     }
@@ -710,6 +711,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                     if (intro) {
                         s = true;
                         back.setBackgroundResource(R.drawable.home_selector);
+                        message.setTypeface(textType);
                         message.setText("Situation:\n\n" + sText);
                     } else {
                         intro = true;
