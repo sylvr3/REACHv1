@@ -195,7 +195,9 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
             startActivity(intent);
         }
         if(v.getId() == dd.getId()){
-            Intent intent = new Intent(this, DailyDiary.class);
+            Intent intent = new Intent(this,AttentionBiasedToolbox.class);
+            startActivity(intent);
+            /*Intent intent = new Intent(this, DailyDiary.class);
             try {
                 DBHelper helper = new DBHelper(this);
                 helper.trackEvent(helper,"DAILY_DIARY","LANDING_PAGE");
@@ -203,7 +205,7 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
             }catch(Exception e){
                 e.printStackTrace();
             }
-            startActivity(intent);
+            startActivity(intent);*/
         }
         if(v.getId() == stic.getId()){
             Intent intent = new Intent(this, STIC.class);
