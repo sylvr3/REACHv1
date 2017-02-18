@@ -497,6 +497,10 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         safePRMImageView.setVisibility(View.VISIBLE);
         safeEyeContactImageView.setVisibility(View.GONE);
         safeBlob.setVisibility(View.VISIBLE);
+<<<<<<< HEAD
+=======
+//        int id = getResources().getIdentifier("safe_blob", "drawable", getPackageName());
+>>>>>>> 0a478529a80a68e57713acb4ee8d834e90832209
         safeBlob.setBackgroundResource(R.drawable.safe_blob);
 
         safeRecordImageButton.setVisibility(View.VISIBLE);
