@@ -31,6 +31,7 @@ public class DialogBuilder extends DialogFragment{
     private static DailyDiary ddActivity;
     private static WorryHeads whActivity;
     private static Safe safeActivity;
+    private static SafeWebView safeWebViewActivity;
     private static boolean end,date;
     private CheckBox checkBox;
 
@@ -131,6 +132,21 @@ public class DialogBuilder extends DialogFragment{
         args.putString("title", title);
         frag.setArguments(args);
         safeActivity = a;
+        sticActivity = null;
+        whActivity = null;
+        landingActivity = null;
+        stopActivity = null;
+        ddActivity = null;
+        return frag;
+    }
+
+    public static DialogBuilder newInstance(String title, SafeWebView a) {
+        DialogBuilder frag = new DialogBuilder();
+        Bundle args = new Bundle();
+        args.putString("title", title);
+        frag.setArguments(args);
+        safeWebViewActivity = a;
+        safeActivity = null;
         sticActivity = null;
         whActivity = null;
         landingActivity = null;
@@ -250,6 +266,18 @@ public class DialogBuilder extends DialogFragment{
                             .create();
         }
 
+<<<<<<< HEAD
+=======
+        if(safeWebViewActivity != null){
+            return new AlertDialog.Builder(getActivity())
+                    .setIcon(R.drawable.ic_launcher)
+                    .setTitle(title)
+                    .setMessage("Are you sure you want to Leave?")
+                    .setPositiveButton("Yes", safeWebViewActivity)
+                    .setNegativeButton("Cancel", safeWebViewActivity)
+                    .create();
+        }
+>>>>>>> 5e2a314beb619806a6787d3b6f402c26c66f9afb
         return null;
     }
 }

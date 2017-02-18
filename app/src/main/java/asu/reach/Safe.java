@@ -702,7 +702,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
         if (v.getId() == back.getId()){
             if(!choice ) {
-
                 if (s || onRecord) {
                     FragmentManager fm = getFragmentManager();
                     DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this);
@@ -782,7 +781,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             safeDoneImageButton.setVisibility(View.GONE);
             safeRecordImageButton.setVisibility(View.GONE);
 
-          speakAnswer();
+            speakAnswer();
 
         }
 
@@ -854,7 +853,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         wrong = true;
         choice = true;
     }
-
 
     public String getAns() {
         String answer = "";

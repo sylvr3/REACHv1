@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="neutral_images">
+        <item>@drawable/f1n</item>
+        <item>@drawable/f2n</item>
+        <item>@drawable/f3n</item>
+        <item>@drawable/f4n</item>
+        <item>@drawable/f5n</item>
+        <item>@drawable/m1n</item>
+        <item>@drawable/m2n</item>
+        <item>@drawable/m3n</item>
+        <item>@drawable/m4n</item>
+        <item>@drawable/m5n</item>
+        <item>@drawable/f11n</item>
+        <item>@drawable/f22n</item>
+        <item>@drawable/f33n</item>
+        <item>@drawable/f44n</item>
+        <item>@drawable/f55n</item>
+        <item>@drawable/m11n</item>
+        <item>@drawable/m22n</item>
+        <item>@drawable/m33n</item>
+        <item>@drawable/m44n</item>
+        <item>@drawable/m55n</item>
+    </array>
+    <array name="threat_images">
+        <item>@drawable/f1t</item>
+        <item>@drawable/f2t</item>
+        <item>@drawable/f3t</item>
+        <item>@drawable/f4t</item>
+        <item>@drawable/f5t</item>
+        <item>@drawable/m1t</item>
+        <item>@drawable/m2t</item>
+        <item>@drawable/m3t</item>
+        <item>@drawable/m4t</item>
+        <item>@drawable/m5t</item>
+        <item>@drawable/f11t</item>
+        <item>@drawable/f22t</item>
+        <item>@drawable/f33t</item>
+        <item>@drawable/f44t</item>
+        <item>@drawable/f55t</item>
+        <item>@drawable/m11t</item>
+        <item>@drawable/m22t</item>
+        <item>@drawable/m33t</item>
+        <item>@drawable/m44t</item>
+        <item>@drawable/m55t</item>
+    </array>
+</resources>

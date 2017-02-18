@@ -1,0 +1,41 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Landing"
+    >
+
+    <ViewSwitcher
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/viewSwitcher"
+        android:layout_alignParentStart="false">
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:padding="6dp"
+            android:weightSum="2">
+
+            <ImageButton
+                android:id="@+id/imgTop"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/imgBottom"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+    </ViewSwitcher>
+</RelativeLayout>
