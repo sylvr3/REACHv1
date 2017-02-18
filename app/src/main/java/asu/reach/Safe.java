@@ -609,17 +609,17 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         }
     }
 
-    private void resize(){
-        if(oOne.getText().length() > 10){
+    private void resize() {
+        if (oOne.getText().length() > 10) {
             oOne.setTextSize(18);
         }
-        if(oTwo.getText().length() > 10){
+        if (oTwo.getText().length() > 10) {
             oTwo.setTextSize(18);
         }
-        if(oThree.getText().length() > 10){
+        if (oThree.getText().length() > 10) {
             oThree.setTextSize(18);
-        }
 
+        }
     }
     @Override
     public void onClick(View v) {
@@ -670,8 +670,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                     oLayout.setVisibility(View.GONE);
                     message.setText("Firm But Kind Voice:\n\n");
                     thumbsUp.setVisibility(View.VISIBLE);
-                    // complete(oTwo.getText().toString());
-                    //  speakAnswer(oTwo.getText().toString());
                     answerTextView.setText(oTwo.getText().toString());
                     firmButKindVoice(oTwo.getText().toString());
                     chosenAnswer = 2;
@@ -695,8 +693,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                     oLayout.setVisibility(View.GONE);
                     message.setText("Firm But Kind Voice:\n\n");
                     thumbsUp.setVisibility(View.VISIBLE);
-                    //  complete(oThree.getText().toString());
-                    // speakAnswer(oThree.getText().toString());
                     answerTextView.setText(oThree.getText().toString());
                     firmButKindVoice(oThree.getText().toString());
                     chosenAnswer = 3;
@@ -840,15 +836,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             mediaRecorder.release();
             Toast.makeText(getApplicationContext(),"Recorded Successfully", Toast.LENGTH_LONG).show();
             complete("test");
-//            MediaPlayer mediaPlayer = new MediaPlayer();
-//            try {
-//                mediaPlayer.setDataSource(outputFile);
-//                mediaPlayer.prepare();
-//                mediaPlayer.start();
-//            }
-//            catch(Exception e) {
-//                Toast.makeText(getApplicationContext(), "Exception in MediaPlayer", Toast.LENGTH_LONG).show();
-//            }
         }
 
     }
