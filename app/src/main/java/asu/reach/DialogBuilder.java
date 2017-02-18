@@ -265,19 +265,6 @@ public class DialogBuilder extends DialogFragment{
                             .setNegativeButton("Cancel", safeActivity)
                             .create();
         }
-
-<<<<<<< HEAD
-=======
-        if(safeWebViewActivity != null){
-            return new AlertDialog.Builder(getActivity())
-                    .setIcon(R.drawable.ic_launcher)
-                    .setTitle(title)
-                    .setMessage("Are you sure you want to Leave?")
-                    .setPositiveButton("Yes", safeWebViewActivity)
-                    .setNegativeButton("Cancel", safeWebViewActivity)
-                    .create();
-        }
->>>>>>> 5e2a314beb619806a6787d3b6f402c26c66f9afb
         return null;
     }
 }
