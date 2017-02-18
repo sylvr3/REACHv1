@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class DialogBuilder extends DialogFragment{
@@ -24,6 +26,10 @@ public class DialogBuilder extends DialogFragment{
     private static WorryHeads whActivity;
     private static Safe safeActivity;
     private static boolean end,date;
+
+    final CharSequence[] items = {"Don't ask me again "};
+    // arraylist to keep the selected items
+    final ArrayList selectedItems=new ArrayList<>();
 
     public static DialogBuilder newInstance(String title) {
         DialogBuilder frag = new DialogBuilder();
@@ -203,6 +209,18 @@ public class DialogBuilder extends DialogFragment{
                     .setIcon(R.drawable.ic_launcher)
                     .setTitle(title)
                     .setMessage("Are you sure you want to Leave?")
+            .setMultiChoiceItems(items, null,
+                    new DialogInterface.OnMultiChoiceClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int indexSelected,
+                                            boolean isChecked) {
+                            if (isChecked) {
+                                selectedItems.add(indexSelected);
+                            } else if (selectedItems.contains(indexSelected)) {
+                                selectedItems.remove(Integer.valueOf(indexSelected));
+                            }
+                        }
+                    })
                     .setPositiveButton("Yes", whActivity)
                     .setNegativeButton("Cancel", whActivity)
                     .create();

@@ -611,13 +611,13 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
     private void resize(){
         if(oOne.getText().length() > 10){
-            oOne.setTextSize(20);
+            oOne.setTextSize(18);
         }
         if(oTwo.getText().length() > 10){
-            oTwo.setTextSize(20);
+            oTwo.setTextSize(18);
         }
         if(oThree.getText().length() > 10){
-            oThree.setTextSize(20);
+            oThree.setTextSize(18);
         }
 
     }
@@ -669,6 +669,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                     }
                     oLayout.setVisibility(View.GONE);
                     message.setText("Firm But Kind Voice:\n\n");
+                    thumbsUp.setVisibility(View.VISIBLE);
                     // complete(oTwo.getText().toString());
                     //  speakAnswer(oTwo.getText().toString());
                     answerTextView.setText(oTwo.getText().toString());
@@ -693,6 +694,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                     }
                     oLayout.setVisibility(View.GONE);
                     message.setText("Firm But Kind Voice:\n\n");
+                    thumbsUp.setVisibility(View.VISIBLE);
                     //  complete(oThree.getText().toString());
                     // speakAnswer(oThree.getText().toString());
                     answerTextView.setText(oThree.getText().toString());

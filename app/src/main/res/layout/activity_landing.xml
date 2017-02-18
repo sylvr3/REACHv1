@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Landing"
-    android:background="@drawable/landing">
+    android:background="@drawable/compass_landing">
 
     <ViewSwitcher
         android:layout_width="match_parent"
@@ -415,6 +415,8 @@
         </LinearLayout>
 
     </ViewSwitcher>
+
+
 
 
 </RelativeLayout>
