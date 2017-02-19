@@ -800,6 +800,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             doneRecording.setVisibility(View.VISIBLE);
             answerTextView.setVisibility(View.VISIBLE);
             answerImageView.setVisibility(View.VISIBLE);
+            answerTextView.setTextSize(25);
 
             // Create file name with the timeStamp
             SimpleDateFormat timeStampFormat = new SimpleDateFormat("yyyy-MM-dd-HH.mm.ss", Locale.US);
@@ -856,21 +857,20 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         choice = true;
     }
 
+
     public String getAns() {
-        String answer = "";
         switch(chosenAnswer)
         {
-
             case 1:
-                answer = oOne.getText().toString();
+                return oOne.getText().toString();
             case 2:
-                answer = oTwo.getText().toString();
+                return oTwo.getText().toString();
             case 3:
-                answer = oThree.getText().toString();
-
+                return oThree.getText().toString();
+            default: return "";
         }
-        return answer;
     }
+
 
     private void firmButKindVoice(String msg) {
 

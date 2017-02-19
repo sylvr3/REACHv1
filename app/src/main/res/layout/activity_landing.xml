@@ -141,10 +141,11 @@
                     android:id="@+id/mbBtn"
                     android:background="@drawable/mb_selector"
                     android:layout_alignParentEnd="false"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
                     android:layout_marginBottom="15dp"
                     android:layout_toLeftOf="@+id/relaxBtn"
-                    android:layout_marginTop="-20dp"
+                    android:layout_marginTop="-5dp"
                     android:layout_alignTop="@+id/relaxBtn" />
 
                 <ImageButton
@@ -186,10 +187,10 @@
                     android:background="@drawable/stand_up_selector"
                     android:layout_toRightOf="@+id/relaxBtn"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="35dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="20dp"
                     android:layout_alignTop="@+id/relaxBtn"
-                    android:layout_marginTop="-30dp" />
+                    android:layout_marginTop="-15dp" />
 
                 <ImageButton
                     android:layout_width="wrap_content"

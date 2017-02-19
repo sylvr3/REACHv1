@@ -1,12 +1,12 @@
 package asu.reach;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -22,7 +22,7 @@ import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class DialogBuilder extends DialogFragment{
+public class DialogBuilder extends DialogFragment {
 
     private static EditText pin;
     private static STIC sticActivity;
@@ -32,8 +32,7 @@ public class DialogBuilder extends DialogFragment{
     private static WorryHeads whActivity;
     private static Safe safeActivity;
     private static SafeWebView safeWebViewActivity;
-    private static boolean end,date;
-    private CheckBox checkBox;
+    private static boolean end, date;
 
     public static final String PREFS_NAME = "DoNotShowAgain";
 
@@ -111,6 +110,7 @@ public class DialogBuilder extends DialogFragment{
         pin = p;
         return frag;
     }
+
     public static DialogBuilder newInstance(String title, WorryHeads a) {
         DialogBuilder frag = new DialogBuilder();
         Bundle args = new Bundle();
@@ -137,6 +137,7 @@ public class DialogBuilder extends DialogFragment{
         landingActivity = null;
         stopActivity = null;
         ddActivity = null;
+        ddActivity = null;
         return frag;
     }
 
@@ -157,6 +158,9 @@ public class DialogBuilder extends DialogFragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (getDialog() == null)
+            setShowsDialog(false);
+        else
         getDialog().setCanceledOnTouchOutside(false);
         return super.onCreateView(inflater, container, savedInstanceState);
 
@@ -166,7 +170,7 @@ public class DialogBuilder extends DialogFragment{
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         String title = getArguments().getString("title");
 
-        if(landingActivity != null){
+        if (landingActivity != null) {
             pin.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
             return new AlertDialog.Builder(getActivity())
                     .setIcon(R.drawable.ic_launcher)
@@ -176,7 +180,7 @@ public class DialogBuilder extends DialogFragment{
                     .setNegativeButton("Cancel", landingActivity)
                     .create();
         }
-        if(sticActivity != null) {
+        if (sticActivity != null) {
             pin.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
             return new AlertDialog.Builder(getActivity())
                     .setIcon(R.drawable.ic_launcher)
@@ -186,8 +190,8 @@ public class DialogBuilder extends DialogFragment{
                     .setNegativeButton("Cancel", sticActivity)
                     .create();
         }
-        if(stopActivity != null){
-            if(end) {
+        if (stopActivity != null) {
+            if (end) {
                 return new AlertDialog.Builder(getActivity())
                         .setIcon(R.drawable.ic_launcher)
                         .setTitle(title)
@@ -195,7 +199,7 @@ public class DialogBuilder extends DialogFragment{
                         .setPositiveButton("Yes", stopActivity)
                         .setNegativeButton("Cancel", stopActivity)
                         .create();
-            }else{
+            } else {
                 return new AlertDialog.Builder(getActivity())
                         .setIcon(R.drawable.ic_launcher)
                         .setTitle(title)
@@ -205,8 +209,8 @@ public class DialogBuilder extends DialogFragment{
                         .create();
             }
         }
-        if(ddActivity != null){
-            if(!date) {
+        if (ddActivity != null) {
+            if (!date) {
                 if (end) {
                     return new AlertDialog.Builder(getActivity())
                             .setIcon(R.drawable.ic_launcher)
@@ -224,7 +228,7 @@ public class DialogBuilder extends DialogFragment{
                             .setNegativeButton("Cancel", ddActivity)
                             .create();
                 }
-            }else {
+            } else {
                 final Calendar c = Calendar.getInstance();
                 int year = c.get(Calendar.YEAR);
                 int month = c.get(Calendar.MONTH);
@@ -233,7 +237,7 @@ public class DialogBuilder extends DialogFragment{
                 return new DatePickerDialog(ddActivity, ddActivity, year, month, day);
             }
         }
-        if(whActivity != null){
+        if (whActivity != null) {
             return new AlertDialog.Builder(getActivity())
                     .setIcon(R.drawable.ic_launcher)
                     .setTitle(title)
@@ -242,29 +246,41 @@ public class DialogBuilder extends DialogFragment{
                     .setNegativeButton("Cancel", whActivity)
                     .create();
         }
-        AlertDialog.Builder adb = new AlertDialog.Builder(safeActivity);
-        LayoutInflater inflater = LayoutInflater.from(safeActivity);
-        View neverShow = inflater.inflate(R.layout.checkbox, null);
-        checkBox = (CheckBox) neverShow.findViewById(R.id.checkbox);
-        if(safeActivity != null){
-            return new AlertDialog.Builder(getActivity())
-                    .setIcon(R.drawable.ic_launcher)
-                    .setTitle(title)
-                    .setMessage("Are you sure you want to Leave?")
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            String checkBoxResult = "NOT checked";
-                            if (checkBox.isChecked())
-                                checkBoxResult = "checked";
-                            SharedPreferences settings = getContext().getSharedPreferences(PREFS_NAME, 0);
-                            SharedPreferences.Editor editor = settings.edit();
-                            editor.putString("skipMessage", checkBoxResult);
-                            editor.commit();
-                        }
-                    })
-                            .setNegativeButton("Cancel", safeActivity)
-                            .create();
+
+        final SharedPreferences settings = safeActivity.getSharedPreferences(PREFS_NAME, 0);
+        final SharedPreferences.Editor editor = settings.edit();
+        boolean doNotShowDialog = settings.getBoolean("skipMessage", false);
+        View checkBoxView = View.inflate(safeActivity, R.layout.checkbox, null);
+        final CheckBox checkBox = (CheckBox) checkBoxView.findViewById(R.id.checkbox);
+        checkBox.setText("Do not ask me again");
+       // checkBox.setChecked(doNotShowDialog);
+      //  boolean showBox = true;
+
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+
+                if (isChecked) {
+                    editor.putBoolean("skipMessage", checkBox.isChecked());
+                    editor.commit();
+
+                }
+            }
+        });
+
+
+        if (!doNotShowDialog) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(safeActivity);
+            builder.setTitle(title);
+            return builder.setMessage("Are you sure you want to Leave?")
+                    .setView(checkBoxView)
+                    .setPositiveButton("Yes", safeActivity)
+                    .setNegativeButton("No", safeActivity)
+                    .create();
         }
+
         return null;
     }
 }
+

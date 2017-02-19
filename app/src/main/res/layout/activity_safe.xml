@@ -44,7 +44,7 @@
             android:id="@+id/whMessage"
             android:background="@drawable/ask_nicely"
             android:visibility="gone"
-            android:layout_marginTop="-50dp"
+            android:layout_marginTop="-30dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp" />
 
