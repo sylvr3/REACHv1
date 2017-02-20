@@ -810,14 +810,15 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             msgLayout.setVisibility(View.GONE);
             thumbsUp.setVisibility(View.GONE);
             safeRecordImageButton.setVisibility(View.GONE);
-            safeBlob.setVisibility(View.VISIBLE);
-            safeBlob.setBackgroundResource(R.drawable.safe_blob_eye_contact1);
+//            safeBlob.setVisibility(View.VISIBLE);
+//            safeBlob.setBackgroundResource(R.drawable.safe_blob_eye_contact1);
             safePRMImageView.setVisibility(View.GONE);
             safeEyeContactImageView.setVisibility(View.VISIBLE);
             safeRecordImageButton.setVisibility(View.GONE);
             answerTextView.setVisibility(View.GONE);
             answerImageView.setVisibility(View.GONE);
             nextFirm.setVisibility(View.GONE);
+            safeActivityLayout.setBackgroundResource(R.drawable.safe_blob_eye_contact_bg);
             startEyeTracking();
         }
 
@@ -996,6 +997,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                 rLayout.setVisibility(View.GONE);
                 onRecord = false;
                 safeAcronymLayout.setVisibility(View.GONE);
+                safeActivityLayout.setBackgroundResource(R.drawable.safe_background);
             }
         });
 
