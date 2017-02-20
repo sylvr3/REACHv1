@@ -258,7 +258,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                 activateS();
                 situationTextView.setTypeface(textType);
                 situationTextView.setText("Situation:\n"+sText);
-                speakYourMindTextView.setTypeface(textType);
+                speakYourMindTextView.setTypeface(t);
                 speakYourMindTextView.setText("Speak your mind");
             }else{
                 message.setText("You've completed all of them!");
