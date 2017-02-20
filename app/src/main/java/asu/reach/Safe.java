@@ -71,8 +71,9 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
     //Safe
     private RelativeLayout rLayout;
     private LinearLayout safeAcronymLayout;
-    private RelativeLayout safeActivityLayout;
-    private ImageView safePRMImageView, safeEyeContactImageView, safeBlob;
+    private RelativeLayout safeActivityLayout, situationSpeakLayout;
+    private ImageView safePRMImageView, safeEyeContactImageView, safeBlob, situationImageView, speakYourMindImageView;
+    private TextView situationTextView, speakYourMindTextView;
     private ImageButton safeRecordImageButton, safeDoneImageButton;
 
     private int wrongO;  // which 0 is incorrect
@@ -86,7 +87,8 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
     //Safe
     private boolean onRecord = false; // Record screens are showing
-
+    private boolean onSpeakYourMind = true;
+    private boolean onAskNicely = false;
     // Recording
     private MediaRecorder mediaRecorder;
     private String outputFile;
@@ -155,6 +157,11 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         doneRecording = (ImageButton)findViewById(R.id.recordDone);
         thumbsUp = (ImageView)findViewById(R.id.thumbsUp);
 
+        situationImageView = (ImageView) findViewById(R.id.situationImageView);
+        situationTextView = (TextView) findViewById(R.id.situationTextView);
+        speakYourMindImageView = (ImageView) findViewById(R.id.speakYourMindImageView);
+        speakYourMindTextView = (TextView) findViewById(R.id.speakYourMindTextView);
+
         //Recording
         //outputFile = Environment.getExternalStorageDirectory().getAbsolutePath()+"/recording.3gp";
 //        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -173,6 +180,10 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         //SAFE
 
         rLayout = (RelativeLayout) findViewById(recordLayout);
+
+        situationSpeakLayout = (RelativeLayout) findViewById(R.id.SituationSpeakLayout);
+
+
         safePRMImageView = (ImageView) findViewById(R.id.recordMsg);
         safeEyeContactImageView = (ImageView) findViewById(R.id.lookEyesMsg);
         safeRecordImageButton = (ImageButton) findViewById(R.id.recordButton);
@@ -218,7 +229,9 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         db = helper.getDB();
 
         oLayout.setVisibility(View.GONE);
-        msgLayout.setVisibility(View.VISIBLE);
+        msgLayout.setVisibility(View.GONE);
+        situationSpeakLayout.setVisibility(View.VISIBLE);
+
         title.setVisibility(View.GONE);
         thumbsUp.setVisibility(View.GONE);
 
@@ -262,9 +275,13 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                 System.out.println(o[1]);
                 System.out.println(o[2]);
                 populateO(o);
-                message.setTypeface(textType);
-                message.setText("Situation:\n\n"+sText);
-
+//                message.setTypeface(textType);
+//                message.setText("Situation:\n\n"+sText);
+                activateS();
+                situationTextView.setTypeface(textType);
+                situationTextView.setText("Situation:\n"+sText);
+                speakYourMindTextView.setTypeface(textType);
+                speakYourMindTextView.setText("Speak your mind");
             }else{
                 message.setText("You've completed all of them!");
                 next.setVisibility(View.GONE);
@@ -703,11 +720,26 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
         if (v.getId() == back.getId()){
             if(!choice ) {
-                if (s || onRecord) {
+                if (onSpeakYourMind || onRecord) {
                     FragmentManager fm = getFragmentManager();
                     DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this);
                     dialog.show(fm, "frag");
                 } else {
+                    intro = true;
+                    situationSpeakLayout.setVisibility(View.VISIBLE);
+                    back.setBackgroundResource(R.drawable.home_selector);
+                    activateS();
+                    s = true;
+                    onSpeakYourMind = true;
+                    next.setVisibility(View.VISIBLE);
+//                    message.setTypeface(t);
+//                    message.setText("Speak Your Mind\n\n");
+//                    oLayout.setVisibility(View.GONE);
+//                    msgLayout.setVisibility(View.VISIBLE);
+//                    next.setVisibility(View.VISIBLE);
+//                    title.setVisibility(View.GONE);
+//                    activateS();
+                    /*
                     if (intro) {
                         s = true;
                         back.setBackgroundResource(R.drawable.home_selector);
@@ -723,7 +755,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                         title.setVisibility(View.GONE);
                         activateS();
                     }
-
+                    */
                 }
             }else{
                 oLayout.setVisibility(View.VISIBLE);
@@ -743,6 +775,17 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         }
         if(v.getId() == next.getId()){
 
+//            intro = false;
+            onSpeakYourMind = false;
+            onAskNicely = true;
+            situationSpeakLayout.setVisibility(View.GONE);
+            msgLayout.setVisibility(View.GONE);
+            oLayout.setVisibility(View.VISIBLE);
+            next.setVisibility(View.GONE);
+            title.setVisibility(View.VISIBLE);
+            back.setBackgroundResource(R.drawable.back_selector);
+            activateA();
+            /*
             if(s){
                 message.setTypeface(t);
                 message.setText("Speak Your Mind\n\n");
@@ -757,6 +800,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                 title.setVisibility(View.VISIBLE);
                 activateA();
             }
+            */
         }
 
 
