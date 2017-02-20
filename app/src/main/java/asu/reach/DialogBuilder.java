@@ -7,6 +7,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -36,11 +37,6 @@ public class DialogBuilder extends DialogFragment {
 
     public static final String PREFS_NAME = "DoNotShowAgain";
 
-
-    private void doNotShowAgain() {
-        // persist shared preference to prevent dialog from showing again.
-        Log.d("MainActivity", "TODO: Persist shared preferences.");
-    }
 
     public static DialogBuilder newInstance(String title) {
         DialogBuilder frag = new DialogBuilder();
@@ -269,7 +265,7 @@ public class DialogBuilder extends DialogFragment {
         });
 
 
-        if (!doNotShowDialog) {
+        if (!doNotShowDialog && safeActivity != null) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(safeActivity);
             builder.setTitle(title);
@@ -279,6 +275,11 @@ public class DialogBuilder extends DialogFragment {
                     .setNegativeButton("No", safeActivity)
                     .create();
         }
+
+        Intent intent = new Intent(getContext(), Landing.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        getContext().startActivity(intent);
+
 
         return null;
     }
