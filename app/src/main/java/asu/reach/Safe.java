@@ -8,6 +8,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -19,6 +20,7 @@ import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
@@ -117,6 +119,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
     private ImageView overlayRecordingImage;
     private FrameLayout topLayout;
+    private final String eyeTrackingTimer = "SAFEEyeTrackingTimer";
 
 
 
@@ -292,6 +295,18 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         leftEyeOpenProbability = 0;
         rightEyeOpenProbability = 0;
         probabilityCount = 0;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+
+        String eyeTrackginTimerString = preferences.getString(eyeTrackingTimer,"5");
+        Log.d("EyeTracking","Going to start eye tracking for "+eyeTrackginTimerString);
+        int timer = 5;
+        try{
+            timer = Integer.parseInt(eyeTrackginTimerString);
+        } catch (Exception e) {
+            timer = 5;
+        }
+
 
         new Timer().schedule(new TimerTask() {
             @Override
@@ -314,7 +329,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                 });
 
             }
-        }, 5000);
+        }, timer * 1000);
     }
 
 
@@ -787,7 +802,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             safeDoneImageButton.setVisibility(View.GONE);
             safeRecordImageButton.setVisibility(View.GONE);
 
-          speakAnswer();
+            speakAnswer();
 
         }
 
@@ -808,8 +823,8 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             doneRecording.setVisibility(View.VISIBLE);
             answerTextView.setVisibility(View.VISIBLE);
             answerImageView.setVisibility(View.VISIBLE);
-         //   again.setVisibility(View.VISIBLE);
-         //   done.setVisibility(View.VISIBLE);
+            //   again.setVisibility(View.VISIBLE);
+            //   done.setVisibility(View.VISIBLE);
 
             // Create file name with the timeStamp
             SimpleDateFormat timeStampFormat = new SimpleDateFormat("yyyy-MM-dd-HH.mm.ss", Locale.US);

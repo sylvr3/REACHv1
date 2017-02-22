@@ -149,12 +149,6 @@
         android:password="true"
         android:inputType="number"
         android:title="Adult PIN">
-        <!--<EditTextPreference
-            android:inputType="number"
-            android:key="teacherPIN"
-            android:password="true"
-            android:summary="Click to set"
-            android:title="Teacher PIN" />-->
 <!--        <EditTextPreference
             android:inputType="number"
             android:key="AdminPIN"
@@ -162,6 +156,12 @@
             android:summary="Click to set"
             android:title="Admin PIN" />-->
     </EditTextPreference>
+    <EditTextPreference
+        android:inputType="number"
+        android:key="SAFEEyeTrackingTimer"
+        android:summary="Click to set"
+        android:title="SAFE Eye Tracking Duration"
+        android:defaultValue="5"/>
     <PreferenceScreen
         android:key="exportDataMenu"
         android:summary="Export in .csv format"
