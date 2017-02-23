@@ -30,8 +30,8 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
 
     private SQLiteDatabase db;
     private RelativeLayout topLeftLayout, topRightLayout, bottomLeftLayout, bottomRightLayout;
-    private ImageButton dd,stic,stop,relax,wh,safe;
-    private ImageView blob,stopGlow,sticGlow,whGlow,ddGlow,relaxGlow, safeGlow;
+    private ImageButton mb,stic,stop,relax,wh,standUp;
+    private ImageView blob,stopGlow,sticGlow,whGlow,mbGlow,relaxGlow, standUpGlow;
     private ViewSwitcher viewSwitcher;
     private GestureDetector gestureDetector;
     private EditText pin;
@@ -76,12 +76,12 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         am.setRepeating(AlarmManager.RTC_WAKEUP,cal.getTimeInMillis(),60000, pii);
 
 
-        dd = (ImageButton)findViewById(R.id.ddBtn);
+        mb = (ImageButton)findViewById(R.id.mbBtn);
         stic = (ImageButton)findViewById(R.id.sticBtn);
         stop = (ImageButton)findViewById(R.id.stopBtn);
         wh = (ImageButton)findViewById(R.id.whBtn);
         relax = (ImageButton)findViewById(R.id.relaxBtn);
-        safe = (ImageButton)findViewById(R.id.safeBtn);         //safe
+        standUp = (ImageButton)findViewById(R.id.standupBtn);         //safe
         blob = (ImageView)findViewById(R.id.whiteBGView);
         topLeftLayout = (RelativeLayout)findViewById(R.id.topLeft);
         topRightLayout = (RelativeLayout)findViewById(R.id.topRight);
@@ -90,9 +90,9 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         stopGlow = (ImageView)findViewById(R.id.stopGlow);
         sticGlow = (ImageView)findViewById(R.id.sticGlow);
         whGlow = (ImageView)findViewById(R.id.whGlow);
-        ddGlow = (ImageView)findViewById(R.id.ddGlow);
+        mbGlow = (ImageView)findViewById(R.id.mbGlow);
         relaxGlow = (ImageView)findViewById(R.id.relaxGlow);
-        safeGlow = (ImageView)findViewById(R.id.safeGlow);      //safe
+        standUpGlow = (ImageView)findViewById(R.id.standupGlow);      //safe
         viewSwitcher = (ViewSwitcher)findViewById(R.id.viewSwitcher);
         topLeft = false;
         topRight = false;
@@ -100,12 +100,12 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         time = System.currentTimeMillis();
 
         relax.setOnClickListener(this);
-        dd.setOnClickListener(this);
+        mb.setOnClickListener(this);
         stic.setOnClickListener(this);
         stop.setOnClickListener(this);
         blob.setOnClickListener(this);
         wh.setOnClickListener(this);
-        safe.setOnClickListener(this);  // safe
+        standUp.setOnClickListener(this);
         topLeftLayout.setOnClickListener(this);
         topRightLayout.setOnClickListener(this);
         bottomLeftLayout.setOnClickListener(this);
@@ -145,11 +145,11 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
                     whGlow.setVisibility(View.GONE);
                 }
                 if(helper.checkActivity(DBHelper.Action.DAILY_DIARY)) {
-                    ddGlow.setVisibility(View.VISIBLE);
-                    AnimationDrawable ddAnim = (AnimationDrawable) ddGlow.getBackground();
+                    mbGlow.setVisibility(View.VISIBLE);
+                    AnimationDrawable ddAnim = (AnimationDrawable) mbGlow.getBackground();
                     ddAnim.start();
                 }else{
-                    ddGlow.setVisibility(View.GONE);
+                    mbGlow.setVisibility(View.GONE);
                 }
                 if(helper.checkActivity(DBHelper.Action.RELAXATION)) {
                     relaxGlow.setVisibility(View.VISIBLE);
@@ -194,10 +194,13 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
             Intent intent = new Intent(this, Relaxation.class);
             startActivity(intent);
         }
-        if(v.getId() == dd.getId()){
-            Intent intent = new Intent(this,AttentionBiasedToolbox.class);
+
+        if(v.getId() == mb.getId()){
+            Intent intent = new Intent(this, AttentionBiasedToolbox.class);
+
             startActivity(intent);
             /*Intent intent = new Intent(this, DailyDiary.class);
+>>>>>>> 5e2a314beb619806a6787d3b6f402c26c66f9afb
             try {
                 DBHelper helper = new DBHelper(this);
                 helper.trackEvent(helper,"DAILY_DIARY","LANDING_PAGE");
@@ -253,7 +256,7 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         }
 
         // Safe
-        if(v.getId() == safe.getId()) {
+        if(v.getId() == standUp.getId()) {
             Intent intent = new Intent(this, Safe.class);
 
             startActivity(intent);
@@ -344,11 +347,11 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
                 whGlow.setVisibility(View.GONE);
             }
             if (helper.checkActivity(DBHelper.Action.DAILY_DIARY)) {
-                ddGlow.setVisibility(View.VISIBLE);
-                AnimationDrawable ddAnim = (AnimationDrawable) ddGlow.getBackground();
+                mbGlow.setVisibility(View.VISIBLE);
+                AnimationDrawable ddAnim = (AnimationDrawable) mbGlow.getBackground();
                 ddAnim.start();
             } else {
-                ddGlow.setVisibility(View.GONE);
+                mbGlow.setVisibility(View.GONE);
             }
             if (helper.checkActivity(DBHelper.Action.RELAXATION)) {
                 relaxGlow.setVisibility(View.VISIBLE);
