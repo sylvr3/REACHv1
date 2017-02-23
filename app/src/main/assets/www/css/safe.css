@@ -68,11 +68,26 @@ body {
     text-align: center;
 }
 
-.main-card {
+.main-card[src="file:///android_res/drawable/wh_card.png"] {
     position: absolute;
     bottom: 0;
     width: 97%;
     height auto;
+}
+
+.main-card[src="file:///android_res/drawable/safe_blob.png"] {
+    position: absolute;
+    bottom: 0;
+    width: 97%;
+    height auto;
+}
+
+.main-card[src="file:///android_res/drawable/safe_blob_eye_contact_bg.png"]{
+    position: absolute;
+    height: 90%;
+    width: 97%;
+    padding-left: 5px;
+    bottom: 0;
 }
 
 .main-card-text{
@@ -141,6 +156,15 @@ body {
 .top-img {
     height: 100%;
     width: 100%;
+}
+
+#bottom-option-two-div {
+    text-align: center;
+}
+
+#bottom-option-two-div > img {
+    height: 50%;
+    width: 20%;
 }
 
 .top-img[src="file:///android_res/drawable/safe_msg_eye_contact.png"], .top-img[src="file:///android_res/drawable/safe_msg_push_record.png"]{

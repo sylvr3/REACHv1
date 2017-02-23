@@ -43,12 +43,19 @@
     const f_progress = document.getElementById("progress-f");
     const e_progress = document.getElementById("progress-e");
 
+    const nextOption = document.getElementById("next-option");
+    const doneOption = document.getElementById("done-option");
+
+    const bottomOptionOneDiv = document.getElementById("bottom-option-one-div");
+    const bottomOptionTwoDiv = document.getElementById("bottom-option-two-div");
+
     leftImg.addEventListener("click", backScreenEventHandler);
     rightImg.addEventListener("click", nextScreenEventHandler);
     recordImg.addEventListener("click", recordEventHandler);
     a1.addEventListener("click", askNicelyEventHandler.bind(a1));
     a2.addEventListener("click", askNicelyEventHandler.bind(a2));
     a3.addEventListener("click", askNicelyEventHandler.bind(a3));
+    doneOption.addEventListener("click", finishNow);
 
     const S1Text = "SITUATION: <br><br>" + situation.description;
     const S2Text = "SPEAK YOUR MIND";
@@ -114,25 +121,19 @@
             a_progress.src = "file:///android_res/drawable/a_white.png";
             f_progress.src = "file:///android_res/drawable/f_yellow.png";
         }else if(currentProgress.F){
-            singleDiv.classList.remove("hide");
-            quadDiv.classList.add("hide");
-            rightImg.classList.remove("hide");
+            mainCardImg.src = "file:///android_res/drawable/safe_blob_eye_contact_bg.png";
+            mainCardText.classList.add("hide");
             topImg.classList.remove("hide");
+            topImg.src = "file:///android_res/drawable/safe_msg_push_record.png";
             f_progress.src = "file:///android_res/drawable/f_white.png";
             e_progress.src = "file:///android_res/drawable/e_yellow.png";
-        }else if(currentProgress.F.F1){
-            mainCardImg.src = "file:///android_res/drawable/safe_blob.png";
-            topImg.src = "file:///android_res/drawable/safe_msg_eye_contact.png";
-            mainCardText.classList.add("hide");
             recordImg.classList.remove("hide");
             rightImg.classList.add("hide");
-            topImg.classList.remove("hide");
-        }else if(currentProgress.F.F2){
-            topImg.src = "file:///android_res/drawable/gj_title.png";
-            mainCardText.classList.add("hide");
         }else if(currentProgress.E){
-            topImg.classList.add("hide");
-            mainCardImg.src = "file:///android_res/drawable/wh_card.png";
+            topImg.src = "file:///android_res/drawable/gj_title.png";
+            bottomOptionOneDiv.classList.add("hide");
+            bottomOptionTwoDiv.classList.remove("hide");
+            mainCardImg.src = "file:///android_res/drawable/safe_blob.png";
         }
 
         _updateProgress(true);
@@ -146,6 +147,10 @@
         nextScreenEventHandler();
     }
 
+    function finishNow(){
+        safe.forceFinishApp();
+    }
+
     function recordEventHandler(){
         if(isRecording){
             safe.stopRecording();
@@ -154,9 +159,6 @@
             recordImg.classList.add("hide");
             rightImg.classList.remove("hide");
             nextScreenEventHandler();
-        }else if(isRecording === false && recordImg.src === "file:///android_res/drawable/done_up.png"){
-            topImg.src = "file:///android_res/drawable/safe_msg_push_record.png";
-            recordImg.src = "file:///android_res/drawable/safe_record.png";
         }else{
             safe.startRecording();
             recordImg.src = "file:///android_res/drawable/done_up.png";
