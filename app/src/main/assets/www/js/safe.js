@@ -103,13 +103,17 @@
             doubleDiv.classList.add("hide");
             quadDiv.classList.remove("hide");
             createAskNicelyOptions();
-        }else if(currentProgress.A){
-            rightImg.classList.add("hide");
             topImg.classList.remove("hide");
+            rightImg.classList.add("hide");
+        }else if(currentProgress.A){
+            quadDiv.classList.add("hide");
+            mainCardText.innerHTML = FirmButKindVoiceText;
+            singleDiv.classList.remove("hide");
+            topImg.classList.add("hide");
+            rightImg.classList.remove("hide");
             a_progress.src = "file:///android_res/drawable/a_white.png";
             f_progress.src = "file:///android_res/drawable/f_yellow.png";
         }else if(currentProgress.F){
-            mainCardText.innerHTML = FirmButKindVoiceText;
             singleDiv.classList.remove("hide");
             quadDiv.classList.add("hide");
             rightImg.classList.remove("hide");
