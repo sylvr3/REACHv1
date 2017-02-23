@@ -37,6 +37,37 @@ body {
     height: 15%;
 }
 
+.double-card-top-img {
+    height: 48%;
+    position: absolute;
+    width: 97%;
+}
+
+.double-card-top-text {
+    position: absolute;
+    width: 88%;
+    height: 48%;
+    padding-top: 50px;
+    padding-left: 35px;
+    text-align: center;
+}
+
+.double-card-bot-img {
+    height: 48%;
+    position: absolute;
+    width: 97%;
+    bottom: 0;
+}
+
+.double-card-bot-text {
+    position: absolute;
+    width: 88%;
+    height: 30%;
+    padding-left: 35px;
+    bottom: 0;
+    text-align: center;
+}
+
 .main-card {
     position: absolute;
     bottom: 0;
