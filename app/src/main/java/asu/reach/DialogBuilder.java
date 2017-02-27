@@ -249,13 +249,9 @@ public class DialogBuilder extends DialogFragment {
         View checkBoxView = View.inflate(safeActivity, R.layout.checkbox, null);
         final CheckBox checkBox = (CheckBox) checkBoxView.findViewById(R.id.checkbox);
         checkBox.setText("Do not ask me again");
-       // checkBox.setChecked(doNotShowDialog);
-      //  boolean showBox = true;
-
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
-
                 if (isChecked) {
                     editor.putBoolean("skipMessage", checkBox.isChecked());
                     editor.commit();
@@ -263,8 +259,6 @@ public class DialogBuilder extends DialogFragment {
                 }
             }
         });
-
-
         if (!doNotShowDialog && safeActivity != null) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(safeActivity);
@@ -279,7 +273,6 @@ public class DialogBuilder extends DialogFragment {
         Intent intent = new Intent(getContext(), Landing.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         getContext().startActivity(intent);
-
 
         return null;
     }

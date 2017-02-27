@@ -114,13 +114,11 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
     private float leftEyeOpenProbability = 0;
     private float rightEyeOpenProbability = 0;
     private int probabilityCount = 0;
-    //Final values to storein the DB
+    //Final values to store in the DB
     private float finalLeftEyeProbablity = 0;
     private float finalRightEyeProbablity = 0;
     private int finalProbablityCount = 0;
 
-    private ImageView overlayRecordingImage;
-    private FrameLayout topLayout;
     private final String eyeTrackingTimer = "SAFEEyeTrackingTimer";
 
     private Typeface t;
@@ -154,7 +152,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         done = (ImageButton)findViewById(R.id.safeDoneButton);
         next = (ImageButton)findViewById(R.id.safeNextButton);
         complete = (LinearLayout)findViewById(R.id.completeLayout);
-        title = (ImageView)findViewById(R.id.whMessage);
+        title = (ImageView)findViewById(R.id.anMessage);
         gj = (VideoView)findViewById(R.id.gjVid);
         gjView = (ImageView)findViewById(R.id.gjView);
         nextFirm = (ImageButton)findViewById(R.id.nextFirm);
@@ -287,17 +285,12 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
     private void startEyeTracking(){
         //TODO: start new recording activity
         Log.d("Vision","Going to start Recording Activity");
-//        topLayout.setVisibility(View.INVISIBLE);
-//        rLayout.bringToFront();
-//        rLayout.setVisibility(View.VISIBLE);
         mPreview.setVisibility(View.INVISIBLE);
         startCameraSource();
         leftEyeOpenProbability = 0;
         rightEyeOpenProbability = 0;
         probabilityCount = 0;
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-
         String eyeTrackginTimerString = preferences.getString(eyeTrackingTimer,"5");
         Log.d("EyeTracking","Going to start eye tracking for "+eyeTrackginTimerString);
         int timer = 5;
@@ -306,7 +299,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         } catch (Exception e) {
             timer = 5;
         }
-
 
         new Timer().schedule(new TimerTask() {
             @Override
@@ -318,12 +310,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-//                        topLayout.invalidate();
-//                        topLayout.setVisibility(View.GONE);
-//                        topLayout.removeAllViews();
                         createMicrophone();
-//                        mPreview.removeAllViews();
-//                        rLayout.setVisibility(View.GONE);
                         speakAnswer();
                     }
                 });
@@ -440,7 +427,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                     finish();
                 }
             };
-
 
 
 //        AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -653,8 +639,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                     oLayout.setVisibility(View.GONE);
                     message.setText("Firm But Kind Voice:\n\n");
                     thumbsUp.setVisibility(View.VISIBLE);
-                    //  complete(oOne.getText().toString());
-                    //   speakAnswer(oOne.getText().toString());
                     answerTextView.setText(oOne.getText().toString());
                     firmButKindVoice(oOne.getText().toString());
                     chosenAnswer = 1;
@@ -774,7 +758,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             safeEyeContactImageView.setVisibility(View.GONE);
             safeDoneImageButton.setVisibility(View.GONE);
             safeRecordImageButton.setVisibility(View.GONE);
-
             speakAnswer();
 
         }
@@ -810,10 +793,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                 //System.out.println(ie.fillInStackTrace());
                 Toast.makeText(getApplicationContext(),"Exception happend", Toast.LENGTH_LONG).show();
             }
-
             onRecord = true;
-
-
         }
 
 
@@ -882,7 +862,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         title.setVisibility(View.GONE);
         next.setVisibility(View.GONE);
         thumbsUp.setVisibility(View.VISIBLE);
-
         safeRecordImageButton.setVisibility(View.GONE);
         nextFirm.setVisibility(View.VISIBLE);
         answerTextView.setVisibility(View.GONE);
@@ -909,7 +888,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         answerImageView.setVisibility(View.GONE);
         back.setBackgroundResource(R.drawable.home_selector);
         back.setVisibility(View.VISIBLE);
-
     }
 
     private void complete(String msg){
@@ -934,8 +912,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             }
         });
 
-
-
         ContentValues c = new ContentValues();
         c.put("TIMESTAMP", System.currentTimeMillis());
         c.put("SITUATION", sText);
@@ -943,7 +919,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         if(wrong) {
             c.put("WRONG_FLAG", 1);
         }
-        //db.insert("SAFE_COMPLETION", "TIMESTAMP,SITUATION,SELECTED_F", c);
         c = new ContentValues();
         c.put("COMPLETED_FLAG", 1);
         int foo = db.update("SAFE",c,"SITUATION = \""+sText.replace("\"", "\"\"")+"\"",null);
@@ -968,8 +943,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         }catch(Exception e){
             e.printStackTrace();
         }
-
-
     }
 
     @Override

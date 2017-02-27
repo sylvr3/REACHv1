@@ -41,7 +41,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/whMessage"
+            android:id="@+id/anMessage"
             android:background="@drawable/ask_nicely"
             android:visibility="gone"
             android:layout_marginTop="-30dp"
@@ -346,9 +346,6 @@
 
             </asu.reach.googleVision.CameraSourcePreview>
 
-
-
-
             <ImageView
                 android:layout_width="300dp"
                 android:layout_height="300dp"
@@ -370,15 +367,6 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="10dp"
                 android:visibility="visible"/>
-
-
-
-
-
-
-
-
-
 
             <ImageView
                 android:layout_width="390dp"
@@ -455,17 +443,6 @@
             android:background="@drawable/next_selector"
             android:layout_alignParentEnd="true"
             android:layout_marginRight="12dp" />
-
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/firm_but_kind"
-            android:background="@drawable/firm_but_kind_voice"
-            android:visibility="gone"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp" />
-
 
         <LinearLayout
             android:orientation="horizontal"

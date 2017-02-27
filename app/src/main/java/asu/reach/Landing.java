@@ -166,8 +166,6 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         }catch(Exception e){
             e.printStackTrace();
         }
-
-
         /*aManager= (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         setRepeatingAlarm();*/
     }
@@ -197,18 +195,7 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
 
         if(v.getId() == mb.getId()){
             Intent intent = new Intent(this, AttentionBiasedToolbox.class);
-
             startActivity(intent);
-            /*Intent intent = new Intent(this, DailyDiary.class);
->>>>>>> 5e2a314beb619806a6787d3b6f402c26c66f9afb
-            try {
-                DBHelper helper = new DBHelper(this);
-                helper.trackEvent(helper,"DAILY_DIARY","LANDING_PAGE");
-                helper.close();
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-            startActivity(intent);*/
         }
         if(v.getId() == stic.getId()){
             Intent intent = new Intent(this, STIC.class);
