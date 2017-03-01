@@ -14,7 +14,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
-import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -28,7 +27,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -303,9 +301,9 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                finalProbablityCount = probabilityCount;
-                finalLeftEyeProbablity = leftEyeOpenProbability / finalRightEyeProbablity;
-                finalRightEyeProbablity = rightEyeOpenProbability / finalProbablityCount;
+//                finalProbablityCount = probabilityCount;
+//                finalLeftEyeProbablity = leftEyeOpenProbability / finalRightEyeProbablity;
+//                finalRightEyeProbablity = rightEyeOpenProbability / finalProbablityCount;
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -798,6 +796,11 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
 
         if (v.getId() == doneRecording.getId()) {
+
+            //Get the eye tracking values to store in the DB
+            finalProbablityCount = probabilityCount;
+            finalLeftEyeProbablity = leftEyeOpenProbability / finalRightEyeProbablity;
+            finalRightEyeProbablity = rightEyeOpenProbability / finalProbablityCount;
 
             complete("test");
             safeEyeContactImageView.setVisibility(View.GONE);
