@@ -37,10 +37,6 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         threatImgs = getResources().obtainTypedArray(R.array.threat_images);
         imgTop.setVisibility(View.INVISIBLE);
         imgBottom.setVisibility(View.INVISIBLE);
-        blankScreen();
-
-    }
-    public void blankScreen() {
         blankScreenTimer = new CountDownTimer(1000,500) {
             @Override
             public void onTick(long l) {
@@ -51,9 +47,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             public void onFinish() {
                 fetchImages();
             }
-        }.start();
-    }
-    public void startTimer() {
+        };
         countDownTimer = new CountDownTimer(1000,500) {
 
             public void onTick(long millisUntilFinished) {
@@ -63,7 +57,15 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             public void onFinish() {
                 showBlankScreen();
             }
-        }.start();
+        };
+        blankScreen();
+
+    }
+    public void blankScreen() {
+        blankScreenTimer.start();
+    }
+    public void startTimer() {
+        countDownTimer.start();
 
     }
     public void showBlankScreen() {
