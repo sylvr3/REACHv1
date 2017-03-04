@@ -10,7 +10,25 @@
         android:layout_height="match_parent"
         android:id="@+id/viewSwitcher"
         android:layout_alignParentStart="false">
-        <LinearLayout
+        <ViewFlipper
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/viewFlipper">
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/plus"
+                    android:src="@drawable/plus"
+                    android:layout_gravity="center"
+                    android:scaleType="center" />
+            </LinearLayout>
+            <LinearLayout
             android:id="@+id/linearLayout1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -25,7 +43,7 @@
                 android:layout_height="0dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                android:layout_weight="1" />
+                android:layout_weight="0.95" />
 
             <ImageButton
                 android:id="@+id/imgBottom"
@@ -33,9 +51,30 @@
                 android:layout_height="0dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                android:layout_weight="1" />
+                android:layout_weight="0.95" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/leftButton"
+                        android:layout_width="0.0dip"
+                        android:layout_height="fill_parent"
+                        android:text="Left"
+                        android:layout_weight="1.0" />
+
+                    <Button
+                        android:id="@+id/rightButton"
+                        android:layout_width="0.0dip"
+                        android:layout_height="fill_parent"
+                        android:text="Right"
+                        android:layout_weight="1.0" />
+
+                </LinearLayout>
 
         </LinearLayout>
 
+        </ViewFlipper>
     </ViewSwitcher>
 </RelativeLayout>
