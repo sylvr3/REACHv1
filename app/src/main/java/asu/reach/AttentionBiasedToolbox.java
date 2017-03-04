@@ -20,7 +20,7 @@ import android.widget.ViewFlipper;
 import java.util.Random;
 
 public class AttentionBiasedToolbox extends Activity implements View.OnClickListener{
-    private ImageButton imgTop, imgBottom;
+    private ImageView imgTop, imgBottom;
     private Random random;
     private TypedArray neutralImgs, threatImgs;
     private Bitmap[] bmap;
@@ -37,8 +37,8 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         random = new Random();
         bmap = new Bitmap[2];
         neutral = 0;
-        imgTop= (ImageButton)findViewById(R.id.imgTop);
-        imgBottom = (ImageButton)findViewById(R.id.imgBottom);
+        imgTop= (ImageView)findViewById(R.id.imgTop);
+        imgBottom = (ImageView)findViewById(R.id.imgBottom);
         leftButton = (Button)findViewById(R.id.leftButton);
         rightButton = (Button)findViewById(R.id.rightButton);
         plusImage = (ImageView)findViewById(R.id.plus);
@@ -52,7 +52,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         threatImgs = getResources().obtainTypedArray(R.array.threat_images);
         imgTop.setVisibility(View.INVISIBLE);
         imgBottom.setVisibility(View.INVISIBLE);
-        blankScreenTimer = new CountDownTimer(1000,500) {
+        blankScreenTimer = new CountDownTimer(500,250) {
             @Override
             public void onTick(long l) {
 
@@ -63,7 +63,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
                 fetchImages();
             }
         };
-        countDownTimer = new CountDownTimer(1000,500) {
+        countDownTimer = new CountDownTimer(500,250) {
 
             public void onTick(long millisUntilFinished) {
 
@@ -84,9 +84,18 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         countDownTimer.start();
     }
     public void showProbes() {
-        //viewFlipper.showPrevious();
+        int leftProbeInd = R.drawable.left;
+        int rightProbeInd = R.drawable.right;
         imgTop.setVisibility(View.INVISIBLE);
         imgBottom.setVisibility(View.INVISIBLE);
+        bmap[0] = BitmapFactory.decodeResource(getResources(),leftProbeInd);
+        bmap[1] = BitmapFactory.decodeResource(getResources(),rightProbeInd);
+        imgTop.setImageBitmap(bmap[0]);
+        imgBottom.setImageBitmap(bmap[1]);
+        if(neutral == 0) imgTop.setVisibility(View.VISIBLE);
+        else imgBottom.setVisibility(View.VISIBLE);
+        //viewFlipper.showPrevious();
+
         countDownTimer.cancel();
     }
     public void showBlankScreen() {
@@ -120,19 +129,19 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     }
     @Override
     public void onClick(View v) {
-        if(v.getId() == imgTop.getId()) {
+        /*if(v.getId() == imgTop.getId()) {
             if(neutral == 0) count++;
             showBlankScreen();
         }
         if(v.getId() == imgBottom.getId()) {
             if(neutral == 1) count++;
             showBlankScreen();
-        }
+        }*/
         if(v.getId() == leftButton.getId()) {
-            showBlankScreen();
+            if(neutral == 0 )showBlankScreen();
         }
         if(v.getId() == rightButton.getId()) {
-            showBlankScreen();
+            if(neutral == 1) showBlankScreen();
         }
         System.out.println(count);
     }
