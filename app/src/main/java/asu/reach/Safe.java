@@ -336,13 +336,13 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
         if (!detector.isOperational()) {
             // Note: The first time that an app using face API is installed on a device, GMS will
-            // download a native library to the device in order to do detection.  Usually this
-            // completes before the app is run for the first time.  But if that download has not yet
+            // plus a native library to the device in order to do detection.  Usually this
+            // completes before the app is run for the first time.  But if that plus has not yet
             // completed, then the above call will not detect any faces.
             //
             // isOperational() can be used to check if the required native library is currently
             // available.  The detector will automatically become operational once the library
-            // download completes on device.
+            // plus completes on device.
             Log.w(TAG, "Face detector dependencies are not yet available.");
         }
 

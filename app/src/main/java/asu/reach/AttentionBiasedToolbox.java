@@ -7,10 +7,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.Layout;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import java.util.Random;
 
@@ -21,6 +26,9 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     private Bitmap[] bmap;
     private int neutral,count;
     private CountDownTimer countDownTimer, blankScreenTimer;
+    private ImageView plusImage;
+    private ViewFlipper viewFlipper;
+    private Button leftButton, rightButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,16 +39,19 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         neutral = 0;
         imgTop= (ImageButton)findViewById(R.id.imgTop);
         imgBottom = (ImageButton)findViewById(R.id.imgBottom);
+        leftButton = (Button)findViewById(R.id.leftButton);
+        rightButton = (Button)findViewById(R.id.rightButton);
+        plusImage = (ImageView)findViewById(R.id.plus);
+        viewFlipper = (ViewFlipper)findViewById(R.id.viewFlipper);
+        viewFlipper.showNext();
         imgTop.setOnClickListener(this);
         imgBottom.setOnClickListener(this);
+        leftButton.setOnClickListener(this);
+        rightButton.setOnClickListener(this);
         neutralImgs = getResources().obtainTypedArray(R.array.neutral_images);
         threatImgs = getResources().obtainTypedArray(R.array.threat_images);
         imgTop.setVisibility(View.INVISIBLE);
         imgBottom.setVisibility(View.INVISIBLE);
-        blankScreen();
-
-    }
-    public void blankScreen() {
         blankScreenTimer = new CountDownTimer(1000,500) {
             @Override
             public void onTick(long l) {
@@ -51,9 +62,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             public void onFinish() {
                 fetchImages();
             }
-        }.start();
-    }
-    public void startTimer() {
+        };
         countDownTimer = new CountDownTimer(1000,500) {
 
             public void onTick(long millisUntilFinished) {
@@ -61,15 +70,33 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             }
 
             public void onFinish() {
-                showBlankScreen();
+                //showBlankScreen();
+                showProbes();
             }
-        }.start();
-
+        };
+        //blankScreen();
+        showBlankScreen();
     }
-    public void showBlankScreen() {
-        countDownTimer.cancel();
+    public void blankScreen() {
+        blankScreenTimer.start();
+    }
+    public void startTimer() {
+        countDownTimer.start();
+    }
+    public void showProbes() {
+        //viewFlipper.showPrevious();
         imgTop.setVisibility(View.INVISIBLE);
         imgBottom.setVisibility(View.INVISIBLE);
+        countDownTimer.cancel();
+    }
+    public void showBlankScreen() {
+        //countDownTimer.cancel();
+        imgTop.setVisibility(View.INVISIBLE);
+        imgBottom.setVisibility(View.INVISIBLE);
+        leftButton.setVisibility(View.INVISIBLE);
+        rightButton.setVisibility(View.INVISIBLE);
+        viewFlipper.showNext();
+        plusImage.setVisibility(View.VISIBLE);
         blankScreen();
     }
     public void fetchImages() {
@@ -80,8 +107,12 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         bmap[0] = (bitMapInd == 0)? BitmapFactory.decodeResource(getResources(),neutralId):BitmapFactory.decodeResource(getResources(),threatId);
         bmap[1] = (bitMapInd == 1)? BitmapFactory.decodeResource(getResources(),neutralId):BitmapFactory.decodeResource(getResources(),threatId);
         neutral = (bitMapInd == 0)?0:1;
+        viewFlipper.showPrevious();
         imgTop.setVisibility(View.VISIBLE);
         imgBottom.setVisibility(View.VISIBLE);
+        leftButton.setVisibility(View.VISIBLE);
+        rightButton.setVisibility(View.VISIBLE);
+        plusImage.setVisibility(View.INVISIBLE);
         imgTop.setImageBitmap(bmap[0]);
         imgBottom.setImageBitmap(bmap[1]);
         blankScreenTimer.cancel();
@@ -95,6 +126,12 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         }
         if(v.getId() == imgBottom.getId()) {
             if(neutral == 1) count++;
+            showBlankScreen();
+        }
+        if(v.getId() == leftButton.getId()) {
+            showBlankScreen();
+        }
+        if(v.getId() == rightButton.getId()) {
             showBlankScreen();
         }
         System.out.println(count);
