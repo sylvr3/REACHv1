@@ -24,11 +24,12 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     private Random random;
     private TypedArray neutralImgs, threatImgs;
     private Bitmap[] bmap;
-    private int neutral,count;
+    private int neutral,count, index;
     private CountDownTimer countDownTimer, blankScreenTimer;
     private ImageView plusImage;
     private ViewFlipper viewFlipper;
     private Button leftButton, rightButton;
+    private int[] imageIndArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,11 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         setContentView(R.layout.activity_attention_biased_toolbox);
         random = new Random();
         bmap = new Bitmap[2];
+        neutralImgs = getResources().obtainTypedArray(R.array.neutral_images);
+        threatImgs = getResources().obtainTypedArray(R.array.threat_images);
+        imageIndArray = new int[neutralImgs.length()];
+        for(int i = 0; i < imageIndArray.length; i++) imageIndArray[i] = i;
+        index = 0;
         neutral = 0;
         imgTop= (ImageView)findViewById(R.id.imgTop);
         imgBottom = (ImageView)findViewById(R.id.imgBottom);
@@ -48,8 +54,6 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         imgBottom.setOnClickListener(this);
         leftButton.setOnClickListener(this);
         rightButton.setOnClickListener(this);
-        neutralImgs = getResources().obtainTypedArray(R.array.neutral_images);
-        threatImgs = getResources().obtainTypedArray(R.array.threat_images);
         imgTop.setVisibility(View.INVISIBLE);
         imgBottom.setVisibility(View.INVISIBLE);
         blankScreenTimer = new CountDownTimer(500,250) {
@@ -77,12 +81,18 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         //blankScreen();
         showBlankScreen();
     }
+
+    // Initiate timer for first fixation with + sign, at the end it start the fetching images
     public void blankScreen() {
         blankScreenTimer.start();
     }
+
+    // Initiate timer for second fixation with images, at the end it generate probes and wait for user response
     public void startTimer() {
         countDownTimer.start();
     }
+
+    // Wipe images and generate probes
     public void showProbes() {
         int leftProbeInd = R.drawable.left;
         int rightProbeInd = R.drawable.right;
@@ -95,9 +105,10 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         if(neutral == 0) imgTop.setVisibility(View.VISIBLE);
         else imgBottom.setVisibility(View.VISIBLE);
         //viewFlipper.showPrevious();
-
         countDownTimer.cancel();
     }
+
+    //Wipe images and show the + sign
     public void showBlankScreen() {
         //countDownTimer.cancel();
         imgTop.setVisibility(View.INVISIBLE);
@@ -108,11 +119,15 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         plusImage.setVisibility(View.VISIBLE);
         blankScreen();
     }
+
+    //Load images
     public void fetchImages() {
         int bitMapInd = random.nextInt(2);
-        int rndInt = random.nextInt(neutralImgs.length());
+        int rndInt = random.nextInt(neutralImgs.length()-index) + index;
         int neutralId = neutralImgs.getResourceId(rndInt,0);
         int threatId = threatImgs.getResourceId(rndInt,0);
+        swapIndex(index,rndInt);
+        index = (index + 1)%neutralImgs.length();
         bmap[0] = (bitMapInd == 0)? BitmapFactory.decodeResource(getResources(),neutralId):BitmapFactory.decodeResource(getResources(),threatId);
         bmap[1] = (bitMapInd == 1)? BitmapFactory.decodeResource(getResources(),neutralId):BitmapFactory.decodeResource(getResources(),threatId);
         neutral = (bitMapInd == 0)?0:1;
@@ -127,6 +142,14 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         blankScreenTimer.cancel();
         startTimer();
     }
+
+    //Swap the indices to populate the images which is not generated in previous hits.
+    public void swapIndex(int i, int j) {
+        int temp = imageIndArray[i];
+        imageIndArray[i] = imageIndArray[j];
+        imageIndArray[j] = temp;
+    }
+
     @Override
     public void onClick(View v) {
         /*if(v.getId() == imgTop.getId()) {
