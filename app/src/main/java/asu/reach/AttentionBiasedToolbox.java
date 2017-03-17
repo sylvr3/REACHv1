@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Layout;
@@ -27,6 +28,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     private int neutral,count, index;
     private CountDownTimer countDownTimer, blankScreenTimer;
     private ImageView plusImage;
+    private ImageView plusBtwImageView;
     private ViewFlipper viewFlipper;
     private Button leftButton, rightButton;
     private int[] imageIndArray;
@@ -45,9 +47,14 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         neutral = 0;
         imgTop= (ImageView)findViewById(R.id.imgTop);
         imgBottom = (ImageView)findViewById(R.id.imgBottom);
+        Typeface font = Typeface.createFromAsset(getAssets(), "agentorange.ttf");
         leftButton = (Button)findViewById(R.id.leftButton);
+        leftButton.setTypeface(font);
+
         rightButton = (Button)findViewById(R.id.rightButton);
+        rightButton.setTypeface(font);
         plusImage = (ImageView)findViewById(R.id.plus);
+        plusBtwImageView = (ImageView) findViewById(R.id.plusBtw);
         viewFlipper = (ViewFlipper)findViewById(R.id.viewFlipper);
         viewFlipper.showNext();
         imgTop.setOnClickListener(this);
@@ -97,6 +104,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         int leftProbeInd = R.drawable.left;
         int rightProbeInd = R.drawable.right;
         imgTop.setVisibility(View.INVISIBLE);
+        plusBtwImageView.setVisibility(View.GONE);
         imgBottom.setVisibility(View.INVISIBLE);
         bmap[0] = BitmapFactory.decodeResource(getResources(),leftProbeInd);
         bmap[1] = BitmapFactory.decodeResource(getResources(),rightProbeInd);
@@ -133,6 +141,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         neutral = (bitMapInd == 0)?0:1;
         viewFlipper.showPrevious();
         imgTop.setVisibility(View.VISIBLE);
+        plusBtwImageView.setVisibility(View.VISIBLE);
         imgBottom.setVisibility(View.VISIBLE);
         leftButton.setVisibility(View.VISIBLE);
         rightButton.setVisibility(View.VISIBLE);
