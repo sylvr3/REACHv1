@@ -177,7 +177,7 @@
                 android:layout_marginBottom="10dp"
                 android:gravity="center"
                 android:lineSpacingExtra="2dp"
-                android:textSize="20dp" />
+                android:textSize="28dp" />
 
             <ImageView
                 android:layout_width="fill_parent"
@@ -207,7 +207,7 @@
                 android:layout_alignBottom="@+id/speakYourMindImageView"
                 android:layout_alignRight="@+id/speakYourMindImageView"
                 android:lineSpacingExtra="2dp"
-                android:textSize="28dp" />
+                android:textSize="40dp" />
 
         </RelativeLayout>
 
@@ -305,7 +305,7 @@
                 android:layout_marginBottom="20dp"
                 android:lineSpacingExtra="2dp"
                 android:gravity="center"
-                android:textSize="30dp" />
+                android:textSize="40dp" />
 
             <ImageView
                 android:layout_width="300dp"

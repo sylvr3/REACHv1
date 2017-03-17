@@ -44,11 +44,11 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/stopGlow"
-                    android:layout_alignTop="@+id/stopBtn"
-                    android:layout_alignBottom="@+id/stopBtn"
-                    android:layout_alignRight="@+id/stopBtn"
-                    android:layout_alignLeft="@+id/stopBtn"
+                    android:id="@+id/abmtGlow"
+                    android:layout_alignTop="@+id/abmtBtn"
+                    android:layout_alignBottom="@+id/abmtBtn"
+                    android:layout_alignRight="@+id/abmtBtn"
+                    android:layout_alignLeft="@+id/abmtBtn"
                     android:layout_marginLeft="-35dp"
                     android:layout_marginTop="-35dp"
                     android:layout_marginRight="-35dp"
@@ -151,8 +151,8 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/stopBtn"
-                    android:background="@drawable/stop_selector"
+                    android:id="@+id/abmtBtn"
+                    android:background="@drawable/abmt_selector"
                     android:layout_alignParentBottom="false"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="100dp"
@@ -166,9 +166,9 @@
                     android:layout_alignParentEnd="false"
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="15dp"
-                    android:layout_toLeftOf="@+id/stopBtn"
+                    android:layout_toLeftOf="@+id/abmtBtn"
                     android:layout_marginTop="30dp"
-                    android:layout_alignTop="@+id/stopBtn" />
+                    android:layout_alignTop="@+id/abmtBtn" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
@@ -197,10 +197,10 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/whBtn"
                     android:background="@drawable/wh_selector"
-                    android:layout_toRightOf="@+id/stopBtn"
+                    android:layout_toRightOf="@+id/abmtBtn"
                     android:layout_marginLeft="5dp"
                     android:layout_marginBottom="15dp"
-                    android:layout_alignTop="@+id/stopBtn"
+                    android:layout_alignTop="@+id/abmtBtn"
                     android:layout_marginTop="30dp" />
 
             </RelativeLayout>
