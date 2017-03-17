@@ -3,13 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Landing"
-    android:background="@drawable/landing">
+    android:background="@drawable/compass_landing">
 
     <ViewSwitcher
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/viewSwitcher"
-        android:layout_alignParentStart="false">
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -43,11 +44,11 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/stopGlow"
-                    android:layout_alignTop="@+id/stopBtn"
-                    android:layout_alignBottom="@+id/stopBtn"
-                    android:layout_alignRight="@+id/stopBtn"
-                    android:layout_alignLeft="@+id/stopBtn"
+                    android:id="@+id/abmtGlow"
+                    android:layout_alignTop="@+id/abmtBtn"
+                    android:layout_alignBottom="@+id/abmtBtn"
+                    android:layout_alignRight="@+id/abmtBtn"
+                    android:layout_alignLeft="@+id/abmtBtn"
                     android:layout_marginLeft="-35dp"
                     android:layout_marginTop="-35dp"
                     android:layout_marginRight="-35dp"
@@ -58,11 +59,11 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/ddGlow"
-                    android:layout_alignTop="@+id/ddBtn"
-                    android:layout_alignBottom="@+id/ddBtn"
-                    android:layout_alignRight="@+id/ddBtn"
-                    android:layout_alignLeft="@+id/ddBtn"
+                    android:id="@+id/mbGlow"
+                    android:layout_alignTop="@+id/mbBtn"
+                    android:layout_alignBottom="@+id/mbBtn"
+                    android:layout_alignRight="@+id/mbBtn"
+                    android:layout_alignLeft="@+id/mbBtn"
                     android:layout_marginLeft="-32dp"
                     android:layout_marginTop="-32dp"
                     android:layout_marginRight="-32dp"
@@ -121,11 +122,11 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/safeGlow"
-                    android:layout_alignTop="@+id/safeBtn"
-                    android:layout_alignBottom="@+id/safeBtn"
-                    android:layout_alignRight="@+id/safeBtn"
-                    android:layout_alignLeft="@+id/safeBtn"
+                    android:id="@+id/standupGlow"
+                    android:layout_alignTop="@+id/standupBtn"
+                    android:layout_alignBottom="@+id/standupBtn"
+                    android:layout_alignRight="@+id/standupBtn"
+                    android:layout_alignLeft="@+id/standupBtn"
                     android:layout_marginLeft="-32dp"
                     android:layout_marginTop="-32dp"
                     android:layout_marginRight="-32dp"
@@ -137,20 +138,21 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/ddBtn"
-                    android:background="@drawable/dd_selector"
+                    android:id="@+id/mbBtn"
+                    android:background="@drawable/mb_selector"
                     android:layout_alignParentEnd="false"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
                     android:layout_marginBottom="15dp"
                     android:layout_toLeftOf="@+id/relaxBtn"
-                    android:layout_marginTop="-20dp"
+                    android:layout_marginTop="-5dp"
                     android:layout_alignTop="@+id/relaxBtn" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/stopBtn"
-                    android:background="@drawable/stop_selector"
+                    android:id="@+id/abmtBtn"
+                    android:background="@drawable/abmt_selector"
                     android:layout_alignParentBottom="false"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="100dp"
@@ -164,9 +166,9 @@
                     android:layout_alignParentEnd="false"
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="15dp"
-                    android:layout_toLeftOf="@+id/stopBtn"
+                    android:layout_toLeftOf="@+id/abmtBtn"
                     android:layout_marginTop="30dp"
-                    android:layout_alignTop="@+id/stopBtn" />
+                    android:layout_alignTop="@+id/abmtBtn" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
@@ -181,24 +183,24 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/safeBtn"
-                    android:background="@drawable/safe_selector"
+                    android:id="@+id/standupBtn"
+                    android:background="@drawable/stand_up_selector"
                     android:layout_toRightOf="@+id/relaxBtn"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="35dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="20dp"
                     android:layout_alignTop="@+id/relaxBtn"
-                    android:layout_marginTop="-30dp" />
+                    android:layout_marginTop="-15dp" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/whBtn"
                     android:background="@drawable/wh_selector"
-                    android:layout_toRightOf="@+id/stopBtn"
+                    android:layout_toRightOf="@+id/abmtBtn"
                     android:layout_marginLeft="5dp"
                     android:layout_marginBottom="15dp"
-                    android:layout_alignTop="@+id/stopBtn"
+                    android:layout_alignTop="@+id/abmtBtn"
                     android:layout_marginTop="30dp" />
 
             </RelativeLayout>
@@ -414,6 +416,8 @@
         </LinearLayout>
 
     </ViewSwitcher>
+
+
 
 
 </RelativeLayout>

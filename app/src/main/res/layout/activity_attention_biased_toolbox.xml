@@ -1,0 +1,107 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Landing"
+    android:background="@drawable/gray_backgroud">
+
+    <ViewSwitcher
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/viewSwitcher"
+        android:layout_alignParentStart="false"
+        android:background="@drawable/white_backgroud"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+        <ViewFlipper
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/viewFlipper">
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:id="@+id/plus"
+                    android:src="@drawable/plus"
+                    android:layout_gravity="center"
+                    android:scaleType="center" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linearLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                android:padding="6dp"
+                android:weightSum="2">
+
+                <ImageView
+                    android:id="@+id/imgTop"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:layout_weight="0.85" />
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:id="@+id/plusBtw"
+                    android:src="@drawable/plus"
+                    android:layout_gravity="center"
+                    android:scaleType="center"
+                    android:layout_weight="0.1" />
+
+                <ImageView
+                    android:id="@+id/imgBottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:layout_weight="0.85" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/leftButton"
+                        android:layout_width="100dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1.0"
+                        android:text="Left"
+                        android:padding="10dp"
+                        android:textColor="#ffffff"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/abmt_buttons"
+                        android:textSize="20sp"/>
+
+                    <Button
+                        android:id="@+id/rightButton"
+                        android:layout_width="100dip"
+                        android:layout_height="50dp"
+                        android:text="Right"
+                        android:padding="10dp"
+                        android:textColor="#ffffff"
+                        android:layout_weight="1.0"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/abmt_buttons"
+                        android:textSize="20sp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ViewFlipper>
+    </ViewSwitcher>
+</RelativeLayout>

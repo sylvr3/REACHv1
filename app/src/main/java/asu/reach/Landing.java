@@ -30,8 +30,8 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
 
     private SQLiteDatabase db;
     private RelativeLayout topLeftLayout, topRightLayout, bottomLeftLayout, bottomRightLayout;
-    private ImageButton dd,stic,stop,relax,wh,safe;
-    private ImageView blob,stopGlow,sticGlow,whGlow,ddGlow,relaxGlow, safeGlow;
+    private ImageButton mb,stic,abmt,relax,wh,standUp;
+    private ImageView blob,abmtGlow,sticGlow,whGlow,mbGlow,relaxGlow, standUpGlow;
     private ViewSwitcher viewSwitcher;
     private GestureDetector gestureDetector;
     private EditText pin;
@@ -76,23 +76,23 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         am.setRepeating(AlarmManager.RTC_WAKEUP,cal.getTimeInMillis(),60000, pii);
 
 
-        dd = (ImageButton)findViewById(R.id.ddBtn);
+        mb = (ImageButton)findViewById(R.id.mbBtn);
         stic = (ImageButton)findViewById(R.id.sticBtn);
-        stop = (ImageButton)findViewById(R.id.stopBtn);
+        abmt = (ImageButton)findViewById(R.id.abmtBtn);
         wh = (ImageButton)findViewById(R.id.whBtn);
         relax = (ImageButton)findViewById(R.id.relaxBtn);
-        safe = (ImageButton)findViewById(R.id.safeBtn);         //safe
+        standUp = (ImageButton)findViewById(R.id.standupBtn);         //safe
         blob = (ImageView)findViewById(R.id.whiteBGView);
         topLeftLayout = (RelativeLayout)findViewById(R.id.topLeft);
         topRightLayout = (RelativeLayout)findViewById(R.id.topRight);
         bottomLeftLayout = (RelativeLayout)findViewById(R.id.bottomLeft);
         bottomRightLayout = (RelativeLayout)findViewById(R.id.bottomRight);
-        stopGlow = (ImageView)findViewById(R.id.stopGlow);
+        abmtGlow = (ImageView)findViewById(R.id.abmtGlow);
         sticGlow = (ImageView)findViewById(R.id.sticGlow);
         whGlow = (ImageView)findViewById(R.id.whGlow);
-        ddGlow = (ImageView)findViewById(R.id.ddGlow);
+        mbGlow = (ImageView)findViewById(R.id.mbGlow);
         relaxGlow = (ImageView)findViewById(R.id.relaxGlow);
-        safeGlow = (ImageView)findViewById(R.id.safeGlow);      //safe
+        standUpGlow = (ImageView)findViewById(R.id.standupGlow);      //safe
         viewSwitcher = (ViewSwitcher)findViewById(R.id.viewSwitcher);
         topLeft = false;
         topRight = false;
@@ -100,12 +100,12 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         time = System.currentTimeMillis();
 
         relax.setOnClickListener(this);
-        dd.setOnClickListener(this);
+        mb.setOnClickListener(this);
         stic.setOnClickListener(this);
-        stop.setOnClickListener(this);
+        abmt.setOnClickListener(this);
         blob.setOnClickListener(this);
         wh.setOnClickListener(this);
-        safe.setOnClickListener(this);  // safe
+        standUp.setOnClickListener(this);
         topLeftLayout.setOnClickListener(this);
         topRightLayout.setOnClickListener(this);
         bottomLeftLayout.setOnClickListener(this);
@@ -124,11 +124,11 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
                 anim1.start();
 
                 if(helper.checkActivity(DBHelper.Action.STOP)){
-                    stopGlow.setVisibility(View.VISIBLE);
-                    AnimationDrawable stopAnim = (AnimationDrawable) stopGlow.getBackground();
+                    abmtGlow.setVisibility(View.VISIBLE);
+                    AnimationDrawable stopAnim = (AnimationDrawable) abmtGlow.getBackground();
                     stopAnim.start();
                 }else{
-                    stopGlow.setVisibility(View.GONE);
+                    abmtGlow.setVisibility(View.GONE);
                 }
                 if(helper.checkActivity(DBHelper.Action.STIC)) {
                     sticGlow.setVisibility(View.VISIBLE);
@@ -145,11 +145,11 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
                     whGlow.setVisibility(View.GONE);
                 }
                 if(helper.checkActivity(DBHelper.Action.DAILY_DIARY)) {
-                    ddGlow.setVisibility(View.VISIBLE);
-                    AnimationDrawable ddAnim = (AnimationDrawable) ddGlow.getBackground();
+                    mbGlow.setVisibility(View.VISIBLE);
+                    AnimationDrawable ddAnim = (AnimationDrawable) mbGlow.getBackground();
                     ddAnim.start();
                 }else{
-                    ddGlow.setVisibility(View.GONE);
+                    mbGlow.setVisibility(View.GONE);
                 }
                 if(helper.checkActivity(DBHelper.Action.RELAXATION)) {
                     relaxGlow.setVisibility(View.VISIBLE);
@@ -166,8 +166,6 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         }catch(Exception e){
             e.printStackTrace();
         }
-
-
         /*aManager= (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         setRepeatingAlarm();*/
     }
@@ -194,16 +192,8 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
             Intent intent = new Intent(this, Relaxation.class);
             startActivity(intent);
         }
-        if(v.getId() == dd.getId()){
-            Intent intent = new Intent(this, DailyDiary.class);
-            try {
-                DBHelper helper = new DBHelper(this);
-                helper.trackEvent(helper,"DAILY_DIARY","LANDING_PAGE");
-                helper.close();
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-            startActivity(intent);
+
+        if(v.getId() == mb.getId()){
         }
         if(v.getId() == stic.getId()){
             Intent intent = new Intent(this, STIC.class);
@@ -216,15 +206,8 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
             }
             startActivity(intent);
         }
-        if(v.getId() == stop.getId()){
-            Intent intent = new Intent(this, STOP.class);
-            try {
-                DBHelper helper = new DBHelper(this);
-                helper.trackEvent(helper,"STOP_STARTED","LANDING_PAGE");
-                helper.close();
-            }catch(Exception e){
-                e.printStackTrace();
-            }
+        if(v.getId() == abmt.getId()){
+            Intent intent = new Intent(this, AttentionBiasedToolbox.class);
             startActivity(intent);
         }
         if(v.getId() == blob.getId()){
@@ -251,8 +234,13 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         }
 
         // Safe
+<<<<<<< HEAD
         if(v.getId() == safe.getId()) {
             Intent intent = new Intent(this, SafeWebView.class);
+=======
+        if(v.getId() == standUp.getId()) {
+            Intent intent = new Intent(this, Safe.class);
+>>>>>>> be67388d4c399c32e8e85385a14a1f7f267e66a8
 
             startActivity(intent);
         }
@@ -321,11 +309,11 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         db = helper.getDB();
         try {
             if (helper.checkActivity(DBHelper.Action.STOP)) {
-                stopGlow.setVisibility(View.VISIBLE);
-                AnimationDrawable stopAnim = (AnimationDrawable) stopGlow.getBackground();
+                abmtGlow.setVisibility(View.VISIBLE);
+                AnimationDrawable stopAnim = (AnimationDrawable) abmtGlow.getBackground();
                 stopAnim.start();
             } else {
-                stopGlow.setVisibility(View.GONE);
+                abmtGlow.setVisibility(View.GONE);
             }
             if (helper.checkActivity(DBHelper.Action.STIC)) {
                 sticGlow.setVisibility(View.VISIBLE);
@@ -342,11 +330,11 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
                 whGlow.setVisibility(View.GONE);
             }
             if (helper.checkActivity(DBHelper.Action.DAILY_DIARY)) {
-                ddGlow.setVisibility(View.VISIBLE);
-                AnimationDrawable ddAnim = (AnimationDrawable) ddGlow.getBackground();
+                mbGlow.setVisibility(View.VISIBLE);
+                AnimationDrawable ddAnim = (AnimationDrawable) mbGlow.getBackground();
                 ddAnim.start();
             } else {
-                ddGlow.setVisibility(View.GONE);
+                mbGlow.setVisibility(View.GONE);
             }
             if (helper.checkActivity(DBHelper.Action.RELAXATION)) {
                 relaxGlow.setVisibility(View.VISIBLE);

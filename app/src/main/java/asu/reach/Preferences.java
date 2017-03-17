@@ -15,12 +15,8 @@ import android.preference.PreferenceScreen;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Set;
 
 public class Preferences extends PreferenceActivity /*implements SharedPreferences.OnSharedPreferenceChangeListener */ {
@@ -175,6 +171,11 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
             e.printStackTrace();
         }
     }
+
+//    public void updateSAFETimerSetting(SharedPreferences pref,String s) {
+//        String newTime = pref.getString("SAFEEyeTrackingTimer","5");
+//
+//    }
 
     public void updateTeacherPIN(SharedPreferences pref,String s){
         String newTeacherPIN = pref.getString("teacherPIN", null);

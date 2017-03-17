@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="asu.reach" >
+    package="asu.reach">
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -16,8 +16,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
-
+        android:theme="@style/AppTheme">
         <receiver android:name=".NotifyService$NotifyServiceReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -26,7 +25,7 @@
 
         <activity
             android:name=".Landing"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,50 +34,50 @@
         </activity>
         <activity
             android:name=".Relaxation"
-            android:label="@string/title_activity_relaxation" >
-        </activity>
+            android:label="@string/title_activity_relaxation"></activity>
         <activity
             android:name=".STOP"
-            android:label="@string/title_activity_stop" >
-        </activity>
+            android:label="@string/title_activity_stop"></activity>
         <activity
             android:name=".STIC"
-            android:label="@string/title_activity_stic" >
-        </activity>
+            android:label="@string/title_activity_stic"></activity>
         <activity
             android:name=".DailyDiary"
-            android:label="@string/title_activity_daily_diary" >
-        </activity>
+            android:label="@string/title_activity_daily_diary"></activity>
         <activity
             android:name=".Blob"
-            android:label="@string/title_activity_blob" >
-        </activity>
+            android:label="@string/title_activity_blob"></activity>
         <activity
             android:name=".WorryHeads"
-            android:label="@string/title_activity_worry_heads" >
-        </activity>
+            android:label="@string/title_activity_worry_heads"></activity>
         <activity
+<<<<<<< HEAD
             android:name=".SafeWebView"
+=======
+            android:name=".Safe"
+
+>>>>>>> be67388d4c399c32e8e85385a14a1f7f267e66a8
             android:screenOrientation="portrait"
             android:label="@string/title_activity_safe" >
         </activity>
+
         <activity android:name=".Preferences" />
         <activity
             android:name=".DatePreferenceActivity"
-            android:label="@string/title_activity_date_preference" >
-        </activity>
+            android:label="@string/title_activity_date_preference"></activity>
         <activity
             android:name=".NotifManager"
-            android:label="@string/title_activity_date_preference" >
-        </activity>
+            android:label="@string/title_activity_date_preference"></activity>
 
         <service
             android:name=".NotifyService"
             android:enabled="true"
-            android:exported="true" >
-        </service>
-        <service android:name=".HelperService"
-            android:exported="false"/>
+            android:exported="true"></service>
+        <service
+            android:name=".HelperService"
+            android:exported="false" />
+
+        <activity android:name=".AttentionBiasedToolbox"></activity>
     </application>
 
 </manifest>
