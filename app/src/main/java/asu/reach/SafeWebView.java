@@ -1,33 +1,22 @@
 package asu.reach;
 
 import android.app.Activity;
-<<<<<<< HEAD
 import android.app.Dialog;
-=======
->>>>>>> be67388d4c399c32e8e85385a14a1f7f267e66a8
 import android.app.FragmentManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
-<<<<<<< HEAD
 import android.content.SharedPreferences;
-=======
->>>>>>> be67388d4c399c32e8e85385a14a1f7f267e66a8
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
-<<<<<<< HEAD
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
-=======
-import android.util.Log;
-import android.view.Display;
->>>>>>> be67388d4c399c32e8e85385a14a1f7f267e66a8
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
@@ -36,29 +25,22 @@ import android.webkit.WebSettings;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-<<<<<<< HEAD
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.vision.CameraSource;
 
 import java.io.File;
 import java.io.IOException;
-=======
-import java.io.File;
->>>>>>> be67388d4c399c32e8e85385a14a1f7f267e66a8
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
-<<<<<<< HEAD
 import java.util.Timer;
 import java.util.TimerTask;
 
 import asu.reach.googleVision.CameraSourcePreview;
 import asu.reach.googleVision.GraphicOverlay;
-=======
->>>>>>> be67388d4c399c32e8e85385a14a1f7f267e66a8
 
 public class SafeWebView extends Activity implements DialogInterface.OnClickListener {
 
@@ -70,7 +52,6 @@ public class SafeWebView extends Activity implements DialogInterface.OnClickList
     private String outputFile;
     private File mediaStorageDir;
 
-<<<<<<< HEAD
     private float leftEyeOpenProbability = 0, rightEyeOpenProbability = 0;
     private int probabilityCount = 0;
 
@@ -85,8 +66,6 @@ public class SafeWebView extends Activity implements DialogInterface.OnClickList
     private CameraSourcePreview mPreview;
     private GraphicOverlay mGraphicOverlay;
 
-=======
->>>>>>> be67388d4c399c32e8e85385a14a1f7f267e66a8
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -138,13 +117,8 @@ public class SafeWebView extends Activity implements DialogInterface.OnClickList
             }
 
             @JavascriptInterface
-<<<<<<< HEAD
             public void goToHomeScreen() {
                 goToHomepage();
-=======
-            public void goToHomeScreen(boolean force) {
-                goToHomepage(force);
->>>>>>> be67388d4c399c32e8e85385a14a1f7f267e66a8
             }
 
             @JavascriptInterface
@@ -156,12 +130,11 @@ public class SafeWebView extends Activity implements DialogInterface.OnClickList
             public void stopRecording() {
                 sw_stopRecording();
             }
-<<<<<<< HEAD
 
             @JavascriptInterface
-            public void forceFinishApp() { finish();}
-=======
->>>>>>> be67388d4c399c32e8e85385a14a1f7f267e66a8
+            public void forceFinishApp() {
+                finish();
+            }
         }, "safe");
 
         WebSettings webSettings = mWebView.getSettings();
@@ -194,21 +167,10 @@ public class SafeWebView extends Activity implements DialogInterface.OnClickList
         return new Situation(c);
     }
 
-<<<<<<< HEAD
     private void goToHomepage() {
         FragmentManager fm = getFragmentManager();
         DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this);
         dialog.show(fm, "frag");
-=======
-    private void goToHomepage(boolean force) {
-        if (!force) {
-            FragmentManager fm = getFragmentManager();
-            DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this);
-            dialog.show(fm, "frag");
-        } else {
-            finish();
-        }
->>>>>>> be67388d4c399c32e8e85385a14a1f7f267e66a8
     }
 
     private void sw_startRecording() {
@@ -235,7 +197,6 @@ public class SafeWebView extends Activity implements DialogInterface.OnClickList
         }
     }
 
-<<<<<<< HEAD
     private void startEyeTracking() {
         //TODO: start new recording activity
         Log.d("Vision", "Going to start Recording Activity");
@@ -307,12 +268,10 @@ public class SafeWebView extends Activity implements DialogInterface.OnClickList
         }
     }
 
-    private void forceFinish(){
+    private void forceFinish() {
         finish();
     }
 
-=======
->>>>>>> be67388d4c399c32e8e85385a14a1f7f267e66a8
     @Override
     public void onBackPressed() {
         return;

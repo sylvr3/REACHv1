@@ -33,14 +33,9 @@ public class DialogBuilder extends DialogFragment {
     private static WorryHeads whActivity;
     private static Safe safeActivity;
     private static SafeWebView safeWebViewActivity;
-<<<<<<< HEAD
-    private static boolean end,date;
-=======
     private static boolean end, date;
 
     public static final String PREFS_NAME = "DoNotShowAgain";
-
->>>>>>> be67388d4c399c32e8e85385a14a1f7f267e66a8
 
     public static DialogBuilder newInstance(String title) {
         DialogBuilder frag = new DialogBuilder();
@@ -156,27 +151,12 @@ public class DialogBuilder extends DialogFragment {
         return frag;
     }
 
-    public static DialogBuilder newInstance(String title, SafeWebView a) {
-        DialogBuilder frag = new DialogBuilder();
-        Bundle args = new Bundle();
-        args.putString("title", title);
-        frag.setArguments(args);
-        safeWebViewActivity = a;
-        safeActivity = null;
-        sticActivity = null;
-        whActivity = null;
-        landingActivity = null;
-        stopActivity = null;
-        ddActivity = null;
-        return frag;
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (getDialog() == null)
             setShowsDialog(false);
         else
-        getDialog().setCanceledOnTouchOutside(false);
+            getDialog().setCanceledOnTouchOutside(false);
         return super.onCreateView(inflater, container, savedInstanceState);
 
     }
@@ -270,7 +250,7 @@ public class DialogBuilder extends DialogFragment {
         checkBox.setText("Do not ask me again");
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     editor.putBoolean("skipMessage", checkBox.isChecked());
                     editor.commit();
@@ -289,8 +269,7 @@ public class DialogBuilder extends DialogFragment {
                     .create();
         }
 
-<<<<<<< HEAD
-        if(safeWebViewActivity != null){
+        if (safeWebViewActivity != null) {
             return new AlertDialog.Builder(getActivity())
                     .setIcon(R.drawable.ic_launcher)
                     .setTitle(title)
@@ -299,12 +278,11 @@ public class DialogBuilder extends DialogFragment {
                     .setNegativeButton("Cancel", safeWebViewActivity)
                     .create();
         }
-=======
+
         Intent intent = new Intent(getContext(), Landing.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         getContext().startActivity(intent);
 
->>>>>>> be67388d4c399c32e8e85385a14a1f7f267e66a8
         return null;
     }
 }

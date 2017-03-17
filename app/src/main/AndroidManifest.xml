@@ -51,12 +51,7 @@
             android:name=".WorryHeads"
             android:label="@string/title_activity_worry_heads"></activity>
         <activity
-<<<<<<< HEAD
             android:name=".SafeWebView"
-=======
-            android:name=".Safe"
-
->>>>>>> be67388d4c399c32e8e85385a14a1f7f267e66a8
             android:screenOrientation="portrait"
             android:label="@string/title_activity_safe" >
         </activity>

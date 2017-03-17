@@ -692,11 +692,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
         if (v.getId() == back.getId()){
             if(!choice ) {
-<<<<<<< HEAD
-                if (s || onRecord) {
-=======
                 if (onSpeakYourMind || onRecord) {
->>>>>>> be67388d4c399c32e8e85385a14a1f7f267e66a8
                     FragmentManager fm = getFragmentManager();
                     DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this);
                     dialog.show(fm, "frag");
