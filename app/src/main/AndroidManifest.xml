@@ -74,6 +74,7 @@
             android:exported="false" />
 
         <activity android:name=".AttentionBiasedToolbox"></activity>
+        <activity android:name=".AttentionBiasedToolboxWebview"></activity>
     </application>
 
 </manifest>
