@@ -869,8 +869,8 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         nextFirm.setVisibility(View.VISIBLE);
         answerTextView.setVisibility(View.GONE);
         answerImageView.setVisibility(View.GONE);
-        back.setBackgroundResource(R.drawable.home_selector);
-        back.setVisibility(View.VISIBLE);
+//        back.setBackgroundResource(R.drawable.home_selector);
+//        back.setVisibility(View.VISIBLE);
     }
 
 
@@ -889,8 +889,8 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         answerTextView.setText(getAns());
         answerTextView.setVisibility(View.GONE);
         answerImageView.setVisibility(View.GONE);
-        back.setBackgroundResource(R.drawable.home_selector);
-        back.setVisibility(View.VISIBLE);
+//        back.setBackgroundResource(R.drawable.home_selector);
+//        back.setVisibility(View.VISIBLE);
     }
 
     private void complete(String msg){
