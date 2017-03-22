@@ -177,7 +177,7 @@
                 android:layout_marginBottom="10dp"
                 android:gravity="center"
                 android:lineSpacingExtra="2dp"
-                android:textSize="28dp" />
+                android:textSize="24dp" />
 
             <ImageView
                 android:layout_width="fill_parent"
