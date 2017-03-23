@@ -174,10 +174,21 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             showBlankScreen();
         }*/
         if(v.getId() == leftButton.getId()) {
-            if(neutral == 0 )showBlankScreen();
+            if(neutral == 0) {
+                count++;
+                //  MediaPlayer mp = MediaPlayer.create(this, R.raw.ding);;
+                //  mp.start();
+            }
+            showBlankScreen();
         }
         if(v.getId() == rightButton.getId()) {
-            if(neutral == 1) showBlankScreen();
+            if(neutral == 1) {
+                count++;
+                //  MediaPlayer mp = MediaPlayer.create(this, R.raw.ding);;
+                //  mp.start();
+            }
+            showBlankScreen();
+
         }
         System.out.println(count);
     }
