@@ -102,9 +102,9 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
                 showProbes();
             }
         };
-        blankScreen();
-        showBlankScreen();
-       // showMainScreen();
+       // blankScreen();
+        //showBlankScreen();
+        showMainScreen();
     }
 
     // Initiate timer for first fixation with + sign, at the end it start the fetching images
@@ -168,36 +168,47 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         trialButton.setVisibility(View.INVISIBLE);
         imgTop.setVisibility(View.INVISIBLE);
         imgBottom.setVisibility(View.INVISIBLE);
-        leftButton.setVisibility(View.INVISIBLE);
-        rightButton.setVisibility(View.INVISIBLE);
+        leftButton.setVisibility(View.GONE);
+        rightButton.setVisibility(View.GONE);
         viewFlipper.showNext();
-        plusImage.setVisibility(View.INVISIBLE);
+        plusImage.setVisibility(View.GONE);
+        plusBtwImageView.setVisibility(View.GONE);
         scoreText.setVisibility(View.VISIBLE);
+        scoreText.setText("Score: " + count + " out of " + numOfTrials);
+        System.out.println("Score: " + count + " out of " + numOfTrials);
+        // todo: figure out how to calculate and display speed
 
     }
 
     //Load images
     public void fetchImages() {
-        int bitMapInd = random.nextInt(2);
-        int rndInt = random.nextInt(neutralImgs.length()-index) + index;
-        int neutralId = neutralImgs.getResourceId(rndInt,0);
-        int threatId = threatImgs.getResourceId(rndInt,0);
-        swapIndex(index,rndInt);
-        index = (index + 1)%neutralImgs.length();
-        bmap[0] = (bitMapInd == 0)? BitmapFactory.decodeResource(getResources(),neutralId):BitmapFactory.decodeResource(getResources(),threatId);
-        bmap[1] = (bitMapInd == 1)? BitmapFactory.decodeResource(getResources(),neutralId):BitmapFactory.decodeResource(getResources(),threatId);
-        neutral = (bitMapInd == 0)?0:1;
-        viewFlipper.showPrevious();
-        imgTop.setVisibility(View.VISIBLE);
-        plusBtwImageView.setVisibility(View.VISIBLE);
-        imgBottom.setVisibility(View.VISIBLE);
-        leftButton.setVisibility(View.VISIBLE);
-        rightButton.setVisibility(View.VISIBLE);
-        plusImage.setVisibility(View.INVISIBLE);
-        imgTop.setImageBitmap(bmap[0]);
-        imgBottom.setImageBitmap(bmap[1]);
-        blankScreenTimer.cancel();
-        startTimer();
+        if (numOfTrials < 160) {
+            int bitMapInd = random.nextInt(2);
+            int rndInt = random.nextInt(neutralImgs.length() - index) + index;
+            int neutralId = neutralImgs.getResourceId(rndInt, 0);
+            int threatId = threatImgs.getResourceId(rndInt, 0);
+            swapIndex(index, rndInt);
+            index = (index + 1) % neutralImgs.length();
+            bmap[0] = (bitMapInd == 0) ? BitmapFactory.decodeResource(getResources(), neutralId) : BitmapFactory.decodeResource(getResources(), threatId);
+            bmap[1] = (bitMapInd == 1) ? BitmapFactory.decodeResource(getResources(), neutralId) : BitmapFactory.decodeResource(getResources(), threatId);
+            neutral = (bitMapInd == 0) ? 0 : 1;
+            viewFlipper.showPrevious();
+            imgTop.setVisibility(View.VISIBLE);
+            plusBtwImageView.setVisibility(View.VISIBLE);
+            imgBottom.setVisibility(View.VISIBLE);
+            leftButton.setVisibility(View.VISIBLE);
+            rightButton.setVisibility(View.VISIBLE);
+            plusImage.setVisibility(View.INVISIBLE);
+            imgTop.setImageBitmap(bmap[0]);
+            imgBottom.setImageBitmap(bmap[1]);
+            blankScreenTimer.cancel();
+            startTimer();
+        }
+        if (numOfTrials == 160) { // trial is over and score is presented
+               showScoreScreen();
+            }
+            if (count == 160)
+                System.out.println("Trial over");
     }
 
     //Swap the indices to populate the images which is not generated in previous hits.
@@ -206,6 +217,8 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         imageIndArray[i] = imageIndArray[j];
         imageIndArray[j] = temp;
     }
+
+
 
     @Override
     public void onClick(View v) {
@@ -226,6 +239,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
                 count++;
                 MediaPlayer mp = MediaPlayer.create(this, R.raw.ding);;
                 mp.start();
+               // mp.release();
             }
             numOfTrials++;
             showBlankScreen();
@@ -235,22 +249,13 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
                 count++;
                 MediaPlayer mp = MediaPlayer.create(this, R.raw.ding);;
                 mp.start();
+               // mp.release();
             }
             numOfTrials++;
             showBlankScreen();
 
         }
 
-        if (numOfTrials == 160) { // trial is over and score is presented
-            scoreText.setVisibility(View.VISIBLE);
-            plusBtwImageView.setVisibility(View.GONE);
-            leftButton.setVisibility(View.GONE);
-            rightButton.setVisibility(View.GONE);
-            scoreText.setText("Score: " + count + " out of " + numOfTrials);
-            System.out.println("Score: " + count + " out of " + numOfTrials);
-        }
-        if (count == 160)
-            System.out.println("Trial over");
 
         System.out.println(count);
         System.out.println(numOfTrials);
