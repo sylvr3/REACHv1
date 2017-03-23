@@ -18,8 +18,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
+
+import org.w3c.dom.Text;
 
 import java.util.Random;
 
@@ -28,13 +31,14 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     private Random random;
     private TypedArray neutralImgs, threatImgs;
     private Bitmap[] bmap;
-    private int neutral,count, index;
+    private int neutral,count, index, numOfTrials;
     private CountDownTimer countDownTimer, blankScreenTimer;
     private ImageView plusImage;
     private ImageView plusBtwImageView;
     private ViewFlipper viewFlipper;
-    private Button leftButton, rightButton;
+    private Button leftButton, rightButton, tutorialButton, trialButton;
     private int[] imageIndArray;
+    private TextView scoreText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,20 +59,28 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         Typeface font = Typeface.createFromAsset(getAssets(), "agentorange.ttf");
         leftButton = (Button)findViewById(R.id.leftButton);
         leftButton.setTypeface(font);
-
         rightButton = (Button)findViewById(R.id.rightButton);
         rightButton.setTypeface(font);
+        Typeface textType = Typeface.createFromAsset(getAssets(), "Average-Regular.ttf");
+        tutorialButton = (Button)findViewById(R.id.tutorialButton);
+        tutorialButton.setTypeface(textType);
+        trialButton = (Button)findViewById(R.id.trialButton);
+        trialButton.setTypeface(textType);
         plusImage = (ImageView)findViewById(R.id.plus);
         plusBtwImageView = (ImageView) findViewById(R.id.plusBtw);
         viewFlipper = (ViewFlipper)findViewById(R.id.viewFlipper);
         viewFlipper.showNext();
+        scoreText = (TextView)findViewById(R.id.scoreText);
         imgTop.setOnClickListener(this);
         imgBottom.setOnClickListener(this);
         leftButton.setOnClickListener(this);
         rightButton.setOnClickListener(this);
+        tutorialButton.setOnClickListener(this);
+        trialButton.setOnClickListener(this);
+        //trialButton.setClickable(false);
         imgTop.setVisibility(View.INVISIBLE);
         imgBottom.setVisibility(View.INVISIBLE);
-        blankScreenTimer = new CountDownTimer(500,250) {
+        blankScreenTimer = new CountDownTimer(500,200) {
             @Override
             public void onTick(long l) {
 
@@ -79,7 +91,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
                 fetchImages();
             }
         };
-        countDownTimer = new CountDownTimer(500,250) {
+        countDownTimer = new CountDownTimer(200,200) {
 
             public void onTick(long millisUntilFinished) {
 
@@ -90,9 +102,9 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
                 showProbes();
             }
         };
-        //blankScreen();
+        blankScreen();
         showBlankScreen();
-        //showMainScreen();
+       // showMainScreen();
     }
 
     // Initiate timer for first fixation with + sign, at the end it start the fetching images
@@ -119,30 +131,49 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         if(neutral == 0) imgTop.setVisibility(View.VISIBLE);
         else imgBottom.setVisibility(View.VISIBLE);
         //viewFlipper.showPrevious();
-        countDownTimer.cancel();
+      //  countDownTimer.cancel();
     }
 
     // Main screen that allows user to select tutorial or trial
     public void showMainScreen() {
-        //countDownTimer.cancel();
+        tutorialButton.setVisibility(View.VISIBLE);
+        trialButton.setVisibility(View.VISIBLE);
+        plusBtwImageView.setVisibility(View.GONE);
         imgTop.setVisibility(View.INVISIBLE);
         imgBottom.setVisibility(View.INVISIBLE);
-        leftButton.setVisibility(View.VISIBLE);
-        rightButton.setVisibility(View.INVISIBLE);
-        viewFlipper.showNext();
+        leftButton.setVisibility(View.GONE);
+        rightButton.setVisibility(View.GONE);
         plusImage.setVisibility(View.INVISIBLE);
+        scoreText.setVisibility(View.INVISIBLE);
     }
 
     //Wipe images and show the + sign
     public void showBlankScreen() {
         //countDownTimer.cancel();
+        tutorialButton.setVisibility(View.INVISIBLE);
+        trialButton.setVisibility(View.INVISIBLE);
         imgTop.setVisibility(View.INVISIBLE);
         imgBottom.setVisibility(View.INVISIBLE);
         leftButton.setVisibility(View.INVISIBLE);
         rightButton.setVisibility(View.INVISIBLE);
         viewFlipper.showNext();
         plusImage.setVisibility(View.VISIBLE);
+        scoreText.setVisibility(View.INVISIBLE);
         blankScreen();
+    }
+
+    // Display student's score and speed
+    public void showScoreScreen() {
+        tutorialButton.setVisibility(View.INVISIBLE);
+        trialButton.setVisibility(View.INVISIBLE);
+        imgTop.setVisibility(View.INVISIBLE);
+        imgBottom.setVisibility(View.INVISIBLE);
+        leftButton.setVisibility(View.INVISIBLE);
+        rightButton.setVisibility(View.INVISIBLE);
+        viewFlipper.showNext();
+        plusImage.setVisibility(View.INVISIBLE);
+        scoreText.setVisibility(View.VISIBLE);
+
     }
 
     //Load images
@@ -178,12 +209,25 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
+        if(v.getId() == tutorialButton.getId()) {
+            tutorialButton.setVisibility(View.INVISIBLE);
+            trialButton.setVisibility(View.INVISIBLE);
+        }
+
+        if(v.getId() == trialButton.getId()) {
+            tutorialButton.setVisibility(View.INVISIBLE);
+            trialButton.setVisibility(View.INVISIBLE);
+            blankScreen();
+            showBlankScreen();
+        }
+
         if(v.getId() == leftButton.getId()) {
             if(neutral == 0) {
                 count++;
                 MediaPlayer mp = MediaPlayer.create(this, R.raw.ding);;
                 mp.start();
             }
+            numOfTrials++;
             showBlankScreen();
         }
         if(v.getId() == rightButton.getId()) {
@@ -192,9 +236,24 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
                 MediaPlayer mp = MediaPlayer.create(this, R.raw.ding);;
                 mp.start();
             }
+            numOfTrials++;
             showBlankScreen();
 
         }
+
+        if (numOfTrials == 160) { // trial is over and score is presented
+            scoreText.setVisibility(View.VISIBLE);
+            plusBtwImageView.setVisibility(View.GONE);
+            leftButton.setVisibility(View.GONE);
+            rightButton.setVisibility(View.GONE);
+            scoreText.setText("Score: " + count + " out of " + numOfTrials);
+            System.out.println("Score: " + count + " out of " + numOfTrials);
+        }
+        if (count == 160)
+            System.out.println("Trial over");
+
         System.out.println(count);
+        System.out.println(numOfTrials);
+
     }
 }
