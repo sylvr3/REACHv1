@@ -7,6 +7,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Layout;
@@ -91,6 +92,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         };
         //blankScreen();
         showBlankScreen();
+        //showMainScreen();
     }
 
     // Initiate timer for first fixation with + sign, at the end it start the fetching images
@@ -118,6 +120,17 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         else imgBottom.setVisibility(View.VISIBLE);
         //viewFlipper.showPrevious();
         countDownTimer.cancel();
+    }
+
+    // Main screen that allows user to select tutorial or trial
+    public void showMainScreen() {
+        //countDownTimer.cancel();
+        imgTop.setVisibility(View.INVISIBLE);
+        imgBottom.setVisibility(View.INVISIBLE);
+        leftButton.setVisibility(View.VISIBLE);
+        rightButton.setVisibility(View.INVISIBLE);
+        viewFlipper.showNext();
+        plusImage.setVisibility(View.INVISIBLE);
     }
 
     //Wipe images and show the + sign
@@ -176,16 +189,16 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         if(v.getId() == leftButton.getId()) {
             if(neutral == 0) {
                 count++;
-                //  MediaPlayer mp = MediaPlayer.create(this, R.raw.ding);;
-                //  mp.start();
+                MediaPlayer mp = MediaPlayer.create(this, R.raw.ding);;
+                mp.start();
             }
             showBlankScreen();
         }
         if(v.getId() == rightButton.getId()) {
             if(neutral == 1) {
                 count++;
-                //  MediaPlayer mp = MediaPlayer.create(this, R.raw.ding);;
-                //  mp.start();
+                MediaPlayer mp = MediaPlayer.create(this, R.raw.ding);;
+                mp.start();
             }
             showBlankScreen();
 
