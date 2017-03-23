@@ -178,14 +178,6 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        /*if(v.getId() == imgTop.getId()) {
-            if(neutral == 0) count++;
-            showBlankScreen();
-        }
-        if(v.getId() == imgBottom.getId()) {
-            if(neutral == 1) count++;
-            showBlankScreen();
-        }*/
         if(v.getId() == leftButton.getId()) {
             if(neutral == 0) {
                 count++;
