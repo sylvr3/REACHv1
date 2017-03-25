@@ -1,18 +1,22 @@
 package asu.reach;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.FragmentManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Display;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
@@ -21,12 +25,22 @@ import android.webkit.WebSettings;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.vision.CameraSource;
+
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import asu.reach.googleVision.CameraSourcePreview;
+import asu.reach.googleVision.GraphicOverlay;
 
 public class SafeWebView extends Activity implements DialogInterface.OnClickListener {
 
@@ -37,6 +51,20 @@ public class SafeWebView extends Activity implements DialogInterface.OnClickList
     private MediaRecorder mediaRecorder;
     private String outputFile;
     private File mediaStorageDir;
+
+    private float leftEyeOpenProbability = 0, rightEyeOpenProbability = 0;
+    private int probabilityCount = 0;
+
+    private float finalLeftEyeProbablity = 0;
+    private float finalRightEyeProbablity = 0;
+    private int finalProbablityCount = 0;
+    private final String eyeTrackingTimer = "SAFEEyeTrackingTimer";
+
+    private static final int RC_HANDLE_GMS = 9001;
+
+    private CameraSource mCameraSource = null;
+    private CameraSourcePreview mPreview;
+    private GraphicOverlay mGraphicOverlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,8 +117,8 @@ public class SafeWebView extends Activity implements DialogInterface.OnClickList
             }
 
             @JavascriptInterface
-            public void goToHomeScreen(boolean force) {
-                goToHomepage(force);
+            public void goToHomeScreen() {
+                goToHomepage();
             }
 
             @JavascriptInterface
@@ -102,6 +130,9 @@ public class SafeWebView extends Activity implements DialogInterface.OnClickList
             public void stopRecording() {
                 sw_stopRecording();
             }
+
+            @JavascriptInterface
+            public void forceFinishApp() { finish();}
         }, "safe");
 
         WebSettings webSettings = mWebView.getSettings();
@@ -134,14 +165,10 @@ public class SafeWebView extends Activity implements DialogInterface.OnClickList
         return new Situation(c);
     }
 
-    private void goToHomepage(boolean force) {
-        if (!force) {
-            FragmentManager fm = getFragmentManager();
-            DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this);
-            dialog.show(fm, "frag");
-        } else {
-            finish();
-        }
+    private void goToHomepage() {
+        FragmentManager fm = getFragmentManager();
+        DialogBuilder dialog = DialogBuilder.newInstance("Confirm", this);
+        dialog.show(fm, "frag");
     }
 
     private void sw_startRecording() {
@@ -166,6 +193,81 @@ public class SafeWebView extends Activity implements DialogInterface.OnClickList
             mediaPlayer.start();
         } catch (Exception e) {
         }
+    }
+
+    private void startEyeTracking() {
+        //TODO: start new recording activity
+        Log.d("Vision", "Going to start Recording Activity");
+        startCameraSource();
+        leftEyeOpenProbability = 0;
+        rightEyeOpenProbability = 0;
+        probabilityCount = 0;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+
+        String eyeTrackginTimerString = preferences.getString(eyeTrackingTimer, "5");
+        Log.d("EyeTracking", "Going to start eye tracking for " + eyeTrackginTimerString);
+        int timer = 5;
+        try {
+            timer = Integer.parseInt(eyeTrackginTimerString);
+        } catch (Exception e) {
+            timer = 5;
+        }
+
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                finalProbablityCount = probabilityCount;
+                finalLeftEyeProbablity = leftEyeOpenProbability / finalRightEyeProbablity;
+                finalRightEyeProbablity = rightEyeOpenProbability / finalProbablityCount;
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        createMicrophone();
+//                        speakAnswer();
+                    }
+                });
+
+            }
+        }, timer * 1000);
+    }
+
+    private void startCameraSource() {
+        int code = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(
+                getApplicationContext());
+        if (code != ConnectionResult.SUCCESS) {
+            Dialog dlg =
+                    GoogleApiAvailability.getInstance().getErrorDialog(this, code, RC_HANDLE_GMS);
+            dlg.show();
+        }
+
+        if (mCameraSource != null) {
+            try {
+                mPreview.start(mCameraSource, mGraphicOverlay);
+            } catch (IOException e) {
+                mCameraSource.release();
+                mCameraSource = null;
+            }
+        }
+    }
+
+    private void createMicrophone() {
+        mediaRecorder = new MediaRecorder();
+        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
+
+        mediaStorageDir = new File(Environment.getExternalStorageDirectory(), "REACH");
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                Log.d("App", "failed to create directory");
+            }
+        }
+    }
+
+    private void forceFinish(){
+        finish();
     }
 
     @Override
