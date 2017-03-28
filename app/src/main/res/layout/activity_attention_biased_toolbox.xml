@@ -101,6 +101,19 @@
                 </LinearLayout>
 
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+                <Button
+                    android:layout_width="100dip"
+                    android:layout_height="50dp"
+                    android:id="@+id/restartButton"
+                    android:text="Restart"
+                    android:layout_gravity="center"
+                    android:scaleType="center" />
+            </LinearLayout>
 
         </ViewFlipper>
     </ViewSwitcher>
