@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class AttentionBiasedToolbox extends Activity implements View.OnClickListener{
@@ -136,6 +137,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         int threatId = threatImgs.getResourceId(rndInt,0);
         swapIndex(index,rndInt);
         index = (index + 1)%neutralImgs.length();
+        System.out.println(Arrays.toString(imageIndArray));
         bmap[0] = (bitMapInd == 0)? BitmapFactory.decodeResource(getResources(),neutralId):BitmapFactory.decodeResource(getResources(),threatId);
         bmap[1] = (bitMapInd == 1)? BitmapFactory.decodeResource(getResources(),neutralId):BitmapFactory.decodeResource(getResources(),threatId);
         neutral = (bitMapInd == 0)?0:1;
