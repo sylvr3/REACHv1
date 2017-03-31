@@ -162,8 +162,8 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
 
     // Wipe images and generate probes
     public void showProbes() {
-        progressBar.setVisibility(View.VISIBLE);
-        progressBar.setProgress(cumulativeCount);
+//        progressBar.setVisibility(View.VISIBLE);
+   //     progressBar.setProgress(cumulativeCount);
         int leftProbeInd = R.drawable.left;
         int rightProbeInd = R.drawable.right;
         imgTop.setVisibility(View.INVISIBLE);
