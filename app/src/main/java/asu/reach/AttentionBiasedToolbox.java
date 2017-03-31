@@ -238,7 +238,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         //System.out.println("Speed: " + millis + " ms"); // test this!!
         goalText.setVisibility(View.VISIBLE);
         goalText.setText("Goal: " + NUM_OF_TOTAL_CORRECT_TRIALS + " trials");
-        progressBar.setVisibility(View.INVISIBLE);
+       // progressBar.setVisibility(View.INVISIBLE);
 
         System.out.println("Completed: " + (cumulativeCount / 7500) * 100 + "% of the trials correctly");
 
