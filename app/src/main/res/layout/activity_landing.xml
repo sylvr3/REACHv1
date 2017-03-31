@@ -248,7 +248,7 @@
             android:background="@drawable/progress_bg">
 
             <RelativeLayout
-                android:layout_width="65dp"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:layout_marginTop="120dp"
                 android:layout_marginRight="5dp"
@@ -277,7 +277,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="65dp"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:id="@+id/relativeLayout5"
                 android:layout_toRightOf="@+id/relaxBarLayout"
@@ -286,7 +286,7 @@
                 android:background="@drawable/border_bg">
 
                 <RelativeLayout
-                    android:layout_width="65dp"
+                    android:layout_width="match_parent"
                     android:layout_height="300dp"
                     android:id="@+id/sticBarLayout"
                     android:gravity="center"
@@ -305,7 +305,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="65dp"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:id="@+id/relativeLayout4"
                 android:layout_toRightOf="@+id/sticBarLayout"
@@ -333,14 +333,14 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="65dp"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:layout_marginTop="120dp"
                 android:layout_marginRight="5dp"
                 android:background="@drawable/border_bg">
 
                 <RelativeLayout
-                    android:layout_width="65dp"
+                    android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:id="@+id/stopBarLayout"
                     android:gravity="center"
@@ -359,7 +359,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="65dp"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:id="@+id/relativeLayout6"
                 android:layout_toRightOf="@+id/ddBarLayout"
@@ -368,7 +368,7 @@
                 android:background="@drawable/border_bg">
 
                 <RelativeLayout
-                    android:layout_width="65dp"
+                    android:layout_width="match_parent"
                     android:layout_height="340dp"
                     android:id="@+id/relaxBarLayout"
                     android:layout_margin="4dp"
@@ -387,7 +387,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="65dp"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:id="@+id/relativeLayout7"
                 android:layout_toRightOf="@+id/safeBarLayout"
@@ -396,7 +396,7 @@
                 android:background="@drawable/border_bg">
 
                 <RelativeLayout
-                    android:layout_width="65dp"
+                    android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:id="@+id/safeBarLayout"
                     android:layout_margin="4dp"
@@ -410,7 +410,35 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/safeTextImageView"
-                    android:src="@drawable/safe_bar_text"
+                    android:src="@drawable/standup_bar_text"
+                    android:layout_centerInParent="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:id="@+id/relativeLayout8"
+                android:layout_toRightOf="@+id/abmtBarLayout"
+                android:layout_marginTop="120dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/border_bg">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:id="@+id/abmtBarLayout"
+                    android:layout_margin="4dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#ef367c"
+                    android:gravity="center">
+
+                </RelativeLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ambtTextImageView"
+                    android:src="@drawable/faces_bar_text"
                     android:layout_centerInParent="true" />
             </RelativeLayout>
         </LinearLayout>
