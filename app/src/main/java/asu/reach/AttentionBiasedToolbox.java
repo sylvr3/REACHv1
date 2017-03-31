@@ -33,7 +33,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     private int[] imageIndArray;
     private TextView scoreText, goalText, playAgainText, speedText;
     private ProgressBar progressBar;
-    private long startTime, stopTime;
+    private long startTime, stopTime, cumTime, totalTime;
     private static final int NUM_OF_TRIALS = 180;
     private static final int NUM_OF_PLACEBO_TRIALS = 60;
     private static final int NUM_OF_TOTAL_CORRECT_TRIALS = 7500;
@@ -77,8 +77,9 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         goalText = (TextView) findViewById(R.id.goalText);
         playAgainText = (TextView) findViewById(R.id.playAgainText);
         speedText = (TextView) findViewById(R.id.speedText);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar) ;
-        progressBar.setMax(NUM_OF_TOTAL_CORRECT_TRIALS);
+      //  progressBar = (ProgressBar) findViewById(R.id.progressBar) ; // progress bar
+     //   progressBar.setMax(NUM_OF_TOTAL_CORRECT_TRIALS);
+        totalTime = 0;
 
 
         imgTop.setOnClickListener(this);
@@ -113,9 +114,8 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             }
         };
 
-        loopTrialTimer = new CountDownTimer(18000, 200) {
+        loopTrialTimer = new CountDownTimer(1800, 200) {
             public void onTick(long millisUntilFinished) {
-
 
             }
 
@@ -152,7 +152,6 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     // Initiate timer for first fixation with + sign, at the end it start the fetching images
     public void blankScreen() {
         blankScreenTimer.start();
-        startTime = System.currentTimeMillis(); // move this
     }
 
     // Initiate timer for second fixation with images, at the end it generate probes and wait for user response
@@ -176,6 +175,9 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         imgBottom.setImageBitmap(bmap[1]);
         if (neutral == 0) imgTop.setVisibility(View.VISIBLE);
         else imgBottom.setVisibility(View.VISIBLE);
+        startTime = System.currentTimeMillis();
+        cumTime = Math.abs(stopTime - startTime);
+        totalTime += cumTime;
         //viewFlipper.showPrevious();
         //  countDownTimer.cancel();
     }
@@ -233,14 +235,14 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         long millis = Math.abs(stopTime - startTime);
         speedText.setVisibility(View.VISIBLE);
         speedText.setText("Speed: " + millis + " ms");
-        System.out.println("Speed: " + millis + " ms"); // test this!!
+        //System.out.println("Speed: " + millis + " ms"); // test this!!
         goalText.setVisibility(View.VISIBLE);
         goalText.setText("Goal: " + NUM_OF_TOTAL_CORRECT_TRIALS + " trials");
         progressBar.setVisibility(View.INVISIBLE);
 
-        System.out.println("Completed: " + (cumulativeCount / 7500) * 100 + "% of the trials correctly"); //fix
+        System.out.println("Completed: " + (cumulativeCount / 7500) * 100 + "% of the trials correctly");
 
-        if (count < 10) {
+        if (count < 10) { // check if trials completed -- set to 7500
             playAgainText.setVisibility(View.VISIBLE);
             loopTrialTimer.start();
         }
@@ -261,72 +263,41 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         imgBottom.setVisibility(View.INVISIBLE);
         leftButton.setVisibility(View.GONE);
         rightButton.setVisibility(View.GONE);
-        //viewFlipper.showNext();
         plusImage.setVisibility(View.GONE);
         plusBtwImageView.setVisibility(View.GONE);
         playAgainText.setVisibility(View.VISIBLE);
         scoreText.setVisibility(View.INVISIBLE);
         goalText.setVisibility(View.INVISIBLE);
         speedText.setVisibility(View.INVISIBLE);
-       // loopTrialTimer.start();
-
-        //scoreText.setText("Score: " + count + " out of " + numOfTrials);
-        //  System.out.println("Score: " + count + " out of " + numOfTrials);
 
     }
 
     //Load images
     public void fetchImages() {
-            int bitMapInd = random.nextInt(2);
-            int rndInt = random.nextInt(neutralImgs.length() - index) + index;
-            int neutralId = neutralImgs.getResourceId(rndInt, 0);
-            int threatId = threatImgs.getResourceId(rndInt, 0);
-            swapIndex(index, rndInt);
-            index = (index + 1) % neutralImgs.length();
-            bmap[0] = (bitMapInd == 0) ? BitmapFactory.decodeResource(getResources(), neutralId) : BitmapFactory.decodeResource(getResources(), threatId);
-            bmap[1] = (bitMapInd == 1) ? BitmapFactory.decodeResource(getResources(), neutralId) : BitmapFactory.decodeResource(getResources(), threatId);
-            neutral = (bitMapInd == 0) ? 0 : 1;
-            viewFlipper.showPrevious();
-            imgTop.setVisibility(View.VISIBLE);
-            plusBtwImageView.setVisibility(View.VISIBLE);
-            imgBottom.setVisibility(View.VISIBLE);
-            leftButton.setVisibility(View.VISIBLE);
-            rightButton.setVisibility(View.VISIBLE);
-            plusImage.setVisibility(View.INVISIBLE);
-            imgTop.setImageBitmap(bmap[0]);
-            imgBottom.setImageBitmap(bmap[1]);
-            blankScreenTimer.cancel();
-            startTimer();
+        int bitMapInd = random.nextInt(2);
+        int rndInt = random.nextInt(neutralImgs.length() - index) + index;
+        int neutralId = neutralImgs.getResourceId(rndInt, 0);
+        int threatId = threatImgs.getResourceId(rndInt, 0);
+        swapIndex(index, rndInt);
+        index = (index + 1) % neutralImgs.length();
+        bmap[0] = (bitMapInd == 0) ? BitmapFactory.decodeResource(getResources(), neutralId) : BitmapFactory.decodeResource(getResources(), threatId);
+        bmap[1] = (bitMapInd == 1) ? BitmapFactory.decodeResource(getResources(), neutralId) : BitmapFactory.decodeResource(getResources(), threatId);
+        neutral = (bitMapInd == 0) ? 0 : 1;
+        viewFlipper.showPrevious();
+        imgTop.setVisibility(View.VISIBLE);
+        plusBtwImageView.setVisibility(View.VISIBLE);
+        imgBottom.setVisibility(View.VISIBLE);
+        leftButton.setVisibility(View.VISIBLE);
+        rightButton.setVisibility(View.VISIBLE);
+        plusImage.setVisibility(View.INVISIBLE);
+        imgTop.setImageBitmap(bmap[0]);
+        imgBottom.setImageBitmap(bmap[1]);
+        blankScreenTimer.cancel();
+        startTimer();
 
+        if (numOfTrials == 180)
+            areTrialsOver = true;
 
-
-
-            // trial is over and score is presented
-
-
-            // showScoreScreen();
-            // stopTime = System.currentTimeMillis();
-
-
-            //if (count == NUM_OF_TRIALS)
-            //showScoreTimer.cancel();
-
-
-
-      //  if (numOfPlacebo == NUM_OF_PLACEBO_TRIALS) {
-           // showScoreScreen();
-           // stopTime = System.currentTimeMillis();
-
-         ////   if (count < NUM_OF_TRIALS) {
-              //  loopTrialTimer.start(); // debug
-
-           // }
-          //  if (count == NUM_OF_TOTAL_CORRECT_TRIALS) {
-              //  loopTrialTimer.cancel(); // debug
-
-          //  }
-
-      //  }
 
     }
 
@@ -342,6 +313,8 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         if (v.getId() == tutorialButton.getId()) {
             tutorialButton.setVisibility(View.INVISIBLE);
             trialButton.setVisibility(View.INVISIBLE);
+            blankScreen();
+            showBlankScreen();
             isTutorialMode = true;
             isTrialMode = false;
         }
@@ -366,20 +339,16 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
 
             }
 
-            if (numOfTrials == 10)
-                areTrialsOver = true;
-
-
 
             if (areTrialsOver == true) {
-                    if (neutral == 0) {
-                        MediaPlayer mp = MediaPlayer.create(this, R.raw.ding);
-                        mp.start();
-                        placeboCount++;
-                    }
-                    numOfPlacebo++;
-
+                if (neutral == 0) {
+                    MediaPlayer mp = MediaPlayer.create(this, R.raw.ding);
+                    mp.start();
+                    placeboCount++;
                 }
+                numOfPlacebo++;
+
+            }
 
 
         }
@@ -397,9 +366,6 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             }
 
 
-            if (numOfTrials == 10)
-                areTrialsOver = true;
-
 
             if (areTrialsOver == true) {
                 if (neutral == 1) {
@@ -411,7 +377,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
 
             }
 
-            if (numOfPlacebo == 5) {
+            if (numOfPlacebo == 60) {
                 stopTime = System.currentTimeMillis();
                 showScoreScreen();
 
