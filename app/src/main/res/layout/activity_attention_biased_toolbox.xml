@@ -83,7 +83,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:background="@drawable/abmt_buttons"
-                        android:textSize="15sp"/>
+                        android:textSize="20sp"/>
 
                     <Button
                         android:id="@+id/rightButton"
@@ -96,39 +96,38 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:background="@drawable/abmt_buttons"
-                        android:textSize="15sp"/>
-
-
-                    <Button
-                        android:id="@+id/tutorialButton"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:text="Tutorial"
-                        android:textColor="#000000"
-                        android:layout_weight="1.0"
                         android:textSize="20sp"/>
-
-                    <Button
-                        android:id="@+id/trialButton"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:text="Start Trial"
-                        android:textColor="#000000"
-                        android:layout_weight="1.0"
-                        android:textSize="20sp"/>
-                    <TextView
-                        android:id="@+id/scoreText"
-                        android:layout_width="75dp"
-                        android:layout_height="75dp"
-                        android:text=""
-                        android:textColor="#000000"
-                        android:layout_weight="1.0"
-                        android:textSize="20sp"/>
-
 
                 </LinearLayout>
 
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/resultText"
+                    />
+                <Button
+                    android:layout_width="100dip"
+                    android:layout_height="50dp"
+                    android:id="@+id/restartButton"
+                    android:text="Restart"
+                    android:layout_gravity="center"
+                    android:scaleType="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"/>
+
+
 
         </ViewFlipper>
     </ViewSwitcher>
