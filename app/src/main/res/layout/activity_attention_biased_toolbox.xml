@@ -21,6 +21,7 @@
             android:layout_height="match_parent"
             android:id="@+id/viewFlipper">
             <LinearLayout
+
                 android:id="@+id/linearLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -33,6 +34,9 @@
                     android:layout_gravity="center"
                     android:scaleType="center" />
             </LinearLayout>
+
+
+
             <LinearLayout
                 android:id="@+id/linearLayout1"
                 android:layout_width="match_parent"
@@ -41,6 +45,14 @@
                 android:gravity="center_vertical"
                 android:padding="6dp"
                 android:weightSum="2">
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="120dp"
+                    android:layout_height="100dp"
+                    android:visibility="gone"
+                    />
 
                 <ImageView
                     android:id="@+id/imgTop"
@@ -98,7 +110,68 @@
                         android:background="@drawable/abmt_buttons"
                         android:textSize="20sp"/>
 
+
+                    <Button
+                        android:id="@+id/tutorialButton"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:text="Tutorial"
+                        android:textColor="#000000"
+                        android:layout_weight="1.0"
+                        android:textSize="20sp"/>
+
+                    <Button
+                        android:id="@+id/trialButton"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:text="Start Trial"
+                        android:textColor="#000000"
+                        android:layout_weight="1.0"
+                        android:textSize="20sp"/>
+
+
+
+
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/scoreText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="#000000"
+                    android:gravity="left"
+                    android:layout_gravity="center"
+                    android:textSize="20sp"/>
+                <TextView
+                    android:id="@+id/goalText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:gravity="left"
+                    android:layout_gravity="center"
+                    android:textColor="#000000"
+                    android:textSize="20dp"/>
+
+                <TextView
+                    android:id="@+id/speedText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:gravity="left"
+                    android:layout_gravity="center"
+                    android:textColor="#000000"
+                    android:textSize="20dp"/>
+
+                <TextView
+                    android:id="@+id/playAgainText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Let's Play Again!"
+                    android:gravity="left"
+                    android:layout_gravity="center"
+                    android:textColor="#000000"
+                    android:textSize="30dp"/>
 
             </LinearLayout>
             <LinearLayout
@@ -106,11 +179,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center">
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/resultText"
-                    />
+
                 <Button
                     android:layout_width="100dip"
                     android:layout_height="50dp"
@@ -126,8 +195,6 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:gravity="center"/>
-
-
 
         </ViewFlipper>
     </ViewSwitcher>
