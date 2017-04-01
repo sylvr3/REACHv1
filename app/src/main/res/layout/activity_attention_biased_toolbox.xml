@@ -106,6 +106,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center">
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/resultText"
+                    />
                 <Button
                     android:layout_width="100dip"
                     android:layout_height="50dp"
@@ -114,6 +119,15 @@
                     android:layout_gravity="center"
                     android:scaleType="center" />
             </LinearLayout>
+
+            <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center"/>
+
+
 
         </ViewFlipper>
     </ViewSwitcher>
