@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
@@ -373,7 +372,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         if (v.getId() == tutorialButton.getId()) {
             tutorialButton.setVisibility(View.INVISIBLE);
             trialButton.setVisibility(View.INVISIBLE);
-            blankScreen();
+//            blankScreen();
             showBlankScreen();
             isTutorialMode = true;
             isTrialMode = false;
@@ -381,7 +380,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         if (v.getId() == trialButton.getId()) {
             tutorialButton.setVisibility(View.INVISIBLE);
             trialButton.setVisibility(View.INVISIBLE);
-            blankScreen();
+//            blankScreen();
             showBlankScreen();
             isTutorialMode = false;
             isTrialMode = true;
@@ -407,7 +406,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
                     placeboCount++;
                 }
                 numOfPlacebo++;
-
+                showBlankScreen();
             }
 
 
@@ -434,6 +433,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
                     placeboCount++;
                 }
                 numOfPlacebo++;
+                showBlankScreen();
 
             }
 
