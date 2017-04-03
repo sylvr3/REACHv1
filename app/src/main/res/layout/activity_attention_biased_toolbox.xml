@@ -88,30 +88,41 @@
                         android:id="@+id/leftButton"
                         android:layout_width="100dp"
                         android:layout_height="50dp"
-                        android:layout_weight="1.0"
                         android:text="Left"
+                        android:layout_weight="1"
                         android:padding="10dp"
                         android:textColor="#ffffff"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
                         android:background="@drawable/abmt_buttons"
                         android:textSize="20sp"/>
+
+                    <!--<View-->
+                        <!--android:layout_width="50dp"-->
+                        <!--android:layout_height="0dp"-->
+                        <!--android:layout_weight="1"-->
+                        <!--/>-->
 
                     <Button
                         android:id="@+id/rightButton"
-                        android:layout_width="100dip"
+                        android:layout_width="110dip"
                         android:layout_height="50dp"
                         android:text="Right"
+                        android:layout_weight="1"
                         android:padding="10dp"
                         android:textColor="#ffffff"
-                        android:layout_weight="1.0"
-                        android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
+                        android:layout_gravity="right"
                         android:background="@drawable/abmt_buttons"
                         android:textSize="20sp"/>
 
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1"
+                    android:orientation="horizontal">
 
-                    <Button
+                <Button
                         android:id="@+id/tutorialButton"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
@@ -129,12 +140,20 @@
                         android:layout_weight="1.0"
                         android:textSize="20sp"/>
 
+                </LinearLayout>
+
 
 
 
                 </LinearLayout>
 
-                <TextView
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+            <TextView
                     android:id="@+id/scoreText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
