@@ -20,6 +20,8 @@ import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 public class AttentionBiasedToolbox extends Activity implements View.OnClickListener{
@@ -34,7 +36,10 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     private ViewFlipper viewFlipper;
     private Button leftButton, rightButton, restartButton;
     private int[] imageIndArray;
-    private EditText resultText;
+    private EditText resultText, speedText;
+    private long timeDiff, startTime, endTime, blockStart;
+    private double avgTime;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +66,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         plusBtwImageView = (ImageView) findViewById(R.id.plusBtw);
         viewFlipper = (ViewFlipper)findViewById(R.id.viewFlipper);
         resultText = (EditText)findViewById(R.id.resultText);
+        speedText = (EditText)findViewById(R.id.speedText);
         //viewFlipper.showNext();
         imgTop.setOnClickListener(this);
         imgBottom.setOnClickListener(this);
@@ -115,10 +121,13 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             }
         };
         //blankScreen();
-        showBlankScreen();
+        //showBlankScreen();
+        blockStart();
     }
 
     public void transitionScreen() {
+        timeDiff = (timeDiff < 200)?timeDiff:200;
+        avgTime += timeDiff;
         viewFlipper.setDisplayedChild(1);
         responseTimer.cancel();
         transitionTimer.start();
@@ -167,9 +176,13 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         else imgBottom.setVisibility(View.VISIBLE);
         //viewFlipper.showPrevious();
         viewFlipper.setDisplayedChild(1);
+        startTime = System.currentTimeMillis();
         responseTimer.start();
     }
-
+    public void blockStart() {
+        blockStart = System.currentTimeMillis();
+        showBlankScreen();
+    }
     //Wipe images and show the + sign
     public void showBlankScreen() {
         restartButton.setVisibility(View.INVISIBLE);
@@ -183,7 +196,27 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         //viewFlipper.showNext();
         viewFlipper.setDisplayedChild(0);
         plusImage.setVisibility(View.VISIBLE);
-        blankScreen();
+        if(totalAttempts == 10) {
+            count = 0;
+            viewFlipper.setDisplayedChild(2);
+            String speed = "Please start again";
+            String result = "Attemps Exhaused";
+            resultText.setText(result);
+            totalAttempts = 0;
+            speedText.setText(speed);
+            setUpAgain();
+        }
+        else if(System.currentTimeMillis()-blockStart > 60000) {
+            count = 0;
+            viewFlipper.setDisplayedChild(2);
+            String speed = "Please start again";
+            String result = "Time Exhausted";
+            resultText.setText(result);
+            totalAttempts = 0;
+            speedText.setText(speed);
+            setUpAgain();
+        }
+        else blankScreen();
 
     }
 
@@ -244,24 +277,39 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         }*/
         if(v.getId() == leftButton.getId()) {
             if(neutral == 0 ) count++;
+            endTime = System.currentTimeMillis();
+            timeDiff = endTime - startTime;
+            //avgTime += timeDiff;
             //showBlankScreen();
         }
         if(v.getId() == rightButton.getId()) {
             if(neutral == 1) count++;
+            endTime = System.currentTimeMillis();
+            timeDiff = endTime - startTime;
+            System.out.println(timeDiff);
+            //avgTime += timeDiff;
+            //System.out.println(avgTime);
             //showBlankScreen();
         }
         if(v.getId() == restartButton.getId()) {
             //viewFlipper.showNext();
             //viewFlipper.showPrevious();
             totalAttempts = 0;
-            showBlankScreen();
+            //showBlankScreen();
+            blockStart();
 
         }
+
+
         if(count == 5) {
             count = 0;
             viewFlipper.setDisplayedChild(2);
+            avgTime = avgTime / totalAttempts;
+            String speed = "Speed: " + avgTime;
             String result = "Score: " + totalAttempts;
+            totalAttempts = 0;
             resultText.setText(result);
+            speedText.setText(speed);
             setUpAgain();
         }
         System.out.println(count);
