@@ -21,6 +21,7 @@
             android:layout_height="match_parent"
             android:id="@+id/viewFlipper">
             <LinearLayout
+
                 android:id="@+id/linearLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -33,6 +34,9 @@
                     android:layout_gravity="center"
                     android:scaleType="center" />
             </LinearLayout>
+
+
+
             <LinearLayout
                 android:id="@+id/linearLayout1"
                 android:layout_width="match_parent"
@@ -41,6 +45,14 @@
                 android:gravity="center_vertical"
                 android:padding="6dp"
                 android:weightSum="2">
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="120dp"
+                    android:layout_height="100dp"
+                    android:visibility="gone"
+                    />
 
                 <ImageView
                     android:id="@+id/imgTop"
@@ -76,31 +88,134 @@
                         android:id="@+id/leftButton"
                         android:layout_width="100dp"
                         android:layout_height="50dp"
-                        android:layout_weight="1.0"
                         android:text="Left"
+                        android:layout_weight="1"
                         android:padding="10dp"
                         android:textColor="#ffffff"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
                         android:background="@drawable/abmt_buttons"
                         android:textSize="20sp"/>
 
+                    <!--<View-->
+                        <!--android:layout_width="50dp"-->
+                        <!--android:layout_height="0dp"-->
+                        <!--android:layout_weight="1"-->
+                        <!--/>-->
+
                     <Button
                         android:id="@+id/rightButton"
-                        android:layout_width="100dip"
+                        android:layout_width="110dip"
                         android:layout_height="50dp"
                         android:text="Right"
+                        android:layout_weight="1"
                         android:padding="10dp"
                         android:textColor="#ffffff"
-                        android:layout_weight="1.0"
-                        android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
+                        android:layout_gravity="right"
                         android:background="@drawable/abmt_buttons"
                         android:textSize="20sp"/>
 
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1"
+                    android:orientation="horizontal">
+
+                <Button
+                        android:id="@+id/tutorialButton"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:text="Tutorial"
+                        android:textColor="#000000"
+                        android:layout_weight="1.0"
+                        android:textSize="20sp"/>
+
+                    <Button
+                        android:id="@+id/trialButton"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:text="Start Trial"
+                        android:textColor="#000000"
+                        android:layout_weight="1.0"
+                        android:textSize="20sp"/>
+
+                </LinearLayout>
+
+
+
+
+                </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+            <TextView
+                    android:id="@+id/scoreText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="#000000"
+                    android:gravity="left"
+                    android:layout_gravity="center"
+                    android:textSize="20sp"/>
+                <TextView
+                    android:id="@+id/goalText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:gravity="left"
+                    android:layout_gravity="center"
+                    android:textColor="#000000"
+                    android:textSize="20dp"/>
+
+                <TextView
+                    android:id="@+id/speedText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:gravity="left"
+                    android:layout_gravity="center"
+                    android:textColor="#000000"
+                    android:textSize="20dp"/>
+
+                <TextView
+                    android:id="@+id/playAgainText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Let's Play Again!"
+                    android:gravity="left"
+                    android:layout_gravity="center"
+                    android:textColor="#000000"
+                    android:textSize="30dp"/>
 
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+
+
+                <Button
+                    android:layout_width="100dip"
+                    android:layout_height="50dp"
+                    android:id="@+id/restartButton"
+                    android:text="Restart"
+                    android:layout_gravity="center"
+                    android:scaleType="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"/>
 
         </ViewFlipper>
     </ViewSwitcher>
