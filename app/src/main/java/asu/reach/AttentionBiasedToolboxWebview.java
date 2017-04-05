@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
@@ -25,6 +26,7 @@ public class AttentionBiasedToolboxWebview extends Activity {
     private Random random = new Random();
     int index = 0;
     private int[] imageIndArray;
+    MediaPlayer mp;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,11 @@ public class AttentionBiasedToolboxWebview extends Activity {
             public String getImage() {
                 return getImages();
             }
+
+            @JavascriptInterface
+            public void ding() {
+                mp.start();
+            }
         }, "abmt");
 
         mWebView.loadUrl("file:///android_asset/www/html/abmt.html");
@@ -54,7 +61,8 @@ public class AttentionBiasedToolboxWebview extends Activity {
         neutralImgs = getResources().obtainTypedArray(R.array.neutral_images);
         threatImgs = getResources().obtainTypedArray(R.array.threat_images);
         imageIndArray = new int[neutralImgs.length()];
-        for(int i = 0; i < imageIndArray.length; i++) imageIndArray[i] = i;
+        for (int i = 0; i < imageIndArray.length; i++) imageIndArray[i] = i;
+        mp = MediaPlayer.create(this, R.raw.ding);
     }
 
     private String getImages() {
@@ -77,9 +85,8 @@ public class AttentionBiasedToolboxWebview extends Activity {
         byte[] byteArray2 = byteArrayOutputStream2.toByteArray();
         String image2base64 = Base64.encodeToString(byteArray2, Base64.DEFAULT);
 
-        String image = "data:image/png;base64," + image1base64 + "||" + "data:image/png;base64," + image2base64;
-
-        return image;
+        String correctAnswer = (bitMapInd == 0) ? "left" : "right";
+        return "data:image/png;base64," + image1base64 + "||" + "data:image/png;base64," + image2base64 + "||" + correctAnswer;
     }
 
     public void swapIndex(int i, int j) {
