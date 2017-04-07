@@ -37,7 +37,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     private Button leftButton, rightButton, restartButton;
     private int[] imageIndArray;
     private EditText resultText, speedText;
-    private long timeDiff, startTime, endTime, blockStart;
+    private long timeDiff, startTime, blockStart;
     private double avgTime;
 
 
@@ -196,11 +196,11 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         //viewFlipper.showNext();
         viewFlipper.setDisplayedChild(0);
         plusImage.setVisibility(View.VISIBLE);
-        if(totalAttempts == 10) {
+        if(totalAttempts == 5) {
             count = 0;
             viewFlipper.setDisplayedChild(2);
             String speed = "Please start again";
-            String result = "Attemps Exhaused";
+            String result = "Attemps Over";
             resultText.setText(result);
             totalAttempts = 0;
             speedText.setText(speed);
@@ -210,7 +210,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             count = 0;
             viewFlipper.setDisplayedChild(2);
             String speed = "Please start again";
-            String result = "Time Exhausted";
+            String result = "Time Over";
             resultText.setText(result);
             totalAttempts = 0;
             speedText.setText(speed);
@@ -277,15 +277,13 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         }*/
         if(v.getId() == leftButton.getId()) {
             if(neutral == 0 ) count++;
-            endTime = System.currentTimeMillis();
-            timeDiff = endTime - startTime;
+            timeDiff = System.currentTimeMillis() - startTime;
             //avgTime += timeDiff;
             //showBlankScreen();
         }
         if(v.getId() == rightButton.getId()) {
             if(neutral == 1) count++;
-            endTime = System.currentTimeMillis();
-            timeDiff = endTime - startTime;
+            timeDiff = System.currentTimeMillis() - startTime;
             System.out.println(timeDiff);
             //avgTime += timeDiff;
             //System.out.println(avgTime);
