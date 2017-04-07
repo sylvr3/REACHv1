@@ -51,10 +51,16 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         neutralImgs = getResources().obtainTypedArray(R.array.neutral_images);
         //threatImgs = getResources().obtainTypedArray(R.array.threat_images);
         imageIndArray = new int[neutralImgs.length()];
-        for(int i = 0; i < imageIndArray.length; i++) imageIndArray[i] = i;
         index = 0;
         neutral = 0;
         totalAttempts = 0;
+        //blankScreen();
+        //showBlankScreen();
+        ArrayCounterInitialization();
+        blockStart();
+    }
+
+    public void UIInitialization() {
         imgTop= (ImageView)findViewById(R.id.imgTop);
         imgBottom = (ImageView)findViewById(R.id.imgBottom);
         Typeface font = Typeface.createFromAsset(getAssets(), "agentorange.ttf");
@@ -68,7 +74,6 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         viewFlipper = (ViewFlipper)findViewById(R.id.viewFlipper);
         resultText = (EditText)findViewById(R.id.resultText);
         speedText = (EditText)findViewById(R.id.speedText);
-        //viewFlipper.showNext();
         imgTop.setOnClickListener(this);
         imgBottom.setOnClickListener(this);
         leftButton.setOnClickListener(this);
@@ -77,13 +82,9 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         imgTop.setVisibility(View.INVISIBLE);
         imgBottom.setVisibility(View.INVISIBLE);
         restartButton.setVisibility(View.INVISIBLE);
-        //blankScreen();
-        //showBlankScreen();
-        initialization();
-        blockStart();
     }
-
-    public void initialization() {
+    public void ArrayCounterInitialization() {
+        for(int i = 0; i < imageIndArray.length; i++) imageIndArray[i] = i;
         blockArray = new int[blockArraySize];
         sadArray = new int[imageArraySize];
         angryArray = new int[imageArraySize];
@@ -94,7 +95,6 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         for(int i = 0; i < imageArraySize; i++) angryArray[i] = i;
         for(int i = 0; i < imageArraySize; i++) neutralArray[i] = i;
         for(int i = 0; i < imageArraySize; i++) disguiseArray[i] = i;
-        System.out.println(Arrays.toString(blockArray));
         responseTimer = new CountDownTimer(200,100) {
             @Override
             public void onTick(long l) {
@@ -120,7 +120,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         blankScreenTimer = new CountDownTimer(500,250) {
             @Override
             public void onTick(long l) {
-                screenWithBlankImages();
+                //screenWithBlankImages();
             }
 
             @Override
@@ -145,7 +145,6 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             int ind = random.nextInt(blockArraySize-i) + i;
             swapIndex(blockArray,ind,i);
         }
-        System.out.println(Arrays.toString(blockArray));
     }
     public void transitionScreen() {
         timeDiff = (timeDiff < 200)?timeDiff:200;
@@ -168,10 +167,10 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         responseTimer.cancel();
         transitionTimer.cancel();
     }
-    public void screenWithBlankImages() {
+   /* public void screenWithBlankImages() {
         //System.out.println("+ sign is removed");
         //plusBtwImageView.setVisibility(View.INVISIBLE);
-    }
+    }*/
     // Initiate timer for first fixation with + sign, at the end it start the fetching images
     public void blankScreen() {
         blankScreenTimer.start();
@@ -291,14 +290,6 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        /*if(v.getId() == imgTop.getId()) {
-            if(neutral == 0) count++;
-            showBlankScreen();
-        }
-        if(v.getId() == imgBottom.getId()) {
-            if(neutral == 1) count++;
-            showBlankScreen();
-        }*/
         if(v.getId() == leftButton.getId()) {
             if(neutral == 0 ) count++;
             timeDiff = System.currentTimeMillis() - startTime;
