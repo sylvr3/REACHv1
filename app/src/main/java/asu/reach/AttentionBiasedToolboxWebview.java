@@ -59,7 +59,7 @@ public class AttentionBiasedToolboxWebview extends Activity {
         mWebView.loadUrl("file:///android_asset/www/html/abmt.html");
 
         neutralImgs = getResources().obtainTypedArray(R.array.neutral_images);
-        threatImgs = getResources().obtainTypedArray(R.array.threat_images);
+        //threatImgs = getResources().obtainTypedArray(R.array.threat_images);
         imageIndArray = new int[neutralImgs.length()];
         for (int i = 0; i < imageIndArray.length; i++) imageIndArray[i] = i;
         mp = MediaPlayer.create(this, R.raw.ding);
