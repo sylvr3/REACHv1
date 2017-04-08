@@ -27,7 +27,7 @@ import java.util.Random;
 public class AttentionBiasedToolbox extends Activity implements View.OnClickListener{
     private ImageView imgTop, imgBottom;
     private Random random;
-    private TypedArray neutralImgs, threatImgs, sadImgs, disguiseImgs, angryImgs;
+    private TypedArray neutralImgs, sadImgs, disguiseImgs, angryImgs;
     private Bitmap[] bmap;
     private int neutral,count, index, totalAttempts, indexSad, indexDisguise, indexAngry, indexNeutral;
     private CountDownTimer countDownTimer, blankScreenTimer, responseTimer, transitionTimer;
@@ -39,7 +39,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     private EditText resultText, speedText;
     private long timeDiff, startTime, blockStart;
     private double avgTime;
-    private int[] blockArray, sadArray, neutralArray, disguiseArray, angryArray;
+    private int[] blockArray, sadArray, neutralArray, disguiseArray, angryArray, neutralSadArray, neutralDisguiseArray, neutralAngryArray;
     private final static int blockArraySize = 240, imageArraySize = 15;
 
     @Override
@@ -50,8 +50,11 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         bmap = new Bitmap[2];
         blockArray = new int[blockArraySize];
         sadArray = new int[imageArraySize];
+        neutralSadArray = new int[imageArraySize];
         angryArray = new int[imageArraySize];
+        neutralAngryArray = new int[imageArraySize];
         disguiseArray = new int[imageArraySize];
+        neutralDisguiseArray = new int[imageArraySize];
         neutralArray = new int[imageArraySize];
         indexAngry = 0;
         indexDisguise = 0;
@@ -99,10 +102,16 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     public void ArrayCounterInitialization() {
         //for(int i = 0; i < imageIndArray.length; i++) imageIndArray[i] = i;
         for(int i = 0; i < blockArraySize; i++) blockArray[i] = i;
-        for(int i = 0; i < imageArraySize; i++) sadArray[i] = i;
-        for(int i = 0; i < imageArraySize; i++) angryArray[i] = i;
-        for(int i = 0; i < imageArraySize; i++) neutralArray[i] = i;
-        for(int i = 0; i < imageArraySize; i++) disguiseArray[i] = i;
+        for(int i = 0; i < imageArraySize; i++) {
+            sadArray[i] = i;
+            neutralSadArray[i] = i;
+            angryArray[i] = i;
+            neutralAngryArray[i] = i;
+            neutralArray[i] = i;
+            disguiseArray[i] = i;
+            neutralDisguiseArray[i] = i;
+        }
+
         responseTimer = new CountDownTimer(200,100) {
             @Override
             public void onTick(long l) {
@@ -255,43 +264,40 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         blankScreenTimer.cancel();
         int bitMapInd = random.nextInt(2);
         int rndIndex = random.nextInt(blockArraySize-index) + index;
-        int divisionId = blockArray[rndIndex] / 60;
+        int divisionId = blockArray[rndIndex] / 60, topImg = 0, bottomImg = 0;
         swapIndex(blockArray,rndIndex,index);
         index = (index + 1)%blockArraySize;
         if(divisionId == 0) {
             int rndNeutralInd = random.nextInt(imageArraySize-indexNeutral)+indexNeutral;
-            int topImg = neutralImgs.getResourceId(neutralArray[rndNeutralInd],0);
-            int bottomImg = neutralImgs.getResourceId(neutralArray[rndNeutralInd],0);
+            topImg = neutralImgs.getResourceId(neutralArray[rndNeutralInd],0);
+            bottomImg = neutralImgs.getResourceId(neutralArray[rndNeutralInd],0);
             swapIndex(neutralArray,rndNeutralInd,indexNeutral);
             indexNeutral = (indexNeutral+1)%imageArraySize;
         }
         else if(divisionId == 1) {
             int rndSadInd = random.nextInt(imageArraySize-indexSad)+indexSad;
-            int topImg = neutralImgs.getResourceId(neutralArray[rndSadInd],0);
-            int bottomImg = sadImgs.getResourceId(sadArray[rndSadInd],0);
+            topImg = neutralImgs.getResourceId(neutralSadArray[rndSadInd],0);
+            bottomImg = sadImgs.getResourceId(sadArray[rndSadInd],0);
             swapIndex(sadArray,rndSadInd,indexSad);
+            swapIndex(neutralSadArray,rndSadInd,indexSad);
             indexSad = (indexSad+1)%imageArraySize;
-            bmap[0] = (bitMapInd == 0)? BitmapFactory.decodeResource(getResources(),topImg):BitmapFactory.decodeResource(getResources(),bottomImg);
-            bmap[1] = (bitMapInd == 1)? BitmapFactory.decodeResource(getResources(),topImg):BitmapFactory.decodeResource(getResources(),bottomImg);
-        }
+            }
         else if(divisionId == 2) {
             int rndDisguiseInd = random.nextInt(imageArraySize-indexDisguise)+indexDisguise;
-            int topImg = neutralImgs.getResourceId(neutralArray[rndDisguiseInd],0);
-            int bottomImg = disguiseImgs.getResourceId(disguiseArray[rndDisguiseInd],0);
+            topImg = neutralImgs.getResourceId(neutralDisguiseArray[rndDisguiseInd],0);
+            bottomImg = disguiseImgs.getResourceId(disguiseArray[rndDisguiseInd],0);
             swapIndex(disguiseArray,rndDisguiseInd,indexDisguise);
+            swapIndex(neutralDisguiseArray,rndDisguiseInd,indexDisguise);
             indexDisguise = (indexDisguise+1)%imageArraySize;
-            bmap[0] = (bitMapInd == 0)? BitmapFactory.decodeResource(getResources(),topImg):BitmapFactory.decodeResource(getResources(),bottomImg);
-            bmap[1] = (bitMapInd == 1)? BitmapFactory.decodeResource(getResources(),topImg):BitmapFactory.decodeResource(getResources(),bottomImg);
-        }
+            }
         else if(divisionId == 3) {
             int rndAngryInd = random.nextInt(imageArraySize-indexAngry)+indexAngry;
-            int topImg = neutralImgs.getResourceId(neutralArray[rndAngryInd],0);
-            int bottomImg = angryImgs.getResourceId(angryArray[rndAngryInd],0);
+            topImg = neutralImgs.getResourceId(neutralAngryArray[rndAngryInd],0);
+            bottomImg = angryImgs.getResourceId(angryArray[rndAngryInd],0);
             swapIndex(angryArray,rndAngryInd,indexAngry);
+            swapIndex(neutralAngryArray,rndAngryInd,indexAngry);
             indexAngry = (indexAngry+1)%imageArraySize;
-            bmap[0] = (bitMapInd == 0)? BitmapFactory.decodeResource(getResources(),topImg):BitmapFactory.decodeResource(getResources(),bottomImg);
-            bmap[1] = (bitMapInd == 1)? BitmapFactory.decodeResource(getResources(),topImg):BitmapFactory.decodeResource(getResources(),bottomImg);
-        }
+            }
 
 
 
@@ -302,7 +308,8 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         //swapIndex(imageIndArray,index,rndInt);
         //index = (index + 1)%neutralImgs.length();
         //System.out.println(Arrays.toString(imageIndArray));
-
+        bmap[0] = (bitMapInd == 0)? BitmapFactory.decodeResource(getResources(),topImg):BitmapFactory.decodeResource(getResources(),bottomImg);
+        bmap[1] = (bitMapInd == 1)? BitmapFactory.decodeResource(getResources(),topImg):BitmapFactory.decodeResource(getResources(),bottomImg);
         neutral = (bitMapInd == 0)?0:1;
         //viewFlipper.showPrevious();
         viewFlipper.setDisplayedChild(1);
@@ -362,7 +369,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         }
 
 
-        if(count == 5) {
+        if(count == 128) {
             count = 0;
             viewFlipper.setDisplayedChild(2);
             avgTime = avgTime / totalAttempts;
