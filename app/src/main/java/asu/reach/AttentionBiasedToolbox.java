@@ -262,8 +262,9 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     //Load images
     public void fetchImages() {
         blankScreenTimer.cancel();
-        int bitMapInd = random.nextInt(2);
+        //int bitMapInd = random.nextInt(2);
         int rndIndex = random.nextInt(blockArraySize-index) + index;
+        neutral = (blockArray[rndIndex] & 1) == 1 ? 1 : 0;
         int divisionId = blockArray[rndIndex] / 60, topImg = 0, bottomImg = 0;
         swapIndex(blockArray,rndIndex,index);
         index = (index + 1)%blockArraySize;
@@ -308,9 +309,9 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         //swapIndex(imageIndArray,index,rndInt);
         //index = (index + 1)%neutralImgs.length();
         //System.out.println(Arrays.toString(imageIndArray));
-        bmap[0] = (bitMapInd == 0)? BitmapFactory.decodeResource(getResources(),topImg):BitmapFactory.decodeResource(getResources(),bottomImg);
-        bmap[1] = (bitMapInd == 1)? BitmapFactory.decodeResource(getResources(),topImg):BitmapFactory.decodeResource(getResources(),bottomImg);
-        neutral = (bitMapInd == 0)?0:1;
+        bmap[0] = (neutral == 0)? BitmapFactory.decodeResource(getResources(),topImg):BitmapFactory.decodeResource(getResources(),bottomImg);
+        bmap[1] = (neutral == 1)? BitmapFactory.decodeResource(getResources(),topImg):BitmapFactory.decodeResource(getResources(),bottomImg);
+        //neutral = (bitMapInd == 0)?0:1;
         //viewFlipper.showPrevious();
         viewFlipper.setDisplayedChild(1);
         imgTop.setVisibility(View.VISIBLE);
