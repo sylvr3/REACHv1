@@ -29,7 +29,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     private Random random;
     private TypedArray neutralImgs, sadImgs, disguiseImgs, angryImgs;
     private Bitmap[] bmap;
-    private int neutral,count, index, totalAttempts, indexSad, indexDisguise, indexAngry, indexNeutral;
+    private int neutral,count, index, totalAttempts, indexSad, indexDisguise, indexAngry, indexNeutral, divisionId;
     private CountDownTimer countDownTimer, blankScreenTimer, responseTimer, transitionTimer;
     private ImageView plusImage;
     private ImageView plusBtwImageView;
@@ -163,9 +163,13 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             swapIndex(blockArray,ind,i);
         }
     }
-    public void transitionScreen() {
+    public void measureSpeed() {
         timeDiff = (timeDiff < 200)?timeDiff:200;
         avgTime += timeDiff;
+    }
+
+    public void transitionScreen() {
+        measureSpeed();
         viewFlipper.setDisplayedChild(1);
         responseTimer.cancel();
         transitionTimer.start();
@@ -265,7 +269,8 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         //int bitMapInd = random.nextInt(2);
         int rndIndex = random.nextInt(blockArraySize-index) + index;
         neutral = (blockArray[rndIndex] & 1) == 1 ? 1 : 0;
-        int divisionId = blockArray[rndIndex] / 60, topImg = 0, bottomImg = 0;
+        divisionId = blockArray[rndIndex] / 60;
+        int topImg = 0, bottomImg = 0;
         swapIndex(blockArray,rndIndex,index);
         index = (index + 1)%blockArraySize;
         if(divisionId == 0) {
@@ -347,15 +352,25 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     @Override
     public void onClick(View v) {
         if(v.getId() == leftButton.getId()) {
-            if(neutral == 0 ) count++;
             timeDiff = System.currentTimeMillis() - startTime;
+            if(neutral == 0 && divisionId != 0) {
+                count++;
+                measureSpeed();
+                showBlankScreen();
+            }
+
             //avgTime += timeDiff;
             //showBlankScreen();
         }
         if(v.getId() == rightButton.getId()) {
-            if(neutral == 1) count++;
             timeDiff = System.currentTimeMillis() - startTime;
-            System.out.println(timeDiff);
+            if(neutral == 1 && divisionId != 0) {
+                count++;
+                measureSpeed();
+                showBlankScreen();
+            }
+
+            //System.out.println(timeDiff);
             //avgTime += timeDiff;
             //System.out.println(avgTime);
             //showBlankScreen();
