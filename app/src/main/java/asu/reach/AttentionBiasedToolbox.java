@@ -27,9 +27,9 @@ import java.util.Random;
 public class AttentionBiasedToolbox extends Activity implements View.OnClickListener{
     private ImageView imgTop, imgBottom;
     private Random random;
-    private TypedArray neutralImgs, threatImgs;
+    private TypedArray neutralImgs, threatImgs, sadImgs, disguiseImgs, angryImgs;
     private Bitmap[] bmap;
-    private int neutral,count, index, totalAttempts;
+    private int neutral,count, index, totalAttempts, indexSad, indexDisguise, indexAngry, indexNeutral;
     private CountDownTimer countDownTimer, blankScreenTimer, responseTimer, transitionTimer;
     private ImageView plusImage;
     private ImageView plusBtwImageView;
@@ -48,19 +48,32 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         setContentView(R.layout.activity_attention_biased_toolbox);
         random = new Random();
         bmap = new Bitmap[2];
-        neutralImgs = getResources().obtainTypedArray(R.array.neutral_images);
+        blockArray = new int[blockArraySize];
+        sadArray = new int[imageArraySize];
+        angryArray = new int[imageArraySize];
+        disguiseArray = new int[imageArraySize];
+        neutralArray = new int[imageArraySize];
+        indexAngry = 0;
+        indexDisguise = 0;
+        indexNeutral = 0;
+        indexNeutral = 0;
         //threatImgs = getResources().obtainTypedArray(R.array.threat_images);
-        imageIndArray = new int[neutralImgs.length()];
+        //imageIndArray = new int[neutralImgs.length()];
         index = 0;
         neutral = 0;
         totalAttempts = 0;
         //blankScreen();
         //showBlankScreen();
+        UIInitialization();
         ArrayCounterInitialization();
         blockStart();
     }
 
     public void UIInitialization() {
+        neutralImgs = getResources().obtainTypedArray(R.array.neutral_images);
+        sadImgs = getResources().obtainTypedArray(R.array.sad_images);
+        disguiseImgs = getResources().obtainTypedArray(R.array.disguise_imgaes);
+        angryImgs = getResources().obtainTypedArray(R.array.angry_images);
         imgTop= (ImageView)findViewById(R.id.imgTop);
         imgBottom = (ImageView)findViewById(R.id.imgBottom);
         Typeface font = Typeface.createFromAsset(getAssets(), "agentorange.ttf");
@@ -84,12 +97,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         restartButton.setVisibility(View.INVISIBLE);
     }
     public void ArrayCounterInitialization() {
-        for(int i = 0; i < imageIndArray.length; i++) imageIndArray[i] = i;
-        blockArray = new int[blockArraySize];
-        sadArray = new int[imageArraySize];
-        angryArray = new int[imageArraySize];
-        disguiseArray = new int[imageArraySize];
-        neutralArray = new int[imageArraySize];
+        //for(int i = 0; i < imageIndArray.length; i++) imageIndArray[i] = i;
         for(int i = 0; i < blockArraySize; i++) blockArray[i] = i;
         for(int i = 0; i < imageArraySize; i++) sadArray[i] = i;
         for(int i = 0; i < imageArraySize; i++) angryArray[i] = i;
@@ -218,7 +226,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         //viewFlipper.showNext();
         viewFlipper.setDisplayedChild(0);
         plusImage.setVisibility(View.VISIBLE);
-        if(totalAttempts == 5) {
+        if(totalAttempts == 240) {
             count = 0;
             viewFlipper.setDisplayedChild(2);
             String speed = "Please start again";
@@ -228,7 +236,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             speedText.setText(speed);
             setUpAgain();
         }
-        else if(System.currentTimeMillis()-blockStart > 60000) {
+        else if(System.currentTimeMillis()-blockStart > 720000) {
             count = 0;
             viewFlipper.setDisplayedChild(2);
             String speed = "Please start again";
@@ -246,15 +254,55 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     public void fetchImages() {
         blankScreenTimer.cancel();
         int bitMapInd = random.nextInt(2);
-        int rndInt = random.nextInt(neutralImgs.length()-index) + index;
-        int neutralId = neutralImgs.getResourceId(imageIndArray[rndInt],0);
+        int rndIndex = random.nextInt(blockArraySize-index) + index;
+        int divisionId = blockArray[rndIndex] / 60;
+        swapIndex(blockArray,rndIndex,index);
+        index = (index + 1)%blockArraySize;
+        if(divisionId == 0) {
+            int rndNeutralInd = random.nextInt(imageArraySize-indexNeutral)+indexNeutral;
+            int topImg = neutralImgs.getResourceId(neutralArray[rndNeutralInd],0);
+            int bottomImg = neutralImgs.getResourceId(neutralArray[rndNeutralInd],0);
+            swapIndex(neutralArray,rndNeutralInd,indexNeutral);
+            indexNeutral = (indexNeutral+1)%imageArraySize;
+        }
+        else if(divisionId == 1) {
+            int rndSadInd = random.nextInt(imageArraySize-indexSad)+indexSad;
+            int topImg = neutralImgs.getResourceId(neutralArray[rndSadInd],0);
+            int bottomImg = sadImgs.getResourceId(sadArray[rndSadInd],0);
+            swapIndex(sadArray,rndSadInd,indexSad);
+            indexSad = (indexSad+1)%imageArraySize;
+            bmap[0] = (bitMapInd == 0)? BitmapFactory.decodeResource(getResources(),topImg):BitmapFactory.decodeResource(getResources(),bottomImg);
+            bmap[1] = (bitMapInd == 1)? BitmapFactory.decodeResource(getResources(),topImg):BitmapFactory.decodeResource(getResources(),bottomImg);
+        }
+        else if(divisionId == 2) {
+            int rndDisguiseInd = random.nextInt(imageArraySize-indexDisguise)+indexDisguise;
+            int topImg = neutralImgs.getResourceId(neutralArray[rndDisguiseInd],0);
+            int bottomImg = disguiseImgs.getResourceId(disguiseArray[rndDisguiseInd],0);
+            swapIndex(disguiseArray,rndDisguiseInd,indexDisguise);
+            indexDisguise = (indexDisguise+1)%imageArraySize;
+            bmap[0] = (bitMapInd == 0)? BitmapFactory.decodeResource(getResources(),topImg):BitmapFactory.decodeResource(getResources(),bottomImg);
+            bmap[1] = (bitMapInd == 1)? BitmapFactory.decodeResource(getResources(),topImg):BitmapFactory.decodeResource(getResources(),bottomImg);
+        }
+        else if(divisionId == 3) {
+            int rndAngryInd = random.nextInt(imageArraySize-indexAngry)+indexAngry;
+            int topImg = neutralImgs.getResourceId(neutralArray[rndAngryInd],0);
+            int bottomImg = angryImgs.getResourceId(angryArray[rndAngryInd],0);
+            swapIndex(angryArray,rndAngryInd,indexAngry);
+            indexAngry = (indexAngry+1)%imageArraySize;
+            bmap[0] = (bitMapInd == 0)? BitmapFactory.decodeResource(getResources(),topImg):BitmapFactory.decodeResource(getResources(),bottomImg);
+            bmap[1] = (bitMapInd == 1)? BitmapFactory.decodeResource(getResources(),topImg):BitmapFactory.decodeResource(getResources(),bottomImg);
+        }
+
+
+
+        //int rndInt = random.nextInt(neutralImgs.length()-index) + index;
+        //int neutralId = neutralImgs.getResourceId(imageIndArray[rndInt],0);
         //int threatId = threatImgs.getResourceId(imageIndArray[rndInt],0);
-        int threatId = neutralImgs.getResourceId(imageIndArray[rndInt],0);
-        swapIndex(imageIndArray,index,rndInt);
-        index = (index + 1)%neutralImgs.length();
-        System.out.println(Arrays.toString(imageIndArray));
-        bmap[0] = (bitMapInd == 0)? BitmapFactory.decodeResource(getResources(),neutralId):BitmapFactory.decodeResource(getResources(),threatId);
-        bmap[1] = (bitMapInd == 1)? BitmapFactory.decodeResource(getResources(),neutralId):BitmapFactory.decodeResource(getResources(),threatId);
+        //int threatId = neutralImgs.getResourceId(imageIndArray[rndInt],0);
+        //swapIndex(imageIndArray,index,rndInt);
+        //index = (index + 1)%neutralImgs.length();
+        //System.out.println(Arrays.toString(imageIndArray));
+
         neutral = (bitMapInd == 0)?0:1;
         //viewFlipper.showPrevious();
         viewFlipper.setDisplayedChild(1);
