@@ -215,7 +215,11 @@
             android:visibility="visible"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
             android:weightSum="1">
 
             <ImageView
@@ -363,10 +367,13 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="false"
                 android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
                 android:background="@drawable/safe_msg_push_record"
                 android:layout_alignParentBottom="false"
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
                 android:visibility="visible"/>
 
             <ImageView
@@ -374,21 +381,25 @@
                 android:layout_height="140dp"
                 android:id="@+id/lookEyesMsg"
                 android:layout_alignParentTop="true"
-                android:layout_marginTop="1dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/safe_msg_eye_contact"
                 android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
                 android:visibility="gone"/>
 
             <ImageView
                 android:layout_width="300dp"
                 android:layout_height="150dp"
                 android:id="@+id/answer"
-                android:layout_alignParentTop="false"
-                android:layout_centerHorizontal="true"
                 android:background="@drawable/wh_card"
-                android:layout_alignBottom="@+id/safeBlob"
-                android:layout_marginBottom="-130dp"
-                android:layout_alignParentBottom="false"/>
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -425,12 +436,10 @@
             android:layout_height="wrap_content"
             android:id="@+id/safeNextButton"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="-10dp"
             android:visibility="visible"
-            android:layout_marginBottom="-12dp"
-            android:background="@drawable/next_selector"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="12dp" />
+            android:background="@drawable/next_selector"/>
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -439,7 +448,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:visibility="gone"
-            android:layout_marginBottom="-12dp"
+            android:layout_marginBottom="-10dp"
             android:background="@drawable/next_selector"
             android:layout_alignParentEnd="true"
             android:layout_marginRight="12dp" />
@@ -455,16 +464,17 @@
             android:weightSum="1">
 
             <ImageButton
-                android:layout_width="74dp"
-                android:layout_height="56dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:id="@+id/recordButton"
                 android:layout_alignParentBottom="false"
                 android:layout_alignParentStart="false"
-                android:background="@drawable/safe_record"
+                android:background="@drawable/record_button"
                 android:layout_toLeftOf="@+id/whBackBtn"
                 android:layout_alignBottom="@+id/whBackBtn"
                 android:visibility="gone"
-                android:layout_marginRight="10dp"/>
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"/>
 
             <ImageButton
                 android:layout_width="wrap_content"
@@ -481,12 +491,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/recordDone"
-                android:layout_alignParentBottom="false"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="false"
                 android:background="@drawable/done_selector"
-                android:layout_toRightOf="@+id/whBackBtn"
-                android:layout_alignBottom="@+id/whBackBtn"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"/>
         </LinearLayout>
 
         <LinearLayout
