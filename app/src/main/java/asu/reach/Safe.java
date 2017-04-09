@@ -71,7 +71,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
     //Safe
     private RelativeLayout rLayout;
-    private LinearLayout safeAcronymLayout;
+    private LinearLayout safeAcronymLayout, recordDialogue;
     private RelativeLayout safeActivityLayout, situationSpeakLayout;
     private ImageView safePRMImageView, safeEyeContactImageView, safeBlob, situationImageView, speakYourMindImageView;
     private TextView situationTextView, speakYourMindTextView;
@@ -130,6 +130,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         setContentView(R.layout.activity_safe);
         oLayout = (RelativeLayout)findViewById(R.id.fLayout);
         msgLayout = (RelativeLayout)findViewById(R.id.msgLayout);
+        recordDialogue = (LinearLayout)findViewById(R.id.recordDialogue);
 
         safeActivityLayout = (RelativeLayout) findViewById(R.id.SafeActivityLayout);
         safeAcronymLayout = (LinearLayout)findViewById(R.id.safeLayout);
@@ -769,6 +770,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             safeEyeContactImageView.setVisibility(View.GONE);
             title.setVisibility(View.GONE);
             next.setVisibility(View.GONE);
+            recordDialogue.setVisibility(View.GONE);
             answerImageView.setVisibility(View.GONE);
             doneRecording.setVisibility(View.VISIBLE);
             answerTextView.setVisibility(View.VISIBLE);
@@ -884,7 +886,10 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         safePRMImageView.setVisibility(View.VISIBLE);
         safeEyeContactImageView.setVisibility(View.GONE);
         msgLayout.setVisibility(View.GONE);
+        recordDialogue.setVisibility(View.VISIBLE);
+        recordDialogue.setAlpha(0.7f);
         safeRecordImageButton.setVisibility(View.VISIBLE);
+
         done.setVisibility(View.GONE);
         answerTextView.setText(getAns());
         answerTextView.setVisibility(View.GONE);
