@@ -29,152 +29,187 @@
         android:layout_marginRight="16dp" />
 
     <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/gjView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentStart="true">
 
-        <ImageView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/anMessage"
-            android:background="@drawable/ask_nicely"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/askNicelyLayout"
             android:visibility="gone"
-            android:layout_marginTop="-30dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp" />
+            android:weightSum="2">
 
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/fLayout"
-            android:visibility="visible"
-            android:layout_marginTop="100dp">
 
             <ImageView
-                android:layout_width="150dp"
-                android:layout_height="190dp"
-                android:id="@+id/fOne"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:background="@drawable/wh_card_selector"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:id="@+id/anMessage"
+                android:background="@drawable/safe_an_msg"
+                android:visibility="gone"
+                android:layout_marginTop="-30dp"
                 android:layout_marginLeft="10dp"
-                android:layout_alignParentBottom="false"
-                android:clickable="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/fOneTxt"
-                android:layout_alignTop="@+id/fOne"
-                android:layout_alignLeft="@+id/fOne"
-                android:layout_alignRight="@+id/fOne"
-                android:layout_alignBottom="@+id/fOne"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:gravity="center"
-                android:lineSpacingExtra="2dp"
-                android:textSize="13dp" />
+                android:layout_weight="0.5"/>
 
-            <ImageView
-                android:layout_width="150dp"
-                android:layout_height="190dp"
-                android:id="@+id/fTwo"
-                android:layout_alignParentTop="false"
-                android:layout_alignParentStart="false"
-                android:layout_alignParentLeft="false"
-                android:background="@drawable/wh_card_selector"
-                android:layout_alignParentBottom="false"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:clickable="true" />
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/fLayout"
+                android:visibility="visible"
+                android:layout_weight="1.3">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/fTwoTxt"
-                android:gravity="center"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_alignTop="@+id/fTwo"
-                android:layout_alignLeft="@+id/fTwo"
-                android:layout_alignBottom="@+id/fTwo"
-                android:layout_alignRight="@+id/fTwo"
-                android:lineSpacingExtra="2dp"
-                android:textSize="13dp" />
+                <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="190dp"
+                    android:id="@+id/fOne"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:background="@drawable/wh_card_selector"
+                    android:layout_marginLeft="10dp"
+                    android:layout_alignParentBottom="false"
+                    android:clickable="true" />
 
-            <ImageView
-                android:layout_width="150dp"
-                android:layout_height="190dp"
-                android:id="@+id/fThree"
-                android:layout_alignParentTop="false"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:background="@drawable/wh_card_selector"
-                android:layout_marginLeft="10dp"
-                android:layout_alignParentBottom="false"
-                android:layout_marginTop="5dp"
-                android:clickable="true"
-                android:layout_below="@+id/fOne" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/fOneTxt"
+                    android:layout_alignTop="@+id/fOne"
+                    android:layout_alignLeft="@+id/fOne"
+                    android:layout_alignRight="@+id/fOne"
+                    android:layout_alignBottom="@+id/fOne"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:lineSpacingExtra="2dp"
+                    android:textSize="13dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/fThreeTxt"
-                android:layout_alignTop="@+id/fThree"
-                android:layout_alignLeft="@+id/fThree"
-                android:layout_alignRight="@+id/fThree"
-                android:layout_alignBottom="@+id/fThree"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:lineSpacingExtra="2dp"
-                android:gravity="center"
-                android:textSize="13dp" />
+                <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="190dp"
+                    android:id="@+id/fTwo"
+                    android:layout_alignParentTop="false"
+                    android:layout_alignParentStart="false"
+                    android:layout_alignParentLeft="false"
+                    android:background="@drawable/wh_card_selector"
+                    android:layout_alignParentBottom="false"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:clickable="true" />
 
-        </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/fTwoTxt"
+                    android:gravity="center"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_alignTop="@+id/fTwo"
+                    android:layout_alignLeft="@+id/fTwo"
+                    android:layout_alignBottom="@+id/fTwo"
+                    android:layout_alignRight="@+id/fTwo"
+                    android:lineSpacingExtra="2dp"
+                    android:textSize="13dp" />
 
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+                <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="190dp"
+                    android:id="@+id/fThree"
+                    android:layout_alignParentTop="false"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:background="@drawable/wh_card_selector"
+                    android:layout_marginLeft="10dp"
+                    android:layout_alignParentBottom="false"
+                    android:layout_marginTop="5dp"
+                    android:clickable="true"
+                    android:layout_below="@+id/fOne" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/fThreeTxt"
+                    android:layout_alignTop="@+id/fThree"
+                    android:layout_alignLeft="@+id/fThree"
+                    android:layout_alignRight="@+id/fThree"
+                    android:layout_alignBottom="@+id/fThree"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:lineSpacingExtra="2dp"
+                    android:gravity="center"
+                    android:textSize="13dp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
             android:id="@+id/SituationSpeakLayout"
             android:visibility="visible"
-            android:layout_marginTop="100dp">
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="80dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:weightSum="2">
 
             <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="190dp"
-                android:id="@+id/situationImageView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:id="@+id/speakYourMindImageView"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
-                android:background="@drawable/wh_card_selector"
-                android:layout_marginLeft="5dp"
+                android:background="@drawable/safe_sym_msg"
                 android:layout_alignParentBottom="false"
-                android:clickable="true" />
+                android:clickable="true"
+                android:layout_weight="0.5"/>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/situationTextView"
-                android:layout_alignTop="@+id/situationImageView"
-                android:layout_alignLeft="@+id/situationImageView"
-                android:layout_alignRight="@+id/situationImageView"
-                android:layout_alignBottom="@+id/situationImageView"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:gravity="center"
-                android:lineSpacingExtra="2dp"
-                android:textSize="20dp" />
+                android:layout_weight="1.3">
 
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/situationImageView"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:background="@drawable/wh_card_selector"
+                    android:layout_marginLeft="5dp"
+                    android:layout_alignParentBottom="false"
+                    android:clickable="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/situationTextView"
+                    android:layout_alignTop="@+id/situationImageView"
+                    android:layout_alignLeft="@+id/situationImageView"
+                    android:layout_alignRight="@+id/situationImageView"
+                    android:layout_alignBottom="@+id/situationImageView"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:lineSpacingExtra="2dp"
+                    android:textSize="20dp" />
+            </RelativeLayout>
+
+
+            <!--
             <ImageView
                 android:layout_width="fill_parent"
                 android:layout_height="190dp"
@@ -204,8 +239,8 @@
                 android:layout_alignRight="@+id/speakYourMindImageView"
                 android:lineSpacingExtra="2dp"
                 android:textSize="40dp" />
-
-        </RelativeLayout>
+            -->
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"

@@ -71,8 +71,8 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
     //Safe
     private RelativeLayout rLayout;
-    private LinearLayout safeAcronymLayout, recordDialogue;
-    private RelativeLayout safeActivityLayout, situationSpeakLayout;
+    private LinearLayout safeAcronymLayout, recordDialogue, situationSpeakLayout, askNicelyLayout;
+    private RelativeLayout safeActivityLayout;
     private ImageView safePRMImageView, safeEyeContactImageView, safeBlob, situationImageView, speakYourMindImageView;
     private TextView situationTextView, speakYourMindTextView;
     private ImageButton safeRecordImageButton, safeDoneImageButton;
@@ -161,12 +161,13 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         situationImageView = (ImageView) findViewById(R.id.situationImageView);
         situationTextView = (TextView) findViewById(R.id.situationTextView);
         speakYourMindImageView = (ImageView) findViewById(R.id.speakYourMindImageView);
-        speakYourMindTextView = (TextView) findViewById(R.id.speakYourMindTextView);
+//        speakYourMindTextView = (TextView) findViewById(R.id.speakYourMindTextView);
 
         //SAFE
 
         rLayout = (RelativeLayout) findViewById(recordLayout);
-        situationSpeakLayout = (RelativeLayout) findViewById(R.id.SituationSpeakLayout);
+        situationSpeakLayout = (LinearLayout) findViewById(R.id.SituationSpeakLayout);
+        askNicelyLayout = (LinearLayout) findViewById(R.id.askNicelyLayout);
         safePRMImageView = (ImageView) findViewById(R.id.recordMsg);
         safeEyeContactImageView = (ImageView) findViewById(R.id.lookEyesMsg);
         safeRecordImageButton = (ImageButton) findViewById(R.id.recordButton);
@@ -699,6 +700,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                     dialog.show(fm, "frag");
                 } else {
                     intro = true;
+                    askNicelyLayout.setVisibility(View.GONE);
                     situationSpeakLayout.setVisibility(View.VISIBLE);
                     back.setBackgroundResource(R.drawable.home_selector);
                     activateS();
@@ -727,6 +729,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             onSpeakYourMind = false;
             onAskNicely = true;
             situationSpeakLayout.setVisibility(View.GONE);
+            askNicelyLayout.setVisibility(View.VISIBLE);
             msgLayout.setVisibility(View.GONE);
             oLayout.setVisibility(View.VISIBLE);
             next.setVisibility(View.GONE);
