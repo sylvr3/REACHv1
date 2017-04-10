@@ -61,7 +61,7 @@ import static asu.reach.R.id.recordLayout;
 
 public class Safe extends Activity implements View.OnClickListener, DialogInterface.OnClickListener{
     private SQLiteDatabase db;
-    private RelativeLayout oLayout,msgLayout;
+    private RelativeLayout msgLayout;
     private ImageView o1,o2,o3,title,gjView, answerImageView,sView,aView,fView,eView, thumbsUp;
     private TextView oOne, oTwo, oThree, message, answerTextView;
     private ImageButton back, again, done, next, nextFirm, doneRecording;
@@ -71,7 +71,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
     //Safe
     private RelativeLayout rLayout;
-    private LinearLayout safeAcronymLayout, recordDialogue, situationSpeakLayout, askNicelyLayout;
+    private LinearLayout safeAcronymLayout, recordDialogue, situationSpeakLayout, askNicelyLayout, oLayout;
     private RelativeLayout safeActivityLayout;
     private ImageView safePRMImageView, safeEyeContactImageView, safeBlob, situationImageView, speakYourMindImageView;
     private TextView situationTextView, speakYourMindTextView;
@@ -128,7 +128,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_safe);
-        oLayout = (RelativeLayout)findViewById(R.id.fLayout);
+        oLayout = (LinearLayout)findViewById(R.id.fLayout);
         msgLayout = (RelativeLayout)findViewById(R.id.msgLayout);
         recordDialogue = (LinearLayout)findViewById(R.id.recordDialogue);
 
@@ -857,7 +857,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         mPreview.setVisibility(View.GONE);
         onRecord = true;
         title.setVisibility(View.GONE);
-        back.setVisibility(View.GONE);
+        back.setVisibility(View.INVISIBLE);
         next.setVisibility(View.GONE);
         rLayout.setVisibility(View.VISIBLE);
         safePRMImageView.setVisibility(View.GONE);
@@ -882,7 +882,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
     private void speakAnswer(){
         title.setVisibility(View.GONE);
-        back.setVisibility(View.GONE);
+        back.setVisibility(View.INVISIBLE);
         next.setVisibility(View.GONE);
         nextFirm.setVisibility(View.GONE);
         rLayout.setVisibility(View.VISIBLE);
