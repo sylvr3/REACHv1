@@ -119,13 +119,13 @@
                 android:layout_alignLeft="@+id/answer"
                 android:layout_alignRight="@+id/answer"
                 android:layout_alignBottom="@+id/answer"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
                 android:gravity="center"
                 android:lineSpacingExtra="2dp"
-                android:textSize="13dp" />
+                android:textSize="12dp" />
         </RelativeLayout>
 
         <LinearLayout
