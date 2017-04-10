@@ -160,7 +160,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
         situationImageView = (ImageView) findViewById(R.id.situationImageView);
         situationTextView = (TextView) findViewById(R.id.situationTextView);
-        speakYourMindImageView = (ImageView) findViewById(R.id.speakYourMindImageView);
+//        speakYourMindImageView = (ImageView) findViewById(R.id.speakYourMindImageView);
 //        speakYourMindTextView = (TextView) findViewById(R.id.speakYourMindTextView);
 
         //SAFE
@@ -261,8 +261,8 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                 activateS();
                 situationTextView.setTypeface(textType);
                 situationTextView.setText("Situation:\n"+sText);
-                speakYourMindTextView.setTypeface(textType);
-                speakYourMindTextView.setText("Speak your mind");
+//                speakYourMindTextView.setTypeface(textType);
+//                speakYourMindTextView.setText("Speak your mind");
             }else{
                 message.setText("You've completed all of them!");
                 next.setVisibility(View.GONE);
