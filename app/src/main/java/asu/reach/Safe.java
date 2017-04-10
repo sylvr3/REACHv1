@@ -71,7 +71,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
     //Safe
     private RelativeLayout rLayout;
-    private LinearLayout safeAcronymLayout, recordDialogue, situationSpeakLayout, askNicelyLayout, oLayout;
+    private LinearLayout safeAcronymLayout, recordDialogue, situationSpeakLayout, askNicelyLayout, oLayout, firmButKindVoiceLayout;
     private RelativeLayout safeActivityLayout;
     private ImageView safePRMImageView, safeEyeContactImageView, safeBlob, situationImageView, speakYourMindImageView;
     private TextView situationTextView, speakYourMindTextView;
@@ -168,6 +168,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         rLayout = (RelativeLayout) findViewById(recordLayout);
         situationSpeakLayout = (LinearLayout) findViewById(R.id.SituationSpeakLayout);
         askNicelyLayout = (LinearLayout) findViewById(R.id.askNicelyLayout);
+        firmButKindVoiceLayout = (LinearLayout)findViewById(R.id.firmButKindVoiceLayout);
         safePRMImageView = (ImageView) findViewById(R.id.recordMsg);
         safeEyeContactImageView = (ImageView) findViewById(R.id.lookEyesMsg);
         safeRecordImageButton = (ImageButton) findViewById(R.id.recordButton);
@@ -637,8 +638,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                         e.printStackTrace();
                     }
                     oLayout.setVisibility(View.GONE);
-                    message.setText("Firm But Kind Voice:\n\n");
-                    thumbsUp.setVisibility(View.VISIBLE);
+
                     answerTextView.setText(oOne.getText().toString());
                     firmButKindVoice(oOne.getText().toString());
                     chosenAnswer = 1;
@@ -660,8 +660,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                         e.printStackTrace();
                     }
                     oLayout.setVisibility(View.GONE);
-                    message.setText("Firm But Kind Voice:\n\n");
-                    thumbsUp.setVisibility(View.VISIBLE);
                     answerTextView.setText(oTwo.getText().toString());
                     firmButKindVoice(oTwo.getText().toString());
                     chosenAnswer = 2;
@@ -683,8 +681,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                         e.printStackTrace();
                     }
                     oLayout.setVisibility(View.GONE);
-                    message.setText("Firm But Kind Voice:\n\n");
-                    thumbsUp.setVisibility(View.VISIBLE);
                     answerTextView.setText(oThree.getText().toString());
                     firmButKindVoice(oThree.getText().toString());
                     chosenAnswer = 3;
@@ -742,6 +738,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         if(v.getId() == nextFirm.getId()){
             onRecord = true;
             activateE();
+            firmButKindVoiceLayout.setVisibility(View.GONE);
             msgLayout.setVisibility(View.GONE);
             thumbsUp.setVisibility(View.GONE);
             safeRecordImageButton.setVisibility(View.GONE);
@@ -854,6 +851,9 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
     private void firmButKindVoice(String msg) {
 
         // First get rid of the camera
+//        message.setText("Firm But Kind Voice:\n\n");
+//        thumbsUp.setVisibility(View.VISIBLE);
+        firmButKindVoiceLayout.setVisibility(View.VISIBLE);
         mPreview.setVisibility(View.GONE);
         onRecord = true;
         title.setVisibility(View.GONE);
@@ -863,7 +863,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         safePRMImageView.setVisibility(View.GONE);
         safeEyeContactImageView.setVisibility(View.GONE);
         safeBlob.setVisibility(View.GONE);
-        msgLayout.setVisibility(View.VISIBLE);
+        //msgLayout.setVisibility(View.VISIBLE);
         message.setTypeface(t);
         message.setText("Firm But Kind Voice\n\n");
         activateF();

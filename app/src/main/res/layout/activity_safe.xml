@@ -578,6 +578,26 @@
 
         </RelativeLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/navigationBar"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical"
+            android:id="@+id/firmButKindVoiceLayout"
+            android:visibility="gone">
+            
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/safe_fbkv_msg"/>
+            
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/idleh"/>
+        </LinearLayout>
+
         <!--
         <LinearLayout
             android:orientation="horizontal"
