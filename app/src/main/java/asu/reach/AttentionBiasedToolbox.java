@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Layout;
@@ -41,6 +42,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     private double avgTime;
     private int[] blockArray, sadArray, neutralArray, disguiseArray, angryArray, neutralSadArray, neutralDisguiseArray, neutralAngryArray;
     private final static int blockArraySize = 240, imageArraySize = 15;
+    private MediaPlayer mediaplayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         index = 0;
         neutral = 0;
         totalAttempts = 0;
+        mediaplayer = MediaPlayer.create(this,R.raw.ding);
         //blankScreen();
         //showBlankScreen();
         UIInitialization();
@@ -355,6 +358,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             timeDiff = System.currentTimeMillis() - startTime;
             if(neutral == 0 && divisionId != 0) {
                 count++;
+                mediaplayer.start();
                 measureSpeed();
                 showBlankScreen();
             }
@@ -365,6 +369,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         if(v.getId() == rightButton.getId()) {
             timeDiff = System.currentTimeMillis() - startTime;
             if(neutral == 1 && divisionId != 0) {
+                mediaplayer.start();
                 count++;
                 measureSpeed();
                 showBlankScreen();
