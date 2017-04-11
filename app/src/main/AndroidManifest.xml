@@ -3,6 +3,7 @@
     package="asu.reach">
 
     <uses-feature android:name="android.hardware.camera" />
+
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
@@ -11,7 +12,8 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <user-permission android:name="android.permission.INTERNET"/>
+
+    <user-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -35,53 +37,49 @@
         </activity>
         <activity
             android:name=".Relaxation"
-            android:label="@string/title_activity_relaxation"></activity>
+            android:label="@string/title_activity_relaxation" />
         <activity
             android:name=".STOP"
-            android:label="@string/title_activity_stop"></activity>
+            android:label="@string/title_activity_stop" />
         <activity
             android:name=".STIC"
-            android:label="@string/title_activity_stic"></activity>
+            android:label="@string/title_activity_stic" />
         <activity
             android:name=".DailyDiary"
-            android:label="@string/title_activity_daily_diary"></activity>
+            android:label="@string/title_activity_daily_diary" />
         <activity
             android:name=".Blob"
-            android:label="@string/title_activity_blob"></activity>
+            android:label="@string/title_activity_blob" />
         <activity
             android:name=".WorryHeads"
-            android:label="@string/title_activity_worry_heads"></activity>
+            android:label="@string/title_activity_worry_heads" />
         <activity
             android:name=".Safe"
-
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_safe" >
-        </activity>
-
+            android:label="@string/title_activity_safe"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".SafeWebView"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_safe" >
-        </activity>
-
+            android:label="@string/title_activity_safe"
+            android:screenOrientation="portrait"></activity>
         <activity android:name=".Preferences" />
         <activity
             android:name=".DatePreferenceActivity"
-            android:label="@string/title_activity_date_preference"></activity>
+            android:label="@string/title_activity_date_preference" />
         <activity
             android:name=".NotifManager"
-            android:label="@string/title_activity_date_preference"></activity>
+            android:label="@string/title_activity_date_preference" />
 
         <service
             android:name=".NotifyService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
         <service
             android:name=".HelperService"
             android:exported="false" />
 
-        <activity android:name=".AttentionBiasedToolbox"></activity>
-        <activity android:name=".AttentionBiasedToolboxWebview"></activity>
+        <activity android:name=".AttentionBiasedToolbox" />
+        <activity android:name=".AttentionBiasedToolboxWebview" />
+        <activity android:name=".ABMTStartScreen"></activity>
     </application>
 
 </manifest>
