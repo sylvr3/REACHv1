@@ -69,7 +69,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         neutral = 0;
         totalAttempts = 0;
         mediaplayer = MediaPlayer.create(this,R.raw.ding);
-        status = !getIntent().getStringExtra("status").equals("trials");
+        status = !getIntent().getStringExtra("status").equals("trial");
         System.out.println("status here"+status);
         //blankScreen();
         //showBlankScreen();
