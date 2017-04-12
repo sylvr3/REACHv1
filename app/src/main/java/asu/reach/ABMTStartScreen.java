@@ -10,7 +10,7 @@ import android.view.Window;
 import android.widget.Button;
 
 public class ABMTStartScreen extends Activity implements View.OnClickListener{
-    private Button trialButton, abmtButton;
+    private Button trialButton, tutorailButton;
     public Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,9 +19,9 @@ public class ABMTStartScreen extends Activity implements View.OnClickListener{
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_abmtstart_screen);
         trialButton = (Button)findViewById(R.id.trialButton);
-        abmtButton = (Button)findViewById(R.id.abmtButton);
+        tutorailButton = (Button)findViewById(R.id.tutorialButton);
         trialButton.setOnClickListener(this);
-        abmtButton.setOnClickListener(this);
+        tutorailButton.setOnClickListener(this);
         intent = new Intent(getBaseContext(),AttentionBiasedToolbox.class);
     }
 
@@ -31,7 +31,7 @@ public class ABMTStartScreen extends Activity implements View.OnClickListener{
             intent.putExtra("status","trial");
             startActivity(intent);
         }
-        if(view.getId() == abmtButton.getId()) {
+        if(view.getId() == tutorailButton.getId()) {
             intent.putExtra("status","abmt");
             startActivity(intent);
         }

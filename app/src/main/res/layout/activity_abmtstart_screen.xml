@@ -15,30 +15,34 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/abmtButton"
+        android:id="@+id/trialButton"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:text="Go to Trials"
         android:padding="10dp"
         android:textColor="#ffffff"
-        android:background="@drawable/abmt_buttons"
+        android:background="@drawable/trial_image_button"
         android:textSize="20sp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginBottom="10dp"
+        android:bottomRightRadius="10dp"
+        android:bottomLeftRadius="10dp"
+        android:topLeftRadius="10dp"
+        android:topRightRadius="10dp"/>
 
     <Button
-        android:id="@+id/trialButton"
-        android:layout_width="200dip"
+        android:id="@+id/tutorialButton"
+        android:layout_width="200dp"
         android:layout_height="50dp"
-        android:text="Play ABMT"
-        android:padding="10dp"
         android:textColor="#ffffff"
-        android:background="@drawable/abmt_buttons"
+        android:background="@drawable/tutorial_image_button"
         android:textSize="20sp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"/>
-
+        android:layout_marginBottom="10dp"
+        android:bottomRightRadius="10dp"
+        android:bottomLeftRadius="10dp"
+        android:topLeftRadius="10dp"
+        android:topRightRadius="10dp"/>
 </LinearLayout>
