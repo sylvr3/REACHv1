@@ -82,8 +82,6 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         goalText = (TextView) findViewById(R.id.goalText);
         playAgainText = (TextView) findViewById(R.id.playAgainText);
         speedText = (TextView) findViewById(R.id.speedText);
-        //progressBar = (ProgressBar) findViewById(R.id.progressBar) ; // progress bar
-        // progressBar.setMax(NUM_OF_TOTAL_CORRECT_TRIALS);
         imgTop.setOnClickListener(this);
         imgBottom.setOnClickListener(this);
         leftButton.setOnClickListener(this);
@@ -95,8 +93,8 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         imgBottom.setVisibility(View.INVISIBLE);
         restartButton.setVisibility(View.INVISIBLE);
 
-        if (isTutorialCompleted == false)
-            trialButton.setClickable(false);
+        // if (isTutorialCompleted == false)
+        //  trialButton.setClickable(false);
 
          /* viplav
         responseTimer = new CountDownTimer(200,100) {
@@ -171,6 +169,11 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
 
             public void onFinish() {
                 showScoreScreen();
+                blankScreen();
+                showBlankScreen();
+                isTutorialCompleted = true;
+                tutCount = 0; // number of correct trials
+                numOfTutTrials = 0; // number of correct placebo trials
             }
         };
 
@@ -346,7 +349,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
 
 
         if (isTutorialMode == true) {
-            if (numOfTutTrials < NUM_OF_TUTORIAL_TRIALS) {
+            if (numOfTutTrials < 5) {
 
                 blankScreenTimer.cancel();
                 int bitMapInd = random.nextInt(2);
@@ -376,7 +379,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
                 startTimer();
             }
 
-            if (tutCount == 10)
+            if (cumulativeTutCount == 10)
                 areTrialsOver = true;
         }
 
@@ -565,14 +568,16 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
                 showScoreScreen();
                 //setUpAgain(); // viplav
             }
-
-
-            System.out.println(count);
-            System.out.println(numOfTrials);
-            System.out.println(placeboCount);
-            System.out.println(numOfPlacebo);
-            System.out.println(cumulativeCount);
-
         }
+
+        System.out.println("Total correct for trials:" + count);
+        System.out.println("Current trial number: " + numOfTrials);
+        System.out.println("Total correct for placebo: " + placeboCount);
+        System.out.println("Current placebo number: " + numOfPlacebo);
+        System.out.println("Total number of treatment and placebo trials: " + cumulativeCount);
+        System.out.println("Total correct for tutorial: " + tutCount);
+        System.out.println("Current tutorial trial number: " + numOfTutTrials);
+        System.out.println("Total number of cumulative trials: " + cumulativeTutCount);
+
     }
 }
