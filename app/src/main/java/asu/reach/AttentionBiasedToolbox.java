@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ViewFlipper;
 
+import java.text.DecimalFormat;
 import java.util.Random;
 
 public class AttentionBiasedToolbox extends Activity implements View.OnClickListener{
@@ -360,7 +361,18 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
                 mediaplayer.start();
                 this.setCorrectCount();
                 measureSpeed();
-                showBlankScreen();
+                if(count == 5) {
+                    count = 0;
+                    viewFlipper.setDisplayedChild(2);
+                    avgTime = avgTime / totalAttempts;
+                    String speed = "Speed: " + new DecimalFormat("###.##").format(avgTime);
+                    String result = "Score: " + totalAttempts;
+                    totalAttempts = 0;
+                    resultText.setText(result);
+                    speedText.setText(speed);
+                    setUpAgain();
+                }
+                else showBlankScreen();
             }
 
             //avgTime += timeDiff;
@@ -373,7 +385,18 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
                 count++;
                 this.setCorrectCount();
                 measureSpeed();
-                showBlankScreen();
+                if(count == 5) {
+                    count = 0;
+                    viewFlipper.setDisplayedChild(2);
+                    avgTime = avgTime / totalAttempts;
+                    String speed = "Speed: " + new DecimalFormat("###.##").format(avgTime);
+                    String result = "Score: " + totalAttempts;
+                    totalAttempts = 0;
+                    resultText.setText(result);
+                    speedText.setText(speed);
+                    setUpAgain();
+                }
+                else showBlankScreen();
             }
 
             //System.out.println(timeDiff);
@@ -391,17 +414,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         }
 
 
-        if(count == 128) {
-            count = 0;
-            viewFlipper.setDisplayedChild(2);
-            avgTime = avgTime / totalAttempts;
-            String speed = "Speed: " + avgTime;
-            String result = "Score: " + totalAttempts;
-            totalAttempts = 0;
-            resultText.setText(result);
-            speedText.setText(speed);
-            setUpAgain();
-        }
+
         System.out.println(count);
     }
 

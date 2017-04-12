@@ -37,8 +37,8 @@
         android:layout_marginRight="10dp"
         android:background="@drawable/abmt_buttons"
         android:textSize="20sp"
-        android:layout_marginBottom="82dp"
-        android:layout_alignBottom="@+id/abmtButton"
+        android:layout_marginBottom="32dp"
+        android:layout_above="@+id/abmtButton"
         android:layout_alignStart="@+id/abmtButton" />
 
 </RelativeLayout>
