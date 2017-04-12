@@ -8,37 +8,59 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="asu.reach.ABMTStartScreen">
+    tools:context="asu.reach.ABMTStartScreen"
+    android:background="@drawable/faces_bg"
+    android:gravity="center"
+    android:layout_gravity="center">
 
-    <Button
-        android:id="@+id/abmtButton"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_weight="1.0"
-        android:text="Go to Trials"
-        android:padding="10dp"
-        android:textColor="#ffffff"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/abmt_buttons"
-        android:textSize="20sp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_gravity="center">
 
-    <Button
-        android:id="@+id/trialButton"
-        android:layout_width="200dip"
-        android:layout_height="50dp"
-        android:text="Play ABMT"
-        android:padding="10dp"
-        android:textColor="#ffffff"
-        android:layout_weight="1.0"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/abmt_buttons"
-        android:textSize="20sp"
-        android:layout_marginBottom="82dp"
-        android:layout_alignBottom="@+id/abmtButton"
-        android:layout_alignStart="@+id/abmtButton" />
+        <Button
+            android:id="@+id/trialButton"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:padding="10dp"
+            android:textColor="#ffffff"
+            android:background="@drawable/trial_image_button"
+            android:textSize="20sp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:bottomRightRadius="10dp"
+            android:bottomLeftRadius="10dp"
+            android:topLeftRadius="10dp"
+            android:topRightRadius="10dp"/>
 
+        <Button
+            android:id="@+id/tutorialButton"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:textColor="#ffffff"
+            android:background="@drawable/tutorial_image_button"
+            android:textSize="20sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:bottomRightRadius="10dp"
+            android:bottomLeftRadius="10dp"
+            android:topLeftRadius="10dp"
+            android:topRightRadius="10dp"/>
+    </LinearLayout>
+
+
+    <ImageButton
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/abmtHomeButton"
+        android:background="@drawable/home_selector"
+        android:layout_alignParentLeft="true"
+        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:gravity="bottom"/>
 </RelativeLayout>
