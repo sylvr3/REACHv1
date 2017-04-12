@@ -158,6 +158,8 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
                 showProbes();
             }
         };
+
+        
     }
     public void shuffleBlockArray() {
         for(int i = 0; i < blockArraySize; i++) {
@@ -241,25 +243,51 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         //viewFlipper.showNext();
         viewFlipper.setDisplayedChild(0);
         plusImage.setVisibility(View.VISIBLE);
-        if(totalAttempts == 240) {
-            count = 0;
-            viewFlipper.setDisplayedChild(2);
-            String speed = "Please start again";
-            String result = "Attemps Over";
-            resultText.setText(result);
-            totalAttempts = 0;
-            speedText.setText(speed);
-            setUpAgain();
+
+            if (status == getIntent().getStringExtra("status").equals("trial")) {
+
+                if (totalAttempts == 10) {
+                count = 0;
+                viewFlipper.setDisplayedChild(2);
+                String speed = "Please start again";
+                String result = "Attemps Over";
+                resultText.setText(result);
+                totalAttempts = 0;
+                speedText.setText(speed);
+                setUpAgain();
+            } else if (System.currentTimeMillis() - blockStart > 720000) {
+                count = 0;
+                viewFlipper.setDisplayedChild(2);
+                String speed = "Please start again";
+                String result = "Time Over";
+                resultText.setText(result);
+                totalAttempts = 0;
+                speedText.setText(speed);
+                setUpAgain();
+            }
         }
-        else if(System.currentTimeMillis()-blockStart > 720000) {
-            count = 0;
-            viewFlipper.setDisplayedChild(2);
-            String speed = "Please start again";
-            String result = "Time Over";
-            resultText.setText(result);
-            totalAttempts = 0;
-            speedText.setText(speed);
-            setUpAgain();
+
+        if (status == getIntent().getStringExtra("status").equals("tutorial")) {
+
+            if (totalAttempts == 10) {
+                count = 0;
+                viewFlipper.setDisplayedChild(2);
+                String speed = "Please start again";
+                String result = "Attemps Over";
+                resultText.setText(result);
+                totalAttempts = 0;
+                speedText.setText(speed);
+                setUpAgain();
+            } else if (System.currentTimeMillis() - blockStart > 720000) {
+                count = 0;
+                viewFlipper.setDisplayedChild(2);
+                String speed = "Please start again";
+                String result = "Time Over";
+                resultText.setText(result);
+                totalAttempts = 0;
+                speedText.setText(speed);
+                setUpAgain();
+            }
         }
         else blankScreen();
 
@@ -353,9 +381,9 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == leftButton.getId()) {
+        if (v.getId() == leftButton.getId()) {
             timeDiff = System.currentTimeMillis() - startTime;
-            if(neutral == 0 && divisionId != 0) {
+            if (neutral == 0 && divisionId != 0) {
                 count++;
                 mediaplayer.start();
                 this.setCorrectCount();
@@ -366,9 +394,9 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             //avgTime += timeDiff;
             //showBlankScreen();
         }
-        if(v.getId() == rightButton.getId()) {
+        if (v.getId() == rightButton.getId()) {
             timeDiff = System.currentTimeMillis() - startTime;
-            if(neutral == 1 && divisionId != 0) {
+            if (neutral == 1 && divisionId != 0) {
                 mediaplayer.start();
                 count++;
                 this.setCorrectCount();
@@ -381,7 +409,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             //System.out.println(avgTime);
             //showBlankScreen();
         }
-        if(v.getId() == restartButton.getId()) {
+        if (v.getId() == restartButton.getId()) {
             //viewFlipper.showNext();
             //viewFlipper.showPrevious();
             totalAttempts = 0;
@@ -389,20 +417,37 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             blockStart();
 
         }
+        if (status == getIntent().getStringExtra("status").equals("trial")) {
 
-
-        if(count == 128) {
-            count = 0;
-            viewFlipper.setDisplayedChild(2);
-            avgTime = avgTime / totalAttempts;
-            String speed = "Speed: " + avgTime;
-            String result = "Score: " + totalAttempts;
-            totalAttempts = 0;
-            resultText.setText(result);
-            speedText.setText(speed);
-            setUpAgain();
+            if (count == 8) {
+                count = 0;
+                viewFlipper.setDisplayedChild(2);
+                avgTime = avgTime / totalAttempts;
+                String speed = "Speed: " + avgTime;
+                String result = "Score: " + totalAttempts;
+                totalAttempts = 0;
+                resultText.setText(result);
+                speedText.setText(speed);
+                setUpAgain();
+            }
+            System.out.println(count);
         }
-        System.out.println(count);
+
+        if (status == getIntent().getStringExtra("status").equals("tutorial")) {
+
+            if (count == 10) {
+                count = 0;
+                viewFlipper.setDisplayedChild(2);
+                avgTime = avgTime / totalAttempts;
+                String speed = "Speed: " + avgTime;
+                String result = "Score: " + totalAttempts;
+                totalAttempts = 0;
+                resultText.setText(result);
+                speedText.setText(speed);
+                setUpAgain();
+            }
+            System.out.println(count);
+        }
     }
 
     public void initSharedPref(){
@@ -417,7 +462,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     public void setCorrectCount(){
         int correctCount = this.getCorrectCount();
         SharedPreferences.Editor edit = this.sharedPref.edit();
-        if (correctCount >= 7000){
+        if (correctCount >= 7500){
             edit.putInt(ABMT_CORRECT_COUNT,0);
             count = 0;
         } else {
