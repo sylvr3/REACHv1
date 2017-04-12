@@ -417,7 +417,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     public void setCorrectCount(){
         int correctCount = this.getCorrectCount();
         SharedPreferences.Editor edit = this.sharedPref.edit();
-        if (correctCount >= 7000){
+        if (correctCount >= 7500){
             edit.putInt(ABMT_CORRECT_COUNT,0);
             count = 0;
         } else {
