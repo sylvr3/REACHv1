@@ -20,6 +20,7 @@
         android:gravity="center"
         android:layout_gravity="center">
 
+
         <Button
             android:id="@+id/trialButton"
             android:layout_width="200dp"
@@ -37,6 +38,7 @@
             android:bottomLeftRadius="10dp"
             android:topLeftRadius="10dp"
             android:topRightRadius="10dp"/>
+
 
         <Button
             android:id="@+id/tutorialButton"
