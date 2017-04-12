@@ -1,27 +1,20 @@
 package asu.reach;
 
 import android.app.Activity;
-import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.text.Layout;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
 
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Random;
 
 public class AttentionBiasedToolbox extends Activity implements View.OnClickListener{
@@ -41,6 +34,11 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     private double avgTime;
     private int[] blockArray, sadArray, neutralArray, disguiseArray, angryArray, neutralSadArray, neutralDisguiseArray, neutralAngryArray;
     private final static int blockArraySize = 240, imageArraySize = 15;
+    private MediaPlayer mediaplayer;
+    private boolean status;
+    private SharedPreferences sharedPref;
+    private final String SHARED_PREF_KEY = "ABMT";
+    private final String ABMT_CORRECT_COUNT = "ABMT_CORRECT_COUNT";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +63,12 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         index = 0;
         neutral = 0;
         totalAttempts = 0;
+        mediaplayer = MediaPlayer.create(this,R.raw.ding);
+        status = !getIntent().getStringExtra("status").equals("trial");
+        System.out.println("status here"+status);
         //blankScreen();
         //showBlankScreen();
+        initSharedPref();
         UIInitialization();
         ArrayCounterInitialization();
         blockStart();
@@ -355,6 +357,8 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             timeDiff = System.currentTimeMillis() - startTime;
             if(neutral == 0 && divisionId != 0) {
                 count++;
+                mediaplayer.start();
+                this.setCorrectCount();
                 measureSpeed();
                 showBlankScreen();
             }
@@ -365,7 +369,9 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         if(v.getId() == rightButton.getId()) {
             timeDiff = System.currentTimeMillis() - startTime;
             if(neutral == 1 && divisionId != 0) {
+                mediaplayer.start();
                 count++;
+                this.setCorrectCount();
                 measureSpeed();
                 showBlankScreen();
             }
@@ -397,5 +403,25 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             setUpAgain();
         }
         System.out.println(count);
+    }
+
+    public void initSharedPref(){
+        this.sharedPref = getApplicationContext().getSharedPreferences(SHARED_PREF_KEY,MODE_PRIVATE);
+    }
+
+    public int getCorrectCount(){
+        int correctCount = this.sharedPref.getInt(ABMT_CORRECT_COUNT,0);
+        return correctCount;
+    }
+
+    public void setCorrectCount(){
+        int correctCount = this.getCorrectCount();
+        SharedPreferences.Editor edit = this.sharedPref.edit();
+        if (correctCount >= 7000){
+            edit.putInt(ABMT_CORRECT_COUNT,0);
+            count = 0;
+        } else {
+            edit.putInt(ABMT_CORRECT_COUNT,correctCount + 1);
+        }
     }
 }
