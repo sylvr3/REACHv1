@@ -282,7 +282,6 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
     }
 
 
-
     private void startEyeTracking(){
         //TODO: start new recording activity
         Log.d("Vision","Going to start Recording Activity");

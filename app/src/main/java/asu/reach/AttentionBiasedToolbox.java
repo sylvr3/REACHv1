@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import java.util.Random;
@@ -39,6 +41,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     private SharedPreferences sharedPref;
     private final String SHARED_PREF_KEY = "ABMT";
     private final String ABMT_CORRECT_COUNT = "ABMT_CORRECT_COUNT";
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +75,11 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         UIInitialization();
         ArrayCounterInitialization();
         blockStart();
+
+        ProgressBar progressBar = (ProgressBar)findViewById (R.id.circular_progress_bar);
+
+      //  ((TextView) findViewById(R.id.textView1)).setText(progressBar.getProgress() + "%");
+        progressBar.setVisibility(View.GONE);
     }
 
     public void UIInitialization() {
@@ -391,16 +399,19 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         }
 
 
-        if(count == 128) {
+        if(count == 10) {
             count = 0;
             viewFlipper.setDisplayedChild(2);
             avgTime = avgTime / totalAttempts;
             String speed = "Speed: " + avgTime;
             String result = "Score: " + totalAttempts;
             totalAttempts = 0;
+            progressBar.setVisibility(View.VISIBLE);
+            progressBar.setProgress(totalAttempts);
             resultText.setText(result);
             speedText.setText(speed);
             setUpAgain();
+
         }
         System.out.println(count);
     }
