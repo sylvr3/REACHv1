@@ -1,6 +1,7 @@
 package asu.reach;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -24,8 +25,8 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     private Random random;
     private TypedArray neutralImgs, threatImgs;
     private Bitmap[] bmap;
-    private int neutral, count, index, totalAttempts, numOfTrials, numOfPlacebo, placeboCount, cumulativeCount;
-    private CountDownTimer countDownTimer, blankScreenTimer, responseTimer, transitionTimer, loopTrialTimer;
+    private int neutral, count, index, totalAttempts, numOfTrials, numOfPlacebo, placeboCount, cumulativeCount, tutCount, numOfTutTrials, cumulativeTutCount;
+    private CountDownTimer countDownTimer, blankScreenTimer, responseTimer, transitionTimer, loopTrialTimer, countDownToEnd;
     private ImageView plusImage;
     private ImageView plusBtwImageView;
     private ViewFlipper viewFlipper;
@@ -41,6 +42,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     private boolean areTrialsOver = false;
     private boolean isTutorialMode = false;
     private boolean isTrialMode = false;
+    private boolean isTutorialCompleted = false;
 
 
     @Override
@@ -64,7 +66,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         Typeface font = Typeface.createFromAsset(getAssets(), "agentorange.ttf");
         leftButton = (Button) findViewById(R.id.leftButton);
         leftButton.setTypeface(font);
-        restartButton = (Button)findViewById(R.id.restartButton);
+        restartButton = (Button) findViewById(R.id.restartButton);
         rightButton = (Button) findViewById(R.id.rightButton);
         rightButton.setTypeface(font);
         Typeface textType = Typeface.createFromAsset(getAssets(), "Average-Regular.ttf");
@@ -88,11 +90,14 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         rightButton.setOnClickListener(this);
         tutorialButton.setOnClickListener(this);
         trialButton.setOnClickListener(this);
-        //trialButton.setClickable(false);
         restartButton.setOnClickListener(this);
         imgTop.setVisibility(View.INVISIBLE);
         imgBottom.setVisibility(View.INVISIBLE);
         restartButton.setVisibility(View.INVISIBLE);
+
+        if (isTutorialCompleted == false)
+            trialButton.setClickable(false);
+
          /* viplav
         responseTimer = new CountDownTimer(200,100) {
             @Override
@@ -143,7 +148,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             }
         };
 
-        loopTrialTimer = new CountDownTimer(1800, 200) {
+        loopTrialTimer = new CountDownTimer(3600, 200) {
             public void onTick(long millisUntilFinished) {
 
             }
@@ -156,6 +161,16 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
                 placeboCount = 0; // number of correct placebo trials
                 numOfTrials = 0; // current trial user is on
                 numOfPlacebo = 0; // current placebo trial user is on
+            }
+        };
+
+        countDownToEnd = new CountDownTimer(12000, 200) {
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            public void onFinish() {
+                showScoreScreen();
             }
         };
 
@@ -193,6 +208,10 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     public void startTimer() {
         countDownTimer.start();
 
+    }
+
+    public void startCountDownToEnd() {
+        countDownToEnd.start();
     }
 
     // Wipe images and generate probes
@@ -258,6 +277,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         speedText.setVisibility(View.INVISIBLE);
         blankScreen();
     }
+
     // Display student's score, speed, and goal
     // Display student's score, speed, and goal
     public void showScoreScreen() {
@@ -283,6 +303,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
 
         System.out.println("Completed: " + (cumulativeCount / 7500) * 100 + "% of the trials correctly");
 
+
         if (count < 10) { // check if trials completed -- set to 7500
             playAgainText.setVisibility(View.VISIBLE);
             loopTrialTimer.start();
@@ -292,7 +313,17 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         }
 
 
+        if (tutCount < 10) { // check if trials completed -- set to 640
+            playAgainText.setVisibility(View.VISIBLE);
+            loopTrialTimer.start();
+        } else {
+            playAgainText.setVisibility(View.GONE);
+            loopTrialTimer.cancel();
+        }
+
+
     }
+
     public void showPlayAgainScreen() {
 
         tutorialButton.setVisibility(View.INVISIBLE);
@@ -312,37 +343,79 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
 
     //Load images
     public void fetchImages() {
-        if (numOfPlacebo < 5) {
-            blankScreenTimer.cancel();
-            int bitMapInd = random.nextInt(2);
-            int rndInt = random.nextInt(neutralImgs.length() - index) + index;
-            int neutralId = neutralImgs.getResourceId(imageIndArray[rndInt], 0);
-            int threatId = threatImgs.getResourceId(imageIndArray[rndInt], 0);
-            swapIndex(index, rndInt);
-            index = (index + 1) % neutralImgs.length();
-            System.out.println(Arrays.toString(imageIndArray));
-            bmap[0] = (bitMapInd == 0) ? BitmapFactory.decodeResource(getResources(), neutralId) : BitmapFactory.decodeResource(getResources(), threatId);
-            bmap[1] = (bitMapInd == 1) ? BitmapFactory.decodeResource(getResources(), neutralId) : BitmapFactory.decodeResource(getResources(), threatId);
-            neutral = (bitMapInd == 0) ? 0 : 1;
-            //viewFlipper.showPrevious();
-            viewFlipper.setDisplayedChild(1);
-            viewFlipper.setDisplayedChild(1);
-            imgTop.setVisibility(View.VISIBLE);
-            plusBtwImageView.setVisibility(View.VISIBLE);
-            imgBottom.setVisibility(View.VISIBLE);
-            rightButton.setEnabled(true);
-            leftButton.setEnabled(true);
-            leftButton.setVisibility(View.VISIBLE);
-            rightButton.setVisibility(View.VISIBLE);
-            plusImage.setVisibility(View.INVISIBLE);
-            imgTop.setImageBitmap(bmap[0]);
-            imgBottom.setImageBitmap(bmap[1]);
-            totalAttempts++;
-            startTimer();
+
+
+        if (isTutorialMode == true) {
+            if (numOfTutTrials < NUM_OF_TUTORIAL_TRIALS) {
+
+                blankScreenTimer.cancel();
+                int bitMapInd = random.nextInt(2);
+                int rndInt = random.nextInt(neutralImgs.length() - index) + index;
+                int neutralId = neutralImgs.getResourceId(imageIndArray[rndInt], 0);
+                int threatId = threatImgs.getResourceId(imageIndArray[rndInt], 0);
+                swapIndex(index, rndInt);
+                index = (index + 1) % neutralImgs.length();
+                System.out.println(Arrays.toString(imageIndArray));
+                bmap[0] = (bitMapInd == 0) ? BitmapFactory.decodeResource(getResources(), neutralId) : BitmapFactory.decodeResource(getResources(), threatId);
+                bmap[1] = (bitMapInd == 1) ? BitmapFactory.decodeResource(getResources(), neutralId) : BitmapFactory.decodeResource(getResources(), threatId);
+                neutral = (bitMapInd == 0) ? 0 : 1;
+                //viewFlipper.showPrevious();
+                viewFlipper.setDisplayedChild(1);
+                viewFlipper.setDisplayedChild(1);
+                imgTop.setVisibility(View.VISIBLE);
+                plusBtwImageView.setVisibility(View.VISIBLE);
+                imgBottom.setVisibility(View.VISIBLE);
+                rightButton.setEnabled(true);
+                leftButton.setEnabled(true);
+                leftButton.setVisibility(View.VISIBLE);
+                rightButton.setVisibility(View.VISIBLE);
+                plusImage.setVisibility(View.INVISIBLE);
+                imgTop.setImageBitmap(bmap[0]);
+                imgBottom.setImageBitmap(bmap[1]);
+                totalAttempts++;
+                startTimer();
+            }
+
+            if (tutCount == 10)
+                areTrialsOver = true;
         }
 
-        if (numOfTrials == 10)
-            areTrialsOver = true;
+
+        if (isTrialMode == true) {
+            if (numOfPlacebo < 5) {
+                blankScreenTimer.cancel();
+                int bitMapInd = random.nextInt(2);
+                int rndInt = random.nextInt(neutralImgs.length() - index) + index;
+                int neutralId = neutralImgs.getResourceId(imageIndArray[rndInt], 0);
+                int threatId = threatImgs.getResourceId(imageIndArray[rndInt], 0);
+                swapIndex(index, rndInt);
+                index = (index + 1) % neutralImgs.length();
+                System.out.println(Arrays.toString(imageIndArray));
+                bmap[0] = (bitMapInd == 0) ? BitmapFactory.decodeResource(getResources(), neutralId) : BitmapFactory.decodeResource(getResources(), threatId);
+                bmap[1] = (bitMapInd == 1) ? BitmapFactory.decodeResource(getResources(), neutralId) : BitmapFactory.decodeResource(getResources(), threatId);
+                neutral = (bitMapInd == 0) ? 0 : 1;
+                //viewFlipper.showPrevious();
+                viewFlipper.setDisplayedChild(1);
+                viewFlipper.setDisplayedChild(1);
+                imgTop.setVisibility(View.VISIBLE);
+                plusBtwImageView.setVisibility(View.VISIBLE);
+                imgBottom.setVisibility(View.VISIBLE);
+                rightButton.setEnabled(true);
+                leftButton.setEnabled(true);
+                leftButton.setVisibility(View.VISIBLE);
+                rightButton.setVisibility(View.VISIBLE);
+                plusImage.setVisibility(View.INVISIBLE);
+                imgTop.setImageBitmap(bmap[0]);
+                imgBottom.setImageBitmap(bmap[1]);
+                totalAttempts++;
+                startTimer();
+            }
+
+            if (numOfTrials == 10)
+                areTrialsOver = true;
+
+        }
+
 
     }
 
@@ -384,8 +457,31 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             showBlankScreen();
             isTutorialMode = false;
             isTrialMode = true;
+
         }
         if (v.getId() == leftButton.getId()) {
+
+            if (isTutorialMode == true) {
+
+                if (neutral == 1) {
+                    tutCount++;
+                    MediaPlayer mp = MediaPlayer.create(this, R.raw.ding);
+                    mp.start();
+                }
+                numOfTrials++;
+                cumulativeTutCount++;
+                showBlankScreen();
+
+                if (numOfTutTrials == 5) {
+                    stopTime = System.currentTimeMillis();
+                    showScoreScreen();
+                    //setUpAgain(); // viplav
+
+                }
+
+            }
+
+
             if (areTrialsOver == false) {
                 if (neutral == 0) {
                     count++;
@@ -413,53 +509,70 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         }
         if (v.getId() == rightButton.getId()) {
 
-            if (areTrialsOver == false) {
+            if (isTutorialMode == true) {
+
                 if (neutral == 1) {
-                    count++;
+                    tutCount++;
                     MediaPlayer mp = MediaPlayer.create(this, R.raw.ding);
                     mp.start();
                 }
                 numOfTrials++;
-                cumulativeCount++;
+                cumulativeTutCount++;
                 showBlankScreen();
-            }
 
+                if (numOfTutTrials == 5) {
+                    stopTime = System.currentTimeMillis();
+                    showScoreScreen();
+                    //setUpAgain(); // viplav
 
-
-            if (areTrialsOver == true) {
-                if (neutral == 1) {
-                    MediaPlayer mp = MediaPlayer.create(this, R.raw.ding);
-                    mp.start();
-                    placeboCount++;
                 }
-                numOfPlacebo++;
-                showBlankScreen();
+
+
+                if (areTrialsOver == false) {
+                    if (neutral == 1) {
+                        count++;
+                        MediaPlayer mp = MediaPlayer.create(this, R.raw.ding);
+                        mp.start();
+                    }
+                    numOfTrials++;
+                    cumulativeCount++;
+                    showBlankScreen();
+                }
+
+
+                if (areTrialsOver == true) {
+                    if (neutral == 1) {
+                        MediaPlayer mp = MediaPlayer.create(this, R.raw.ding);
+                        mp.start();
+                        placeboCount++;
+                    }
+                    numOfPlacebo++;
+                    showBlankScreen();
+
+                }
 
             }
 
+            if (v.getId() == restartButton.getId()) {
+                //viewFlipper.showNext();
+                //viewFlipper.showPrevious();
+                totalAttempts = 0;
+                showBlankScreen();
+            }
+
+            if (numOfPlacebo == 5) {
+                stopTime = System.currentTimeMillis();
+                showScoreScreen();
+                //setUpAgain(); // viplav
+            }
+
+
+            System.out.println(count);
+            System.out.println(numOfTrials);
+            System.out.println(placeboCount);
+            System.out.println(numOfPlacebo);
+            System.out.println(cumulativeCount);
 
         }
-
-        if(v.getId() == restartButton.getId()) {
-            //viewFlipper.showNext();
-            //viewFlipper.showPrevious();
-            totalAttempts = 0;
-            showBlankScreen();
-
-        }
-
-
-        if (numOfPlacebo == 5) {
-            stopTime = System.currentTimeMillis();
-            showScoreScreen();
-            //setUpAgain(); // viplav
-
-        }
-        System.out.println(count);
-        System.out.println(numOfTrials);
-        System.out.println(placeboCount);
-        System.out.println(numOfPlacebo);
-        System.out.println(cumulativeCount);
-
     }
 }
