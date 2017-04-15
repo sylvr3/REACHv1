@@ -88,6 +88,8 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
     //Safe
     private boolean onRecord = false; // Record screens are showing
+    private boolean isRecording = false;
+    private boolean isSavingAudioFile = false;
     private boolean onSpeakYourMind = true;
     private boolean onAskNicely = false;
     // Recording
@@ -763,57 +765,62 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
         //SAFE
         if(v.getId() == safeRecordImageButton.getId()){
+            if(! isRecording) {
+                isRecording = true;
+                rLayout.setVisibility(View.VISIBLE);
+                msgLayout.setVisibility(View.GONE);
+                safePRMImageView.setVisibility(View.GONE);
+                safeEyeContactImageView.setVisibility(View.GONE);
+                title.setVisibility(View.GONE);
+                next.setVisibility(View.GONE);
+                recordDialogue.setVisibility(View.GONE);
+                answerImageView.setVisibility(View.GONE);
+                doneRecording.setVisibility(View.VISIBLE);
+                answerTextView.setVisibility(View.VISIBLE);
+                answerImageView.setVisibility(View.VISIBLE);
+                answerTextView.setTextSize(25);
 
-            rLayout.setVisibility(View.VISIBLE);
-            msgLayout.setVisibility(View.GONE);
-            safePRMImageView.setVisibility(View.GONE);
-            safeEyeContactImageView.setVisibility(View.GONE);
-            title.setVisibility(View.GONE);
-            next.setVisibility(View.GONE);
-            recordDialogue.setVisibility(View.GONE);
-            answerImageView.setVisibility(View.GONE);
-            doneRecording.setVisibility(View.VISIBLE);
-            answerTextView.setVisibility(View.VISIBLE);
-            answerImageView.setVisibility(View.VISIBLE);
-            answerTextView.setTextSize(25);
-
-            // Create file name with the timeStamp
-            SimpleDateFormat timeStampFormat = new SimpleDateFormat("yyyy-MM-dd-HH.mm.ss", Locale.US);
-            String fileName = "audio_" + timeStampFormat.format(new Date())+ ".3gp";
-            //outputFile = Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+fileName;
-            outputFile = mediaStorageDir.getAbsolutePath()+"/"+fileName;
-            mediaRecorder.setOutputFile(outputFile);
-            try {
-                mediaRecorder.prepare();
-                mediaRecorder.start();
-                Toast.makeText(getApplicationContext(),"Recording Started", Toast.LENGTH_LONG).show();
-                safeRecordImageButton.setVisibility(View.GONE);
+                // Create file name with the timeStamp
+                SimpleDateFormat timeStampFormat = new SimpleDateFormat("yyyy-MM-dd-HH.mm.ss", Locale.US);
+                String fileName = "audio_" + timeStampFormat.format(new Date()) + ".3gp";
+                //outputFile = Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+fileName;
+                outputFile = mediaStorageDir.getAbsolutePath() + "/" + fileName;
+                mediaRecorder.setOutputFile(outputFile);
+                try {
+                    mediaRecorder.prepare();
+                    mediaRecorder.start();
+                    Toast.makeText(getApplicationContext(), "Recording Started", Toast.LENGTH_LONG).show();
+                    safeRecordImageButton.setVisibility(View.GONE);
+                } catch (IOException ie) {
+                    //System.out.println(ie.fillInStackTrace());
+                    Toast.makeText(getApplicationContext(), "Exception happend", Toast.LENGTH_LONG).show();
+                }
+                onRecord = true;
             }
-            catch(IOException ie) {
-                //System.out.println(ie.fillInStackTrace());
-                Toast.makeText(getApplicationContext(),"Exception happend", Toast.LENGTH_LONG).show();
-            }
-            onRecord = true;
         }
 
 
         if (v.getId() == doneRecording.getId()) {
 
-            //Get the eye tracking values to store in the DB
-            finalProbablityCount = probabilityCount;
-            finalLeftEyeProbablity = leftEyeOpenProbability / finalRightEyeProbablity;
-            finalRightEyeProbablity = rightEyeOpenProbability / finalProbablityCount;
+            isRecording = false;
+            if (! isSavingAudioFile) {
+                isSavingAudioFile = true;
+                doneRecording.setVisibility(View.GONE);
+                //Get the eye tracking values to store in the DB
+                finalProbablityCount = probabilityCount;
+                finalLeftEyeProbablity = leftEyeOpenProbability / finalRightEyeProbablity;
+                finalRightEyeProbablity = rightEyeOpenProbability / finalProbablityCount;
 
-            complete("test");
-            safeEyeContactImageView.setVisibility(View.GONE);
-            safeDoneImageButton.setVisibility(View.GONE);
-            doneRecording.setVisibility(View.GONE);
-            again.setVisibility(View.VISIBLE);
-            done.setVisibility(View.VISIBLE);
-            mediaRecorder.stop();
-            mediaRecorder.release();
-            Toast.makeText(getApplicationContext(),"Recorded Successfully", Toast.LENGTH_LONG).show();
-            complete("test");
+//                complete("test");
+                safeEyeContactImageView.setVisibility(View.GONE);
+                safeDoneImageButton.setVisibility(View.GONE);
+                again.setVisibility(View.VISIBLE);
+                done.setVisibility(View.VISIBLE);
+                mediaRecorder.stop();
+                mediaRecorder.release();
+                Toast.makeText(getApplicationContext(), "Recorded Successfully", Toast.LENGTH_LONG).show();
+                complete("test");
+            }
         }
 
     }
@@ -903,6 +910,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
     private void complete(String msg){
         rLayout.removeAllViews();
+
         gj.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.stars));
         gj.start();
         gj.setVisibility(View.VISIBLE);
@@ -920,6 +928,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                 onRecord = false;
                 safeAcronymLayout.setVisibility(View.GONE);
                 safeActivityLayout.setBackgroundResource(R.drawable.safe_background);
+                isSavingAudioFile = false;
             }
         });
 
@@ -954,6 +963,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         }catch(Exception e){
             e.printStackTrace();
         }
+
     }
 
     @Override
