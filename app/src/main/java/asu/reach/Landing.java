@@ -237,10 +237,14 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
 
         // Safe
         if(v.getId() == standUp.getId()) {
+            /*
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
                 Intent intent = new Intent(this, Safe.class);
                 startActivity(intent);
             }
+            */
+            Intent intent = new Intent(this, Safe.class);
+            startActivity(intent);
         }
 
         if(v.getId() == topLeftLayout.getId()){
