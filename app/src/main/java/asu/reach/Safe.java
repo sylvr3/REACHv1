@@ -14,9 +14,14 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
+import android.hardware.Camera;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -351,11 +356,45 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             Log.w(TAG, "Face detector dependencies are not yet available.");
         }
 
-        mCameraSource = new CameraSource.Builder(context, detector)
-                .setRequestedPreviewSize(640, 480)
-                .setFacing(CameraSource.CAMERA_FACING_FRONT)
-                .setRequestedFps(30.0f)
-                .build();
+
+        if(getFrontCameraId() == -1){
+            mCameraSource = new CameraSource.Builder(context, detector)
+                    .setRequestedPreviewSize(640, 480)
+                    .setFacing(CameraSource.CAMERA_FACING_BACK)
+                    .setRequestedFps(30.0f)
+                    .build();
+        }else{
+            mCameraSource = new CameraSource.Builder(context, detector)
+                    .setRequestedPreviewSize(640, 480)
+                    .setFacing(CameraSource.CAMERA_FACING_FRONT)
+                    .setRequestedFps(30.0f)
+                    .build();
+        }
+    }
+
+    int getFrontCameraId() {
+        if (Build.VERSION.SDK_INT < 22) {
+            Camera.CameraInfo ci = new Camera.CameraInfo();
+            for (int i = 0; i < Camera.getNumberOfCameras(); i++) {
+                Camera.getCameraInfo(i, ci);
+                if (ci.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) return i;
+            }
+        } else {
+            try {
+                CameraManager cManager = (CameraManager) getApplicationContext()
+                        .getSystemService(Context.CAMERA_SERVICE);
+                String[] cameraId = cManager.getCameraIdList();
+                for ( int j = 0;j<cameraId.length; j++) {
+                    CameraCharacteristics characteristics = cManager.getCameraCharacteristics(cameraId[j]);
+                    int cOrientation = characteristics.get(CameraCharacteristics.LENS_FACING);
+                    if (cOrientation == CameraCharacteristics.LENS_FACING_FRONT)
+                        return Integer.parseInt(cameraId[j]);
+                }
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        return -1; // No front-facing camera found
     }
 
     /**
@@ -503,6 +542,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                 mCameraSource.release();
                 mCameraSource = null;
             }
+
         }
 
     }
@@ -801,7 +841,8 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
 
         if (v.getId() == doneRecording.getId()) {
-
+            mPreview.stop();
+            mPreview.release();
             isRecording = false;
             if (! isSavingAudioFile) {
                 isSavingAudioFile = true;
@@ -931,6 +972,17 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                 isSavingAudioFile = false;
             }
         });
+
+        gj.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mp, int what, int extra) {
+                gj.setVisibility(View.GONE);
+                rLayout.setVisibility(View.GONE);
+                return false;
+            }
+        });
+
+
 
         ContentValues c = new ContentValues();
         c.put("TIMESTAMP", System.currentTimeMillis());
