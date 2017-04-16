@@ -35,11 +35,12 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     private double avgTime;
     private int[] blockArray, sadArray, neutralArray, disguiseArray, angryArray, neutralSadArray, neutralDisguiseArray, neutralAngryArray;
     private final static int blockArraySize = 240, imageArraySize = 15;
-    private MediaPlayer mediaplayer;
+
     private boolean status;
     private SharedPreferences sharedPref;
     private final String SHARED_PREF_KEY = "ABMT";
     private final String ABMT_CORRECT_COUNT = "ABMT_CORRECT_COUNT";
+    private int blankScreenTimerValue, countDownTimerValue, responseTimerValue, transitionTimeValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +65,13 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         index = 0;
         neutral = 0;
         totalAttempts = 0;
-        mediaplayer = MediaPlayer.create(this,R.raw.ding);
-        status = !getIntent().getStringExtra("status").equals("trial");
-        System.out.println("status here"+status);
+
+        status = getIntent().getStringExtra("status").equals("trial");
+        System.out.println("status here "+status);
+        blankScreenTimerValue = status ? 500 : 1000;
+        countDownTimerValue = status ? 500 : 1000;
+        responseTimerValue = status? 200 : 4000;
+        transitionTimeValue = status? 1800 : 6000;
         //blankScreen();
         //showBlankScreen();
         initSharedPref();
@@ -115,7 +120,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             neutralDisguiseArray[i] = i;
         }
 
-        responseTimer = new CountDownTimer(200,100) {
+        responseTimer = new CountDownTimer(responseTimerValue,responseTimerValue/2) {
             @Override
             public void onTick(long l) {
 
@@ -126,7 +131,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
                 transitionScreen();
             }
         };
-        transitionTimer = new CountDownTimer(1800,900) {
+        transitionTimer = new CountDownTimer(transitionTimeValue,transitionTimeValue/2) {
             @Override
             public void onTick(long l) {
 
@@ -137,7 +142,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
                 showBlankScreen();
             }
         };
-        blankScreenTimer = new CountDownTimer(500,250) {
+        blankScreenTimer = new CountDownTimer(blankScreenTimerValue,blankScreenTimerValue/2) {
             @Override
             public void onTick(long l) {
                 //screenWithBlankImages();
@@ -148,7 +153,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
                 fetchImages();
             }
         };
-        countDownTimer = new CountDownTimer(500,250) {
+        countDownTimer = new CountDownTimer(countDownTimerValue,countDownTimerValue/2) {
 
             public void onTick(long millisUntilFinished) {
 
@@ -358,6 +363,8 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             timeDiff = System.currentTimeMillis() - startTime;
             if(neutral == 0 && divisionId != 0) {
                 count++;
+                MediaPlayer mediaplayer;
+                mediaplayer = MediaPlayer.create(this,R.raw.ding);
                 mediaplayer.start();
                 this.setCorrectCount();
                 measureSpeed();
@@ -381,6 +388,8 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         if(v.getId() == rightButton.getId()) {
             timeDiff = System.currentTimeMillis() - startTime;
             if(neutral == 1 && divisionId != 0) {
+                MediaPlayer mediaplayer;
+                mediaplayer = MediaPlayer.create(this,R.raw.ding);
                 mediaplayer.start();
                 count++;
                 this.setCorrectCount();
