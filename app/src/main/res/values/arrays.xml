@@ -68,4 +68,34 @@
         <item>@drawable/angry_14</item>
         <item>@drawable/angry_15</item>
     </array>
+    <array name="training_neutral_actor_1">
+        <item>@drawable/training_neutral_1</item>
+        <item>@drawable/training_neutral_2</item>
+        <item>@drawable/training_neutral_3</item>
+    </array>
+    <array name="training_emotional_actor_1">
+        <item>@drawable/training_emotional_1</item>
+        <item>@drawable/training_emotional_2</item>
+        <item>@drawable/training_emotional_3</item>
+    </array>
+    <array name="training_neutral_actor_2">
+        <item>@drawable/training_neutral_4</item>
+        <item>@drawable/training_neutral_5</item>
+        <item>@drawable/training_neutral_6</item>
+        <item>@drawable/training_neutral_7</item>
+        <item>@drawable/training_neutral_4</item>
+        <item>@drawable/training_neutral_5</item>
+        <item>@drawable/training_neutral_6</item>
+        <item>@drawable/training_neutral_7</item>
+    </array>
+    <array name="training_emotional_actor_2">
+        <item>@drawable/training_emotional_4</item>
+        <item>@drawable/training_emotional_5</item>
+        <item>@drawable/training_emotional_6</item>
+        <item>@drawable/training_emotional_7</item>
+        <item>@drawable/training_emotional_8</item>
+        <item>@drawable/training_emotional_9</item>
+        <item>@drawable/training_emotional_10</item>
+        <item>@drawable/training_emotional_11</item>
+    </array>
 </resources>
