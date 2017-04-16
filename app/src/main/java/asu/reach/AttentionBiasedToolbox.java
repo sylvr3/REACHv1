@@ -21,7 +21,7 @@ import java.util.Random;
 public class AttentionBiasedToolbox extends Activity implements View.OnClickListener{
     private ImageView imgTop, imgBottom;
     private Random random;
-    private TypedArray neutralImgs, sadImgs, disguiseImgs, angryImgs;
+    private TypedArray neutralImgs, sadImgs, disguiseImgs, angryImgs, traingActorNeutral1, traingActorEmotional1, traingActorNeutral2, traingActorEmotional2;
     private Bitmap[] bmap;
     private int neutral,count, index, totalAttempts, indexSad, indexDisguise, indexAngry, indexNeutral, divisionId;
     private CountDownTimer countDownTimer, blankScreenTimer, responseTimer, transitionTimer;
@@ -34,44 +34,53 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     private long timeDiff, startTime, blockStart;
     private double avgTime;
     private int[] blockArray, sadArray, neutralArray, disguiseArray, angryArray, neutralSadArray, neutralDisguiseArray, neutralAngryArray;
-    private final static int blockArraySize = 240, imageArraySize = 15;
-
+    private static int blockArraySize, imageArraySize = 15;
     private boolean status;
     private SharedPreferences sharedPref;
     private final String SHARED_PREF_KEY = "ABMT";
     private final String ABMT_CORRECT_COUNT = "ABMT_CORRECT_COUNT";
     private int blankScreenTimerValue, countDownTimerValue, responseTimerValue, transitionTimeValue;
+    private int[] trainingActor1Array, trainingActor2Array;
+    private int actor1Index, actor2Index;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attention_biased_toolbox);
+        status = getIntent().getStringExtra("status").equals("trial");
         random = new Random();
         bmap = new Bitmap[2];
         blockArray = new int[blockArraySize];
-        sadArray = new int[imageArraySize];
-        neutralSadArray = new int[imageArraySize];
-        angryArray = new int[imageArraySize];
-        neutralAngryArray = new int[imageArraySize];
-        disguiseArray = new int[imageArraySize];
-        neutralDisguiseArray = new int[imageArraySize];
-        neutralArray = new int[imageArraySize];
+        if(status) {
+            sadArray = new int[imageArraySize];
+            neutralSadArray = new int[imageArraySize];
+            angryArray = new int[imageArraySize];
+            neutralAngryArray = new int[imageArraySize];
+            disguiseArray = new int[imageArraySize];
+            neutralDisguiseArray = new int[imageArraySize];
+            neutralArray = new int[imageArraySize];
+        } else {
+            trainingActor1Array = new int[3];
+            trainingActor2Array = new int[8];
+        }
+
         indexAngry = 0;
         indexDisguise = 0;
         indexNeutral = 0;
         indexNeutral = 0;
+        actor1Index = 0;
+        actor2Index = 0;
         //threatImgs = getResources().obtainTypedArray(R.array.threat_images);
         //imageIndArray = new int[neutralImgs.length()];
         index = 0;
         neutral = 0;
         totalAttempts = 0;
-
-        status = getIntent().getStringExtra("status").equals("trial");
         System.out.println("status here "+status);
         blankScreenTimerValue = status ? 500 : 1000;
         countDownTimerValue = status ? 500 : 1000;
         responseTimerValue = status? 200 : 4000;
         transitionTimeValue = status? 1800 : 6000;
+        blockArraySize = status ? 240 : 40;
         //blankScreen();
         //showBlankScreen();
         initSharedPref();
@@ -81,10 +90,17 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     }
 
     public void UIInitialization() {
-        neutralImgs = getResources().obtainTypedArray(R.array.neutral_images);
-        sadImgs = getResources().obtainTypedArray(R.array.sad_images);
-        disguiseImgs = getResources().obtainTypedArray(R.array.disguise_imgaes);
-        angryImgs = getResources().obtainTypedArray(R.array.angry_images);
+        if(status) {
+            neutralImgs = getResources().obtainTypedArray(R.array.neutral_images);
+            sadImgs = getResources().obtainTypedArray(R.array.sad_images);
+            disguiseImgs = getResources().obtainTypedArray(R.array.disguise_imgaes);
+            angryImgs = getResources().obtainTypedArray(R.array.angry_images);
+        } else {
+            traingActorNeutral1 = getResources().obtainTypedArray(R.array.training_neutral_actor_1);
+            traingActorEmotional1 = getResources().obtainTypedArray(R.array.training_emotional_actor_1);
+            traingActorNeutral2 = getResources().obtainTypedArray(R.array.training_neutral_actor_2);
+            traingActorEmotional2 = getResources().obtainTypedArray(R.array.training_emotional_actor_2);
+        }
         imgTop= (ImageView)findViewById(R.id.imgTop);
         imgBottom = (ImageView)findViewById(R.id.imgBottom);
         Typeface font = Typeface.createFromAsset(getAssets(), "agentorange.ttf");
@@ -110,14 +126,21 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     public void ArrayCounterInitialization() {
         //for(int i = 0; i < imageIndArray.length; i++) imageIndArray[i] = i;
         for(int i = 0; i < blockArraySize; i++) blockArray[i] = i;
-        for(int i = 0; i < imageArraySize; i++) {
-            sadArray[i] = i;
-            neutralSadArray[i] = i;
-            angryArray[i] = i;
-            neutralAngryArray[i] = i;
-            neutralArray[i] = i;
-            disguiseArray[i] = i;
-            neutralDisguiseArray[i] = i;
+        if(status) {
+            for (int i = 0; i < imageArraySize; i++) {
+                sadArray[i] = i;
+                neutralSadArray[i] = i;
+                angryArray[i] = i;
+                neutralAngryArray[i] = i;
+                neutralArray[i] = i;
+                disguiseArray[i] = i;
+                neutralDisguiseArray[i] = i;
+            }
+        } else {
+            for(int i = 0; i < 8; i++) {
+                trainingActor2Array[i] = i;
+                if(i < 3) trainingActor1Array[i] = i;
+            }
         }
 
         responseTimer = new CountDownTimer(responseTimerValue,responseTimerValue/2) {
@@ -150,7 +173,8 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
 
             @Override
             public void onFinish() {
-                fetchImages();
+                if (status) fetchImages();
+                else fetchImagesTraining();
             }
         };
         countDownTimer = new CountDownTimer(countDownTimerValue,countDownTimerValue/2) {
@@ -172,7 +196,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         }
     }
     public void measureSpeed() {
-        timeDiff = (timeDiff < 200)?timeDiff:200;
+        timeDiff = (timeDiff < responseTimerValue)?timeDiff:responseTimerValue;
         avgTime += timeDiff;
     }
 
@@ -230,6 +254,9 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         responseTimer.start();
     }
     public void blockStart() {
+        totalAttempts = 0;
+        actor1Index = 0;
+        actor2Index = 0;
         shuffleBlockArray();
         blockStart = System.currentTimeMillis();
         showBlankScreen();
@@ -247,13 +274,13 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         //viewFlipper.showNext();
         viewFlipper.setDisplayedChild(0);
         plusImage.setVisibility(View.VISIBLE);
-        if(totalAttempts == 240) {
+        if(totalAttempts == blockArraySize) {
             count = 0;
             viewFlipper.setDisplayedChild(2);
             String speed = "Please start again";
             String result = "Attemps Over";
             resultText.setText(result);
-            totalAttempts = 0;
+            //totalAttempts = 0;
             speedText.setText(speed);
             setUpAgain();
         }
@@ -263,7 +290,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             String speed = "Please start again";
             String result = "Time Over";
             resultText.setText(result);
-            totalAttempts = 0;
+            //totalAttempts = 0;
             speedText.setText(speed);
             setUpAgain();
         }
@@ -341,6 +368,45 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         startTimer();
     }
 
+    public void fetchImagesTraining() {
+        blankScreenTimer.cancel();
+        //int bitMapInd = random.nextInt(2);
+        int rndIndex = random.nextInt(blockArraySize-index) + index;
+        neutral = (blockArray[rndIndex] & 1) == 1 ? 1 : 0;
+        //divisionId = blockArray[rndIndex] / 60;
+        int topImg = 0, bottomImg = 0;
+        swapIndex(blockArray,rndIndex,index);
+        if((index & 1) == 1) {
+            int rndActor1Ind = random.nextInt(3-actor1Index)+actor1Index;
+            topImg = traingActorNeutral1.getResourceId(trainingActor1Array[rndActor1Ind],0);
+            bottomImg = traingActorEmotional1.getResourceId(trainingActor1Array[rndActor1Ind],0);
+            swapIndex(trainingActor1Array,rndActor1Ind,actor1Index);
+            actor1Index = (actor1Index+1)%3;
+        } else {
+            int rndActor2Ind = random.nextInt(8-actor2Index)+actor2Index;
+            topImg = traingActorNeutral2.getResourceId(trainingActor2Array[rndActor2Ind],0);
+            bottomImg = traingActorEmotional2.getResourceId(trainingActor2Array[rndActor2Ind],0);
+            swapIndex(trainingActor2Array,rndActor2Ind,actor2Index);
+            actor2Index = (actor2Index+1)%8;
+        }
+        index = (index + 1)%blockArraySize;
+        bmap[0] = (neutral == 0)? BitmapFactory.decodeResource(getResources(),topImg):BitmapFactory.decodeResource(getResources(),bottomImg);
+        bmap[1] = (neutral == 1)? BitmapFactory.decodeResource(getResources(),topImg):BitmapFactory.decodeResource(getResources(),bottomImg);
+        viewFlipper.setDisplayedChild(1);
+        imgTop.setVisibility(View.VISIBLE);
+        plusBtwImageView.setVisibility(View.VISIBLE);
+        imgBottom.setVisibility(View.VISIBLE);
+        rightButton.setEnabled(true);
+        leftButton.setEnabled(true);
+        leftButton.setVisibility(View.VISIBLE);
+        rightButton.setVisibility(View.VISIBLE);
+        plusImage.setVisibility(View.INVISIBLE);
+        imgTop.setImageBitmap(bmap[0]);
+        imgBottom.setImageBitmap(bmap[1]);
+        totalAttempts++;
+        startTimer();
+    }
+
     public void setUpAgain() {
         countDownTimer.cancel();
         blankScreenTimer.cancel();
@@ -374,7 +440,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
                     avgTime = avgTime / totalAttempts;
                     String speed = "Speed: " + new DecimalFormat("###.##").format(avgTime);
                     String result = "Score: " + totalAttempts;
-                    totalAttempts = 0;
+                    //totalAttempts = 0;
                     resultText.setText(result);
                     speedText.setText(speed);
                     setUpAgain();
@@ -400,7 +466,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
                     avgTime = avgTime / totalAttempts;
                     String speed = "Speed: " + new DecimalFormat("###.##").format(avgTime);
                     String result = "Score: " + totalAttempts;
-                    totalAttempts = 0;
+                    //totalAttempts = 0;
                     resultText.setText(result);
                     speedText.setText(speed);
                     setUpAgain();
@@ -416,7 +482,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         if(v.getId() == restartButton.getId()) {
             //viewFlipper.showNext();
             //viewFlipper.showPrevious();
-            totalAttempts = 0;
+            //totalAttempts = 0;
             //showBlankScreen();
             blockStart();
 
