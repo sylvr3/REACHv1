@@ -54,6 +54,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         status = getIntent().getStringExtra("status").equals("trial");
         random = new Random();
         bmap = new Bitmap[2];
+        blockArraySize = status ? 240 : 40;
         blockArray = new int[blockArraySize];
         if(status) {
             sadArray = new int[imageArraySize];
@@ -84,7 +85,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         countDownTimerValue = status ? 500 : 1000;
         responseTimerValue = status? 200 : 4000;
         transitionTimeValue = status? 1800 : 6000;
-        blockArraySize = status ? 240 : 40;
+
         //blankScreen();
         //showBlankScreen();
         initSharedPref();
@@ -432,31 +433,32 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         array[j] = temp;
     }
 
+    public void trueResponse() {
+        count++;
+        MediaPlayer mediaplayer;
+        mediaplayer = MediaPlayer.create(this,R.raw.ding);
+        mediaplayer.start();
+        if(status) this.setCorrectCount();
+        measureSpeed();
+        if( (status && count == 128) || (!status && totalAttempts == 40)) {
+            count = 0;
+            viewFlipper.setDisplayedChild(2);
+            avgTime = avgTime / totalAttempts;
+            String speed = "Speed: " + new DecimalFormat("###.##").format(avgTime);
+            String result = "Score: " + totalAttempts;
+            //totalAttempts = 0;
+            resultText.setText(result);
+            speedText.setText(speed);
+            setUpAgain();
+        }
+        else showBlankScreen();
+    }
     @Override
     public void onClick(View v) {
         if(v.getId() == leftButton.getId()) {
             timeDiff = System.currentTimeMillis() - startTime;
-            if(neutral == 0 && divisionId != 0) {
-                count++;
-                MediaPlayer mediaplayer;
-                mediaplayer = MediaPlayer.create(this,R.raw.ding);
-                mediaplayer.start();
-                this.setCorrectCount();
-                measureSpeed();
-                if(count == 5) {
-                    count = 0;
-                    viewFlipper.setDisplayedChild(2);
-                    avgTime = avgTime / totalAttempts;
-                    String speed = "Speed: " + new DecimalFormat("###.##").format(avgTime);
-                    String result = "Score: " + totalAttempts;
-                    totalAttempts = 0;
-                    progressBar.setVisibility(View.VISIBLE);
-                    progressBar.setProgress(totalAttempts);
-                    resultText.setText(result);
-                    speedText.setText(speed);
-                    setUpAgain();
-                }
-                else showBlankScreen();
+            if(neutral == 0) {
+                if(!status || divisionId != 0) trueResponse();
             }
 
             //avgTime += timeDiff;
@@ -464,27 +466,9 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         }
         if(v.getId() == rightButton.getId()) {
             timeDiff = System.currentTimeMillis() - startTime;
-            if(neutral == 1 && divisionId != 0) {
-                MediaPlayer mediaplayer;
-                mediaplayer = MediaPlayer.create(this,R.raw.ding);
-                mediaplayer.start();
-                count++;
-                this.setCorrectCount();
-                measureSpeed();
-                if(count == 5) {
-                    count = 0;
-                    viewFlipper.setDisplayedChild(2);
-                    avgTime = avgTime / totalAttempts;
-                    String speed = "Speed: " + new DecimalFormat("###.##").format(avgTime);
-                    String result = "Score: " + totalAttempts;
-                    //totalAttempts = 0;
-                    resultText.setText(result);
-                    speedText.setText(speed);
-                    setUpAgain();
-                }
-                else showBlankScreen();
+            if(neutral == 1) {
+                if(!status || divisionId != 0) trueResponse();
             }
-
             //System.out.println(timeDiff);
             //avgTime += timeDiff;
             //System.out.println(avgTime);
