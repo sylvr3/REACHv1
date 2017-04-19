@@ -6,6 +6,7 @@ import android.app.FragmentManager;
 import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -17,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -30,7 +32,7 @@ import java.util.Calendar;
 public class Landing extends Activity implements View.OnClickListener,DialogInterface.OnClickListener, GestureDetector.OnGestureListener {
 
     private SQLiteDatabase db;
-    private RelativeLayout topLeftLayout, topRightLayout, bottomLeftLayout, bottomRightLayout;
+    private RelativeLayout topLeftLayout, topRightLayout, bottomLeftLayout, bottomRightLayout, standupProgressBar, standupProgressLevel, facesProgressBar, facesProgressLevel;
     private ImageButton mb,stic,abmt,relax,wh,standUp;
     private ImageView blob,abmtGlow,sticGlow,whGlow,mbGlow,relaxGlow, standUpGlow;
     private ViewSwitcher viewSwitcher;
@@ -95,6 +97,12 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         relaxGlow = (ImageView)findViewById(R.id.relaxGlow);
         standUpGlow = (ImageView)findViewById(R.id.standupGlow);      //safe
         viewSwitcher = (ViewSwitcher)findViewById(R.id.viewSwitcher);
+
+        standupProgressBar = (RelativeLayout) findViewById(R.id.relativeLayout7);
+        standupProgressLevel = (RelativeLayout) findViewById(R.id.safeBarLayout);
+        facesProgressBar = (RelativeLayout) findViewById(R.id.relativeLayout8);
+        facesProgressLevel = (RelativeLayout) findViewById(R.id.abmtBarLayout);
+
         topLeft = false;
         topRight = false;
         bottomRight = false;
@@ -169,9 +177,21 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         }
         /*aManager= (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         setRepeatingAlarm();*/
+
+        updateProgress();
     }
 
+    public void updateProgress(){
+        int facesProgressBarHeight = facesProgressBar.getHeight();
+        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("ABMT", MODE_PRIVATE);
+        int correctCount = sharedPref.getInt("ABMT_CORRECT_COUNT", 0);
+        double percentCompleted = (double)correctCount/ (double)7500;
+        int level = (int) (facesProgressBarHeight*percentCompleted);
 
+        ViewGroup.LayoutParams params = facesProgressLevel.getLayoutParams();
+        params.height = level;
+        facesProgressLevel.setLayoutParams(params);
+    }
 
     public void setRepeatingAlarm() {
         Intent intent = new Intent(this, NotifManager.class);

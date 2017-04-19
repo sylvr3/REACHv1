@@ -140,13 +140,13 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/mbBtn"
                     android:background="@drawable/mb_selector"
-                    android:layout_alignParentEnd="false"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="15dp"
-                    android:layout_toLeftOf="@+id/relaxBtn"
-                    android:layout_marginTop="-5dp"
-                    android:layout_alignTop="@+id/relaxBtn" />
+                    android:layout_alignStart="@id/sticBtn"
+                    android:layout_alignEnd="@id/sticBtn"
+                    android:layout_marginBottom="20dp"
+                    android:layout_toStartOf="@+id/relaxBtn"
+                    android:layout_marginTop="-20dp"
+                    android:layout_alignTop="@+id/relaxBtn"
+                    android:layout_alignBottom="@id/relaxBtn"/>
 
                 <ImageButton
                     android:layout_width="wrap_content"
@@ -164,9 +164,9 @@
                     android:id="@+id/sticBtn"
                     android:background="@drawable/stic_selector"
                     android:layout_alignParentEnd="false"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginEnd="5dp"
                     android:layout_marginBottom="15dp"
-                    android:layout_toLeftOf="@+id/abmtBtn"
+                    android:layout_toStartOf="@+id/abmtBtn"
                     android:layout_marginTop="30dp"
                     android:layout_alignTop="@+id/abmtBtn" />
 
@@ -178,27 +178,29 @@
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginTop="55dp" />
+                    android:layout_marginTop="55dp"
+                    android:layout_marginEnd="5dp"/>
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/standupBtn"
                     android:background="@drawable/stand_up_selector"
-                    android:layout_toRightOf="@+id/relaxBtn"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
+                    android:layout_toEndOf="@+id/relaxBtn"
                     android:layout_marginBottom="20dp"
-                    android:layout_alignTop="@+id/relaxBtn"
-                    android:layout_marginTop="-15dp" />
+                    android:layout_marginTop="-20dp"
+                    android:layout_alignBottom="@id/relaxBtn"
+                    android:layout_alignTop="@id/relaxBtn"
+                    android:layout_alignStart="@id/whBtn"
+                    android:layout_alignEnd="@id/whBtn"/>
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/whBtn"
                     android:background="@drawable/wh_selector"
-                    android:layout_toRightOf="@+id/abmtBtn"
-                    android:layout_marginLeft="5dp"
+                    android:layout_toEndOf="@+id/abmtBtn"
+                    android:layout_marginStart="5dp"
                     android:layout_marginBottom="15dp"
                     android:layout_alignTop="@+id/abmtBtn"
                     android:layout_marginTop="30dp" />
@@ -245,12 +247,14 @@
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:gravity="center_horizontal"
-            android:background="@drawable/progress_bg">
+            android:background="@drawable/progress_bg"
+            android:paddingTop="120dp"
+            android:weightSum="5">
 
+            <!--
             <RelativeLayout
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="120dp"
                 android:layout_marginRight="5dp"
                 android:background="@drawable/border_bg"
                 android:gravity="center"
@@ -275,15 +279,15 @@
                     android:src="@drawable/dd_bar_text"
                     android:layout_centerInParent="true" />
             </RelativeLayout>
+            -->
 
             <RelativeLayout
-                android:layout_width="50dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:id="@+id/relativeLayout5"
-                android:layout_toRightOf="@+id/relaxBarLayout"
-                android:layout_marginTop="120dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/border_bg">
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/border_bg"
+                android:layout_weight="1">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -297,21 +301,20 @@
                 </RelativeLayout>
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:id="@+id/imageView5"
                     android:src="@drawable/stic_bar_text"
-                    android:layout_centerInParent="true" />
+                    android:layout_centerInParent="true"/>
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="50dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:id="@+id/relativeLayout4"
-                android:layout_toRightOf="@+id/sticBarLayout"
-                android:layout_marginTop="120dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/border_bg">
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/border_bg"
+                android:layout_weight="1">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -325,17 +328,17 @@
                 </RelativeLayout>
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:id="@+id/imageView7"
                     android:src="@drawable/wh_bar_text"
                     android:layout_centerInParent="true" />
             </RelativeLayout>
 
+            <!--
             <RelativeLayout
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="120dp"
                 android:layout_marginRight="5dp"
                 android:background="@drawable/border_bg">
 
@@ -357,15 +360,15 @@
                     android:src="@drawable/stop_bar_text"
                     android:layout_centerInParent="true" />
             </RelativeLayout>
+            -->
 
             <RelativeLayout
-                android:layout_width="50dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:id="@+id/relativeLayout6"
-                android:layout_toRightOf="@+id/ddBarLayout"
-                android:layout_marginTop="120dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/border_bg">
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/border_bg"
+                android:layout_weight="1">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -379,21 +382,20 @@
                 </RelativeLayout>
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:id="@+id/imageView4"
                     android:src="@drawable/relax_bar_text"
                     android:layout_centerInParent="true" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="50dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:id="@+id/relativeLayout7"
-                android:layout_toRightOf="@+id/safeBarLayout"
-                android:layout_marginTop="120dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/border_bg">
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/border_bg"
+                android:layout_weight="1">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -407,21 +409,19 @@
                 </RelativeLayout>
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:id="@+id/safeTextImageView"
                     android:src="@drawable/standup_bar_text"
                     android:layout_centerInParent="true" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="50dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:id="@+id/relativeLayout8"
-                android:layout_toRightOf="@+id/abmtBarLayout"
-                android:layout_marginTop="120dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/border_bg">
+                android:background="@drawable/border_bg"
+                android:layout_weight="1">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -435,17 +435,12 @@
                 </RelativeLayout>
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:id="@+id/ambtTextImageView"
                     android:src="@drawable/faces_bar_text"
                     android:layout_centerInParent="true" />
             </RelativeLayout>
         </LinearLayout>
-
     </ViewSwitcher>
-
-
-
-
 </RelativeLayout>
