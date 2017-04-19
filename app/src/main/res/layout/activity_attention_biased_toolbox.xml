@@ -21,21 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/instructionsText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text=""
-                android:textColor="#32CD32"
-                android:textSize="20dp" />
-
-            <Button
-                android:id="@+id/goButton"
-                android:layout_width="80dp"
-                android:layout_height="40dp"
-                android:layout_gravity="bottom|right"
-                android:text="Go" />
-
             <LinearLayout
                 android:id="@+id/linearLayout2"
                 android:layout_width="match_parent"
@@ -50,8 +35,6 @@
                     android:layout_gravity="center"
                     android:scaleType="center"
                     android:src="@drawable/plus" />
-
-
                 />
             </LinearLayout>
 
@@ -170,7 +153,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:orientation="horizontal" />
+                android:orientation="horizontal"/>
+
+            <TextView
+                android:id="@+id/instructionsText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=""
+                android:layout_gravity="center"
+                android:textColor="#32CD32"
+                android:textSize="20dp" />
+
+            <Button
+                android:id="@+id/goButton"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_gravity="bottom|right"
+                android:text="Go" />
+
 
         </ViewFlipper>
     </ViewSwitcher>

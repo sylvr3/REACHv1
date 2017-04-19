@@ -130,34 +130,35 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         rightButton.setOnClickListener(this);
         restartButton.setOnClickListener(this);
         goButton.setOnClickListener(this);
+        plusImage.setVisibility(View.INVISIBLE);
+        plusBtwImageView.setVisibility(View.INVISIBLE);
         imgTop.setVisibility(View.INVISIBLE);
         imgBottom.setVisibility(View.INVISIBLE);
         restartButton.setVisibility(View.INVISIBLE);
         instructionsText.setVisibility(View.VISIBLE);
-        instructionsText.setText("Tap the right arrow button if the arrow behind the face was pointing right\n" +
+        instructionsText.setText(" " + "Tap the right arrow button if the arrow behind the face was pointing right\n" +
                 "\n" +
                 "     '>'\n" +
                 "\n" +
                 "\n" +
-                "Tap here if the arrow behind the face was pointing left\n" +
+                " " + "Tap here if the arrow behind the face was pointing left\n" +
                 "\n" +
                 "\n" +
-                "'<'\n" +
+                "     '<'\n" +
                 "\n" +
                 "\n" +
-                "---------\n" +
                 "\n" +
-                "Pay attention\n" +
+                " " + "Pay attention\n" +
                 "\n" +
-                "Look for the arrow behind the face\n" +
+                " " + "Look for the arrow behind the face\n" +
                 "\n" +
-                "Tap really fast!\n" +
-                "\n" +
-                "\n" +
-                "Ready?\n" +
+                " " + "Tap really fast!\n" +
                 "\n" +
                 "\n" +
-                "Go!\n" +
+                " " + "Ready?\n" +
+                "\n" +
+                "\n" +
+                " " + "Go!\n" +
                 "\n" +
                 "------------------------");
         goButton.setVisibility(View.VISIBLE);
@@ -250,6 +251,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         rightButton.setVisibility(View.VISIBLE);
         rightButton.setEnabled(false);
         leftButton.setEnabled(false);
+
     }
 
     protected void onStop() {
@@ -258,6 +260,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         blankScreenTimer.cancel();
         responseTimer.cancel();
         transitionTimer.cancel();
+
     }
    /* public void screenWithBlankImages() {
         //System.out.println("+ sign is removed");
@@ -310,6 +313,8 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         imgBottom.setVisibility(View.INVISIBLE);
         leftButton.setVisibility(View.INVISIBLE);
         rightButton.setVisibility(View.INVISIBLE);
+        goButton.setVisibility(View.INVISIBLE);
+        instructionsText.setVisibility(View.INVISIBLE);
         //viewFlipper.showNext();
         viewFlipper.setDisplayedChild(0);
         plusImage.setVisibility(View.VISIBLE);
@@ -401,6 +406,8 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         leftButton.setVisibility(View.VISIBLE);
         rightButton.setVisibility(View.VISIBLE);
         plusImage.setVisibility(View.INVISIBLE);
+        goButton.setVisibility(View.INVISIBLE);
+        instructionsText.setVisibility(View.INVISIBLE);
         imgTop.setImageBitmap(bmap[0]);
         imgBottom.setImageBitmap(bmap[1]);
         totalAttempts++;
@@ -455,6 +462,8 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         transitionTimer.cancel();
         //viewFlipper.showNext();
         restartButton.setVisibility(View.VISIBLE);
+        goButton.setVisibility(View.INVISIBLE);
+        instructionsText.setVisibility(View.INVISIBLE);
 
     }
     //Swap the indices to populate the images which is not generated in previous hits.
