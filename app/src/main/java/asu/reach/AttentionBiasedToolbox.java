@@ -48,6 +48,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     private int blankScreenTimerValue, countDownTimerValue, responseTimerValue, transitionTimeValue;
     private int[] trainingActor1Array, trainingActor2Array;
     private int actor1Index, actor2Index;
+    private boolean disableTrial;
     ABMTStartScreen abmtss = new ABMTStartScreen();
 
     @Override
@@ -482,8 +483,8 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         mediaplayer.start();
         if(status) this.setCorrectCount();
         measureSpeed();
-        if( (status && count == 10) || (!status && totalAttempts == 10)) {
-            abmtss.setDisableTrial(false); // if tutorials are completed, enhable trial button
+        if( (status && count == 128) || (!status && totalAttempts == 40)) {
+            makeTrialAvailable();
             count = 0;
             viewFlipper.setDisplayedChild(2);
             avgTime = avgTime / totalAttempts;
@@ -557,13 +558,14 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         }
     }
 
-    /*
-    @Override
-    public void onBackPressed() {
+    public void makeTrialAvailable() {
 
-        Intent intent = new Intent();
-        intent.putExtra("enableTrial", abmtss.disableTrial);
-        setResult(Activity.RESULT_OK, intent);
+        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        disableTrial = false;
+        editor.putBoolean("disableTrial", disableTrial);
     }
-    */
+
+
+
 }
