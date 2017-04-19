@@ -2,6 +2,7 @@ package asu.reach;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ public class ABMTStartScreen extends Activity implements View.OnClickListener{
     private Button trialButton, tutorailButton;
     private ImageButton homeImageButton;
     public Intent intent;
+    private SharedPreferences sharedPref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +30,11 @@ public class ABMTStartScreen extends Activity implements View.OnClickListener{
         trialButton.setOnClickListener(this);
         tutorailButton.setOnClickListener(this);
         intent = new Intent(getBaseContext(),AttentionBiasedToolbox.class);
+        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+        if (sharedPreferences.getBoolean("disableTrial", false))
+            trialButton.setEnabled(true);
+        else
+            trialButton.setEnabled(false);
     }
 
     @Override
@@ -44,4 +52,6 @@ public class ABMTStartScreen extends Activity implements View.OnClickListener{
             this.finish();
         }
     }
+
+
 }

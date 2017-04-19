@@ -1,6 +1,7 @@
 package asu.reach;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import java.text.DecimalFormat;
@@ -30,7 +32,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     private ImageView plusImage;
     private ImageView plusBtwImageView;
     private ViewFlipper viewFlipper;
-    private Button leftButton, rightButton, restartButton;
+    private Button leftButton, rightButton, restartButton, goButton;
     private int[] imageIndArray;
     private EditText resultText, speedText;
     private long timeDiff, startTime, blockStart;
@@ -42,9 +44,12 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     private final String SHARED_PREF_KEY = "ABMT";
     private final String ABMT_CORRECT_COUNT = "ABMT_CORRECT_COUNT";
     private ProgressBar progressBar;
+    private TextView instructionsText;
     private int blankScreenTimerValue, countDownTimerValue, responseTimerValue, transitionTimeValue;
     private int[] trainingActor1Array, trainingActor2Array;
     private int actor1Index, actor2Index;
+    private boolean disableTrial;
+    ABMTStartScreen abmtss = new ABMTStartScreen();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,12 +95,8 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         //showBlankScreen();
         initSharedPref();
         UIInitialization();
-        ArrayCounterInitialization();
-        blockStart();
 
         ProgressBar progressBar = (ProgressBar)findViewById (R.id.circular_progress_bar);
-
-        //  ((TextView) findViewById(R.id.textView1)).setText(progressBar.getProgress() + "%");
         progressBar.setVisibility(View.GONE);
     }
 
@@ -116,6 +117,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         Typeface font = Typeface.createFromAsset(getAssets(), "agentorange.ttf");
         leftButton = (Button)findViewById(R.id.leftButton);
         restartButton = (Button)findViewById(R.id.restartButton);
+        goButton = (Button)findViewById(R.id.goButton);
         leftButton.setTypeface(font);
         rightButton = (Button)findViewById(R.id.rightButton);
         rightButton.setTypeface(font);
@@ -124,14 +126,45 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         viewFlipper = (ViewFlipper)findViewById(R.id.viewFlipper);
         resultText = (EditText)findViewById(R.id.resultText);
         speedText = (EditText)findViewById(R.id.speedText);
+        instructionsText = (TextView)findViewById(R.id.instructionsText);
         imgTop.setOnClickListener(this);
         imgBottom.setOnClickListener(this);
         leftButton.setOnClickListener(this);
         rightButton.setOnClickListener(this);
         restartButton.setOnClickListener(this);
+        goButton.setOnClickListener(this);
+        plusImage.setVisibility(View.INVISIBLE);
+        plusBtwImageView.setVisibility(View.INVISIBLE);
         imgTop.setVisibility(View.INVISIBLE);
         imgBottom.setVisibility(View.INVISIBLE);
         restartButton.setVisibility(View.INVISIBLE);
+        instructionsText.setVisibility(View.VISIBLE);
+        instructionsText.setText(" " + "Tap the right arrow button if the arrow behind the face was pointing right\n" +
+                "\n" +
+                "     '>'\n" +
+                "\n" +
+                "\n" +
+                " " + "Tap here if the arrow behind the face was pointing left\n" +
+                "\n" +
+                "\n" +
+                "     '<'\n" +
+                "\n" +
+                "\n" +
+                "\n" +
+                " " + "Pay attention\n" +
+                "\n" +
+                " " + "Look for the arrow behind the face\n" +
+                "\n" +
+                " " + "Tap really fast!\n" +
+                "\n" +
+                "\n" +
+                " " + "Ready?\n" +
+                "\n" +
+                "\n" +
+                " " + "Go!\n" +
+                "\n" +
+                "------------------------");
+        goButton.setVisibility(View.VISIBLE);
     }
     public void ArrayCounterInitialization() {
         //for(int i = 0; i < imageIndArray.length; i++) imageIndArray[i] = i;
@@ -221,6 +254,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         rightButton.setVisibility(View.VISIBLE);
         rightButton.setEnabled(false);
         leftButton.setEnabled(false);
+
     }
 
     protected void onStop() {
@@ -229,6 +263,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         blankScreenTimer.cancel();
         responseTimer.cancel();
         transitionTimer.cancel();
+
     }
    /* public void screenWithBlankImages() {
         //System.out.println("+ sign is removed");
@@ -281,6 +316,8 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         imgBottom.setVisibility(View.INVISIBLE);
         leftButton.setVisibility(View.INVISIBLE);
         rightButton.setVisibility(View.INVISIBLE);
+        goButton.setVisibility(View.INVISIBLE);
+        instructionsText.setVisibility(View.INVISIBLE);
         //viewFlipper.showNext();
         viewFlipper.setDisplayedChild(0);
         plusImage.setVisibility(View.VISIBLE);
@@ -372,6 +409,8 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         leftButton.setVisibility(View.VISIBLE);
         rightButton.setVisibility(View.VISIBLE);
         plusImage.setVisibility(View.INVISIBLE);
+        goButton.setVisibility(View.INVISIBLE);
+        instructionsText.setVisibility(View.INVISIBLE);
         imgTop.setImageBitmap(bmap[0]);
         imgBottom.setImageBitmap(bmap[1]);
         totalAttempts++;
@@ -411,6 +450,8 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         leftButton.setVisibility(View.VISIBLE);
         rightButton.setVisibility(View.VISIBLE);
         plusImage.setVisibility(View.INVISIBLE);
+        goButton.setVisibility(View.INVISIBLE);
+        instructionsText.setVisibility(View.INVISIBLE);
         imgTop.setImageBitmap(bmap[0]);
         imgBottom.setImageBitmap(bmap[1]);
         totalAttempts++;
@@ -424,6 +465,8 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         transitionTimer.cancel();
         //viewFlipper.showNext();
         restartButton.setVisibility(View.VISIBLE);
+        goButton.setVisibility(View.INVISIBLE);
+        instructionsText.setVisibility(View.INVISIBLE);
 
     }
     //Swap the indices to populate the images which is not generated in previous hits.
@@ -441,6 +484,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         if(status) this.setCorrectCount();
         measureSpeed();
         if( (status && count == 128) || (!status && totalAttempts == 40)) {
+            makeTrialAvailable();
             count = 0;
             viewFlipper.setDisplayedChild(2);
             avgTime = avgTime / totalAttempts;
@@ -483,7 +527,13 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
 
         }
 
+        if(v.getId() == goButton.getId()) {
+            goButton.setVisibility(View.INVISIBLE);
+            instructionsText.setVisibility(View.INVISIBLE);
+            ArrayCounterInitialization();
+            blockStart();
 
+        }
 
         System.out.println(count);
     }
@@ -507,4 +557,15 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             edit.putInt(ABMT_CORRECT_COUNT,correctCount + 1);
         }
     }
+
+    public void makeTrialAvailable() {
+
+        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        disableTrial = false;
+        editor.putBoolean("disableTrial", disableTrial);
+    }
+
+
+
 }
