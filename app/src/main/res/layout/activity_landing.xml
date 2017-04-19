@@ -247,12 +247,14 @@
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:gravity="center_horizontal"
-            android:background="@drawable/progress_bg">
+            android:background="@drawable/progress_bg"
+            android:paddingTop="120dp"
+            android:weightSum="5">
 
+            <!--
             <RelativeLayout
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="120dp"
                 android:layout_marginRight="5dp"
                 android:background="@drawable/border_bg"
                 android:gravity="center"
@@ -277,15 +279,15 @@
                     android:src="@drawable/dd_bar_text"
                     android:layout_centerInParent="true" />
             </RelativeLayout>
+            -->
 
             <RelativeLayout
-                android:layout_width="50dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:id="@+id/relativeLayout5"
-                android:layout_toRightOf="@+id/relaxBarLayout"
-                android:layout_marginTop="120dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/border_bg">
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/border_bg"
+                android:layout_weight="1">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -299,21 +301,20 @@
                 </RelativeLayout>
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:id="@+id/imageView5"
                     android:src="@drawable/stic_bar_text"
-                    android:layout_centerInParent="true" />
+                    android:layout_centerInParent="true"/>
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="50dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:id="@+id/relativeLayout4"
-                android:layout_toRightOf="@+id/sticBarLayout"
-                android:layout_marginTop="120dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/border_bg">
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/border_bg"
+                android:layout_weight="1">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -327,17 +328,17 @@
                 </RelativeLayout>
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:id="@+id/imageView7"
                     android:src="@drawable/wh_bar_text"
                     android:layout_centerInParent="true" />
             </RelativeLayout>
 
+            <!--
             <RelativeLayout
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="120dp"
                 android:layout_marginRight="5dp"
                 android:background="@drawable/border_bg">
 
@@ -359,15 +360,15 @@
                     android:src="@drawable/stop_bar_text"
                     android:layout_centerInParent="true" />
             </RelativeLayout>
+            -->
 
             <RelativeLayout
-                android:layout_width="50dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:id="@+id/relativeLayout6"
-                android:layout_toRightOf="@+id/ddBarLayout"
-                android:layout_marginTop="120dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/border_bg">
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/border_bg"
+                android:layout_weight="1">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -381,21 +382,20 @@
                 </RelativeLayout>
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:id="@+id/imageView4"
                     android:src="@drawable/relax_bar_text"
                     android:layout_centerInParent="true" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="50dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:id="@+id/relativeLayout7"
-                android:layout_toRightOf="@+id/safeBarLayout"
-                android:layout_marginTop="120dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/border_bg">
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/border_bg"
+                android:layout_weight="1">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -409,21 +409,19 @@
                 </RelativeLayout>
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:id="@+id/safeTextImageView"
                     android:src="@drawable/standup_bar_text"
                     android:layout_centerInParent="true" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="50dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:id="@+id/relativeLayout8"
-                android:layout_toRightOf="@+id/abmtBarLayout"
-                android:layout_marginTop="120dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/border_bg">
+                android:background="@drawable/border_bg"
+                android:layout_weight="1">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -437,17 +435,12 @@
                 </RelativeLayout>
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:id="@+id/ambtTextImageView"
                     android:src="@drawable/faces_bar_text"
                     android:layout_centerInParent="true" />
             </RelativeLayout>
         </LinearLayout>
-
     </ViewSwitcher>
-
-
-
-
 </RelativeLayout>
