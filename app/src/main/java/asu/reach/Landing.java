@@ -10,6 +10,7 @@ import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.Menu;
@@ -236,8 +237,13 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
 
         // Safe
         if(v.getId() == standUp.getId()) {
+            /*
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                Intent intent = new Intent(this, Safe.class);
+                startActivity(intent);
+            }
+            */
             Intent intent = new Intent(this, Safe.class);
-
             startActivity(intent);
         }
 

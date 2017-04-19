@@ -14,9 +14,14 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
+import android.hardware.Camera;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -88,6 +93,8 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
     //Safe
     private boolean onRecord = false; // Record screens are showing
+    private boolean isRecording = false;
+    private boolean isSavingAudioFile = false;
     private boolean onSpeakYourMind = true;
     private boolean onAskNicely = false;
     // Recording
@@ -349,11 +356,45 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
             Log.w(TAG, "Face detector dependencies are not yet available.");
         }
 
-        mCameraSource = new CameraSource.Builder(context, detector)
-                .setRequestedPreviewSize(640, 480)
-                .setFacing(CameraSource.CAMERA_FACING_FRONT)
-                .setRequestedFps(30.0f)
-                .build();
+
+        if(getFrontCameraId() == -1){
+            mCameraSource = new CameraSource.Builder(context, detector)
+                    .setRequestedPreviewSize(640, 480)
+                    .setFacing(CameraSource.CAMERA_FACING_BACK)
+                    .setRequestedFps(30.0f)
+                    .build();
+        }else{
+            mCameraSource = new CameraSource.Builder(context, detector)
+                    .setRequestedPreviewSize(640, 480)
+                    .setFacing(CameraSource.CAMERA_FACING_FRONT)
+                    .setRequestedFps(30.0f)
+                    .build();
+        }
+    }
+
+    int getFrontCameraId() {
+        if (Build.VERSION.SDK_INT < 22) {
+            Camera.CameraInfo ci = new Camera.CameraInfo();
+            for (int i = 0; i < Camera.getNumberOfCameras(); i++) {
+                Camera.getCameraInfo(i, ci);
+                if (ci.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) return i;
+            }
+        } else {
+            try {
+                CameraManager cManager = (CameraManager) getApplicationContext()
+                        .getSystemService(Context.CAMERA_SERVICE);
+                String[] cameraId = cManager.getCameraIdList();
+                for ( int j = 0;j<cameraId.length; j++) {
+                    CameraCharacteristics characteristics = cManager.getCameraCharacteristics(cameraId[j]);
+                    int cOrientation = characteristics.get(CameraCharacteristics.LENS_FACING);
+                    if (cOrientation == CameraCharacteristics.LENS_FACING_FRONT)
+                        return Integer.parseInt(cameraId[j]);
+                }
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        return -1; // No front-facing camera found
     }
 
     /**
@@ -501,6 +542,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                 mCameraSource.release();
                 mCameraSource = null;
             }
+
         }
 
     }
@@ -763,57 +805,63 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
         //SAFE
         if(v.getId() == safeRecordImageButton.getId()){
+            if(! isRecording) {
+                isRecording = true;
+                rLayout.setVisibility(View.VISIBLE);
+                msgLayout.setVisibility(View.GONE);
+                safePRMImageView.setVisibility(View.GONE);
+                safeEyeContactImageView.setVisibility(View.GONE);
+                title.setVisibility(View.GONE);
+                next.setVisibility(View.GONE);
+                recordDialogue.setVisibility(View.GONE);
+                answerImageView.setVisibility(View.GONE);
+                doneRecording.setVisibility(View.VISIBLE);
+                answerTextView.setVisibility(View.VISIBLE);
+                answerImageView.setVisibility(View.VISIBLE);
+                answerTextView.setTextSize(25);
 
-            rLayout.setVisibility(View.VISIBLE);
-            msgLayout.setVisibility(View.GONE);
-            safePRMImageView.setVisibility(View.GONE);
-            safeEyeContactImageView.setVisibility(View.GONE);
-            title.setVisibility(View.GONE);
-            next.setVisibility(View.GONE);
-            recordDialogue.setVisibility(View.GONE);
-            answerImageView.setVisibility(View.GONE);
-            doneRecording.setVisibility(View.VISIBLE);
-            answerTextView.setVisibility(View.VISIBLE);
-            answerImageView.setVisibility(View.VISIBLE);
-            answerTextView.setTextSize(25);
-
-            // Create file name with the timeStamp
-            SimpleDateFormat timeStampFormat = new SimpleDateFormat("yyyy-MM-dd-HH.mm.ss", Locale.US);
-            String fileName = "audio_" + timeStampFormat.format(new Date())+ ".3gp";
-            //outputFile = Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+fileName;
-            outputFile = mediaStorageDir.getAbsolutePath()+"/"+fileName;
-            mediaRecorder.setOutputFile(outputFile);
-            try {
-                mediaRecorder.prepare();
-                mediaRecorder.start();
-                Toast.makeText(getApplicationContext(),"Recording Started", Toast.LENGTH_LONG).show();
-                safeRecordImageButton.setVisibility(View.GONE);
+                // Create file name with the timeStamp
+                SimpleDateFormat timeStampFormat = new SimpleDateFormat("yyyy-MM-dd-HH.mm.ss", Locale.US);
+                String fileName = "audio_" + timeStampFormat.format(new Date()) + ".3gp";
+                //outputFile = Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+fileName;
+                outputFile = mediaStorageDir.getAbsolutePath() + "/" + fileName;
+                mediaRecorder.setOutputFile(outputFile);
+                try {
+                    mediaRecorder.prepare();
+                    mediaRecorder.start();
+                    Toast.makeText(getApplicationContext(), "Recording Started", Toast.LENGTH_LONG).show();
+                    safeRecordImageButton.setVisibility(View.GONE);
+                } catch (IOException ie) {
+                    //System.out.println(ie.fillInStackTrace());
+                    Toast.makeText(getApplicationContext(), "Exception happend", Toast.LENGTH_LONG).show();
+                }
+                onRecord = true;
             }
-            catch(IOException ie) {
-                //System.out.println(ie.fillInStackTrace());
-                Toast.makeText(getApplicationContext(),"Exception happend", Toast.LENGTH_LONG).show();
-            }
-            onRecord = true;
         }
 
 
         if (v.getId() == doneRecording.getId()) {
+            mPreview.stop();
+            mPreview.release();
+            isRecording = false;
+            if (! isSavingAudioFile) {
+                isSavingAudioFile = true;
+                doneRecording.setVisibility(View.GONE);
+                //Get the eye tracking values to store in the DB
+                finalProbablityCount = probabilityCount;
+                finalLeftEyeProbablity = leftEyeOpenProbability / finalRightEyeProbablity;
+                finalRightEyeProbablity = rightEyeOpenProbability / finalProbablityCount;
 
-            //Get the eye tracking values to store in the DB
-            finalProbablityCount = probabilityCount;
-            finalLeftEyeProbablity = leftEyeOpenProbability / finalRightEyeProbablity;
-            finalRightEyeProbablity = rightEyeOpenProbability / finalProbablityCount;
-
-            complete("test");
-            safeEyeContactImageView.setVisibility(View.GONE);
-            safeDoneImageButton.setVisibility(View.GONE);
-            doneRecording.setVisibility(View.GONE);
-            again.setVisibility(View.VISIBLE);
-            done.setVisibility(View.VISIBLE);
-            mediaRecorder.stop();
-            mediaRecorder.release();
-            Toast.makeText(getApplicationContext(),"Recorded Successfully", Toast.LENGTH_LONG).show();
-            complete("test");
+//                complete("test");
+                safeEyeContactImageView.setVisibility(View.GONE);
+                safeDoneImageButton.setVisibility(View.GONE);
+                again.setVisibility(View.VISIBLE);
+                done.setVisibility(View.VISIBLE);
+                mediaRecorder.stop();
+                mediaRecorder.release();
+                Toast.makeText(getApplicationContext(), "Recorded Successfully", Toast.LENGTH_LONG).show();
+                complete("test");
+            }
         }
 
     }
@@ -903,6 +951,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
 
     private void complete(String msg){
         rLayout.removeAllViews();
+
         gj.setVideoURI(Uri.parse("android.resource://asu.reach/" + R.raw.stars));
         gj.start();
         gj.setVisibility(View.VISIBLE);
@@ -920,8 +969,20 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                 onRecord = false;
                 safeAcronymLayout.setVisibility(View.GONE);
                 safeActivityLayout.setBackgroundResource(R.drawable.safe_background);
+                isSavingAudioFile = false;
             }
         });
+
+        gj.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mp, int what, int extra) {
+                gj.setVisibility(View.GONE);
+                rLayout.setVisibility(View.GONE);
+                return false;
+            }
+        });
+
+
 
         ContentValues c = new ContentValues();
         c.put("TIMESTAMP", System.currentTimeMillis());
@@ -954,6 +1015,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
         }catch(Exception e){
             e.printStackTrace();
         }
+
     }
 
     @Override
