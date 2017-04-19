@@ -16,6 +16,7 @@ public class ABMTStartScreen extends Activity implements View.OnClickListener{
     private ImageButton homeImageButton;
     public Intent intent;
     private SharedPreferences sharedPref;
+    public static boolean disableTrial;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +32,14 @@ public class ABMTStartScreen extends Activity implements View.OnClickListener{
         tutorailButton.setOnClickListener(this);
         intent = new Intent(getBaseContext(),AttentionBiasedToolbox.class);
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-        if (sharedPreferences.getBoolean("disableTrial", false))
+        if (sharedPreferences.getBoolean("disableTrial", false)) {
             trialButton.setEnabled(true);
-        else
+            disableTrial = false;
+        }
+        else{
             trialButton.setEnabled(false);
+            disableTrial = true;
+        }
     }
 
     @Override
