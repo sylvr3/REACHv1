@@ -2,6 +2,7 @@ package asu.reach;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,16 +22,18 @@ import java.util.Random;
 public class AttentionBiasedToolboxWebview extends Activity {
 
     private WebView mWebView;
-    private TypedArray neutralImgs, threatImgs;
+    private TypedArray neutralImgs, sadImgs, disguiseImgs, angryImgs, traingActorNeutral1, traingActorEmotional1, traingActorNeutral2, traingActorEmotional2;
     private Bitmap[] bmap = new Bitmap[2];
     private Random random = new Random();
-    int index = 0;
-    private int[] imageIndArray;
+    private int index = 0, blockArraySize, indexSad, neutral, divisionId, imageArraySize = 15, indexNeutral = 0, indexDisguise = 0, indexAngry = 0;
+    private int[] blockArray, sadArray, neutralArray, disguiseArray, angryArray, neutralSadArray, neutralDisguiseArray, neutralAngryArray;
     MediaPlayer mp;
+    SharedPreferences sharedPreferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Window settings
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.abmt_web_view);
         mWebView = (WebView) findViewById(R.id.abmt_web_view);
@@ -44,6 +47,8 @@ public class AttentionBiasedToolboxWebview extends Activity {
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setUseWideViewPort(true);
 
+        sharedPreferences = getPreferences(MODE_PRIVATE);
+
         mWebView.addJavascriptInterface(new Object() {
             @JavascriptInterface
             public String getImage() {
@@ -54,45 +59,153 @@ public class AttentionBiasedToolboxWebview extends Activity {
             public void ding() {
                 mp.start();
             }
+
+            @JavascriptInterface
+            public boolean isTrialAvailable() {
+                return sharedPreferences.getBoolean("disableTrial", false);
+            }
+
+            @JavascriptInterface
+            public void makeTrialAvailable() {
+                SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("disableTrial", false);
+            }
+
+            @JavascriptInterface
+            public void setTrialVars() {
+                blockArraySize = 240;
+                blockArray = new int[blockArraySize];
+                sadArray = new int[imageArraySize];
+                neutralSadArray = new int[imageArraySize];
+                angryArray = new int[imageArraySize];
+                neutralAngryArray = new int[imageArraySize];
+                disguiseArray = new int[imageArraySize];
+                neutralDisguiseArray = new int[imageArraySize];
+                neutralArray = new int[imageArraySize];
+
+                for(int i = 0; i < blockArraySize; i++) blockArray[i] = i;
+
+                for (int i = 0; i < imageArraySize; i++) {
+                    sadArray[i] = i;
+                    neutralSadArray[i] = i;
+                    angryArray[i] = i;
+                    neutralAngryArray[i] = i;
+                    neutralArray[i] = i;
+                    disguiseArray[i] = i;
+                    neutralDisguiseArray[i] = i;
+                }
+
+                shuffleBlockArray();
+            }
+
+            @JavascriptInterface
+            public void setTutorialVars() {
+                blockArraySize = 40;
+                blockArray = new int[blockArraySize];
+                sadArray = new int[imageArraySize];
+                neutralSadArray = new int[imageArraySize];
+                angryArray = new int[imageArraySize];
+                neutralAngryArray = new int[imageArraySize];
+                disguiseArray = new int[imageArraySize];
+                neutralDisguiseArray = new int[imageArraySize];
+                neutralArray = new int[imageArraySize];
+
+                for(int i = 0; i < blockArraySize; i++) blockArray[i] = i;
+
+                for (int i = 0; i < imageArraySize; i++) {
+                    sadArray[i] = i;
+                    neutralSadArray[i] = i;
+                    angryArray[i] = i;
+                    neutralAngryArray[i] = i;
+                    neutralArray[i] = i;
+                    disguiseArray[i] = i;
+                    neutralDisguiseArray[i] = i;
+                }
+
+                shuffleBlockArray();
+            }
         }, "abmt");
 
         mWebView.loadUrl("file:///android_asset/www/html/abmt.html");
 
         neutralImgs = getResources().obtainTypedArray(R.array.neutral_images);
-        //threatImgs = getResources().obtainTypedArray(R.array.threat_images);
-        imageIndArray = new int[neutralImgs.length()];
-        for (int i = 0; i < imageIndArray.length; i++) imageIndArray[i] = i;
+        sadImgs = getResources().obtainTypedArray(R.array.sad_images);
+        disguiseImgs = getResources().obtainTypedArray(R.array.disguise_imgaes);
+        angryImgs = getResources().obtainTypedArray(R.array.angry_images);
+
         mp = MediaPlayer.create(this, R.raw.ding);
     }
 
     private String getImages() {
-        int bitMapInd = random.nextInt(2);
-        int rndInt = random.nextInt(neutralImgs.length() - index) + index;
-        int neutralId = neutralImgs.getResourceId(rndInt, 0);
-        int threatId = threatImgs.getResourceId(rndInt, 0);
-        swapIndex(index, rndInt);
-        index = (index + 1) % neutralImgs.length();
+        int rndIndex = random.nextInt(blockArraySize - index) + index;
+        neutral = (blockArray[rndIndex] & 1) == 1 ? 1 : 0;
+        divisionId = blockArray[rndIndex] / 60;
+        int topImg = 0, bottomImg = 0;
+        swapIndex(blockArray, rndIndex, index);
+        index = (index + 1) % blockArraySize;
+        if (divisionId == 0) {
+            int rndNeutralInd = random.nextInt(imageArraySize - indexNeutral) + indexNeutral;
+            topImg = neutralImgs.getResourceId(neutralArray[rndNeutralInd], 0);
+            bottomImg = neutralImgs.getResourceId(neutralArray[rndNeutralInd], 0);
+            swapIndex(neutralArray, rndNeutralInd, indexNeutral);
+            indexNeutral = (indexNeutral + 1) % imageArraySize;
+        } else if (divisionId == 1) {
+            int rndSadInd = random.nextInt(imageArraySize - indexSad) + indexSad;
+            topImg = neutralImgs.getResourceId(neutralSadArray[rndSadInd], 0);
+            bottomImg = sadImgs.getResourceId(sadArray[rndSadInd], 0);
+            swapIndex(sadArray, rndSadInd, indexSad);
+            swapIndex(neutralSadArray, rndSadInd, indexSad);
+            indexSad = (indexSad + 1) % imageArraySize;
+        } else if (divisionId == 2) {
+            int rndDisguiseInd = random.nextInt(imageArraySize - indexDisguise) + indexDisguise;
+            topImg = neutralImgs.getResourceId(neutralDisguiseArray[rndDisguiseInd], 0);
+            bottomImg = disguiseImgs.getResourceId(disguiseArray[rndDisguiseInd], 0);
+            swapIndex(disguiseArray, rndDisguiseInd, indexDisguise);
+            swapIndex(neutralDisguiseArray, rndDisguiseInd, indexDisguise);
+            indexDisguise = (indexDisguise + 1) % imageArraySize;
+        } else if (divisionId == 3) {
+            int rndAngryInd = random.nextInt(imageArraySize - indexAngry) + indexAngry;
+            topImg = neutralImgs.getResourceId(neutralAngryArray[rndAngryInd], 0);
+            bottomImg = angryImgs.getResourceId(angryArray[rndAngryInd], 0);
+            swapIndex(angryArray, rndAngryInd, indexAngry);
+            swapIndex(neutralAngryArray, rndAngryInd, indexAngry);
+            indexAngry = (indexAngry + 1) % imageArraySize;
+        }
+        System.out.println("steven blockArray[rndIndex] " + blockArray[rndIndex]);
+        System.out.println("steven blockArray[rndIndex]/60 " + blockArray[rndIndex] / 60);
+        System.out.println("steven rndIndex " + rndIndex);
+        System.out.println("steven divisionid " + divisionId);
 
-        bmap[0] = (bitMapInd == 0) ? BitmapFactory.decodeResource(getResources(), neutralId) : BitmapFactory.decodeResource(getResources(), threatId);
+
+        bmap[0] = (neutral == 0) ? BitmapFactory.decodeResource(getResources(), topImg) : BitmapFactory.decodeResource(getResources(), bottomImg);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bmap[0].compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
         byte[] byteArray = byteArrayOutputStream.toByteArray();
         String image1base64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
 
-        bmap[1] = (bitMapInd == 1) ? BitmapFactory.decodeResource(getResources(), neutralId) : BitmapFactory.decodeResource(getResources(), threatId);
+        bmap[1] = (neutral == 1) ? BitmapFactory.decodeResource(getResources(), topImg) : BitmapFactory.decodeResource(getResources(), bottomImg);
         ByteArrayOutputStream byteArrayOutputStream2 = new ByteArrayOutputStream();
         bmap[1].compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream2);
         byte[] byteArray2 = byteArrayOutputStream2.toByteArray();
         String image2base64 = Base64.encodeToString(byteArray2, Base64.DEFAULT);
 
-        String correctAnswer = (bitMapInd == 0) ? "left" : "right";
+        String correctAnswer = (neutral == 0) ? "left" : "right";
+
         return "data:image/png;base64," + image1base64 + "||" + "data:image/png;base64," + image2base64 + "||" + correctAnswer;
     }
 
-    public void swapIndex(int i, int j) {
-        int temp = imageIndArray[i];
-        imageIndArray[i] = imageIndArray[j];
-        imageIndArray[j] = temp;
+    public void swapIndex(int[] array, int i, int j) {
+        int temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+
+    public void shuffleBlockArray() {
+        for(int i = 0; i < blockArraySize; i++) {
+            int ind = random.nextInt(blockArraySize-i) + i;
+            swapIndex(blockArray,ind,i);
+        }
     }
 
 }

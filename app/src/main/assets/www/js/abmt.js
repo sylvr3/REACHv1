@@ -28,6 +28,7 @@
     abmtButton.addEventListener("click", abmtButtonClickHandler);
 
     function abmtButtonClickHandler(){
+        abmt.setTrialVars();
         ANSWERTIME = 200;//MS
         ITERATIONS = 160;
         CORRECT_COUNT = 0;
@@ -35,6 +36,7 @@
     }
 
     function tutorialButtonClickHandler(){
+        abmt.setTutorialVars();
         ANSWERTIME = 1000;//ms
         ITERATIONS = 40;
         CORRECT_COUNT = 0;
