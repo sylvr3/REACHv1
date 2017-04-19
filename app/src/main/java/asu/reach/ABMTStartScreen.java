@@ -14,6 +14,8 @@ public class ABMTStartScreen extends Activity implements View.OnClickListener{
     private Button trialButton, tutorailButton;
     private ImageButton homeImageButton;
     public Intent intent;
+    public boolean disableTrial = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +29,14 @@ public class ABMTStartScreen extends Activity implements View.OnClickListener{
         trialButton.setOnClickListener(this);
         tutorailButton.setOnClickListener(this);
         intent = new Intent(getBaseContext(),AttentionBiasedToolbox.class);
+
+
+        if (disableTrial == true)
+            trialButton.setEnabled(false);
+        else
+            trialButton.setEnabled(true);
+
+
     }
 
     @Override
@@ -42,6 +52,28 @@ public class ABMTStartScreen extends Activity implements View.OnClickListener{
 
         if(view.getId() == homeImageButton.getId()){
             this.finish();
+        }
+    }
+
+    public void setDisableTrial(boolean disableTrial) {
+        this.disableTrial = disableTrial;
+
+    }
+
+    @Override
+    protected void
+    onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK) {
+                boolean receive = data.getExtras().getBoolean("enabletrial");
+
+                if (receive == false)
+                    trialButton.setEnabled(true);
+                else
+                    trialButton.setEnabled(false);
+
+
+            }
         }
     }
 }

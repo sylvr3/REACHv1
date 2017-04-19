@@ -1,6 +1,7 @@
 package asu.reach;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -42,6 +43,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     private int blankScreenTimerValue, countDownTimerValue, responseTimerValue, transitionTimeValue;
     private int[] trainingActor1Array, trainingActor2Array;
     private int actor1Index, actor2Index;
+    ABMTStartScreen abmtss = new ABMTStartScreen();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -431,7 +433,8 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         mediaplayer.start();
         if(status) this.setCorrectCount();
         measureSpeed();
-        if( (status && count == 128) || (!status && totalAttempts == 40)) {
+        if( (status && count == 10) || (!status && totalAttempts == 10)) {
+            abmtss.setDisableTrial(false); // if tutorials are completed, enhable trial button
             count = 0;
             viewFlipper.setDisplayedChild(2);
             avgTime = avgTime / totalAttempts;
@@ -498,4 +501,14 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             edit.putInt(ABMT_CORRECT_COUNT,correctCount + 1);
         }
     }
+
+    /*
+    @Override
+    public void onBackPressed() {
+
+        Intent intent = new Intent();
+        intent.putExtra("enableTrial", abmtss.disableTrial);
+        setResult(Activity.RESULT_OK, intent);
+    }
+    */
 }
