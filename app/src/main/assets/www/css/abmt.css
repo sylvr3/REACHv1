@@ -1,3 +1,68 @@
+/* init screen */
+.white-card {
+    background-color: white;
+    height: 90%;
+    width: 84%;
+    padding: 30px;
+}
+
+#init-screen {
+    display: block;
+}
+
+#init-screen {
+    content-align: center;
+    padding-top: 50%;
+    padding-left: 5%;
+}
+
+#tutorial-button, #activity-button {
+    width: 60%;
+    height: 10%;
+}
+
+#home {
+    padding-top: 50%;
+    position: absolute;
+    height: 15%;
+}
+/* abmt activity */
+.plus {
+    text-align: center;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+#top-img, #bot-img {
+    height: 48%;
+    width: 100%;
+}
+
+#abmt-activity.button-div {
+    height: 20%;
+    content-align: center;
+}
+
+#left-button, #right-button {
+    width: 75px;
+    height: 55px;
+}
+
+#right-button {
+    float: right;
+    padding-right: 20%;
+}
+
+.img-div {
+    height: 85%;
+}
+/* end screen */
+
+/* shared */
+.hide {
+    display: none !important;
+}
+
 @font-face {
     font-family: "agentorange";
     src: url('file:///android_asset/agentorange.ttf');
@@ -7,62 +72,7 @@
     font-family: 'agentorange';
 }
 
-.white-card {
-    background-color: white;
-    height: 90%;
-    width: 84%;
-    padding: 30px;
-}
-
-#top-img, #bot-img {
-    height: 48%;
-    width: 100%;
-}
-
 .button-div {
     text-align: center;
     padding-top: 5%;
-}
-
-#init-screen {
-    display: block;
-}
-
-.plus {
-    text-align: center;
-    padding-top: 7px;
-    padding-bottom: 7px;
-}
-
-#left-button, #right-button {
-    width: 100px;
-    height: 55px;
-}
-
-#tutorial-button, #activity-button {
-    width: 45%;
-    height: 15%;
-}
-
-#init-screen {
-    content-align: center;
-    padding-top: 50%;
-    padding-left: 5%;
-}
-
-.img-div {
-    height: 85%;
-}
-
-img[src=""] {
-    border: none;
-}
-
-#abmt-activity.button-div {
-    height: 20%;
-    content-align: center;
-}
-
-.hide {
-    display: none !important;
 }

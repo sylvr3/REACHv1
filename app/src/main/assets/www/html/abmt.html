@@ -1,44 +1,47 @@
 <html>
 <head>
-	<link rel="stylesheet" type="text/css" href="file:///android_asset/www/css/abmt.css"/>
-	<meta name="viewport" content="height=device-height, width=device-width">
+    <link rel="stylesheet" type="text/css" href="file:///android_asset/www/css/abmt.css"/>
+    <meta name="viewport" content="height=device-height, width=device-width">
 </head>
 <body>
 <div>
-	<div class="white-card">
-		<div id="init-screen">
-			<div class="button-div">
-				<button class="agentorange" id="tutorial-button">Tutorial</button>
-			</div>
-			<div class="button-div">
-				<button class="agentorange" id="activity-button">Begin ABMT</button>
-			</div>
-		</div>
-		<div id="abmt-activity" class="hide">
-			<div class="img-div">
-				<img id="top-img"/>
-				<div class="plus agentorange">+</div>
-				<img id="bot-img"/>
-			</div>
-			<div class="button-div">
-				<button class="agentorange" id="left-button">LEFT</button>
-				<button class="agentorange" id="right-button">RIGHT</button>
-			</div>
-		</div>
-		<div id="end-screen" class="hide">
-			<div>
-				<p id="correct-answer-count"></p>
-				<p id="incorrect-answer-count"></p>
-			</div>
-			<div class="button-div">
-				<button class="agentorange" id="end-button">End</button>
-			</div>
-			<div class="button-div">
-				<button class="agentorange" id="restart-button">Restart</button>
-				
-			</div>
-		</div>
-	</div>
+    <div class="white-card">
+        <div id="init-screen">
+            <div class="button-div">
+                <img id="tutorial-button"
+                     src="file:///android_res/drawable/trial_image_button.jpg"/>
+            </div>
+            <div class="button-div">
+                <img id="activity-button"
+                     src="file:///android_res/drawable/tutorial_image_button.jpg"/>
+            </div>
+            <img id="home" src="file:///android_res/drawable/home_down.png"/>
+        </div>
+        <div id="abmt-activity" class="hide">
+            <div class="img-div">
+                <img id="top-img"/>
+                <div class="plus agentorange">+</div>
+                <img id="bot-img"/>
+            </div>
+            <div class="button-div">
+                <img id="left-button" src="file:///android_res/drawable/left_arrow.png"/>
+                <img id="right-button" src="file:///android_res/drawable/right_arrow.png"/>
+            </div>
+        </div>
+        <div id="end-screen" class="hide">
+            <div>
+                <p id="correct-answer-count"></p>
+                <p id="incorrect-answer-count"></p>
+            </div>
+            <div class="button-div">
+                <button class="agentorange" id="end-button">End</button>
+            </div>
+            <div class="button-div">
+                <button class="agentorange" id="restart-button">Restart</button>
+
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 <script src="file:///android_asset/www/js/abmt.js"></script>
