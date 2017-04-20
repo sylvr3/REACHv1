@@ -11,6 +11,7 @@
     //abmt div
     var topImg = document.getElementById("top-img");
     var botImg = document.getElementById("bot-img");
+    var plusSign = document.getElementById("plus-sign");
     var leftButton = document.getElementById("left-button");
     var rightButton = document.getElementById("right-button");
     var rightArrowSource = "file:///android_res/drawable/right.bmp";
@@ -18,9 +19,11 @@
 
     //end div
     var correctAnswerParagraph = document.getElementById("correct-answer-count");
-    var incorrectAnswerParagraph = document.getElementById("incorrect-answer-count");
+    var speedParagraph = document.getElementById("speed");
 
-    var IMAGETIME = 500, ANSWERTIME, ANSWERING_ENABLED = false, ITERATIONS, OVERTIME = false, LEFT_CORRECT, RIGHT_CORRECT, COUNT, CORRECT_COUNT;
+    var IMAGETIME = 500, PLUSTIME=200, ANSWERTIME, ANSWERING_ENABLED = false, ITERATIONS, OVERTIME = false, LEFT_CORRECT, RIGHT_CORRECT, COUNT, CORRECT_COUNT;
+    var timeToAnswer;
+    var speedArray = [];
 
     leftButton.addEventListener("click", answerClickHandler.bind(leftButton));
     rightButton.addEventListener("click", answerClickHandler.bind(rightButton));
@@ -50,12 +53,17 @@
                 abmt.ding();
                 CORRECT_COUNT += 1;
             }
-
+            speedArray.push(timeToAnswer - new Date());
             getNewImage();
             COUNT += 1;
         }else{
+            var total = 0;
+            speedArray.forEach(function(item){
+                total += item;
+            });
+
             correctAnswerParagraph.innerHTML = "Correct Answers: " + CORRECT_COUNT;
-            incorrectAnswerParagraph.innerHTML = "Incorrect Answers: " + ITERATIONS - CORRECT_COUNT;
+            speedParagraph.innerHTML = "Speed score: " + total/ speedArray.size();
             initScreen.classList.add("hide");
             abmtActivityScreen.classList.add("hide");
             endScreen.classList.remove("hide");
@@ -77,39 +85,64 @@
         getNewImage();
     }
 
-    function getNewImage(){
-        var image = abmt.getImage();
-        var imageArr = image.split("||");
-        var image1 = imageArr[0];
-        var image2 = imageArr[1];
+    function moveToPlusScreen(imgTop, imgBot){
+        if(move){
 
-        if(imageArr[2] === "left"){
-            LEFT_CORRECT = true;
-            RIGHT_CORRECT = false;
         }else {
-            RIGHT_CORRECT = true;
-            LEFT_CORRECT = false;
+            topImg.src = "";
+            botImg.src = "";
         }
+    }
 
-        topImg.src = image1;
-        botImg.src = image2;
+    function showPlusSign(show){
+        if(show){
+            plusSign.classList.remove("hide");
+        }else{
+            plusSign.classList.remove("hide");
+        }
+    }
 
-        window.setTimeout(function(){
-            if(RIGHT_CORRECT){
-                topImg.src = "";
-                botImg.src = rightArrowSource;
-            }else{
-                botImg.src = "";
-                topImg.src = leftArrowSource;
+    function getNewImage(){
+        topImg.src = "";
+        botImg.src = "";
+        showPlusSign(true);
+
+        window.setTimeout(
+            var image = abmt.getImage();
+            var imageArr = image.split("||");
+            var image1 = imageArr[0];
+            var image2 = imageArr[1];
+
+            if(imageArr[2] === "left"){
+                LEFT_CORRECT = true;
+                RIGHT_CORRECT = false;
+            }else {
+                RIGHT_CORRECT = true;
+                LEFT_CORRECT = false;
             }
-            ANSWERING_ENABLED = true;
-            window.setTimeout(function (){
-                if(!OVERTIME){
-                    OVERTIME = true;
-                }
-            }, ANSWERTIME);
-        },IMAGETIME);
 
+            topImg.src = image1;
+            botImg.src = image2;
+            showPlusSign(false);
+
+            timeToAnswer = new Date();
+
+            window.setTimeout(function(){
+                if(RIGHT_CORRECT){
+                    topImg.src = "";
+                    botImg.src = rightArrowSource;
+                }else{
+                    botImg.src = "";
+                    topImg.src = leftArrowSource;
+                }
+                ANSWERING_ENABLED = true;
+                window.setTimeout(function (){
+                    if(!OVERTIME){
+                        OVERTIME = true;
+                    }
+                }, ANSWERTIME);
+            },IMAGETIME);
+        , PLUSTIME);
         OVERTIME = false;
     }
 })();

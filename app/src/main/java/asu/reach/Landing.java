@@ -229,7 +229,7 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         }
         if(v.getId() == abmt.getId()){
             //Intent intent = new Intent(this, AttentionBiasedToolbox.class);
-            Intent intent = new Intent(this, ABMTStartScreen.class);
+            Intent intent = new Intent(this, AttentionBiasedToolboxWebview.class);
             startActivity(intent);
         }
         if(v.getId() == blob.getId()){
