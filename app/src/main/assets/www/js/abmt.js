@@ -85,15 +85,6 @@
         getNewImage();
     }
 
-    function moveToPlusScreen(imgTop, imgBot){
-        if(move){
-
-        }else {
-            topImg.src = "";
-            botImg.src = "";
-        }
-    }
-
     function showPlusSign(show){
         if(show){
             plusSign.classList.remove("hide");
