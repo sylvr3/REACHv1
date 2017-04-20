@@ -28,13 +28,14 @@
 
         <activity
             android:name=".Landing"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".Relaxation"
             android:label="@string/title_activity_relaxation" />
@@ -56,12 +57,14 @@
         <activity
             android:name=".Safe"
             android:label="@string/title_activity_safe"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SafeWebView"
             android:label="@string/title_activity_safe"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
+
         <activity android:name=".Preferences" />
+
         <activity
             android:name=".DatePreferenceActivity"
             android:label="@string/title_activity_date_preference" />
@@ -77,9 +80,18 @@
             android:name=".HelperService"
             android:exported="false" />
 
-        <activity android:name=".AttentionBiasedToolbox" />
-        <activity android:name=".AttentionBiasedToolboxWebview" />
-        <activity android:name=".ABMTStartScreen"></activity>
+        <activity
+            android:name=".AttentionBiasedToolbox"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".AttentionBiasedToolboxWebview"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".ABMTStartScreen"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>
