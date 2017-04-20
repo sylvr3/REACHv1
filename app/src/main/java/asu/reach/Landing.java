@@ -327,6 +327,7 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
     @Override
     protected void onResume() {
         super.onResume();
+        updateProgress();
         DBHelper helper = new DBHelper(this);
         db = helper.getDB();
         try {

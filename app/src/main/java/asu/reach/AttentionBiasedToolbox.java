@@ -628,6 +628,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         } else {
             edit.putInt(ABMT_CORRECT_COUNT, correctCount + 1);
         }
+        edit.commit();
     }
 
     public void makeTrialAvailable() {
@@ -635,6 +636,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("disableTrial", false);
+        editor.commit();
     }
 
 
