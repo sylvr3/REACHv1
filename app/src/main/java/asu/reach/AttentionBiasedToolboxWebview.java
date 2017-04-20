@@ -172,11 +172,6 @@ public class AttentionBiasedToolboxWebview extends Activity {
             swapIndex(neutralAngryArray, rndAngryInd, indexAngry);
             indexAngry = (indexAngry + 1) % imageArraySize;
         }
-        System.out.println("steven blockArray[rndIndex] " + blockArray[rndIndex]);
-        System.out.println("steven blockArray[rndIndex]/60 " + blockArray[rndIndex] / 60);
-        System.out.println("steven rndIndex " + rndIndex);
-        System.out.println("steven divisionid " + divisionId);
-
 
         bmap[0] = (neutral == 0) ? BitmapFactory.decodeResource(getResources(), topImg) : BitmapFactory.decodeResource(getResources(), bottomImg);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
