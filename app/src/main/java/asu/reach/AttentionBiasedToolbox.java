@@ -504,13 +504,18 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             count = 0;
             viewFlipper.setDisplayedChild(2);
             avgTime = avgTime / totalAttempts;
-            progressBar.setVisibility(View.VISIBLE);
             String speed = "Speed: " + new DecimalFormat("###.##").format(avgTime);
             String result = "Score: " + totalAttempts;
             //totalAttempts = 0;
             resultText.setText(result);
             speedText.setText(speed);
             setUpAgain();
+
+            if (status && count == 128) {
+                progressBar.setVisibility(View.VISIBLE);
+                progressBar.setProgress(getCorrectCount()+count/7500);
+            }
+            
         } else {
             showBlankScreen();
             progressBar.setVisibility(View.INVISIBLE);
