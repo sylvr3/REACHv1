@@ -98,7 +98,7 @@
         botImg.src = "";
         showPlusSign(true);
 
-        window.setTimeout(
+        window.setTimeout(function(){
             var image = abmt.getImage();
             var imageArr = image.split("||");
             var image1 = imageArr[0];
@@ -133,7 +133,7 @@
                     }
                 }, ANSWERTIME);
             },IMAGETIME);
-        , PLUSTIME);
+        }, PLUSTIME);
         OVERTIME = false;
     }
 })();
