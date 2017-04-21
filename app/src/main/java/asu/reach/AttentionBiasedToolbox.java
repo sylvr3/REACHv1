@@ -33,7 +33,6 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     private ImageView plusBtwImageView;
     private ViewFlipper viewFlipper;
     private Button leftButton, rightButton, restartButton, goButton, nextButton, previousButton, goToTrialButton;
-    private int[] imageIndArray;
     private EditText resultText, speedText;
     private long timeDiff, startTime, blockStart;
     private double avgTime;
@@ -58,7 +57,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         status = getIntent().getStringExtra("status").equals("trial");
         random = new Random();
         bmap = new Bitmap[2];
-        blockArraySize = status ? 4 : 40;
+        blockArraySize = status ? 240 : 40;
         blockArray = new int[blockArraySize];
         goToTrialButton = (Button)findViewById(R.id.goToTrial);
         if (status) {
@@ -75,7 +74,6 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             trainingActor2Array = new int[8];
             goToTrialButton.setVisibility(View.VISIBLE);
         }
-
         indexAngry = 0;
         indexDisguise = 0;
         indexNeutral = 0;
@@ -83,8 +81,6 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         actor1Index = 0;
         actor2Index = 0;
         trainingBlockCount = 0;
-        //threatImgs = getResources().obtainTypedArray(R.array.threat_images);
-        //imageIndArray = new int[neutralImgs.length()];
         index = 0;
         neutral = 0;
         totalAttempts = 0;
@@ -95,8 +91,6 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         transitionTimeValue = status ? 1800 : 6000;
         progressBar = (ProgressBar) findViewById(R.id.circular_progress_bar);
         progressBar.setVisibility(View.GONE);
-        //blankScreen();
-        //showBlankScreen();
         initSharedPref();
         ArrayCounterInitialization();
         UIInitialization();
@@ -146,9 +140,6 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         imgTop.setVisibility(View.INVISIBLE);
         imgBottom.setVisibility(View.INVISIBLE);
         restartButton.setVisibility(View.INVISIBLE);
-
-        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-        // if (sharedPreferences.getBoolean("disableTrial", true)) {
         if(!status) {
             if (!abmtss.disableTrial) {
                 instructionsText.setVisibility(View.VISIBLE);
@@ -181,14 +172,9 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
                     "Tap really fast!\n" +
                     "\n");
         } else blockStart();
-
-
-
-
     }
 
     public void ArrayCounterInitialization() {
-        //for(int i = 0; i < imageIndArray.length; i++) imageIndArray[i] = i;
         for (int i = 0; i < blockArraySize; i++) blockArray[i] = i;
         if (status) {
             for (int i = 0; i < imageArraySize; i++) {
@@ -210,7 +196,6 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         responseTimer = new CountDownTimer(responseTimerValue, responseTimerValue / 2) {
             @Override
             public void onTick(long l) {
-
             }
 
             @Override
@@ -221,7 +206,6 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         transitionTimer = new CountDownTimer(transitionTimeValue, transitionTimeValue / 2) {
             @Override
             public void onTick(long l) {
-
             }
 
             @Override
@@ -232,7 +216,6 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         blankScreenTimer = new CountDownTimer(blankScreenTimerValue, blankScreenTimerValue / 2) {
             @Override
             public void onTick(long l) {
-                //screenWithBlankImages();
             }
 
             @Override
@@ -244,11 +227,9 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         countDownTimer = new CountDownTimer(countDownTimerValue, countDownTimerValue / 2) {
 
             public void onTick(long millisUntilFinished) {
-
             }
 
             public void onFinish() {
-                //showBlankScreen();
                 showProbes();
             }
         };
@@ -289,10 +270,6 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
 
     }
 
-    /* public void screenWithBlankImages() {
-         //System.out.println("+ sign is removed");
-         //plusBtwImageView.setVisibility(View.INVISIBLE);
-     }*/
     // Initiate timer for first fixation with + sign, at the end it start the fetching images
     public void blankScreen() {
         blankScreenTimer.start();
@@ -317,7 +294,6 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         imgBottom.setImageBitmap(bmap[1]);
         if (neutral == 0) imgTop.setVisibility(View.VISIBLE);
         else imgBottom.setVisibility(View.VISIBLE);
-        //viewFlipper.showPrevious();
         viewFlipper.setDisplayedChild(1);
         startTime = System.currentTimeMillis();
         responseTimer.start();
@@ -345,7 +321,6 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         rightButton.setVisibility(View.INVISIBLE);
         goButton.setVisibility(View.INVISIBLE);
         instructionsText.setVisibility(View.INVISIBLE);
-        //viewFlipper.showNext();
         viewFlipper.setDisplayedChild(0);
         plusImage.setVisibility(View.VISIBLE);
         if (totalAttempts == blockArraySize) {
@@ -358,7 +333,6 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             String result = "Attempts Over" + "\n" + speed1 + "\n" + result1;
             count = 0;
             resultText.setText(result);
-            //totalAttempts = 0;
             speedText.setText(speed);
             setUpAgain();
         } else if (System.currentTimeMillis() - blockStart > 720000) {
@@ -367,7 +341,6 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             String speed = "Please start again";
             String result = "Time Over";
             resultText.setText(result);
-            //totalAttempts = 0;
             speedText.setText(speed);
             setUpAgain();
         } else blankScreen();
@@ -377,7 +350,6 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     //Load images
     public void fetchImages() {
         blankScreenTimer.cancel();
-        //int bitMapInd = random.nextInt(2);
         int rndIndex = random.nextInt(blockArraySize - index) + index;
         neutral = (blockArray[rndIndex] & 1) == 1 ? 1 : 0;
         divisionId = blockArray[rndIndex] / 60;
@@ -412,19 +384,8 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             swapIndex(neutralAngryArray, rndAngryInd, indexAngry);
             indexAngry = (indexAngry + 1) % imageArraySize;
         }
-
-
-        //int rndInt = random.nextInt(neutralImgs.length()-index) + index;
-        //int neutralId = neutralImgs.getResourceId(imageIndArray[rndInt],0);
-        //int threatId = threatImgs.getResourceId(imageIndArray[rndInt],0);
-        //int threatId = neutralImgs.getResourceId(imageIndArray[rndInt],0);
-        //swapIndex(imageIndArray,index,rndInt);
-        //index = (index + 1)%neutralImgs.length();
-        //System.out.println(Arrays.toString(imageIndArray));
         bmap[0] = (neutral == 0) ? BitmapFactory.decodeResource(getResources(), topImg) : BitmapFactory.decodeResource(getResources(), bottomImg);
         bmap[1] = (neutral == 1) ? BitmapFactory.decodeResource(getResources(), topImg) : BitmapFactory.decodeResource(getResources(), bottomImg);
-        //neutral = (bitMapInd == 0)?0:1;
-        //viewFlipper.showPrevious();
         viewFlipper.setDisplayedChild(1);
         imgTop.setVisibility(View.VISIBLE);
         plusBtwImageView.setVisibility(View.VISIBLE);
@@ -444,10 +405,8 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
 
     public void fetchImagesTraining() {
         blankScreenTimer.cancel();
-        //int bitMapInd = random.nextInt(2);
         int rndIndex = random.nextInt(blockArraySize - index) + index;
         neutral = (blockArray[rndIndex] & 1) == 1 ? 1 : 0;
-        //divisionId = blockArray[rndIndex] / 60;
         int topImg = 0, bottomImg = 0;
         swapIndex(blockArray, rndIndex, index);
         if ((index & 1) == 1) {
@@ -488,11 +447,9 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         blankScreenTimer.cancel();
         responseTimer.cancel();
         transitionTimer.cancel();
-        //viewFlipper.showNext();
         restartButton.setVisibility(View.VISIBLE);
         goButton.setVisibility(View.INVISIBLE);
         instructionsText.setVisibility(View.INVISIBLE);
-
     }
 
     //Swap the indices to populate the images which is not generated in previous hits.
@@ -509,26 +466,20 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         mediaplayer.start();
         if (status) this.setCorrectCount();
         measureSpeed();
-        if ((status && count == 128) || (!status && totalAttempts == 4)) {
-            //makeTrialAvailable();
-
+        if ((status && count == 128) || (!status && totalAttempts == 40)) {
             viewFlipper.setDisplayedChild(2);
             avgTime = avgTime / totalAttempts;
             avgTime = avgTime / 1000;
             String speed = "Speed: " + new DecimalFormat("###.##").format(avgTime);
             String result = "Score: " + count +" / "+ totalAttempts;
-            //totalAttempts = 0;
-
             resultText.setText(result);
             speedText.setText(speed);
             count = 0;
             setUpAgain();
-
             if (status && count == 128) {
                 progressBar.setVisibility(View.VISIBLE);
                 progressBar.setProgress(getCorrectCount()+count/7500);
             }
-            
         } else {
             showBlankScreen();
             progressBar.setVisibility(View.INVISIBLE);
@@ -547,8 +498,6 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
                 showBlankScreen();
                 progressBar.setVisibility(View.INVISIBLE);
             }
-            //avgTime += timeDiff;
-            //showBlankScreen();
         }
         if (v.getId() == rightButton.getId()) {
             timeDiff = System.currentTimeMillis() - startTime;
@@ -559,30 +508,19 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
                 showBlankScreen();
                 progressBar.setVisibility(View.INVISIBLE);
             }
-            //System.out.println(timeDiff);
-            //avgTime += timeDiff;
-            //System.out.println(avgTime);
-            //showBlankScreen();
         }
         if (v.getId() == restartButton.getId()) {
-            //viewFlipper.showNext();
-            //viewFlipper.showPrevious();
-            //totalAttempts = 0;
-            //showBlankScreen();
-            if(!status && trainingBlockCount == 5) {
+            if(!status && trainingBlockCount == 16) {
                 Intent intent = new Intent(getBaseContext(),ABMTStartScreen.class);
                 intent.putExtra("Enable","Enable");
                 startActivity(intent);
             }
             else blockStart();
-
-
         }
         if (v.getId() == goToTrialButton.getId()) {
             Intent intent = new Intent(getBaseContext(),ABMTStartScreen.class);
             intent.putExtra("Enable","Enable");
             startActivity(intent);
-
         }
 
         if (v.getId() == nextButton.getId()) {
@@ -605,7 +543,6 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
                     "\n" +
                     "Then press Go!\n");
             goButton.setVisibility(View.VISIBLE);
-
         }
         if (v.getId() == previousButton.getId()) {
             nextButton.setVisibility(View.VISIBLE);
@@ -630,20 +567,14 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
                     "Tap really fast!\n" +
                     "\n");
             goButton.setVisibility(View.INVISIBLE);
-
         }
-
-
         if (v.getId() == goButton.getId()) {
             goButton.setVisibility(View.INVISIBLE);
             instructionsText.setVisibility(View.INVISIBLE);
             nextButton.setVisibility(View.INVISIBLE);
             previousButton.setVisibility(View.INVISIBLE);
-            //ArrayCounterInitialization();
             blockStart();
-
         }
-
         System.out.println(count);
     }
 
