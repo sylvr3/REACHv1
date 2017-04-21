@@ -58,7 +58,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         status = getIntent().getStringExtra("status").equals("trial");
         random = new Random();
         bmap = new Bitmap[2];
-        blockArraySize = status ? 240 : 40;
+        blockArraySize = status ? 4 : 40;
         blockArray = new int[blockArraySize];
         goToTrialButton = (Button)findViewById(R.id.goToTrial);
         if (status) {
@@ -349,10 +349,14 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         viewFlipper.setDisplayedChild(0);
         plusImage.setVisibility(View.VISIBLE);
         if (totalAttempts == blockArraySize) {
-            count = 0;
             viewFlipper.setDisplayedChild(2);
+            avgTime = avgTime / totalAttempts;
+            avgTime = avgTime / 1000;
+            String speed1 = "Speed: " + new DecimalFormat("###.##").format(avgTime);
+            String result1 = "Score: " + count +" / "+ totalAttempts;
             String speed = "Please start again";
-            String result = "Attemps Over";
+            String result = "Attempts Over" + "\n" + speed1 + "\n" + result1;
+            count = 0;
             resultText.setText(result);
             //totalAttempts = 0;
             speedText.setText(speed);
@@ -507,14 +511,17 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         measureSpeed();
         if ((status && count == 128) || (!status && totalAttempts == 4)) {
             //makeTrialAvailable();
-            count = 0;
+
             viewFlipper.setDisplayedChild(2);
             avgTime = avgTime / totalAttempts;
+            avgTime = avgTime / 1000;
             String speed = "Speed: " + new DecimalFormat("###.##").format(avgTime);
-            String result = "Score: " + totalAttempts;
+            String result = "Score: " + count +" / "+ totalAttempts;
             //totalAttempts = 0;
+
             resultText.setText(result);
             speedText.setText(speed);
+            count = 0;
             setUpAgain();
 
             if (status && count == 128) {
@@ -536,7 +543,10 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             if (neutral == 0) {
                 if (!status || divisionId != 0) trueResponse();
             }
-
+            if(status && divisionId == 0) {
+                showBlankScreen();
+                progressBar.setVisibility(View.INVISIBLE);
+            }
             //avgTime += timeDiff;
             //showBlankScreen();
         }
@@ -544,6 +554,10 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             timeDiff = System.currentTimeMillis() - startTime;
             if (neutral == 1) {
                 if (!status || divisionId != 0) trueResponse();
+            }
+            if(status && divisionId == 0) {
+                showBlankScreen();
+                progressBar.setVisibility(View.INVISIBLE);
             }
             //System.out.println(timeDiff);
             //avgTime += timeDiff;
