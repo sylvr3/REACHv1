@@ -14,9 +14,9 @@ import android.widget.ImageButton;
 public class ABMTStartScreen extends Activity implements View.OnClickListener{
     private Button trialButton, tutorailButton;
     private ImageButton homeImageButton;
-    public Intent intent;
+    public Intent intent, intent1;
     private SharedPreferences sharedPref;
-    public static boolean disableTrial;
+    public boolean disableTrial,disableTrial2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,15 +31,28 @@ public class ABMTStartScreen extends Activity implements View.OnClickListener{
         trialButton.setOnClickListener(this);
         tutorailButton.setOnClickListener(this);
         intent = new Intent(getBaseContext(),AttentionBiasedToolbox.class);
-        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-        if (sharedPreferences.getBoolean("disableTrial", false)) {
+        disableTrial = false;
+        intent1 = getIntent();
+        if(intent1 != null) {
+            if(intent1.getExtras() != null) {
+                disableTrial =  getIntent().getStringExtra("Enable").equals("Enable");
+            }
+        }
+        /*if(getIntent().getExtras().containsKey("Enable"))
+        disableTrial =  getIntent().getStringExtra("Enable").equals("Enable");*/
+        System.out.println("disbleTrial" + disableTrial);
+        if(!disableTrial) trialButton.setEnabled(false);
+        else trialButton.setEnabled(true);
+        //SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+        //System.out.println(sharedPreferences.getBoolean("disableTrial", false));
+       /* if (sharedPreferences.getBoolean("disableTrial", false)) {
             trialButton.setEnabled(true);
             disableTrial = false;
         }
         else{
             trialButton.setEnabled(false);
             disableTrial = true;
-        }
+        }*/
     }
 
     @Override
