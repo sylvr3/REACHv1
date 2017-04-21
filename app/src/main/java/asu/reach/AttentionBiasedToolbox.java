@@ -501,19 +501,20 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         mediaplayer.start();
         if (status) this.setCorrectCount();
         measureSpeed();
-        if ((status && count == 128) || (!status && totalAttempts == 40)) {
+        if ((status && count == 10) || (!status && totalAttempts == 10)) {
             makeTrialAvailable();
             count = 0;
             viewFlipper.setDisplayedChild(2);
             avgTime = avgTime / totalAttempts;
-            String speed = "Speed: " + new DecimalFormat("###.##").format(avgTime);
+            double seconds = avgTime/1000;
+            String speed = "Speed: " + new DecimalFormat("#.#").format(seconds) + " seconds";
             String result = "Score: " + totalAttempts;
             //totalAttempts = 0;
             resultText.setText(result);
             speedText.setText(speed);
             setUpAgain();
 
-            if (status && count == 128) {
+            if (status && count == 10) {
                 progressBar.setVisibility(View.VISIBLE);
                 progressBar.setProgress(getCorrectCount()+count/7500);
             }
