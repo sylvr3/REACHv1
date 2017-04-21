@@ -321,6 +321,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         rightButton.setVisibility(View.INVISIBLE);
         goButton.setVisibility(View.INVISIBLE);
         instructionsText.setVisibility(View.INVISIBLE);
+
         viewFlipper.setDisplayedChild(0);
         plusImage.setVisibility(View.VISIBLE);
         if (totalAttempts == blockArraySize) {
@@ -470,7 +471,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             viewFlipper.setDisplayedChild(2);
             avgTime = avgTime / totalAttempts;
             avgTime = avgTime / 1000;
-            String speed = "Speed: " + new DecimalFormat("###.##").format(avgTime);
+            String speed = "Speed: " + new DecimalFormat("###.##").format(avgTime)+ " seconds";
             String result = "Score: " + count +" / "+ totalAttempts;
             resultText.setText(result);
             speedText.setText(speed);
