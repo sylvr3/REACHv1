@@ -328,7 +328,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             viewFlipper.setDisplayedChild(2);
             avgTime = avgTime / totalAttempts;
             avgTime = avgTime / 1000;
-            String speed1 = "Speed: " + new DecimalFormat("###.##").format(avgTime);
+            String speed1 = "Speed: " + new DecimalFormat("###.##").format(avgTime) + "seconds";
             String result1 = "Score: " + count +" / "+ totalAttempts;
             String speed = "Please start again";
             String result = "Attempts Over" + "\n" + speed1 + "\n" + result1;
