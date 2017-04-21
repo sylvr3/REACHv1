@@ -146,6 +146,14 @@
                     android:layout_gravity="center"
                     android:scaleType="center"
                     android:text="Restart" />
+
+                <Button
+                    android:id="@+id/goToTrial"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:scaleType="center"
+                    android:text="Go To Trial" />
             </LinearLayout>
 
             <LinearLayout
