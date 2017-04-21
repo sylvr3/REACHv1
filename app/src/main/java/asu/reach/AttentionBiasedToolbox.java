@@ -501,7 +501,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         mediaplayer.start();
         if (status) this.setCorrectCount();
         measureSpeed();
-        if ((status && count == 10) || (!status && totalAttempts == 10)) {
+        if ((status && count == 128) || (!status && totalAttempts == 40)) {
             makeTrialAvailable();
             count = 0;
             viewFlipper.setDisplayedChild(2);
@@ -514,7 +514,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             speedText.setText(speed);
             setUpAgain();
 
-            if (status && count == 10) {
+            if (status && count == 128) {
                 progressBar.setVisibility(View.VISIBLE);
                 progressBar.setProgress(getCorrectCount()+count/7500);
             }
