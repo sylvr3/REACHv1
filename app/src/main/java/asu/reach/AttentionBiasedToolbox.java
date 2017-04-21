@@ -32,7 +32,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     private ImageView plusImage;
     private ImageView plusBtwImageView;
     private ViewFlipper viewFlipper;
-    private Button leftButton, rightButton, restartButton, goButton, nextButton, previousButton;
+    private Button leftButton, rightButton, restartButton, goButton, nextButton, previousButton, goToTrialButton;
     private int[] imageIndArray;
     private EditText resultText, speedText;
     private long timeDiff, startTime, blockStart;
@@ -60,6 +60,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         bmap = new Bitmap[2];
         blockArraySize = status ? 240 : 40;
         blockArray = new int[blockArraySize];
+        goToTrialButton = (Button)findViewById(R.id.goToTrial);
         if (status) {
             sadArray = new int[imageArraySize];
             neutralSadArray = new int[imageArraySize];
@@ -68,9 +69,11 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             disguiseArray = new int[imageArraySize];
             neutralDisguiseArray = new int[imageArraySize];
             neutralArray = new int[imageArraySize];
+            goToTrialButton.setVisibility(View.INVISIBLE);
         } else {
             trainingActor1Array = new int[3];
             trainingActor2Array = new int[8];
+            goToTrialButton.setVisibility(View.VISIBLE);
         }
 
         indexAngry = 0;
@@ -116,6 +119,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         Typeface font = Typeface.createFromAsset(getAssets(), "agentorange.ttf");
         leftButton = (Button) findViewById(R.id.leftButton);
         restartButton = (Button) findViewById(R.id.restartButton);
+
         goButton = (Button) findViewById(R.id.goButton);
         nextButton = (Button) findViewById(R.id.nextButton);
         previousButton = (Button) findViewById(R.id.previousButton);
@@ -133,6 +137,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         leftButton.setOnClickListener(this);
         rightButton.setOnClickListener(this);
         restartButton.setOnClickListener(this);
+        goToTrialButton.setOnClickListener(this);
         goButton.setOnClickListener(this);
         nextButton.setOnClickListener(this);
         previousButton.setOnClickListener(this);
@@ -557,6 +562,12 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             }
             else blockStart();
 
+
+        }
+        if (v.getId() == goToTrialButton.getId()) {
+            Intent intent = new Intent(getBaseContext(),ABMTStartScreen.class);
+            intent.putExtra("Enable","Enable");
+            startActivity(intent);
 
         }
 
