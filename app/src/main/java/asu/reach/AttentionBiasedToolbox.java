@@ -33,7 +33,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     private ImageView plusBtwImageView;
     private ViewFlipper viewFlipper;
     private Button leftButton, rightButton, restartButton, goButton, nextButton, previousButton, goToTrialButton;
-    private EditText resultText, speedText;
+    private TextView resultText, speedText;
     private long timeDiff, startTime, blockStart;
     private double avgTime;
     private int[] blockArray, sadArray, neutralArray, disguiseArray, angryArray, neutralSadArray, neutralDisguiseArray, neutralAngryArray;
@@ -47,6 +47,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     private int blankScreenTimerValue, countDownTimerValue, responseTimerValue, transitionTimeValue;
     private int[] trainingActor1Array, trainingActor2Array;
     private int actor1Index, actor2Index;
+    private Typeface texttype;
     ABMTStartScreen abmtss = new ABMTStartScreen();;
 
     @Override
@@ -123,8 +124,13 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         plusImage = (ImageView) findViewById(R.id.plus);
         plusBtwImageView = (ImageView) findViewById(R.id.plusBtw);
         viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
-        resultText = (EditText) findViewById(R.id.resultText);
-        speedText = (EditText) findViewById(R.id.speedText);
+
+        texttype = Typeface.createFromAsset(getAssets(), "Average-Regular.ttf");
+        resultText = (TextView) findViewById(R.id.resultText);
+        resultText.setTypeface(texttype);
+        speedText = (TextView) findViewById(R.id.speedText);
+        speedText.setTypeface(texttype);
+
         instructionsText = (TextView) findViewById(R.id.instructionsText);
         imgTop.setOnClickListener(this);
         imgBottom.setOnClickListener(this);
@@ -328,8 +334,8 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             viewFlipper.setDisplayedChild(2);
             avgTime = avgTime / totalAttempts;
             avgTime = avgTime / 1000;
-            String speed1 = "Speed: " + new DecimalFormat("###.##").format(avgTime) + "seconds";
-            String result1 = "Score: " + count +" / "+ totalAttempts;
+            String speed1 = ": " + new DecimalFormat("###.##").format(avgTime) + "seconds";
+            String result1 = ": " + count +" / "+ totalAttempts;
             String speed = "Please start again";
             String result = "Attempts Over" + "\n" + speed1 + "\n" + result1;
             count = 0;
@@ -471,8 +477,8 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             viewFlipper.setDisplayedChild(2);
             avgTime = avgTime / totalAttempts;
             avgTime = avgTime / 1000;
-            String speed = "Speed: " + new DecimalFormat("###.##").format(avgTime)+ " seconds";
-            String result = "Score: " + count +" / "+ totalAttempts;
+            String speed = ": " + new DecimalFormat("###.##").format(avgTime)+ " seconds";
+            String result = ": " + count +" / "+ totalAttempts;
             resultText.setText(result);
             speedText.setText(speed);
             count = 0;
