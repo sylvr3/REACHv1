@@ -21,7 +21,7 @@ import java.util.Set;
 
 public class Preferences extends PreferenceActivity /*implements SharedPreferences.OnSharedPreferenceChangeListener */ {
 
-    private MultiSelectListPreference DDProtocolChange, STOPProtocolChange, STICProtocolChange, scheduleTricks;
+    private MultiSelectListPreference DDProtocolChange, STOPProtocolChange, STICProtocolChange, scheduleTricks, StandUpProtocolChange;
     private DatePreference datePref;
     private SharedPreferences sharedPrefs;
     private SQLiteDatabase db;
@@ -39,6 +39,7 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
         PreferenceManager.setDefaultValues(this, R.xml.prefs, true);
         DDProtocolChange = (MultiSelectListPreference) findPreference("DD_week_setting");
         STOPProtocolChange = (MultiSelectListPreference) findPreference("STOP_week_setting");
+        StandUpProtocolChange= (MultiSelectListPreference) findPreference("STANDUP_week_setting");
         teacherPin = (EditTextPreference) findPreference("teacherPIN");
         exportToCSV = (PreferenceScreen) findPreference("exportDataMenu");
         scheduleTricks = (MultiSelectListPreference) findPreference("scheduled_release_tricks");
@@ -84,6 +85,8 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
                     dailyDiaryProtocolChange(sharedPreferences, s);
                 } else if (s.equals("STOP_week_setting")) {
                     StopProtocolChange(sharedPreferences, s);
+                } else if (s.equals("STANDUP_week_setting")){
+                    StandUpProtocolCHange(sharedPreferences,s);
                 } else if (s.equals("STOP_worryhead_week_setting")) {
                     StopWorryHeadProtocolChange(sharedPreferences, s);
                 } else if (s.equals("Week1_STIC_protocol_setting")) {
@@ -314,6 +317,48 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
             i = 0;
             ContentValues v1 = new ContentValues();
             v1.put("STOP_WORRYHEADS", 0);
+            while (i < stringArrNotContains.length) {
+                db.update("ADMIN_ACTIVITY_SCHEDULER", v1, "WEEK_NO = \"" + Integer.parseInt(stringArrNotContains[i++].toString()) + "\"", null);
+            }
+
+            db.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void StandUpProtocolCHange(SharedPreferences pref, String s) {
+        Set<String> stringSet = pref.getStringSet("STANDUP_week_setting", null);
+        String[] stringArr = stringSet.toArray(new String[stringSet.size()]);
+        String[] stringArrNotContains = new String[6 - stringArr.length];
+        int chk = 0;
+        int chk1 = 0;
+        while (chk < 6) {
+            if (!Arrays.asList(stringArr).contains((chk + 1) + "")) {
+                stringArrNotContains[chk1++] = (chk + 1) + "";
+            }
+            chk++;
+        }
+        try {
+            DBHelper helper = new DBHelper(getApplicationContext());
+            db = helper.getDB();
+            i = 0;
+            ContentValues v = new ContentValues();
+            v.put("STANDUP", 1);
+            while (i < stringArr.length) {
+                db.update("ADMIN_ACTIVITY_SCHEDULER", v, "DAY not in(1,8,15,22,29,36,42) " +
+                        "and WEEK_NO = \"" + Integer.parseInt(stringArr[i++].toString())
+                        + "\"", null);
+//                Cursor cursor = db.rawQuery("update ADMIN_ACTIVITY_SCHEDULER set STOP=1 where DAY not in(1,8,15,22,29,36,42) and WEEK_NO=" + Integer.parseInt(stringArr[i].toString()), null);
+//                cursor.close();
+
+            }
+            db.close();
+            helper = new DBHelper(getApplicationContext());
+            db = helper.getDB();
+            i = 0;
+            ContentValues v1 = new ContentValues();
+            v1.put("STANDUP", 0);
             while (i < stringArrNotContains.length) {
                 db.update("ADMIN_ACTIVITY_SCHEDULER", v1, "WEEK_NO = \"" + Integer.parseInt(stringArrNotContains[i++].toString()) + "\"", null);
             }

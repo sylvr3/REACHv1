@@ -28,6 +28,14 @@
             android:defaultValue="@array/emptyValue"
             android:entries="@array/protocols"
             android:entryValues="@array/protocolValue"
+            android:key="STANDUP_week_setting"
+            android:persistent="true"
+            android:summary="Click to Enable/Disable per week"
+            android:title="STAND UP Protocol" />
+        <MultiSelectListPreference
+            android:defaultValue="@array/emptyValue"
+            android:entries="@array/protocols"
+            android:entryValues="@array/protocolValue"
             android:key="Relaxation_week_setting"
             android:persistent="true"
             android:summary="Click to Enable/Disable per week"
