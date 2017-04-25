@@ -327,7 +327,7 @@ public class NotifyService extends Service {
         return null;
     }
 
-    public class NotifyServiceReceiver extends BroadcastReceiver {
+    public static class NotifyServiceReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context arg0, Intent arg1) {
