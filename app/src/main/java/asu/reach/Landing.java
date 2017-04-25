@@ -80,11 +80,17 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
 
 
         mb = (ImageButton)findViewById(R.id.mbBtn);
+        mb.setVisibility(View.INVISIBLE);
         stic = (ImageButton)findViewById(R.id.sticBtn);
-        abmt = (ImageButton)findViewById(R.id.abmtBtn);
+        stic.setVisibility(View.INVISIBLE);
+        abmt = (ImageButton)findViewById(R.id.abmtBtn);             //abmt
+        abmt.setVisibility(View.INVISIBLE);
         wh = (ImageButton)findViewById(R.id.whBtn);
+        wh.setVisibility(View.INVISIBLE);
         relax = (ImageButton)findViewById(R.id.relaxBtn);
+        relax.setVisibility(View.INVISIBLE);
         standUp = (ImageButton)findViewById(R.id.standupBtn);         //safe
+//        standUp.setVisibility(View.INVISIBLE);
         blob = (ImageView)findViewById(R.id.whiteBGView);
         topLeftLayout = (RelativeLayout)findViewById(R.id.topLeft);
         topRightLayout = (RelativeLayout)findViewById(R.id.topRight);
