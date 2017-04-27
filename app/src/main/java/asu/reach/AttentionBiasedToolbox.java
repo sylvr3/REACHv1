@@ -474,7 +474,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         mediaplayer.start();
         if (status) this.setCorrectCount();
         measureSpeed();
-        if ((status && count == 128) || (!status && totalAttempts == 5)) {
+        if ((status && count == 128) || (!status && totalAttempts == 40)) {
             viewFlipper.setDisplayedChild(2);
             avgTime = avgTime / totalAttempts;
             avgTime = avgTime / 1000;
