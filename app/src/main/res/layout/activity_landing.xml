@@ -279,7 +279,7 @@
                     android:src="@drawable/dd_bar_text"
                     android:layout_centerInParent="true" />
             </RelativeLayout>
-            -->
+
 
             <RelativeLayout
                 android:layout_width="0dp"
@@ -334,6 +334,7 @@
                     android:src="@drawable/wh_bar_text"
                     android:layout_centerInParent="true" />
             </RelativeLayout>
+            -->
 
             <!--
             <RelativeLayout
@@ -361,7 +362,7 @@
                     android:layout_centerInParent="true" />
             </RelativeLayout>
             -->
-
+            <!--
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -388,6 +389,7 @@
                     android:src="@drawable/relax_bar_text"
                     android:layout_centerInParent="true" />
             </RelativeLayout>
+            -->
 
             <RelativeLayout
                 android:layout_width="0dp"
@@ -415,7 +417,7 @@
                     android:src="@drawable/standup_bar_text"
                     android:layout_centerInParent="true" />
             </RelativeLayout>
-
+            <!--
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -441,6 +443,7 @@
                     android:src="@drawable/faces_bar_text"
                     android:layout_centerInParent="true" />
             </RelativeLayout>
+            -->
         </LinearLayout>
     </ViewSwitcher>
 </RelativeLayout>

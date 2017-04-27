@@ -74,7 +74,7 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         PendingIntent pii = PendingIntent.getService(this, 2222, ii,PendingIntent.FLAG_CANCEL_CURRENT);
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.SECOND, 0);
-//registering our pending intent with alarmmanager
+        // registering our pending intent with alarmmanager
         AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
         am.setRepeating(AlarmManager.RTC_WAKEUP,cal.getTimeInMillis(),60000, pii);
 
@@ -84,13 +84,13 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         stic = (ImageButton)findViewById(R.id.sticBtn);
         stic.setVisibility(View.INVISIBLE);
         abmt = (ImageButton)findViewById(R.id.abmtBtn);             //abmt
-//        abmt.setVisibility(View.INVISIBLE);
-        wh = (ImageButton)findViewById(R.id.wsthBtn);
+        abmt.setVisibility(View.INVISIBLE);
+        wh = (ImageButton)findViewById(R.id.whBtn);
         wh.setVisibility(View.INVISIBLE);
         relax = (ImageButton)findViewById(R.id.relaxBtn);
         relax.setVisibility(View.INVISIBLE);
         standUp = (ImageButton)findViewById(R.id.standupBtn);         //safe
-        standUp.setVisibility(View.INVISIBLE);
+        standUp.setVisibility(View.VISIBLE);
         blob = (ImageView)findViewById(R.id.whiteBGView);
         topLeftLayout = (RelativeLayout)findViewById(R.id.topLeft);
         topRightLayout = (RelativeLayout)findViewById(R.id.topRight);
@@ -106,8 +106,8 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
 
         standupProgressBar = (RelativeLayout) findViewById(R.id.relativeLayout7);
         standupProgressLevel = (RelativeLayout) findViewById(R.id.safeBarLayout);
-        facesProgressBar = (RelativeLayout) findViewById(R.id.relativeLayout8);
-        facesProgressLevel = (RelativeLayout) findViewById(R.id.abmtBarLayout);
+      //  facesProgressBar = (RelativeLayout) findViewById(R.id.relativeLayout8);
+      //  facesProgressLevel = (RelativeLayout) findViewById(R.id.abmtBarLayout);
 
         topLeft = false;
         topRight = false;
@@ -119,7 +119,7 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         stic.setOnClickListener(this);
         abmt.setOnClickListener(this);
         blob.setOnClickListener(this);
-        wh.setOnClickListener(this);
+       // wh.setOnClickListener(this);
         standUp.setOnClickListener(this);
         topLeftLayout.setOnClickListener(this);
         topRightLayout.setOnClickListener(this);
@@ -184,9 +184,10 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         /*aManager= (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         setRepeatingAlarm();*/
 
-        updateProgress();
+       // updateProgress();
     }
 
+    /*
     public void updateProgress(){
         int facesProgressBarHeight = facesProgressBar.getHeight();
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("ABMT", MODE_PRIVATE);
@@ -198,6 +199,7 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         params.height = level;
         facesProgressLevel.setLayoutParams(params);
     }
+    */
 
     public void setRepeatingAlarm() {
         Intent intent = new Intent(this, NotifManager.class);
@@ -333,7 +335,7 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
     @Override
     protected void onResume() {
         super.onResume();
-        updateProgress();
+        //updateProgress();
         DBHelper helper = new DBHelper(this);
         db = helper.getDB();
         try {
