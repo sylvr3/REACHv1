@@ -84,13 +84,13 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         stic = (ImageButton)findViewById(R.id.sticBtn);
         stic.setVisibility(View.INVISIBLE);
         abmt = (ImageButton)findViewById(R.id.abmtBtn);             //abmt
-        abmt.setVisibility(View.INVISIBLE);
+        abmt.setVisibility(View.VISIBLE);
         wh = (ImageButton)findViewById(R.id.whBtn);
         wh.setVisibility(View.INVISIBLE);
         relax = (ImageButton)findViewById(R.id.relaxBtn);
         relax.setVisibility(View.INVISIBLE);
         standUp = (ImageButton)findViewById(R.id.standupBtn);         //safe
-//        standUp.setVisibility(View.INVISIBLE);
+        standUp.setVisibility(View.INVISIBLE);
         blob = (ImageView)findViewById(R.id.whiteBGView);
         topLeftLayout = (RelativeLayout)findViewById(R.id.topLeft);
         topRightLayout = (RelativeLayout)findViewById(R.id.topRight);
@@ -104,8 +104,8 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         standUpGlow = (ImageView)findViewById(R.id.standupGlow);      //safe
         viewSwitcher = (ViewSwitcher)findViewById(R.id.viewSwitcher);
 
-        standupProgressBar = (RelativeLayout) findViewById(R.id.relativeLayout7);
-        standupProgressLevel = (RelativeLayout) findViewById(R.id.safeBarLayout);
+       // standupProgressBar = (RelativeLayout) findViewById(R.id.relativeLayout7);
+      //  standupProgressLevel = (RelativeLayout) findViewById(R.id.safeBarLayout);
         facesProgressBar = (RelativeLayout) findViewById(R.id.relativeLayout8);
         facesProgressLevel = (RelativeLayout) findViewById(R.id.abmtBarLayout);
 
