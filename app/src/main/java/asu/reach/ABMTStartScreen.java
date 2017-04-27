@@ -92,5 +92,4 @@ public class ABMTStartScreen extends Activity implements View.OnClickListener{
             }
         }
     }
-
 }

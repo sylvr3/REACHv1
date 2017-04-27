@@ -328,8 +328,9 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         goButton.setVisibility(View.INVISIBLE);
         instructionsText.setVisibility(View.INVISIBLE);
 
-        viewFlipper.setDisplayedChild(0);
-        plusImage.setVisibility(View.VISIBLE);
+//        viewFlipper.setDisplayedChild(0);
+//        plusImage.setVisibility(View.VISIBLE);
+        plusBtwImageView.setVisibility(View.VISIBLE);
         if (totalAttempts == blockArraySize) {
             viewFlipper.setDisplayedChild(2);
             avgTime = avgTime / totalAttempts;
