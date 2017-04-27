@@ -473,7 +473,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         mediaplayer.start();
         if (status) this.setCorrectCount();
         measureSpeed();
-        if ((status && count == 128) || (!status && totalAttempts == 40)) {
+        if ((status && count == 128) || (!status && totalAttempts == 5)) {
             viewFlipper.setDisplayedChild(2);
             avgTime = avgTime / totalAttempts;
             avgTime = avgTime / 1000;
@@ -527,7 +527,9 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         if (v.getId() == goToTrialButton.getId()) {
             Intent intent = new Intent(getBaseContext(),ABMTStartScreen.class);
             intent.putExtra("Enable","Enable");
-            startActivity(intent);
+            setResult(Activity.RESULT_OK, intent);
+//            startActivity(intent);
+            finish();
         }
 
         if (v.getId() == nextButton.getId()) {

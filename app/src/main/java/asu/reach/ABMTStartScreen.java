@@ -63,7 +63,8 @@ public class ABMTStartScreen extends Activity implements View.OnClickListener{
         }
         if(view.getId() == tutorailButton.getId()) {
             intent.putExtra("status","abmt");
-            startActivity(intent);
+//            startActivity(intent);
+            startActivityForResult(intent, 5);
         }
 
         if(view.getId() == homeImageButton.getId()){
@@ -71,5 +72,25 @@ public class ABMTStartScreen extends Activity implements View.OnClickListener{
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+            case 5: {
+                if (resultCode == Activity.RESULT_OK) {
+                    if(data.getExtras() != null) {
+                        disableTrial =  data.getStringExtra("Enable").equals("Enable");
+                    }
+
+                    System.out.println("disbleTrial" + disableTrial);
+                    if(!disableTrial)
+                        trialButton.setEnabled(false);
+                    else
+                        trialButton.setEnabled(true);
+                }
+                break;
+            }
+        }
+    }
 
 }
