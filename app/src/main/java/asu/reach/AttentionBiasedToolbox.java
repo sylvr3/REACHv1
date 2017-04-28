@@ -575,7 +575,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
                     "     '>'\n" +
                     "\n" +
                     "\n" +
-                    "Tap here if the arrow behind the face " +
+                    "Tap the left arrow if the arrow behind the face " +
                     "\n" + "  " + "was pointing left\n" +
                     "\n" +
                     "\n" +
