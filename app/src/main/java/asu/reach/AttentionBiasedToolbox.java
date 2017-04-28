@@ -55,7 +55,16 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_attention_biased_toolbox);
-        status = getIntent().getStringExtra("status").equals("trial");
+        Intent intent = getIntent();
+        if(intent != null) {
+            if(intent.getExtras() != null) {
+                status = getIntent().getStringExtra("status").equals("trial");
+            }
+        }
+        startTrialOrTutorial();
+
+    }
+    public void startTrialOrTutorial() {
         random = new Random();
         bmap = new Bitmap[2];
         blockArraySize = status ? 240 : 40;
@@ -96,7 +105,6 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         ArrayCounterInitialization();
         UIInitialization();
     }
-
     public void UIInitialization() {
         if (status) {
             neutralImgs = getResources().obtainTypedArray(R.array.neutral_images);
@@ -526,11 +534,15 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
             else blockStart();
         }
         if (v.getId() == goToTrialButton.getId()) {
-            Intent intent = new Intent(getBaseContext(),ABMTStartScreen.class);
+            /*Intent intent = new Intent(getBaseContext(),ABMTStartScreen.class);
             intent.putExtra("Enable","Enable");
             setResult(Activity.RESULT_OK, intent);
 //            startActivity(intent);
-            finish();
+            finish();*/
+            this.status = true;
+            this.onStop();
+            startTrialOrTutorial();
+            //this.onCreate(new Bundle());
         }
 
         if (v.getId() == nextButton.getId()) {
