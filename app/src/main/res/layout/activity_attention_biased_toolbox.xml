@@ -308,30 +308,33 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:textColor="#32CD32"
-                android:textSize="20dp" />
+                android:textSize="25dp" />
 
             <Button
                 android:id="@+id/nextButton"
-                android:layout_width="80dp"
-                android:layout_height="40dp"
+                android:layout_width="110dp"
+                android:layout_height="65dp"
                 android:layout_gravity="bottom|right"
                 android:text="Next"
+                android:textSize="25dp"
                 android:background="#32CD32"/>
 
             <Button
                 android:id="@+id/previousButton"
-                android:layout_width="100dp"
-                android:layout_height="40dp"
+                android:layout_width="110dp"
+                android:layout_height="65dp"
                 android:layout_gravity="bottom|left"
                 android:text="Previous"
+                android:textSize="25dp"
                 android:background="#32CD32"/>
 
             <Button
                 android:id="@+id/goButton"
-                android:layout_width="80dp"
-                android:layout_height="40dp"
+                android:layout_width="110dp"
+                android:layout_height="65dp"
                 android:layout_gravity="bottom|right"
                 android:text="Go"
+                android:textSize="25dp"
                 android:background="#32CD32"/>
 
 
