@@ -169,7 +169,15 @@
         android:key="SAFEEyeTrackingTimer"
         android:summary="Click to set"
         android:title="SAFE Eye Tracking Duration"
-        android:defaultValue="5"/>
+        android:defaultValue="5"
+        />
+    <EditTextPreference
+        android:inputType="number"
+        android:key="facesResponseTime"
+        android:summary="Click to set"
+        android:title="Faces response time, no more than 2000"
+        android:defaultValue="200"
+        />
     <PreferenceScreen
         android:key="exportDataMenu"
         android:summary="Export in .csv format"

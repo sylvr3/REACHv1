@@ -1,6 +1,7 @@
 package asu.reach;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
@@ -39,11 +40,11 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
         PreferenceManager.setDefaultValues(this, R.xml.prefs, true);
         DDProtocolChange = (MultiSelectListPreference) findPreference("DD_week_setting");
         STOPProtocolChange = (MultiSelectListPreference) findPreference("STOP_week_setting");
-        StandUpProtocolChange= (MultiSelectListPreference) findPreference("STANDUP_week_setting");
+        StandUpProtocolChange = (MultiSelectListPreference) findPreference("STANDUP_week_setting");
         teacherPin = (EditTextPreference) findPreference("teacherPIN");
         exportToCSV = (PreferenceScreen) findPreference("exportDataMenu");
         scheduleTricks = (MultiSelectListPreference) findPreference("scheduled_release_tricks");
-        datePref = (DatePreference)findPreference("initialStartDate");
+        datePref = (DatePreference) findPreference("initialStartDate");
         Calendar cal = Calendar.getInstance();
         int hour_of_day = cal.get(Calendar.HOUR_OF_DAY);
         int min_of_day = cal.get(Calendar.MINUTE);
@@ -85,8 +86,8 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
                     dailyDiaryProtocolChange(sharedPreferences, s);
                 } else if (s.equals("STOP_week_setting")) {
                     StopProtocolChange(sharedPreferences, s);
-                } else if (s.equals("STANDUP_week_setting")){
-                    StandUpProtocolCHange(sharedPreferences,s);
+                } else if (s.equals("STANDUP_week_setting")) {
+                    StandUpProtocolCHange(sharedPreferences, s);
                 } else if (s.equals("STOP_worryhead_week_setting")) {
                     StopWorryHeadProtocolChange(sharedPreferences, s);
                 } else if (s.equals("Week1_STIC_protocol_setting")) {
@@ -103,16 +104,32 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
                     SticProtocolChange(sharedPreferences, s, 6);
                 } else if (s.equals("teacherPIN")) {
                     updateTeacherPIN(sharedPreferences, s);
-                } else if(s.equals("scheduled_release_tricks")){
-                    setScheduleForTricks(sharedPreferences,s);
-                } else if(s.equals("Relaxation_week_setting")){
+                } else if (s.equals("scheduled_release_tricks")) {
+                    setScheduleForTricks(sharedPreferences, s);
+                } else if (s.equals("Relaxation_week_setting")) {
                     setScheduleForRelaxation(sharedPreferences, s);
+                } else if (s.equals("facesResponseTime")) {
+                    setFacesResponseTime(sharedPreferences);
                 }
             }
         });
     }
 
-    public void setScheduleForRelaxation(SharedPreferences pref, String s){
+    private void setFacesResponseTime(SharedPreferences pref) {
+        String newTimeString = pref.getString("facesResponseTime", "200");
+        try {
+            int newTime = Integer.valueOf(newTimeString);
+            if (newTime > 0 && newTime < 2000) {
+                SharedPreferences facesResponseTimeSharedPreferences = getSharedPreferences("abmt_shared", Context.MODE_PRIVATE);
+                SharedPreferences.Editor responseEditor = facesResponseTimeSharedPreferences.edit();
+                responseEditor.putInt("faces_response_time", newTime);
+                responseEditor.commit();
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    public void setScheduleForRelaxation(SharedPreferences pref, String s) {
         Set<String> stringSet = pref.getStringSet("Relaxation_week_setting", null);
         String[] stringArr = stringSet.toArray(new String[stringSet.size()]);
         String[] stringArrNotContains = new String[6 - stringArr.length];
@@ -131,7 +148,7 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
             ContentValues v = new ContentValues();
             v.put("RELAXATION", 1);
             while (i < stringArr.length) {
-                db.update("ADMIN_ACTIVITY_SCHEDULER", v,"WEEK_NO = \"" + Integer.parseInt(stringArr[i++].toString())+ "\"", null);
+                db.update("ADMIN_ACTIVITY_SCHEDULER", v, "WEEK_NO = \"" + Integer.parseInt(stringArr[i++].toString()) + "\"", null);
             }
             db.close();
             helper = new DBHelper(getApplicationContext());
@@ -150,11 +167,11 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
     }
 
 
-    public void setScheduleForTricks(SharedPreferences pref, String s){
+    public void setScheduleForTricks(SharedPreferences pref, String s) {
         Set<String> stringSet = pref.getStringSet("scheduled_release_tricks", null);
         String[] stringArr = stringSet.toArray(new String[stringSet.size()]);
         try {
-            if(stringArr.length == 2) {
+            if (stringArr.length == 2) {
                 DBHelper helper = new DBHelper(getApplicationContext());
                 db = helper.getDB();
                 ContentValues v = new ContentValues();
@@ -165,7 +182,7 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
                 db.update("DATE_TIME_SET", v, "id=3", null);
                 db.close();
                 helper.close();
-            }else{
+            } else {
                 Toast.makeText(this, "Please select\ntwo days ONLY.", Toast.LENGTH_SHORT).show();
             }
 
@@ -180,10 +197,10 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
 //
 //    }
 
-    public void updateTeacherPIN(SharedPreferences pref,String s){
+    public void updateTeacherPIN(SharedPreferences pref, String s) {
         String newTeacherPIN = pref.getString("teacherPIN", null);
         int compareNewPin = Integer.parseInt(newTeacherPIN);
-        if(compareNewPin>4000 && compareNewPin < 4100) {
+        if (compareNewPin > 4000 && compareNewPin < 4100) {
             try {
                 DBHelper helper = new DBHelper(getApplicationContext());
 //            helper.trackEvent(helper,"RELAXATION","LANDING_PAGE");
@@ -198,9 +215,8 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
                 Log.i("Exception occured", "Exception occured");
                 e.printStackTrace();
             }
-        }
-        else
-            Toast.makeText(getApplicationContext(),"Try again with 40XX Series",
+        } else
+            Toast.makeText(getApplicationContext(), "Try again with 40XX Series",
                     Toast.LENGTH_LONG).show();
     }
 
@@ -290,7 +306,7 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
 
     }
 
-    public void StopWorryHeadProtocolChange(SharedPreferences pref,String s){
+    public void StopWorryHeadProtocolChange(SharedPreferences pref, String s) {
         Set<String> stringSet = pref.getStringSet("STOP_worryhead_week_setting", null);
         String[] stringArr = stringSet.toArray(new String[stringSet.size()]);
         String[] stringArrNotContains = new String[6 - stringArr.length];
@@ -309,7 +325,7 @@ public class Preferences extends PreferenceActivity /*implements SharedPreferenc
             ContentValues v = new ContentValues();
             v.put("STOP_WORRYHEADS", 1);
             while (i < stringArr.length) {
-                db.update("ADMIN_ACTIVITY_SCHEDULER", v,"WEEK_NO = \"" + Integer.parseInt(stringArr[i++].toString())+ "\"", null);
+                db.update("ADMIN_ACTIVITY_SCHEDULER", v, "WEEK_NO = \"" + Integer.parseInt(stringArr[i++].toString()) + "\"", null);
             }
             db.close();
             helper = new DBHelper(getApplicationContext());

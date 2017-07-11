@@ -88,14 +88,28 @@
                     android:layout_marginTop="-32dp"
                     android:visibility="gone" />
 
+                <!--<ImageView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/whGlow"-->
+                    <!--android:layout_alignTop="@+id/whBtn"-->
+                    <!--android:layout_alignBottom="@+id/whBtn"-->
+                    <!--android:layout_alignRight="@+id/whBtn"-->
+                    <!--android:layout_alignLeft="@+id/whBtn"-->
+                    <!--android:layout_marginLeft="-32dp"-->
+                    <!--android:layout_marginTop="-32dp"-->
+                    <!--android:layout_marginRight="-32dp"-->
+                    <!--android:layout_marginBottom="-32dp"-->
+                    <!--android:background="@drawable/btn_glow"-->
+                    <!--android:visibility="gone" />-->
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/whGlow"
-                    android:layout_alignTop="@+id/whBtn"
-                    android:layout_alignBottom="@+id/whBtn"
-                    android:layout_alignRight="@+id/whBtn"
-                    android:layout_alignLeft="@+id/whBtn"
+                    android:layout_alignTop="@+id/stopBtn"
+                    android:layout_alignBottom="@+id/stopBtn"
+                    android:layout_alignRight="@+id/stopBtn"
+                    android:layout_alignLeft="@+id/stopBtn"
                     android:layout_marginLeft="-32dp"
                     android:layout_marginTop="-32dp"
                     android:layout_marginRight="-32dp"
@@ -181,7 +195,7 @@
                     android:layout_marginTop="55dp"
                     android:layout_marginEnd="5dp"/>
 
-                <ImageButton
+                <!--<ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/standupBtn"
@@ -192,13 +206,38 @@
                     android:layout_alignBottom="@id/relaxBtn"
                     android:layout_alignTop="@id/relaxBtn"
                     android:layout_alignStart="@id/whBtn"
-                    android:layout_alignEnd="@id/whBtn"/>
+                    android:layout_alignEnd="@id/whBtn"/>-->
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/whBtn"
                     android:background="@drawable/wh_selector"
+                    android:layout_toEndOf="@+id/abmtBtn"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_alignTop="@+id/abmtBtn"
+                    android:layout_marginTop="30dp"
+                    android:visibility="invisible"/>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/standupBtn"
+                    android:background="@drawable/stand_up_selector"
+                    android:layout_toEndOf="@+id/relaxBtn"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="-20dp"
+                    android:layout_alignBottom="@id/relaxBtn"
+                    android:layout_alignTop="@id/relaxBtn"
+                    android:layout_alignStart="@id/stopBtn"
+                    android:layout_alignEnd="@id/stopBtn"/>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/stopBtn"
+                    android:background="@drawable/stop_selector"
                     android:layout_toEndOf="@+id/abmtBtn"
                     android:layout_marginStart="5dp"
                     android:layout_marginBottom="15dp"

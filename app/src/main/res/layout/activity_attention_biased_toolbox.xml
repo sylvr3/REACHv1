@@ -81,8 +81,8 @@
 
                     <Button
                         android:id="@+id/leftButton"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
                         android:layout_gravity="left"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="50dp"
@@ -93,8 +93,8 @@
 
                     <Button
                         android:id="@+id/rightButton"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
                         android:layout_gravity="right"
                         android:layout_marginLeft="50dp"
                         android:layout_marginRight="20dp"
@@ -324,7 +324,7 @@
                 android:layout_width="110dp"
                 android:layout_height="65dp"
                 android:layout_gravity="bottom|left"
-                android:text="Previous"
+                android:text="Back"
                 android:textSize="25dp"
                 android:background="#32CD32"/>
 

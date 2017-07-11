@@ -44,9 +44,16 @@ public class ABMTStartScreen extends Activity implements View.OnClickListener {
         if (!disableTrial) trialButton.setEnabled(false);
         else trialButton.setEnabled(true);
         SharedPreferences sharedPreferences = getSharedPreferences("abmt_shared", Context.MODE_PRIVATE);
+//        if (sharedPreferences.getBoolean("disableTrial", true)) {
+//            trialButton.setEnabled(false);
+//            disableTrial = true;
+//        } else {
+//            trialButton.setEnabled(true);
+//            disableTrial = false;
+//        }
         if (sharedPreferences.getBoolean("disableTrial", true)) {
-            trialButton.setEnabled(false);
-            disableTrial = true;
+            trialButton.setEnabled(true);
+            disableTrial = false;
         } else {
             trialButton.setEnabled(true);
             disableTrial = false;

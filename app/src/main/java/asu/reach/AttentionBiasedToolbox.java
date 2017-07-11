@@ -39,7 +39,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     private double avgTime;
     private int[] blockArray, sadArray, neutralArray, disguiseArray, angryArray, neutralSadArray, neutralDisguiseArray, neutralAngryArray;
     private static int blockArraySize, imageArraySize = 15;
-    private boolean status;
+    private boolean status, wrongAnswer = false;
     private SharedPreferences sharedPref;
     private final String SHARED_PREF_KEY = "ABMT";
     private final String ABMT_CORRECT_COUNT = "ABMT_CORRECT_COUNT";
@@ -50,7 +50,6 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     private int actor1Index, actor2Index;
     private Typeface texttype;
     ABMTStartScreen abmtss = new ABMTStartScreen();
-    ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,10 +97,10 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         neutral = 0;
         totalAttempts = 0;
         System.out.println("status here " + status);
-        blankScreenTimerValue = status ? 500 : 1000;
-        countDownTimerValue = status ? 500 : 1000;
-        responseTimerValue = status ? 200 : 4000;
-        transitionTimeValue = status ? 1800 : 6000;
+        blankScreenTimerValue = status ? 500 : 1000;// 500 : 1000
+        countDownTimerValue = status ? 500 : 1000;// 500 : 1000
+        responseTimerValue = status ? getResponseTime() : 4000;// 200 : 4000
+        transitionTimeValue = status ? getTransitionTime() : 6000;// 1800 : 6000
         progressBar = (ProgressBar) findViewById(R.id.circular_progress_bar);
         progressBar.setVisibility(View.GONE);
         initSharedPref();
@@ -169,7 +168,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
                 previousButton.setVisibility(View.INVISIBLE);
                 goButton.setVisibility(View.INVISIBLE);
             }
-            instructionsText.setText("If you see the arrow point right, then tap the right arrow button \n\n > \n\n If you see the arrow point left, then tap the left arrow button \n\n < \n");
+            instructionsText.setText("If you see the arrow point right, tap the right arrow button \n\n > \n\n If you see the arrow point left, tap the left arrow button \n\n < \n");
         } else blockStart();
     }
 
@@ -351,6 +350,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     //Load images
     public void fetchImages() {
         blankScreenTimer.cancel();
+        wrongAnswer = false;
         int rndIndex = random.nextInt(blockArraySize - index) + index;
         neutral = (blockArray[rndIndex] & 1) == 1 ? 1 : 0;
         divisionId = blockArray[rndIndex] / 60;
@@ -406,6 +406,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
 
     public void fetchImagesTraining() {
         blankScreenTimer.cancel();
+        wrongAnswer = false;
         int rndIndex = random.nextInt(blockArraySize - index) + index;
         neutral = (blockArray[rndIndex] & 1) == 1 ? 1 : 0;
         int topImg = 0, bottomImg = 0;
@@ -492,8 +493,10 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
     public void onClick(View v) {
         if (v.getId() == leftButton.getId()) {
             timeDiff = System.currentTimeMillis() - startTime;
-            if (neutral == 0) {
+            if (neutral == 0 && !wrongAnswer) {
                 if (!status || divisionId != 0) trueResponse();
+            }else{
+                wrongAnswer = true;
             }
             if (status && divisionId == 0) {
                 showBlankScreen();
@@ -502,8 +505,10 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         }
         if (v.getId() == rightButton.getId()) {
             timeDiff = System.currentTimeMillis() - startTime;
-            if (neutral == 1) {
+            if (neutral == 1 && !wrongAnswer) {
                 if (!status || divisionId != 0) trueResponse();
+            }else{
+                wrongAnswer = true;
             }
             if (status && divisionId == 0) {
                 showBlankScreen();
@@ -543,7 +548,7 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         if (v.getId() == previousButton.getId()) {
             nextButton.setVisibility(View.VISIBLE);
             previousButton.setVisibility(View.INVISIBLE);
-            instructionsText.setText("If you see the arrow point right, then tap the right arrow button \n\n > \n\n If you see the arrow point left, then tap the left arrow button \n\n < \n");
+            instructionsText.setText("If you see the arrow point right, tap the right arrow button \n\n > \n\n If you see the arrow point left, tap the left arrow button \n\n < \n");
             goButton.setVisibility(View.INVISIBLE);
         }
         if (v.getId() == goButton.getId()) {
@@ -582,5 +587,15 @@ public class AttentionBiasedToolbox extends Activity implements View.OnClickList
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("disableTrial", false);
         editor.commit();
+    }
+
+    private int getResponseTime() {
+        SharedPreferences sharedPreferences = getSharedPreferences("abmt_shared", Context.MODE_PRIVATE);
+        return sharedPreferences.getInt("faces_response_time", 200);
+    }
+
+    private int getTransitionTime() {
+        SharedPreferences sharedPreferences = getSharedPreferences("abmt_shared", Context.MODE_PRIVATE);
+        return 2000 - sharedPreferences.getInt("faces_response_time", 200);
     }
 }

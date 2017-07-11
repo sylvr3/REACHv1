@@ -267,6 +267,7 @@ public class Safe extends Activity implements View.OnClickListener, DialogInterf
                 populateO(o);
                 activateS();
                 situationTextView.setTypeface(textType);
+                sText = "Your parents bought you new clothes for the school dance, but you don’t want to go.";
                 situationTextView.setText("Situation:\n"+sText);
 //                speakYourMindTextView.setTypeface(textType);
 //                speakYourMindTextView.setText("Speak your mind");

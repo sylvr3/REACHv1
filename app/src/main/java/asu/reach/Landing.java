@@ -33,7 +33,7 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
 
     private SQLiteDatabase db;
     private RelativeLayout topLeftLayout, topRightLayout, bottomLeftLayout, bottomRightLayout, standupProgressBar, standupProgressLevel, facesProgressBar, facesProgressLevel;
-    private ImageButton mb,stic,abmt,relax,wh,standUp;
+    private ImageButton mb,stic,abmt,relax,wh,standUp, stop;
     private ImageView blob,abmtGlow,sticGlow,whGlow,mbGlow,relaxGlow, standUpGlow;
     private ViewSwitcher viewSwitcher;
     private GestureDetector gestureDetector;
@@ -84,7 +84,8 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         abmt = (ImageButton)findViewById(R.id.abmtBtn);
         wh = (ImageButton)findViewById(R.id.whBtn);
         relax = (ImageButton)findViewById(R.id.relaxBtn);
-        standUp = (ImageButton)findViewById(R.id.standupBtn);         //safe
+        standUp = (ImageButton)findViewById(R.id.standupBtn);//safe
+        stop = (ImageButton) findViewById(R.id.stopBtn);
         blob = (ImageView)findViewById(R.id.whiteBGView);
         topLeftLayout = (RelativeLayout)findViewById(R.id.topLeft);
         topRightLayout = (RelativeLayout)findViewById(R.id.topRight);
@@ -115,6 +116,7 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
         blob.setOnClickListener(this);
         wh.setOnClickListener(this);
         standUp.setOnClickListener(this);
+        stop.setOnClickListener(this);
         topLeftLayout.setOnClickListener(this);
         topRightLayout.setOnClickListener(this);
         bottomLeftLayout.setOnClickListener(this);
@@ -264,6 +266,11 @@ public class Landing extends Activity implements View.OnClickListener,DialogInte
             }
             */
             Intent intent = new Intent(this, Safe.class);
+            startActivity(intent);
+        }
+
+        if(v.getId() == stop.getId()){
+            Intent intent = new Intent(this, STOP.class);
             startActivity(intent);
         }
 
