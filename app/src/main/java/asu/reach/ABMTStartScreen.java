@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -18,32 +17,35 @@ public class ABMTStartScreen extends Activity implements View.OnClickListener {
     public Intent intent, intent1;
     private SharedPreferences sharedPref;
     public boolean disableTrial, disableTrial2;
+    ReachExceptionLogger logger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        setContentView(R.layout.activity_abmtstart_screen);
-        trialButton = (Button) findViewById(R.id.trialButton);
-        tutorailButton = (Button) findViewById(R.id.tutorialButton);
-        homeImageButton = (ImageButton) findViewById(R.id.abmtHomeButton);
-        homeImageButton.setOnClickListener(this);
-        trialButton.setOnClickListener(this);
-        tutorailButton.setOnClickListener(this);
-        intent = new Intent(getBaseContext(), AttentionBiasedToolbox.class);
-        disableTrial = false;
-        intent1 = getIntent();
-        if (intent1 != null) {
-            if (intent1.getExtras() != null) {
-                disableTrial = getIntent().getStringExtra("Enable").equals("Enable");
+        try {
+            super.onCreate(savedInstanceState);
+            logger = new ReachExceptionLogger(this);
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            setContentView(R.layout.activity_abmtstart_screen);
+            trialButton = (Button) findViewById(R.id.trialButton);
+            tutorailButton = (Button) findViewById(R.id.tutorialButton);
+            homeImageButton = (ImageButton) findViewById(R.id.abmtHomeButton);
+            homeImageButton.setOnClickListener(this);
+            trialButton.setOnClickListener(this);
+            tutorailButton.setOnClickListener(this);
+            intent = new Intent(getBaseContext(), AttentionBiasedToolbox.class);
+            disableTrial = false;
+            intent1 = getIntent();
+            if (intent1 != null) {
+                if (intent1.getExtras() != null) {
+                    disableTrial = getIntent().getStringExtra("Enable").equals("Enable");
+                }
             }
-        }
         /*if(getIntent().getExtras().containsKey("Enable"))
         disableTrial =  getIntent().getStringExtra("Enable").equals("Enable");*/
-        if (!disableTrial) trialButton.setEnabled(false);
-        else trialButton.setEnabled(true);
-        SharedPreferences sharedPreferences = getSharedPreferences("abmt_shared", Context.MODE_PRIVATE);
+            if (!disableTrial) trialButton.setEnabled(false);
+            else trialButton.setEnabled(true);
+            SharedPreferences sharedPreferences = getSharedPreferences("abmt_shared", Context.MODE_PRIVATE);
 //        if (sharedPreferences.getBoolean("disableTrial", true)) {
 //            trialButton.setEnabled(false);
 //            disableTrial = true;
@@ -51,28 +53,35 @@ public class ABMTStartScreen extends Activity implements View.OnClickListener {
 //            trialButton.setEnabled(true);
 //            disableTrial = false;
 //        }
-        if (sharedPreferences.getBoolean("disableTrial", true)) {
-            trialButton.setEnabled(true);
-            disableTrial = false;
-        } else {
-            trialButton.setEnabled(true);
-            disableTrial = false;
+            if (sharedPreferences.getBoolean("disableTrial", true)) {
+                trialButton.setEnabled(true);
+                disableTrial = false;
+            } else {
+                trialButton.setEnabled(true);
+                disableTrial = false;
+            }
+        } catch (Exception e) {
+            logger.logError(this.getClass().getCanonicalName(), e);
         }
     }
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == trialButton.getId()) {
-            intent.putExtra("status", "trial");
-            startActivityForResult(intent, 5);
-        }
-        if (view.getId() == tutorailButton.getId()) {
-            intent.putExtra("status", "abmt");
-            startActivityForResult(intent, 5);
-        }
+        try {
+            if (view.getId() == trialButton.getId()) {
+                intent.putExtra("status", "trial");
+                startActivityForResult(intent, 5);
+            }
+            if (view.getId() == tutorailButton.getId()) {
+                intent.putExtra("status", "abmt");
+                startActivityForResult(intent, 5);
+            }
 
-        if (view.getId() == homeImageButton.getId()) {
-            this.finish();
+            if (view.getId() == homeImageButton.getId()) {
+                this.finish();
+            }
+        } catch (Exception e) {
+            logger.logError(this.getClass().getCanonicalName(), e);
         }
     }
 
@@ -95,13 +104,17 @@ public class ABMTStartScreen extends Activity implements View.OnClickListener {
 //                break;
 //            }
 //        }
-        SharedPreferences sharedPreferences = getSharedPreferences("abmt_shared", Context.MODE_PRIVATE);
-        if (sharedPreferences.getBoolean("disableTrial", true)) {
-            trialButton.setEnabled(false);
-            disableTrial = true;
-        } else {
-            trialButton.setEnabled(true);
-            disableTrial = false;
+        try {
+            SharedPreferences sharedPreferences = getSharedPreferences("abmt_shared", Context.MODE_PRIVATE);
+            if (sharedPreferences.getBoolean("disableTrial", true)) {
+                trialButton.setEnabled(false);
+                disableTrial = true;
+            } else {
+                trialButton.setEnabled(true);
+                disableTrial = false;
+            }
+        } catch (Exception e) {
+            logger.logError(this.getClass().getCanonicalName(), e);
         }
     }
 }
